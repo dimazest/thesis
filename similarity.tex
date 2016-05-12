@@ -1,0 +1,458 @@
+\chapter{Overview}
+% \label{cha:similarity}
+
+\section{Similarity}
+\label{sec:similarity}
+
+Similarity is the degree of resemblance between two objects or events \cite{WCS:WCS1282} and plays a crucial role in psychological theories of knowledge and behaviour, where it is used to explain such phenomena as classification and conceptualisation. \textit{Fruit} is a \emph{category} because it is a practical generalisation. Fruits are sweet and constitute deserts, so when one is presented with an unseen fruit, one can hypothesise that it is served towards the end of a dinner.
+
+Generalisations are extremely powerful in describing a language as well. The verb \textit{runs} requires its subject to be singular. \textit{Verb}, \textit{subject} and \textit{singular} are categories that are used to describe English grammar. When one encounters an unknown word and is told that it is a verb, one will immediately have an idea how to use it assuming that it is used similarly to other English verbs.
+
+Semantic formalisation of similarity bases on two ideas. Word occurrence patterns \emph{define} its meaning \cite{firth1957lingtheory}, while the difference in occurrence \textup{quantifies} the difference in meaning \cite{harris1954distributional}. From computational perspective, this motivates and guides development of similarity components that are embedded into natural language processing systems that deal with tasks such as word sense disambiguation \cite{Schutze:1998:AWS:972719.972724}, information retrieval \cite{Salton:1975:VSM:361219.361220} and machine translation \cite{Dagan:1993:CWS:981574.981596}.
+
+Because it is difficult to measure performance of a single (similarity) component in a pipeline, datasets that focus on similarity are popular among computational linguists. Apart from a pragmatic attempt to alleviate the evaluation of similarity components, these datasets serve as an empirical test of the hypotheses of Firth and Harris, merging together our understanding of human mind, language and technology.
+
+\section{Formal semantics}
+\label{sec:formal-semantics}
+
+Formal approaches to the semantics of natural language have long built
+upon the classical idea of compositionality -- that the meaning of a
+sentence is a function of its parts \cite{frege1892sense}. In
+compositional type-logical approaches, predicate-argument structures
+representing phrases and sentences are built from their constituent
+parts by general operations such as beta-reduction within the lambda
+calculus \cite{montague1970universal}: for example, given a semantic
+representation of \emph{``John''} as $\mathit{john}'$ and
+\emph{``loves''} as $\lambda y.\lambda x.\mathit{loves}'(x, y)$, the sentence
+\emph{``John loves Mary''} can be constructed as $\lambda y.\lambda
+x.\mathit{loves}'(x, y)(\mathit{mary}')(\mathit{john}') =
+\mathit{loves}'(\mathit{john}', \mathit{mary}')$.
+
+To get the semantic representation of the sentence \textit{John loves Mary} we
+need to do the following. Syntactic rules define how constituents are combined
+to form other constituents (and finally a sentence). Translation rules define
+how semantic representations of the constituents are combined to get a semantic
+representation of the whole.
+
+In semantics of natural language, categorial grammars are widely used to obtain
+syntactic structure of a sentence. Given a set of basic categories
+$\texttt{ATOM}$, for example $\{\mathit{n}, \mathit{s}, \mathit{np}\}$ complex
+categories $\mathtt{CAT} \backslash \mathtt{CAT}$ and
+$\mathtt{CAT}/\mathtt{CAT}$ can be constructed, where $\mathtt{CAT}$ is either
+an element of \texttt{\texttt{ATOM}} or a complex category. So the transitive
+verb category is $\mathtt{np}\backslash\mathtt{s}/\mathtt{np}$. Intuitively we
+want to say that obtaining a sentence with a transitive verb there must be a
+noun phrase before and after it.
+
+Parsing is done by composing categories together according to two rules:
+%
+\begin{enumerate}
+\item \textbf{Backward application}: If $\alpha$ is a string of category $A$ and
+  $\beta$ is a string of category $A\backslash{}B$, then $\alpha\beta$ is of
+  category $B$.
+\item \textbf{Forward application}: If $\alpha$ is a string of category $A$ and
+  $\beta$ is a string of category $B/A$, then $\beta\alpha$ is of category $B$.
+\end{enumerate}
+
+\begin{figure}[h]
+  \centering
+  \Tree [
+    .$s$
+    [
+      .$\mathit{np}$
+      John
+    ]
+    [
+      .$\mathit{np}\backslash{}s$
+      [
+        .$\mathit{np}\backslash{}\mathit{s}/\mathit{np}$
+        loves
+      ]
+      [
+        .$\mathit{np}$
+        Mary
+      ]
+    ]
+  ]
+  \caption{A syntactic tree for \textit{John loves Mary}. Lexicon assigns
+    categories to words: \textit{John} is $\mathit{np}$, loves is
+    $\mathit{np}\backslash{}\mathit{s}/\mathit{np}$ and Mary is
+    $\mathit{np}$. Backward and forward composition rules derive the syntactic
+    tree.}
+\label{fig:cg}
+\end{figure}
+
+Figure~\ref{fig:cg} illustrates the parse tree for \textit{John loves Mary}
+obtained using the category composition rules.
+
+The last step is to map syntactic categories with semantic terms. Again, there
+are base types ($e$ for entities and $t$ for sentences) and complex types of the
+form $(a \to b)$ where $a$ and $b$ are types. The mapping between syntactic
+categories and semantic types is defined as a function $\mathit{type}$:
+%
+\begin{align*}
+  &\mathit{type}(np) = e \\
+  &\mathit{type}(s) = t \\
+  &\mathit{type}(A/B) = (\mathit{type}(B) \to \mathit{type}(A)) \\
+  &\mathit{type}(B\backslash{}A) = (\mathit{type}(B) \to \mathit{type}(A)) \\
+\end{align*}
+
+Syntactic backward and forward application corresponds to functional
+application. The final result would be the this:
+
+\begin{figure}[h]
+  \centering
+  \Tree [
+    .$s$~:~$\mathit{loves}'(\mathit{john}',\mathit{mary}')$
+    [
+      .$\mathit{np}$~:~$\mathit{john}'$
+      John
+    ]
+    [
+      .$\mathit{np}\backslash{}s$~:~$\lambda~x.\mathit{loves}'(x,~\mathit{mary}')$
+      [
+        .$\mathit{np}\backslash{}\mathit{s}/\mathit{np}$~:~$\lambda{}y.\lambda{}x.\mathit{loves}'(x,y)$
+        loves
+      ]
+      [
+        .$\mathit{np}$~:~$\mathit{mary}'$
+        Mary
+      ]
+    ]
+  ]
+  \caption{A syntactic tree for \textit{John loves Mary}. Lexicon assigns
+    categories to words: \textit{John} is $\mathit{np}$, loves is
+    $\mathit{np}\backslash{}\mathit{s}/\mathit{np}$ and Mary is
+    $\mathit{np}$. Backward and forward composition rules derive the syntactic
+    tree.}
+\label{fig:syn}
+\end{figure}
+
+Given a suitable pairing between a syntactic grammar, semantic representations
+and corresponding general combinatory operators, this can produce structured
+sentential representations with broad coverage and good generalisability (see
+e.g.~\cite{Bos2008STEP2}). This logical approach is extremely powerful because
+it can capture complex aspects of meaning such as quantifiers and their
+interaction (see e.g.~\cite{copestake2005minimal}), and enables inference using
+well studied and developed logical methods (see e.g.~\cite{bos2000first}).
+
+\section{Distributional hypothesis}
+\label{sec:distr-hypoth}
+
+However, such formal approaches are less able to express
+\emph{similarity} in meaning. We would like to capture the intuition
+that while \textit{John} and \textit{Mary} are distinct, they are
+rather similar to each other (both of them are humans) and dissimilar
+to \textit{dog}, \textit{pavement} or \textit{idea}. The same applies
+at the phrase and sentence level: \textit{dogs chase cats} is similar
+in meaning to \textit{hounds pursue kittens}, but less so to
+\textit{cats chase dogs} (despite the lexical overlap).
+
+Distributional methods provide a way to approach this problem. By
+representing words and phrases as vectors or tensors in a (usually
+high dimensional) vector space, we can express similarity in meaning
+via a suitable distance metric within that space, and can also express
+composition via suitable linear algebraic operations.
+
+\subsection{Co-occurrence based word representation}
+\label{sec:distr-repr}
+
+One way to produce such representations is to directly exploit
+\newcite{harris1954distributional}'s intuition that semantically
+similar words tend to appear in similar contexts. We can construct a
+vector space in which the dimensions correspond to contexts, usually
+other words. The word vector components can then be calculated from
+the frequency with which the word co-occurred with the corresponding
+contexts in a predefined window.
+
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{lrrr}
+    \toprule
+    & philosophy & book & school \\
+    \midrule
+    Mary & 0  & 10 & 22  \\
+    John & 4  & 60 & 59  \\
+    girl & 0  & 19 & 93  \\
+    boy  & 0  & 12 & 146 \\
+    idea & 10 & 47 & 39  \\
+    \bottomrule
+  \end{tabular}
+  \caption{Word co-occurrence frequencies extracted from the BNC.}
+  \label{tab:comparison}
+\end{table}
+
+Table~\ref{tab:comparison} shows 5 3-dimensional vectors for the words
+\textit{Mary}, \textit{John}, \textit{girl}, \textit{boy} and \textit{idea}. The
+words \textit{philosophy}, \textit{book} and \textit{school} label vector space
+dimensions.
+%
+As the vector for \textit{John} is closer to \textit{Mary} than it is
+to \textit{idea} in the vector space, we can say that \textit{John}'s
+contexts are similar to \textit{Mary}'s (and dissimilar to
+\textit{idea}'s), therefore \textit{John} is semantically more similar
+to \textit{Mary} than to \textit{idea}.
+
+Many variants of this approach exist: performance on word similarity
+tasks has been shown to be improved by replacing raw counts with
+weighted values (e.g.~mutual information) -- see
+\cite{turney2010frequency} and below for discussion, and
+\cite{kiela-clark:2014:CVSC} for a detailed comparison.
+
+\subsection{Neural word embedding}
+\label{sec:neural-embedding}
+
+Deep learning techniques use this distributional hypothesis
+differently. Instead of relying on observed co-occurrence frequencies,
+a neural model is trained to maximise some objective function related
+to e.g. the probability of observing the surrounding words in some
+context \cite{mikolov2013distributed}:
+%
+\begin{align}
+ \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log p(w_{t+j}|w_t)
+  \label{eq:objective-func}
+\end{align}
+%
+\noindent
+Maximising this function produces vectors which maximise the
+conditional probability of observing words in a context around the
+target word $w_t$, where $c$ is the size of the training context, and
+$w_1 w_2, \cdots w_T$ is a sequence of training words. They therefore
+capture the distributional intuition and can express degrees of
+lexical similarity.
+
+% Explain why is this better than counting
+
+However, they have also proved successful at other tasks
+\cite{mikolov2013linguistic}; the vectors obtained encode not only
+attributional similarity (similar words are close to each other), but
+also relational similarities \cite{turney2006similarity}. For example,
+it is possible to extract the singular:plural relation
+(\textit{apple}:\textit{apples}, \textit{car}:\textit{cars}) using
+vector subtraction:
+%
+\begin{align*}
+  \overrightarrow{\mathit{apple}} - \overrightarrow{\mathit{apples}}
+  \approx
+  \overrightarrow{\mathit{car}} - \overrightarrow{\mathit{cars}}
+\end{align*}
+%
+also semantic relationships are preserved:
+%
+\begin{align*}
+  \overrightarrow{\mathit{king}} - \overrightarrow{\mathit{man}}
+  \approx
+  \overrightarrow{\mathit{queen}} - \overrightarrow{\mathit{woman}}
+\end{align*}
+%
+allowing the formation of analogy queries similar to
+$\overrightarrow{\mathit{king}} - \overrightarrow{\mathit{man}} +
+\overrightarrow{\mathit{woman}} = \mathtt{?}$, obtaining
+$\overrightarrow{\mathit{queen}}$ as the
+result.\footnote{\newcite{levy2014linguistic} improved
+  \newcite{mikolov2013linguistic}'s method of retrieving relational similarities
+  by changing the objective function and improved the state-of-the-art results
+  both for neural embeddings and co-occurrence based vectors.}
+
+Both neural and co-occurrence-based approaches have advantages over
+classical formal approaches in their ability to capture lexical
+semantics and degrees of similarity; their success at extending this
+to the sentence level, and to more complex semantic phenomena, depends
+on their applicability within compositional models.
+
+\section{Composition}
+\label{sec:composition}
+
+Methods based on this distributional hypothesis have recently been
+applied to many tasks, but mostly at the word level: for instance,
+word sense disambiguation \cite{zhitomirsky2009bootstrapping} and
+lexical substitution \cite{thater2010}. They exploit the notion of
+similarity which correlates with the angle between word vectors
+\cite{turney2010frequency}.
+%
+\emph{Compositional} distributional semantics goes beyond the word level and
+models the meaning of phrases or sentences based on their
+parts. \newcite{mitchell2008vector} perform composition of word vectors using
+vector addition and multiplication operations. The limitation of this approach
+is the operator associativity, which ignores the argument order, and thus word
+order. As a result, ``\textit{John loves Mary}'' and ``\textit{Mary loves
+  John}'' get assigned the same meaning.
+
+Concretely, if \textit{John}, \textit{Mary} and \textit{loves} meaning is
+represented as vectors $\ov{\mathit{john}}$, $\ov{\mathit{mary}}$ and
+$\ov{\mathit{loves}}$, the meaning of the sentence \textit{John loves Mary} is
+$\ov{\mathit{john}} + \ov{\mathit{loves}} + \ov{\mathit{mary}}$.
+
+The To capture word order, various approaches have been
+proposed. \newcite{grefenstette2011experimental} extend the
+compositional approach by using non-associative linear algebra
+operators as proposed in the theoretical work of
+\cite{coecke2010}.
+
+The functional application of semantic term can be replaced with tensors
+\cite{bourbaki}. Then, a transitive verb is represented by matrix, which can be
+obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ (the
+relation method of \cite{grefenstette2011experimental}), where $\ov{s_i}$ and
+$\ov{i_i}$ are the subject--object pairs of the verb.
+
+The vector of the whole sentence is $\overline{\mathit{loves}}
+\odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$.
+
+\section{The tasks that require similarity}
+\label{sec:nlp-tasks}
+
+\paragraph{Dialogue act tagging}
+\label{sec:dialogue-act-tagging}
+
+There are many ways to approach the task of dialogue act tagging
+\cite{Stolcke.etal00}. The most successful approaches combine
+\emph{intra-}utterance features, such as the (sequences of) words and
+intonational contours used, together with \emph{inter-}utterance
+features, such as the sequence of utterance tags being used
+previously.
+%
+To capture both of these aspects, sequence models such as Hidden
+Markov Models are widely used
+\cite{Stolcke.etal00,surendran2006dialog}. The sequence of words is an
+observable variable, while the sequence of dialogue act tags is a
+hidden variable.
+
+However, some approaches have shown competitive results without
+exploiting features of inter-utterance
+context. \newcite{webb2005dialogue} concentrate only on features found
+inside an utterance, identifying ngrams that correlate strongly with
+particular utterance tags, and propose a statistical model for
+prediction which produces close to the state of the art results.
+
+The current state of the art \cite{kalchbrenner-blunsom2013CVSC} uses
+Recurrent Convolutional Neural Networks to achieve high accuracy. This
+model includes information about word identity, intra-utterance word
+sequence, and inter-utterance tag sequence, by using a vector space
+model of words with a compositional approach. The words vectors are
+not based on distributional frequencies in this case, however, but on
+randomly initialised vectors, with the model trained on a specific
+corpus. This raises several questions: what is the contribution of
+word sequence and/or utterance (tag) sequence; and might further gains
+be made by exploiting the distributional hypothesis? What is the contribution of
+utterance meaning to its tag?
+
+\paragraph{Paraphrase detection}
+\label{sec:paraphrase}
+
+Microsoft paraphrase corpus \cite{dolan2005microsoft} is a collection of
+sentences labeled whether one is a paraphrase of another.
+
+\paragraph{Disambiguation}
+\label{sec:disamb}
+
+The transitive verb disambiguation dataset\footnote{This and the sentence
+  similarity datasets are available at
+  \url{http://www.cs.ox.ac.uk/activities/compdistmeaning/}} described in
+\cite{grefenstette2011gems}. The dataset consists of ambiguous transitive verbs
+together with their arguments; landmark verbs, which identify one of the verb
+senses; and human judgements which specify the similarity to the landmarks of
+the disambiguated sense of the verb in the context given. This is similar to the
+intransitive dataset described in \cite{mitchell2008vector}.
+
+Consider the sentence \textit{``system meets specification''}; here,
+\textit{meets} is the ambiguous transitive verb, and \textit{system}
+and \textit{specification} are the arguments in this context. Possible
+landmarks for \emph{meet} are \textit{satisfy} and \textit{visit}; for
+this sentence, the human judgements show that the disambiguated verb
+meaning is similar to the landmark \textit{satisfy}, and less similar
+to \textit{visit}.
+
+The task is to estimate the similarity of the sense of a verb in a context with
+a given landmark. To provide our similarity measures, we compose the verb with
+its arguments using one of our compositional operators, do the same for the
+landmark and the arguments, and compute the cosine similarity of the two
+vectors. To evaluate performance, we average the human judgements for the same
+verb, argument and landmark entries, and use the average values to calculate the
+correlation. As a baseline, we compare to the correlation achieved using only
+the verb vector, without composing with its arguments.
+
+\paragraph{Sentence similarity}
+\label{sec:sentence-similarity}
+
+The transitive sentence similarity dataset described in
+\cite{kartsaklis2013separating}. The dataset consists of transitive sentence
+pairs and a human similarity judgement. The task is to estimate similarity
+between two sentences.
+
+% Any other tasks that gain from modeling word order and relations. e.g.~SemEval.
+
+% \section{Current progress}
+% \label{sec:current-progress}
+
+% So far I have been working on implementing the existing distributional semantics
+% and categorical compositional methods. \cite{milajevs-purver:2014:CVSC} applies
+% classical distributional semantics to dialogue act tagging and compares such
+% approach to the traditional bag of unigrams model. This required implementation
+% of the bag of unigrams method for dialogue act tagging described in
+% \cite{serafin2003latent}, co-occurrence extraction from the Google Books Ngrams
+% corpus, vector space weighting and simple (addition and multiplication)
+% composition methods.
+
+% For the second paper \cite{milajevs2014} that compares co-occurrence based and
+% predicted vector spaces, the co-occurrence counts are extracted from BNC. NLTK
+% was used for this tasks and it was extended to support the full BNC
+% distribution. The changes are accepted to the next NLTK version. Transitive verb
+% composition using Kronecker product was implemented. \texttt{word2vec}
+% \cite{mikolov2013efficient} vectors are applied to the dialogue act tagging
+% tasks.
+
+% Other compositional subject--verb--object composition methods are being
+% implemented.
+
+% In addition, I participated in the following activities:
+% \begin{itemize}
+% \item Collaborations Workshop (CW14), Oxford, UK. A workshop about software
+%   development for research projects.
+% \item A poster presentation at EECS Research showcase.
+% \item A talk about \cite{milajevs-purver:2014:CVSC} at the 2nd Workshop on
+%   Continuous Vector Space Models and their Compositionality in Gothenburg, Sweden.
+% \item An introductory talk to computation linguistics and distributional
+%   semantics at PyGrunn in Groningen, The Netherlands.
+% \item A submission to EMNLP \cite{milajevs2014}.
+% \end{itemize}
+
+% \section{Plan for completion}
+
+% As one of reviewers of \cite{milajevs2014} suggested, I plan to write a
+% follow-up journal article with a comparative study between neural and
+% co-occurrence based vector representations. For a complete journal submission
+% the following has to be done, this work should be done by the end of 2014.
+% %
+% \begin{enumerate}
+% \item Implementations of all currently published transitive verb categorical
+%   compositional methods.
+% \item Implementation of corpus readers for UkWaC, Wikipedia.
+% \item Implement a co-occurrence matrix instantiation method used in
+%   \cite{levy2014linguistic} as it takes into account the position of a context
+%   word to a target word.
+% \item Use C\&C, Rasp, Malt or other dependency parser to build verb matrices.
+% \item Dependency parsing of MS Paraphrase corpus and Switchboard to make
+%   categorically compose transitive verbs with their arguments.
+% \end{enumerate}
+
+% After publication (or acceptance) the developed software should be publicly
+% released together with documentation.
+
+% In a long term, and this is how the journal paper could be extended to a thesis,
+% this has to be done:
+% %
+% \begin{enumerate}
+% \item Improve \texttt{word2vec} learning process, by using Brown clustering.
+% \item Compare categorical composition with learned composition.
+% \item Investigate whether relations between sentences can be retrieved as
+%   offsets, for example, the answerness relation is a difference between the
+%   question vector and the answer vector.
+% \item Propose categorical compositional models for the missing grammatical
+%   structures.
+% \end{enumerate}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "thesis.tex"
+%%% End:
