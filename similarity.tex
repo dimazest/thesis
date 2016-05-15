@@ -4,29 +4,68 @@
 \section{Similarity}
 \label{sec:similarity}
 
-Similarity is the degree of resemblance between two objects or events \cite{WCS:WCS1282} and plays a crucial role in psychological theories of knowledge and behaviour, where it is used to explain such phenomena as classification and conceptualisation. \textit{Fruit} is a \emph{category} because it is a practical generalisation. Fruits are sweet and constitute deserts, so when one is presented with an unseen fruit, one can hypothesise that it is served towards the end of a dinner.
+Similarity is the degree of resemblance between two objects or events \cite{WCS:WCS1282} and plays a crucial role in psychological theories of knowledge and behaviour, where it is used to explain such phenomena as classification and conceptualisation \cite{Tversky1977,1986-13502-00119860101,medin1993respects,Markman1996,hahn1997concepts}. \textit{Fruit} is a \emph{category} because it is a practical generalisation. Fruits are sweet and constitute deserts, so when one is presented with an unseen fruit, one can hypothesise that it is served toward the end of a dinner.
 
-Generalisations are extremely powerful in describing a language as well. The verb \textit{runs} requires its subject to be singular. \textit{Verb}, \textit{subject} and \textit{singular} are categories that are used to describe English grammar. When one encounters an unknown word and is told that it is a verb, one will immediately have an idea how to use it assuming that it is used similarly to other English verbs.
+Generalisations are extremely powerful in describing a language as well. The verb \textit{runs} requires its subject to be singular. \textit{Verb}, \textit{subject} and \textit{singular} are categories that are used to describe English grammar. When one encounters an unknown word and is told that it is a verb, one will immediately have an idea about how to use it assuming that it is used similarly to other English verbs.
 
-Semantic formalisation of similarity bases on two ideas. Word occurrence patterns \emph{define} its meaning \cite{firth1957lingtheory}, while the difference in occurrence \textup{quantifies} the difference in meaning \cite{harris1954distributional}. From computational perspective, this motivates and guides development of similarity components that are embedded into natural language processing systems that deal with tasks such as word sense disambiguation \cite{Schutze:1998:AWS:972719.972724}, information retrieval \cite{Salton:1975:VSM:361219.361220} and machine translation \cite{Dagan:1993:CWS:981574.981596}.
+From a computational perspective, this motivates and guides development of similarity components that are embedded into natural language processing systems that deal with tasks such as
+word sense disambiguation \cite{Schutze:1998:AWS:972719.972724},
+information retrieval \cite{Salton:1975:VSM:361219.361220,Milajevs:2015:IMN:2808194.2809448},
+machine translation \cite{Dagan:1993:CWS:981574.981596},
+dependency parsing \cite{hermann-blunsom:2013:ACL2013,andreas-klein:2014:P14-2},
+dialogue act tagging \cite{kalchbrenner-blunsom:2013:CVSC,milajevs-purver:2014:CVSC},
+reasoning over knowledge bases \cite{NIPS2013_5028},
+and language modelling \cite{bengio2006}.
 
-Because it is difficult to measure performance of a single (similarity) component in a pipeline, datasets that focus on similarity are popular among computational linguists. Apart from a pragmatic attempt to alleviate the evaluation of similarity components, these datasets serve as an empirical test of the hypotheses of Firth and Harris, merging together our understanding of human mind, language and technology.
+Concretely, a parser might benefit from a generalisation about the part of speech tag of a word which did not occur in the training data based on its occurrence pattern in a large corpus of documents from the web. A dialogue act tagging system, contrastly, might require to classify a whole sentence based on its role in a dialogue. To be useful, the similarity component has to be able to measure similarity between \emph{words} and \emph{sentences}.
+
+According to \newcite{WCS:WCS1282} ``similarity is an essentially psychological notion, based on the way we represent objects, that is, the way they appear to us.'' An important consequence of this observation is that before measuring similarity of two
+\todo{What's the general term for events and objects? Entity?}%
+entities,\footnotemark{} their representation has to be obtained.
+
+\footnotetext{Here and later \emph{entity} is a common term for \textit{events} and \textit{objects}.}
+
+% \cite{Huth2016}
+
+\section{Entity representation for similarity measurement}
+\label{sec:word-meaning}
+
+Section \ref{sec:similarity} established that before measuring similarity, the representation of entities has to be agreed. One needs to be extremely careful when the representation of lexical items is decided, as it is unavoidably connected to the \emph{meaning words in isolation}.
+
+% The semantic formalisation of similarity is based on two ideas. The occurrence pattern of a word \emph{defines} its meaning \cite{firth1957lingtheory}, while the difference in occurrence between two words \emph{quantifies} the difference in their meaning \cite{harris1954distributional}.
+
+Frege discusses two conflicting principles of meaning \cite{Janssen2001}. Isolated words meanings are the building blocks of sentence meanings, according to \emph{the principle of compositionality}:
+\begin{displayquote}[\cite{Janssen2001}]
+The meaning of a compound expression is a function of the meaning of its parts and the syntactic rule by which they are combined.
+\end{displayquote}
+But the word meaning in isolation is not defined, according to \emph{the principle of contextuality}:
+\begin{displayquote}[\cite{Janssen2001}]
+Never ask for the meaning of a word in isolation, but only in the context of a sentence.
+\end{displayquote}
+
+It worth noting here, that similarity in isolation is also problematic because the number of features an entity has is infinite and its easy to show that two entities will always have an infinite amount of common features \cite{goodman1972problems,hahn1997concepts}. To make similarity measurement possible, it has to be measured \emph{under a given description} \cite{WCS:WCS1282,medin1993respects,Markman1996}, thus similarity is always contextualised. Also, \newcite{Huth2016} were able to comprehensively map individual words across cortex, meaning that there are word representations.
+
+Frege's principle of contextuality allows to define the meaning of a word by identifying its contribution to the meaning of a sentence. Firth's \citeyearpar{firth1957lingtheory} famous quote that ``you shall know a word by the company it keeps''  suggests that the word meaning can be \emph{modelled} as the combination of the meanings of its occurrences in sentences of a corpus. Note, that this does not provide the absolute word meaning, but only its meaning relative to the corpus. This assumption is also supported by the hypothesis of \newcite{harris1954distributional} that the differences of occurrences of two words \emph{quantify} the difference in their relative meanings.
+
+Once relative word similarity is accepted, compositionality can be used to obtain representations of phrases and sentences \cite{THEO:THEO373,Dowty1980,sep-montague-semantics}.
 
 \section{Formal semantics}
 \label{sec:formal-semantics}
 
-Formal approaches to the semantics of natural language have long built
-upon the classical idea of compositionality -- that the meaning of a
-sentence is a function of its parts \cite{frege1892sense}. In
-compositional type-logical approaches, predicate-argument structures
-representing phrases and sentences are built from their constituent
-parts by general operations such as beta-reduction within the lambda
-calculus \cite{montague1970universal}: for example, given a semantic
-representation of \emph{``John''} as $\mathit{john}'$ and
-\emph{``loves''} as $\lambda y.\lambda x.\mathit{loves}'(x, y)$, the sentence
-\emph{``John loves Mary''} can be constructed as $\lambda y.\lambda
+Formal approaches to the semantics of natural language have long built upon the
+classical idea of compositionality---that the meaning of a sentence is a
+function of its parts \cite{Janssen2001}. In compositional type-logical
+approaches, predicate-argument structures representing phrases and sentences are
+built from their constituent parts by general operations such as beta-reduction
+within the lambda calculus \cite{THEO:THEO373}: for example, given a semantic
+representation of \emph{John} as $\mathit{john}'$ and \emph{loves} as
+$\lambda y.\lambda x.\mathit{loves}'(x, y)$, the sentence \emph{John loves Mary}
+can be constructed as
+$$
+\lambda y.\lambda
 x.\mathit{loves}'(x, y)(\mathit{mary}')(\mathit{john}') =
-\mathit{loves}'(\mathit{john}', \mathit{mary}')$.
+\mathit{loves}'(\mathit{john}', \mathit{mary}')
+$$
 
 To get the semantic representation of the sentence \textit{John loves Mary} we
 need to do the following. Syntactic rules define how constituents are combined
@@ -34,15 +73,15 @@ to form other constituents (and finally a sentence). Translation rules define
 how semantic representations of the constituents are combined to get a semantic
 representation of the whole.
 
-In semantics of natural language, categorial grammars are widely used to obtain
-syntactic structure of a sentence. Given a set of basic categories
-$\texttt{ATOM}$, for example $\{\mathit{n}, \mathit{s}, \mathit{np}\}$ complex
-categories $\mathtt{CAT} \backslash \mathtt{CAT}$ and
-$\mathtt{CAT}/\mathtt{CAT}$ can be constructed, where $\mathtt{CAT}$ is either
-an element of \texttt{\texttt{ATOM}} or a complex category. So the transitive
-verb category is $\mathtt{np}\backslash\mathtt{s}/\mathtt{np}$. Intuitively we
-want to say that obtaining a sentence with a transitive verb there must be a
-noun phrase before and after it.
+Categorial grammars are widely used to obtain syntactic structure of a
+sentence. Given a set of basic categories $\texttt{ATOM}$, for example
+$\{\mathit{n}, \mathit{s}, \mathit{np}\}$ complex categories
+$\mathtt{CAT} \backslash \mathtt{CAT}$ and $\mathtt{CAT}/\mathtt{CAT}$ can be
+constructed, where $\mathtt{CAT}$ is either an element of \texttt{\texttt{ATOM}}
+or a complex category. So the transitive verb category is
+$\mathtt{np}\backslash\mathtt{s}/\mathtt{np}$. Intuitively we want to say that
+obtaining a sentence with a transitive verb there must be a noun phrase before
+and after it.
 
 Parsing is done by composing categories together according to two rules:
 %
@@ -54,7 +93,7 @@ Parsing is done by composing categories together according to two rules:
   $\beta$ is a string of category $B/A$, then $\beta\alpha$ is of category $B$.
 \end{enumerate}
 
-\begin{figure}[h]
+\begin{figure}
   \centering
   \Tree [
     .$s$
@@ -100,7 +139,7 @@ categories and semantic types is defined as a function $\mathit{type}$:
 Syntactic backward and forward application corresponds to functional
 application. The final result would be the this:
 
-\begin{figure}[h]
+\begin{figure}
   \centering
   \Tree [
     .$s$~:~$\mathit{loves}'(\mathit{john}',\mathit{mary}')$
@@ -130,11 +169,10 @@ application. The final result would be the this:
 
 Given a suitable pairing between a syntactic grammar, semantic representations
 and corresponding general combinatory operators, this can produce structured
-sentential representations with broad coverage and good generalisability (see
-e.g.~\cite{Bos2008STEP2}). This logical approach is extremely powerful because
+sentential representations with broad coverage and good generalisability \cite{step2008:2222}. This logical approach is extremely powerful because
 it can capture complex aspects of meaning such as quantifiers and their
-interaction (see e.g.~\cite{copestake2005minimal}), and enables inference using
-well studied and developed logical methods (see e.g.~\cite{bos2000first}).
+interaction \cite{Copestake2005}), and enables inference using
+well studied and developed logical methods \cite{bos2000first}.
 
 \section{Distributional hypothesis}
 \label{sec:distr-hypoth}

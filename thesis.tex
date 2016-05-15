@@ -3,7 +3,7 @@
 \usepackage{latexsym}
 
 \usepackage[onehalfspacing]{setspace}
-\usepackage[top=0.75in,bottom=0.75in,left=1.5in,right=0.75in]{geometry}
+\usepackage[top=0.75in,bottom=0.75in,left=1.5in,right=1in]{geometry}
 
 \usepackage{fontspec}
 \defaultfontfeatures{Ligatures=TeX}
@@ -25,6 +25,9 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 \usepackage{paralist}
 \usepackage[parfill]{parskip}
 \usepackage{todonotes}
+\usepackage{csquotes}
+
+\renewcommand{\mkcitation}[1]{ #1}
 
 \usepackage{tikz}
 \usepackage{tikz-qtree}
@@ -69,7 +72,8 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 \DeclareMathOperator{\my-c}{count}
 \newcommand{\ov}{\overrightarrow}
 
-\newcommand{\newcite}[1]{\cite{#1}}
+\newcommand\newcite\citet
+\renewcommand\cite\citep
 
 \begin{document}
 % \maketitle
