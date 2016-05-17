@@ -140,13 +140,7 @@ lexical similarity.
 
 % Explain why is this better than counting
 
-However, they have also proved successful at other tasks
-\cite{mikolov2013linguistic}; the vectors obtained encode not only
-attributional similarity (similar words are close to each other), but
-also relational similarities \cite{turney2006similarity}. For example,
-it is possible to extract the singular:plural relation
-(\textit{apple}:\textit{apples}, \textit{car}:\textit{cars}) using
-vector subtraction:
+They have also proved successful at other tasks \cite{mikolov2013linguistic}; the vectors obtained encode not only attributional similarity (similar words are close to each other), but also relational similarities \cite{Turney:2010:FMV:1861751.1861756}. For example, it is possible to extract the \texttt{singular:plural} relation (\textit{apple}:\textit{apples}, \textit{car}:\textit{cars}) using vector subtraction:
 %
 \begin{align*}
   \overrightarrow{\mathit{apple}} - \overrightarrow{\mathit{apples}}
@@ -171,11 +165,11 @@ result.\footnote{\newcite{levy2014linguistic} improved
   by changing the objective function and improved the state-of-the-art results
   both for neural embeddings and co-occurrence based vectors.}
 
-Both neural and co-occurrence-based approaches have advantages over
-classical formal approaches in their ability to capture lexical
-semantics and degrees of similarity; their success at extending this
-to the sentence level, and to more complex semantic phenomena, depends
-on their applicability within compositional models.
+% Both neural and co-occurrence-based approaches have advantages over
+% classical formal approaches in their ability to capture lexical
+% semantics and degrees of similarity; their success at extending this
+% to the sentence level, and to more complex semantic phenomena, depends
+% on their applicability within compositional models.
 
 \section{Formal semantics}
 \label{sec:formal-semantics}
