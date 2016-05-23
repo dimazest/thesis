@@ -295,96 +295,35 @@ well studied and developed logical methods \cite{bos2000first}.
 \subsection{Compositional distributional semantics}
 \label{sec:composition}
 
-Methods based on this distributional hypothesis have recently been
-applied to many tasks, but mostly at the word level: for instance,
-word sense disambiguation \cite{zhitomirsky2009bootstrapping} and
-lexical substitution \cite{thater2010}. They exploit the notion of
-similarity which correlates with the angle between word vectors
-\cite{turney2010frequency}.
-%
-\emph{Compositional} distributional semantics goes beyond the word level and
-models the meaning of phrases or sentences based on their
-parts. \newcite{mitchell2008vector} perform composition of word vectors using
-vector addition and multiplication operations. The limitation of this approach
-is the operator associativity, which ignores the argument order, and thus word
-order. As a result, ``\textit{John loves Mary}'' and ``\textit{Mary loves
-  John}'' get assigned the same meaning.
+Methods based on this distributional hypothesis have recently been applied to many tasks, but mostly at the word level, for instance, word sense disambiguation \cite{ZhitomirskyGeffet2009} and lexical substitution \cite{Thater:2010:CSR:1858681.1858778}. They exploit the notion of similarity which correlates with the angle between word vectors \cite{Turney:2010:FMV:1861751.1861756}.
+
+\emph{Compositional} distributional semantics goes beyond the word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator associativity, which ignores the argument order, and thus word order. As a result, ``\textit{John loves Mary}'' and ``\textit{Mary loves John}'' get assigned the same meaning.
 
 Concretely, if \textit{John}, \textit{Mary} and \textit{loves} meaning is
 represented as vectors $\ov{\mathit{john}}$, $\ov{\mathit{mary}}$ and
 $\ov{\mathit{loves}}$, the meaning of the sentence \textit{John loves Mary} is
 $\ov{\mathit{john}} + \ov{\mathit{loves}} + \ov{\mathit{mary}}$.
 
-The To capture word order, various approaches have been
-proposed. \newcite{grefenstette2011experimental} extend the
-compositional approach by using non-associative linear algebra
-operators as proposed in the theoretical work of
-\cite{coecke2010}.
+To capture word order, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} extend the compositional approach by using non-associative linear algebra operators as proposed in the theoretical work of \cite{DBLP:journals/corr/abs-1003-4394}.
 
-The functional application of semantic term can be replaced with tensors
-\cite{bourbaki}. Then, a transitive verb is represented by matrix, which can be
-obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ (the
-relation method of \cite{grefenstette2011experimental}), where $\ov{s_i}$ and
-$\ov{i_i}$ are the subject--object pairs of the verb.
+The functional application of semantic term can be replaced with tensors \cite{Bourbaki1998commutative}. Then, a transitive verb is represented by matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ (the relation method of \newcite{Grefenstette:2011:ESC:2145432.2145580}), where $\ov{s_i}$ and $\ov{i_i}$ are the subject--object pairs of the verb. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$.
 
-The vector of the whole sentence is $\overline{\mathit{loves}}
-\odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$.
+\section{Intrinsic evaluation}
+\label{sec:intrinsic-evaluation}
 
-\section{Tasks that require similarity}
-\label{sec:nlp-tasks}
+\subsection{Word similarity}
+\label{sec:lexical-similarity}
 
-\paragraph{Dialogue act tagging}
-\label{sec:dialogue-act-tagging}
+Two datasets, namely MEN \cite{Bruni:2012:DST:2390524.2390544} and SimLex-999 \cite{hill2014simlex}, are currently widely used. They are designed especially for meaning representation evaluation and surpass datasets stemming from psychology \cite{1986-13502-00119860101}, information retrieval \cite{2002:PSC:503104.503110} and computational linguistics \cite{Rubenstein:1965:CCS:365628.365657} in quantity by having more entries and, in case of SimLex-999, attention to the evaluated relation by distinguishing similarity from relatedness. The datasets provide similarity (relatedness) scores between word pairs.
 
-There are many ways to approach the task of dialogue act tagging
-\cite{Stolcke.etal00}. The most successful approaches combine
-\emph{intra-}utterance features, such as the (sequences of) words and
-intonational contours used, together with \emph{inter-}utterance
-features, such as the sequence of utterance tags being used
-previously.
-%
-To capture both of these aspects, sequence models such as Hidden
-Markov Models are widely used
-\cite{Stolcke.etal00,surendran2006dialog}. The sequence of words is an
-observable variable, while the sequence of dialogue act tags is a
-hidden variable.
+In contrast to linguistic datasets which contain randomly paired words from a broad selection, datasets that come from psychology contain entries that belong to a single category such as \textit{verbs of judging} \cite{FILLENBAUM197454} or \textit{animal terms} \cite{HENLEY1969176}. The reason for category oriented similarity studies is that ``stimuli can only be compared in so far as they have already been categorised as identical, alike, or equivalent at some higher level of abstraction'' \cite{turner1987rediscovering}. Moreover, because of the \emph{extension effect} \cite{medin1993respects}, the similarity of two entries in a context is less than the similarity between the same entries when the context is extended. ``For example, \textit{black} and \textit{white} received a similarity rating of 2.2 when presented by themselves; this rating increased to 4.0 when \textit{black} was simultaneously compared with \textit{white} and \textit{red} (\textit{red} only increased 4.2 to 4.9)'' \cite{medin1993respects}. In the first case \textit{black} and \textit{white} are more dissimilar because they are located on the extremes of the greyscale, but in the presence of \textit{red} they become more similar because they are both monochromes.
 
-However, some approaches have shown competitive results without
-exploiting features of inter-utterance
-context. \newcite{webb2005dialogue} concentrate only on features found
-inside an utterance, identifying ngrams that correlate strongly with
-particular utterance tags, and propose a statistical model for
-prediction which produces close to the state of the art results.
+Both MEN and SimLex-999 provide pairs that do not share any similarity to control for false positives, and they do not control for the comparison scale. This makes similarity judgements ambiguous as it is not clear what low similarity values mean: incompatible notions or contrast in meaning. SimLex-999 assigns low similarity scores to the incompatible pairs (0.48, \textit{trick} and \textit{size}) and to antonymy (0.55, \textit{smart} and \textit{dumb}), but \textit{smart} and \textit{dumb} have relatively much more in common than \textit{trick} and \textit{size}!
 
-The current state of the art \cite{kalchbrenner-blunsom2013CVSC} uses
-Recurrent Convolutional Neural Networks to achieve high accuracy. This
-model includes information about word identity, intra-utterance word
-sequence, and inter-utterance tag sequence, by using a vector space
-model of words with a compositional approach. The words vectors are
-not based on distributional frequencies in this case, however, but on
-randomly initialised vectors, with the model trained on a specific
-corpus. This raises several questions: what is the contribution of
-word sequence and/or utterance (tag) sequence; and might further gains
-be made by exploiting the distributional hypothesis? What is the contribution of
-utterance meaning to its tag?
-
-\paragraph{Paraphrase detection}
-\label{sec:paraphrase}
-
-Microsoft paraphrase corpus \cite{dolan2005microsoft} is a collection of
-sentences labeled whether one is a paraphrase of another.
-
-\paragraph{Disambiguation}
+\subsection{Disambiguation of verb in context}
 \label{sec:disamb}
 
-The transitive verb disambiguation dataset\footnote{This and the sentence
-  similarity datasets are available at
-  \url{http://www.cs.ox.ac.uk/activities/compdistmeaning/}} described in
-\cite{grefenstette2011gems}. The dataset consists of ambiguous transitive verbs
-together with their arguments; landmark verbs, which identify one of the verb
-senses; and human judgements which specify the similarity to the landmarks of
-the disambiguated sense of the verb in the context given. This is similar to the
-intransitive dataset described in \cite{mitchell2008vector}.
+The transitive verb disambiguation dataset\footnote{This and the sentence   similarity datasets are available at   \url{http://www.cs.ox.ac.uk/activities/compdistmeaning/}} described in \cite{Grefenstette:2011:ETV:2140490.2140497}. The dataset consists of ambiguous transitive verbs together with their arguments; landmark verbs, which identify one of the verb senses; and human judgements which specify the similarity to the landmarks of the disambiguated sense of the verb in the context given. This is similar to the intransitive dataset described in \cite{mitchell-lapata:2008:ACLMain}.
 
 Consider the sentence \textit{``system meets specification''}; here,
 \textit{meets} is the ambiguous transitive verb, and \textit{system}
@@ -403,86 +342,34 @@ verb, argument and landmark entries, and use the average values to calculate the
 correlation. As a baseline, we compare to the correlation achieved using only
 the verb vector, without composing with its arguments.
 
-\paragraph{Sentence similarity}
+\subsection{Sentence similarity}
 \label{sec:sentence-similarity}
 
-The transitive sentence similarity dataset described in
-\cite{kartsaklis2013separating}. The dataset consists of transitive sentence
-pairs and a human similarity judgement. The task is to estimate similarity
-between two sentences.
+The transitive sentence similarity dataset described in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}. The dataset consists of transitive sentence pairs and a human similarity judgement. The task is to estimate similarity between two sentences.
 
-% Any other tasks that gain from modeling word order and relations. e.g.~SemEval.
+\section{Tasks that require similarity}
+\label{sec:nlp-tasks}
 
-% \section{Current progress}
-% \label{sec:current-progress}
+\subsection{Dialogue act tagging}
+\label{sec:dialogue-act-tagging}
 
-% So far I have been working on implementing the existing distributional semantics
-% and categorical compositional methods. \cite{milajevs-purver:2014:CVSC} applies
-% classical distributional semantics to dialogue act tagging and compares such
-% approach to the traditional bag of unigrams model. This required implementation
-% of the bag of unigrams method for dialogue act tagging described in
-% \cite{serafin2003latent}, co-occurrence extraction from the Google Books Ngrams
-% corpus, vector space weighting and simple (addition and multiplication)
-% composition methods.
+There are many ways to approach the task of dialogue act tagging
+\cite{Stolcke:2000:DAM:971869.971872}. The most successful approaches combine
+\emph{intra-}utterance features, such as the (sequences of) words and
+intonational contours used, together with \emph{inter-}utterance
+features, such as the sequence of utterance tags being used
+previously.
+%
+To capture both of these aspects, sequence models such as Hidden Markov Models are widely used \cite{Stolcke:2000:DAM:971869.971872,DBLP:conf/interspeech/SurendranL06}. The sequence of words is an observable variable, while the sequence of dialogue act tags is a hidden variable.
 
-% For the second paper \cite{milajevs2014} that compares co-occurrence based and
-% predicted vector spaces, the co-occurrence counts are extracted from BNC. NLTK
-% was used for this tasks and it was extended to support the full BNC
-% distribution. The changes are accepted to the next NLTK version. Transitive verb
-% composition using Kronecker product was implemented. \texttt{word2vec}
-% \cite{mikolov2013efficient} vectors are applied to the dialogue act tagging
-% tasks.
+However, some approaches have shown competitive results without exploiting features of inter-utterance context. \newcite{webb2005dialogue} concentrate only on features found inside an utterance, identifying ngrams that correlate strongly with particular utterance tags, and propose a statistical model for prediction which produces close to the state of the art results.
 
-% Other compositional subject--verb--object composition methods are being
-% implemented.
+The current state of the art \cite{kalchbrenner-blunsom:2013:CVSC} uses Recurrent Convolutional Neural Networks to achieve high accuracy. This model includes information about word identity, intra-utterance word sequence, and inter-utterance tag sequence, by using a vector space model of words with a compositional approach. The words vectors are not based on distributional frequencies in this case, however, but on randomly initialised vectors, with the model trained on a specific corpus. This raises several questions: what is the contribution of word sequence and/or utterance (tag) sequence; and might further gains be made by exploiting the distributional hypothesis? What is the contribution of utterance meaning to its tag?
 
-% In addition, I participated in the following activities:
-% \begin{itemize}
-% \item Collaborations Workshop (CW14), Oxford, UK. A workshop about software
-%   development for research projects.
-% \item A poster presentation at EECS Research showcase.
-% \item A talk about \cite{milajevs-purver:2014:CVSC} at the 2nd Workshop on
-%   Continuous Vector Space Models and their Compositionality in Gothenburg, Sweden.
-% \item An introductory talk to computation linguistics and distributional
-%   semantics at PyGrunn in Groningen, The Netherlands.
-% \item A submission to EMNLP \cite{milajevs2014}.
-% \end{itemize}
+\subsection{Paraphrase detection}
+\label{sec:paraphrase}
 
-% \section{Plan for completion}
-
-% As one of reviewers of \cite{milajevs2014} suggested, I plan to write a
-% follow-up journal article with a comparative study between neural and
-% co-occurrence based vector representations. For a complete journal submission
-% the following has to be done, this work should be done by the end of 2014.
-% %
-% \begin{enumerate}
-% \item Implementations of all currently published transitive verb categorical
-%   compositional methods.
-% \item Implementation of corpus readers for UkWaC, Wikipedia.
-% \item Implement a co-occurrence matrix instantiation method used in
-%   \cite{levy2014linguistic} as it takes into account the position of a context
-%   word to a target word.
-% \item Use C\&C, Rasp, Malt or other dependency parser to build verb matrices.
-% \item Dependency parsing of MS Paraphrase corpus and Switchboard to make
-%   categorically compose transitive verbs with their arguments.
-% \end{enumerate}
-
-% After publication (or acceptance) the developed software should be publicly
-% released together with documentation.
-
-% In a long term, and this is how the journal paper could be extended to a thesis,
-% this has to be done:
-% %
-% \begin{enumerate}
-% \item Improve \texttt{word2vec} learning process, by using Brown clustering.
-% \item Compare categorical composition with learned composition.
-% \item Investigate whether relations between sentences can be retrieved as
-%   offsets, for example, the answerness relation is a difference between the
-%   question vector and the answer vector.
-% \item Propose categorical compositional models for the missing grammatical
-%   structures.
-% \end{enumerate}
-
+Microsoft paraphrase corpus \cite{dolan2005par} is a collection of sentences labeled whether one is a paraphrase of another.
 
 %%% Local Variables:
 %%% mode: latex
