@@ -27,7 +27,7 @@ entities,\footnotemark{} their representation has to be obtained.
 
 % \cite{Huth2016}
 
-\section{Entity representation for similarity measurement}
+\section{Representation for similarity measurement}
 \label{sec:word-meaning}
 
 Section \ref{sec:similarity} established that before measuring similarity, the representation of entities has to be agreed. One needs to be extremely careful when the representation of lexical items is decided, as it is unavoidably connected to the \emph{meaning words in isolation}.
@@ -49,7 +49,7 @@ Frege's principle of contextuality allows to define the meaning of a word by ide
 
 Once relative word meaning is accepted, compositionality can be used to obtain representations of phrases and sentences \cite{THEO:THEO373,Dowty1980,sep-montague-semantics,DBLP:journals/corr/abs-1003-4394,baroni2014frege}.
 
-\section{Distributional hypothesis}
+\subsection{Lexical semantics: Distributional hypothesis}
 \label{sec:distr-hypoth}
 
 We would like to capture the intuition that while \textit{John} and \textit{Mary} are distinct, they are rather similar to each other (both of them are humans) and dissimilar to \textit{dog}, \textit{pavement} or \textit{idea}.
@@ -58,7 +58,7 @@ We would like to capture the intuition that while \textit{John} and \textit{Mary
 
 Distributional methods provide a way to approach this problem. By representing words and phrases as vectors in a vector space, we can express similarity in meaning via a suitable distance metric within that space.
 
-\subsection{Co-occurrence based word representation}
+\subsubsection{Co-occurrence based word representation}
 \label{sec:distr-repr}
 
 One way to produce such representations is to directly exploit Harris' \citeyearpar{harris1954distributional} intuition by counting the contexts a word appears in.
@@ -116,7 +116,7 @@ In the current example of a na{\"i}ve vector space, \textit{John} is also closer
 %
 for a detailed comparison of their tuning and performance.
 
-\subsection{Neural word embedding}
+\subsubsection{Neural word embedding}
 \label{sec:neural-embedding}
 
 Deep learning techniques use this distributional hypothesis
@@ -171,7 +171,7 @@ result.\footnote{\newcite{levy2014linguistic} improved
 % to the sentence level, and to more complex semantic phenomena, depends
 % on their applicability within compositional models.
 
-\section{Formal semantics}
+\subsection{The principle of compositionality}
 \label{sec:formal-semantics}
 
 Formal approaches to the semantics of natural language have long built upon the
@@ -259,7 +259,7 @@ categories and semantic types is defined as a function $\mathit{type}$:
 \end{align*}
 
 Syntactic backward and forward application corresponds to functional
-application. The final result would be the this:
+application. Figure \ref{fig:syn} shows the final parse tree.
 
 \begin{figure}
   \centering
@@ -281,11 +281,7 @@ application. The final result would be the this:
       ]
     ]
   ]
-  \caption{A syntactic tree for \textit{John loves Mary}. Lexicon assigns
-    categories to words: \textit{John} is $\mathit{np}$, loves is
-    $\mathit{np}\backslash{}\mathit{s}/\mathit{np}$ and Mary is
-    $\mathit{np}$. Backward and forward composition rules derive the syntactic
-    tree.}
+  \caption{The final parse tree.}
 \label{fig:syn}
 \end{figure}
 
@@ -293,10 +289,10 @@ Given a suitable pairing between a syntactic grammar, semantic representations
 and corresponding general combinatory operators, this can produce structured
 sentential representations with broad coverage and good generalisability \cite{step2008:2222}. This logical approach is extremely powerful because
 it can capture complex aspects of meaning such as quantifiers and their
-interaction \cite{Copestake2005}), and enables inference using
+interaction \cite{Copestake2005}, and enables inference using
 well studied and developed logical methods \cite{bos2000first}.
 
-\section{Composition}
+\subsection{Compositional distributional semantics}
 \label{sec:composition}
 
 Methods based on this distributional hypothesis have recently been
@@ -334,7 +330,7 @@ $\ov{i_i}$ are the subject--object pairs of the verb.
 The vector of the whole sentence is $\overline{\mathit{loves}}
 \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$.
 
-\section{The tasks that require similarity}
+\section{Tasks that require similarity}
 \label{sec:nlp-tasks}
 
 \paragraph{Dialogue act tagging}
