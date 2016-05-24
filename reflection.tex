@@ -1,4 +1,4 @@
-\chapter{Reflection}
+\chapter{Experimental setup}
 \label{cha:reflection}
 
 \section{The notion of similarity}
@@ -8,33 +8,8 @@ In contrast to linguistic datasets which contain randomly paired words from a br
 
 Both MEN and SimLex-999 provide pairs that do not share any similarity to control for false positives, and they do not control for the comparison scale. This makes similarity judgements ambiguous as it is not clear what low similarity values mean: incompatible notions or contrast in meaning. SimLex-999 assigns low similarity scores to the incompatible pairs (0.48, \textit{trick} and \textit{size}) and to antonymy (0.55, \textit{smart} and \textit{dumb}), but \textit{smart} and \textit{dumb} have relatively much more in common than \textit{trick} and \textit{size}!
 
-\section{3 ways of measuring similarity}
-\label{sec:3-ways-measuring}
-
-\subsection{Similarity in context}
-\label{sec:similarity-context}
-
-A noun phrase can be similar to a noun as in \textit{female lion} and \textit{lioness}, and to another noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as to words. In this case, similarity is measured in \emph{context}, but is still comparison of the phrases' head words which meaning is modified by arguments they appear with \cite{Kintsch2001173,mitchell-lapata:2008:ACLMain,mitchell2010composition,Dinu:2010:MDS:1870658.1870771,Baroni2010nouns,thater-furstenau-pinkal:2011:IJCNLP-2011,Seaghdha:2011:PMS:2145432.2145545}. With verbs this idea can be applied to compare transitive verbs with intransitive. For example, \textit{to cycle} is similar to \textit{ride a bicycle}.
-
-% TODO: mention \cite{wieting2015paraphrase}
-
-Sentential similarity might be treated as the similarity of the heads in the contexts. That is, the similarity between \textit{sees} and \textit{notices} in \textit{John \textbf{sees} Mary} and \textit{John \textbf{notices} a woman}. This approach abstracts away grammatical difference between the sentences and concentrates on semantics and fits the proposed model as the respect for the head, which is a lexical entity, has to be found.
-
-\subsection{Composition of similarity scores}
-\label{sec:comp-simil-scor}
-
-\cite{turney2012domain}
-
-\subsection{Similarity of compounds}
-\label{sec:similarity-compounds}
-
 \section{Relevance: another semantic measure}
 \label{sec:meas-relev-vect}
-
-
-\section{Problems with model's hyperparameter selection during evaluation}
-\label{sec:param-comb-model}
-
 
 %%% Local Variables:
 %%% mode: latex

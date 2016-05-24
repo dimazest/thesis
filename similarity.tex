@@ -1,7 +1,7 @@
-\chapter{Overview}
-% \label{cha:similarity}
+\chapter{Background}
+\label{cha:background}
 
-\section{Similarity}
+\section{The notion of similarity}
 \label{sec:similarity}
 
 Similarity is the degree of resemblance between two objects or events \cite{WCS:WCS1282} and plays a crucial role in psychological theories of knowledge and behaviour, where it is used to explain such phenomena as classification and conceptualisation \cite{Tversky1977,1986-13502-00119860101,medin1993respects,Markman1996,hahn1997concepts}. \textit{Fruit} is a \emph{category} because it is a practical generalisation. Fruits are sweet and constitute deserts, so when one is presented with an unseen fruit, one can hypothesise that it is served toward the end of a dinner.
@@ -27,7 +27,7 @@ entities,\footnotemark{} their representation has to be obtained.
 
 % \cite{Huth2016}
 
-\section{Representation for similarity measurement}
+\section{Similarity of words}
 \label{sec:word-meaning}
 
 Section \ref{sec:similarity} established that before measuring similarity, the representation of entities has to be agreed. One needs to be extremely careful when the representation of lexical items is decided, as it is unavoidably connected to the \emph{meaning words in isolation}.
@@ -49,7 +49,7 @@ Frege's principle of contextuality allows to define the meaning of a word by ide
 
 Once relative word meaning is accepted, compositionality can be used to obtain representations of phrases and sentences \cite{THEO:THEO373,Dowty1980,sep-montague-semantics,DBLP:journals/corr/abs-1003-4394,baroni2014frege}.
 
-\subsection{Lexical semantics: Distributional hypothesis}
+\subsection{Distributional hypothesis}
 \label{sec:distr-hypoth}
 
 We would like to capture the intuition that while \textit{John} and \textit{Mary} are distinct, they are rather similar to each other (both of them are humans) and dissimilar to \textit{dog}, \textit{pavement} or \textit{idea}.
@@ -110,7 +110,7 @@ Mathematically the similarity can be expressed using, for instance, the cosine o
 %
 where $\theta$ is the angle between the vectors of \textit{Mary} and \textit{girl}; and $\phi$ is the angle between the vectors of \textit{Mary} and \textit{boy}.
 
-In the current example of a na{\"i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers. Refer to \newcite{Turney:2010:FMV:1861751.1861756} and \newcite{TACL570} for the discussion of vector space parameters, and see \newcite{kiela-clark:2014:CVSC}, \newcite{lapesa2014large} and
+In the current example of a na{\"\i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers. Refer to \newcite{Turney:2010:FMV:1861751.1861756} and \newcite{TACL570} for the discussion of vector space parameters, and see \newcite{kiela-clark:2014:CVSC}, \newcite{lapesa2014large} and
 %
 \todo{reference the section about parameters} below
 %
@@ -122,7 +122,7 @@ for a detailed comparison of their tuning and performance.
 Deep learning techniques use this distributional hypothesis
 differently. Instead of relying on observed co-occurrence frequencies,
 a neural model is trained to maximise some objective function related
-to e.g. the probability of observing the surrounding words in some
+to e.g.~the probability of observing the surrounding words in some
 context \cite{mikolov2013distributed}:
 %
 \begin{align}
@@ -170,6 +170,17 @@ result.\footnote{\newcite{levy2014linguistic} improved
 % semantics and degrees of similarity; their success at extending this
 % to the sentence level, and to more complex semantic phenomena, depends
 % on their applicability within compositional models.
+
+\subsection{Similarity metrics}
+\label{sec:similarity-metrics}
+
+
+\subsection{Aggregation of word similarities for similarity of compaunds}
+
+\cite{turney2012domain}
+
+\section{Similarity of compounds}
+\label{sec:similarity-compounds}
 
 \subsection{The principle of compositionality}
 \label{sec:formal-semantics}
@@ -307,6 +318,16 @@ $\ov{\mathit{john}} + \ov{\mathit{loves}} + \ov{\mathit{mary}}$.
 To capture word order, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} extend the compositional approach by using non-associative linear algebra operators as proposed in the theoretical work of \cite{DBLP:journals/corr/abs-1003-4394}.
 
 The functional application of semantic term can be replaced with tensors \cite{Bourbaki1998commutative}. Then, a transitive verb is represented by matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ (the relation method of \newcite{Grefenstette:2011:ESC:2145432.2145580}), where $\ov{s_i}$ and $\ov{i_i}$ are the subject--object pairs of the verb. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$.
+
+\subsection{Similarity of heads in context}
+\label{sec:similarity-context}
+
+A noun phrase can be similar to a noun as in \textit{female lion} and \textit{lioness}, and to another noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as to words. In this case, similarity is measured in \emph{context}, but is still comparison of the phrases' head words which meaning is modified by arguments they appear with \cite{Kintsch2001173,mitchell-lapata:2008:ACLMain,mitchell2010composition,Dinu:2010:MDS:1870658.1870771,Baroni2010nouns,thater-furstenau-pinkal:2011:IJCNLP-2011,Seaghdha:2011:PMS:2145432.2145545}. With verbs this idea can be applied to compare transitive verbs with intransitive. For example, \textit{to cycle} is similar to \textit{ride a bicycle}.
+
+% TODO: mention \cite{wieting2015paraphrase}
+
+Sentential similarity might be treated as the similarity of the heads in the contexts. That is, the similarity between \textit{sees} and \textit{notices} in \textit{John \textbf{sees} Mary} and \textit{John \textbf{notices} a woman}. This approach abstracts away grammatical difference between the sentences and concentrates on semantics and fits the proposed model as the respect for the head, which is a lexical entity, has to be found.
+
 
 \section{Intrinsic evaluation}
 \label{sec:intrinsic-evaluation}
