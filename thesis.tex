@@ -25,9 +25,9 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 \usepackage{paralist}
 \usepackage[parfill]{parskip}
 \usepackage{todonotes}
-\usepackage{csquotes}
 \usepackage{wrapfig}
 
+\usepackage{csquotes}
 \renewcommand{\mkcitation}[1]{ #1}
 
 \usepackage{tikz}
@@ -48,6 +48,7 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 % \widowpenalty = 10000
 
 \usepackage{hyperref}
+\def\UrlBreaks{\do\/\do-}
 
 % \title{Categorical Composition Models in Large Scale NLP Tasks}
 % \title{Bringing Semantics to NLP Tasks Using Categorical Composition}
@@ -91,11 +92,12 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 
 \input{introduction}
 \input{similarity}
+\input{reflection}
 
 \cleardoublepage
 \addcontentsline{toc}{chapter}{Bibliography}
 \phantomsection
-\bibliographystyle{unsrtnat}
+\bibliographystyle{plainnat}
 \bibliography{references,dmilajevs_publications}
 
 \end{document}

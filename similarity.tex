@@ -311,16 +311,24 @@ The functional application of semantic term can be replaced with tensors \cite{B
 \section{Intrinsic evaluation}
 \label{sec:intrinsic-evaluation}
 
+As we have established, the semantic formalisation of similarity is based on two ideas. The occurrence pattern of a word \emph{defines} its meaning \cite{firth1957lingtheory}, while the difference in occurrence between two words \emph{quantifies} the difference in their meaning \cite{harris1954distributional}. From a computational perspective, this motivates and guides development of similarity components that are embedded into natural language processing systems that deal with tasks such as
+word sense disambiguation \cite{Schutze:1998:AWS:972719.972724},
+information retrieval \cite{Salton:1975:VSM:361219.361220,Milajevs:2015:IMN:2808194.2809448},
+machine translation \cite{Dagan:1993:CWS:981574.981596},
+dependency parsing \cite{hermann-blunsom:2013:ACL2013,andreas-klein:2014:P14-2},
+and dialogue act tagging \cite{kalchbrenner-blunsom:2013:CVSC,milajevs-purver:2014:CVSC}.
+
+% TODO: Mention \cite{bengio2006}?
+
+Because it is difficult to measure performance of a single (similarity) component in a pipeline, datasets that focus on similarity are popular among computational linguists. Apart from a pragmatic attempt to alleviate the problems of evaluating similarity components, these datasets serve as an empirical test of the hypotheses of Firth and Harris, bringing together our understanding of human mind, language and technology.
+
+
 \subsection{Word similarity}
 \label{sec:lexical-similarity}
 
 Two datasets, namely MEN \cite{Bruni:2012:DST:2390524.2390544} and SimLex-999 \cite{hill2014simlex}, are currently widely used. They are designed especially for meaning representation evaluation and surpass datasets stemming from psychology \cite{1986-13502-00119860101}, information retrieval \cite{2002:PSC:503104.503110} and computational linguistics \cite{Rubenstein:1965:CCS:365628.365657} in quantity by having more entries and, in case of SimLex-999, attention to the evaluated relation by distinguishing similarity from relatedness. The datasets provide similarity (relatedness) scores between word pairs.
 
-In contrast to linguistic datasets which contain randomly paired words from a broad selection, datasets that come from psychology contain entries that belong to a single category such as \textit{verbs of judging} \cite{FILLENBAUM197454} or \textit{animal terms} \cite{HENLEY1969176}. The reason for category oriented similarity studies is that ``stimuli can only be compared in so far as they have already been categorised as identical, alike, or equivalent at some higher level of abstraction'' \cite{turner1987rediscovering}. Moreover, because of the \emph{extension effect} \cite{medin1993respects}, the similarity of two entries in a context is less than the similarity between the same entries when the context is extended. ``For example, \textit{black} and \textit{white} received a similarity rating of 2.2 when presented by themselves; this rating increased to 4.0 when \textit{black} was simultaneously compared with \textit{white} and \textit{red} (\textit{red} only increased 4.2 to 4.9)'' \cite{medin1993respects}. In the first case \textit{black} and \textit{white} are more dissimilar because they are located on the extremes of the greyscale, but in the presence of \textit{red} they become more similar because they are both monochromes.
-
-Both MEN and SimLex-999 provide pairs that do not share any similarity to control for false positives, and they do not control for the comparison scale. This makes similarity judgements ambiguous as it is not clear what low similarity values mean: incompatible notions or contrast in meaning. SimLex-999 assigns low similarity scores to the incompatible pairs (0.48, \textit{trick} and \textit{size}) and to antonymy (0.55, \textit{smart} and \textit{dumb}), but \textit{smart} and \textit{dumb} have relatively much more in common than \textit{trick} and \textit{size}!
-
-\subsection{Disambiguation of verb in context}
+\subsection{Disambiguation of verbs in context}
 \label{sec:disamb}
 
 The transitive verb disambiguation dataset\footnote{This and the sentence   similarity datasets are available at   \url{http://www.cs.ox.ac.uk/activities/compdistmeaning/}} described in \cite{Grefenstette:2011:ETV:2140490.2140497}. The dataset consists of ambiguous transitive verbs together with their arguments; landmark verbs, which identify one of the verb senses; and human judgements which specify the similarity to the landmarks of the disambiguated sense of the verb in the context given. This is similar to the intransitive dataset described in \cite{mitchell-lapata:2008:ACLMain}.
