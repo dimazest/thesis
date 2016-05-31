@@ -1,7 +1,186 @@
 \chapter{Experimental methodology}
 \label{sec:methodology}
 
+\todo[inline]{Motivate experimental setup}
 
+\section{Co-occurrence quantification}
+\label{sec:parameters}
+
+\subsection{PMI variants (\texttt{discr})}
+\label{sec:pmi-variants}
+
+Most co-occurrence weighting schemes in distributional semantics are based on \emph{point-wise mutual information} (PMI, Equation~\ref{eq:pmi}, \newcite{J90-1003,Turney:2010:FMV:1861751.1861756,NIPS2014_5477}).
+%
+\begin{equation}
+  \label{eq:pmi}
+  \operatorname{PMI}(x, y) = \log\frac{P(x,y)}{P(x)P(y)}
+\end{equation}
+%
+PMI in its raw form is problematic: non-observed co-occurrences lead to infinite PMI values, making it impossible to compute similarity. A common ``fix'' to this problem is to replace all infinities with zeroes, and we use PMI hereafter to refer to a weighting with this fix.
+\todo[inline]{Look at the early versions of the ``IR inspired co-occurrence quantification'' paper for the effect of replacing infinities with zeros.}
+
+An alternative solution is to increment the probability ratio by 1; we refer to this as \textit{compressed PMI} (CPMI):
+%
+\begin{equation}
+  \label{eq:cpmi}
+  \operatorname{CPMI}(x, y) = \log\Big( 1 + \frac{P(x,y)}{P(x)P(y)} \Big)
+\end{equation}
+
+\subsection{Shifted PMI (\texttt{neg})}
+\label{sec:shifted-pmi}
+
+Many approaches use only \emph{positive} PMI values, as  negative PMI values may not positively contribute to model performance \cite{Turney:2010:FMV:1861751.1861756}. This can be generalised to an additional cutoff parameter $k$ (\texttt{neg}) following \newcite{TACL570}, giving our third PMI variant (abbreviated as SPMI):
+%
+\begin{equation}
+  \label{eq:ppmi}
+  \operatorname{SPMI_k} = \max (0, \operatorname{PMI}(x, y) - \log k)
+\end{equation}
+%
+We can apply the same idea to CPMI:
+%
+\begin{equation}
+  \label{eq:pcpmi}
+  \operatorname{SCPMI_k} = \max (0, \operatorname{CPMI}(x, y) - \log 2k)
+\end{equation}
+
+\subsection{Frequency weighting (\texttt{freq})}
+\label{sec:frequency-weighting}
+
+Another issue with PMI is its bias towards rare events \cite{TACL570}; one way of solving this issue is to weight the value by the co-occurrence frequency \cite{Evert05}:
+%
+\begin{equation}
+  \label{eq:lmi}
+  \operatorname{LMI}(x, y) = n(x, y)\operatorname{PMI}(x, y)
+\end{equation}
+%
+where $n(x, y)$ is the number of times $x$ was seen together with $y$. For clarity, we refer to $n$-weighted PMIs as \NPMI/, \NSPMI/, etc. When this weighting component is set to 1, it has no effect; we can  explicitly label it as \PMI/, \SPMI/, etc.
+
+In addition to the extreme $1$ and $n$ weightings, we also experiment with a \todo{Look into the ``Inspired IR'' paper for the discussion of $\log n$}$\log n$ weighting.
+
+\subsection{Context distribution smoothing (\texttt{cds})}
+\label{sec:cont-distr-smooth}
+
+\newcite{TACL570} show that performance is affected by smoothing the context distribution $P(x)$:
+%
+\begin{equation}
+  \label{eq:cds}
+  P_{\alpha}(x) = \frac{n(x)^{\alpha}}{\sum_{c}n(c)^{\alpha}}
+\end{equation}
+%
+We experiment with $\alpha=1$ (no smoothing) and $\alpha = 0.75$. We call this estimation method \emph{local context probability}; we can also estimate a \emph{global context probability} based on the size of the corpus $C$:
+%
+\begin{equation}
+  \label{eq:cds-nan}
+  P(x) = \frac{n(x)}{|C|}
+\end{equation}
+
+\subsection{Quantification measure generalisation}
+\label{sec:quantification-measures}
+
+To systematically study the aforementioned quantification measures together with other variations we propose to view all these measures as instances of this general formula:
+%
+\begin{equation}
+  \small
+  \label{eq:association}
+  \operatorname{Quantification}(x,y) = \operatorname{freq}(x, y)
+                                       \operatorname{discr}(x, y)
+\end{equation}
+%
+which consists of two components: $\operatorname{freq}(x, y)$ which quantifies the co-occurrence of two terms: a target term $x$ and a feature term $y$, and $\operatorname{discr}(x, y)$ which quantifies the ``surprise'' or ``informativeness'' of seeing (or not seeing) the two terms together,  labeled as discriminativeness.
+
+In this framework, PMI can be seen as a quantification measure where the frequency component is the constant 1 and the discriminativeness is PMI itself. PosPMI is seen analogously. For LMI, $\operatorname{freq}(x, y) = n(x, y)$ and $\operatorname{discr}(x, y) = \operatorname{PMI}(x, y)$. It makes sense to set the frequency to 1 for PMI and PosPMI as both of them already have the co-occurrence information.
+
+% ITTF is a counterpart of IDF in TF-IDF. We define ITTF as
+% \begin{equation}
+%   \small
+%   \label{eq:ittf}
+%   \operatorname{ITTF}(y) = \log\frac{|W|}{|\{w \in W: n(w, y) > 0\}|}
+% \end{equation}
+% where $W$ is the set of all words used in a corpus. Whereas PMI depends on both the target word and the feature word, ITTF depends only on the feature, therefore $\operatorname{discr}(x, y) = \operatorname{ITTF}(y)\ \text{for all targets}\ x$.
+
+%  Table~\ref{fig:association-measures} shows the quantification measures discussed in this paper.
+
+% \begin{table}[ht]
+%   \centering
+%   \begin{tabular}{rccc}
+%     \toprule
+%     \multirow{2}{*}{Frequency} &
+%     \multicolumn{3}{c}{Discriminativeness} \\
+%     \cmidrule(r){2-4}
+%                   & PMI        & PosPMI     & ITTF       \\
+%     \midrule
+%     $1$                 & \checkmark & \checkmark &            \\
+%     $\log(n)$           & \checkmark & \checkmark & \checkmark \\
+%     $n$                 & \checkmark & \checkmark & \checkmark \\
+%     \bottomrule
+%   \end{tabular}
+%   \caption{\textbf{Quantifications studied in this work.}
+%     %Quantification is a combination of frequency and discriminativeness.
+%   }
+%   \label{fig:association-measures}
+% \end{table}
+
+% TODO: Needs attention!
+From the probabilistic point of view, under the independence assumption of two words occurring together, \NPMI/ can be seen as measuring the logarithm of the ratio of the probabilities of groups of length $n$ (the group that contains only $(x,y)$s and another one that contains $x$s and $y$s):
+%
+\begin{equation*}
+  n\log\frac{P(x, y)}{P(x)P(y)} = \log\frac{P(x, y)^{n}}{P(x)^{n}P(y)^{n}}
+\end{equation*}
+%
+When the constant 1 is used as the frequency component, it is equivalent to the subsumption assumption, when the probability of a sequence depends only on what elements it contains, rather than how many of them.
+
+From the geometric point of view, the transformation from \PMI/ to \NPMI/ changes the directions of vectors by pulling the vectors towards the dimensions for which $n(x, y)$ is higher. As a side effect, it also stretches the vectors. The importance of these two effects is discussed later in Section~\ref{sec:similarity-measures}.
+
+From the linguistic perspective, \PMI/ captures a tendency of a word to co-occur with another word in general (captured by the direction of a vector), while \NPMI/ captures the expectation of seeing a particular co-occurrence in the source corpus. This is encoded in both the direction and the length of a vector.
+
+The sublinear frequency\footnote{We increment $n$ by one to avoid an infinite logarithm value when $n$ is 0.} $\log(n)$ stands between the two extreme cases of independence and subsumption. However, it is still a strong assumption as it treats all word pairs equally, but in natural language there are some pairs that are closer to subsumption and others that are closer to independence.
+
+% TODO: examples.
+% subsumption: expressions, e.g. prima facie
+% independence: determiners and prepositions
+
+In our case, the constant frequency is the only association measure that is able to distinguish from the case where a co-occurrence event was not observed (and so according to MLE, $P(x, y)= 0$) and the case where the events are independent ($P(x, y) = P(x)P(y)$). Because for other frequencies, when no co-occurrence is observed the frequency is 0 and the discriminativeness value does not matter unless it is finite. That is why the backing off strategy already mentioned in \todo{check}Section~\ref{sec:background}, ``when $n(x, y) = 0$ assume that $P(x, y) = P(x)P(y)$'', is an appropriate way of avoiding $-\infty$. There are many other smoothing strategies, for example \newcite{kneser1995improved,bengio2006}.
+
+\section{Model parameters}
+\label{sec:other-model-paramt}
+
+\subsection{Vector dimensionality ($D$)}
+\label{sec:vect-dimens}
+
+As context words we select the 1K, 2K, 3K, 5K, 10K, 20K, 30K, 40K and 50K most frequent lemmatised nouns, verbs, adjectives and adverbs. All context words are part of speech tagged, but we do not distinguish between refined word types (e.g.~intransitive vs.~transitive versions of verbs).
+
+\subsection{Similarity measure}
+\label{sec:similarity-measure}
+
+To be able to measure the similarity of two words, we need to be able to compare their vectors. A very high-level approach is to look how two words agree on the features. If two word vectors tend to have equal values for most of the components, then this is a good indication of the similarity of the words they represent.
+
+The cosine of the angle between two vectors is a widely used similarity measure in distributional semantics \cite{Turney:2010:FMV:1861751.1861756,lapesa2014large}.
+%
+\begin{equation*}
+  \label{eq:cos}
+  \cos(\vec{x}, \vec{y}) = \frac{\vec{x} \cdot \vec{y}}
+                                {\|\vec{x}\| \|\vec{y}\|}
+\end{equation*}
+
+However, the inner product $\vec{x} \cdot \vec{y}$ is preferred in IR and current state-of-the-art NLP systems \cite{mikolov2013distributed,mikolov2013linguistic,TACL570}. Cosine is equivalent to the inner product if the vectors are Euclidean ($L_2$) normalized.
+
+Euclidean normalization removes the effect of vector lengths, emphasizing instead their directions. Thus, remembering that vector length depends on overall frequency, linguistically we have two measures, cosine that is concerned with a similarity, and inner product which also reflects word frequency or expectation factors.
+
+An advantage of cosine in a lexical similarity task is that it does not depend on the word frequency. Imagine a case where the similarity of a frequent and a rare word is calculated. In this situation, the similarity judgement should not depend on the relative frequency of the words; instead, their tendency of agreement on features should take the dominant role.
+
+For example, \NPMI/ makes ``feature selection'' by weighting PMI values with the co-occurrence frequency as discussed \todo{Make sure that the stretching effect is discussed}previously. When cosine is applied, the stretching effect of \NPMI/ is eliminated, but the rotation effect stays. On average, the rotational effect will be much more significant for rare words, while frequent words are more likely to be stretched.
+
+\section{Model selection}
+\label{sec:model-select}
+
+\todo[inline]{Motivate parameter selection procedure}
+
+\cite{kiela-clark:2014:CVSC,lapesa2014large}
+
+\section{Compositional operator}
+\label{sec:comp-oper}
+
+\todo[inline]{Compositional operators}
 
 %%% Local Variables:
 %%% mode: latex

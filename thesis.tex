@@ -8,7 +8,7 @@
 \usepackage{fontspec}
 \defaultfontfeatures{Ligatures=TeX}
 \usepackage{sectsty}
-\allsectionsfont{\normalfont}
+\allsectionsfont{\normalfont\scshape}
 \paragraphfont{\bfseries}
 \setmainfont[
 BoldFont=texgyrepagella-bold.otf,
@@ -24,7 +24,7 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 \usepackage{multirow}
 \usepackage{paralist}
 \usepackage[parfill]{parskip}
-\usepackage{todonotes}
+\usepackage[colorinlistoftodos,prependcaption,textsize=footnotesize]{todonotes}
 \usepackage{wrapfig}
 
 \usepackage{csquotes}
@@ -54,7 +54,8 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 % \title{Bringing Semantics to NLP Tasks Using Categorical Composition}
 % \title{Scaling Up Distributional Semantics to Real World NLP Tasks Using Categorical Composition}
 % \title{The Role of Computers in Understanding Natural Language}
-\title{What Computers Should Know about Texts}
+% \title{What Computers Should Know about Texts}
+\title{Robust methodology for measuring word and sentence similarity and relevance with distributional semantic models}
 \author{Dmitrijs Milajevs}
 % \affil{Queen Mary University of London}
 
@@ -71,15 +72,32 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
   pdfauthor={Dmitrijs Milajevs},
 }
 
+\bibpunct{\textcolor{citecolor}{(}}{\textcolor{citecolor}{)}}{\textcolor{citecolor}{,}}{\textcolor{citecolor}{a}}{}{\textcolor{citecolor}{;}}
+
 \DeclareMathOperator{\my-c}{count}
 \newcommand{\ov}{\overrightarrow}
 
 \newcommand\newcite\citet
 \renewcommand\cite\citep
 
+\def\PMI/{$\operatorname{1PMI}$}
+\def\SPMI/{$\operatorname{1SPMI}$}
+\def\CPMI/{$\operatorname{1CPMI}$}
+\def\SCPMI/{$\operatorname{1SCPMI}$}
+
+\def\NPMI/{$\operatorname{nPMI}$}
+\def\NSPMI/{$\operatorname{nSPMI}$}
+\def\NCPMI/{$\operatorname{nCPMI}$}
+\def\NSCPMI/{$\operatorname{nSCPMI}$}
+
+\def\logNPMI/{$\operatorname{lognPMI}$}
+\def\logNSPMI/{$\operatorname{lognSPMI}$}
+\def\logNCPMI/{$\operatorname{lognCPMI}$}
+\def\logNSCPMI/{$\operatorname{lognSCPMI}$}
+
 \begin{document}
-% \maketitle
-% \addtocounter{page}{1}
+\maketitle
+\addtocounter{page}{1}
 
 % \input{statement_of_originality}\cleardoublepage
 
