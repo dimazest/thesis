@@ -1,0 +1,68 @@
+\begin{figure*}
+  \centering
+  \tiny
+  \begin{tabular}{lllllllllll}
+    \toprule
+    \multicolumn{3}{c}{Query} &
+    \multicolumn{3}{c}{Document} &
+    \multirow{2}{*}{Method} &
+    \multicolumn{3}{c}{Relevance} &
+    Diverse
+    % \multirow{2}{*}{Diverse query}
+    \\
+    \cmidrule(r){1-3} \cmidrule(r){4-6} \cmidrule(r){8-10}
+    Subject  & Verb & Object   & Subject  & Verb   & Object & &
+    Mean & Std. & Type & query \\
+    \midrule
+    delegate & buy  & land     & agent    & sell      & property & emnlp13 &
+    1.33 & 1.53 & strict & false  \\
+    agent & sell & property &
+    delegate       & buy       & land       & emnlp13       &
+    2.00  & 1.00 & strict & false \\
+
+    agent & sell & property &
+    representative & exchange  & possession & wordnet:hyper &
+    1.00  & 1.73 & N/A & false    \\
+
+    agent & sell & property &
+    deputy         & trade     & estate     & wordnet:hypo  &
+    1.00  & 0.00 & loose & false  \\
+
+    agent & sell & property &
+    people         & buy       & home       & frequency:0   &
+    1.33  & 1.53 & strict & false \\
+
+    agent & sell & property &
+    company        & offer     & product    & frequency:1   &
+    -2.00 & 1.73 & N/A & false    \\
+
+    agent & sell & property &
+    people         & advertise & product    & frequency:2   &
+    -2.00 & 1.00 & N/A & false    \\
+
+    agent & sell & property &
+    family         & buy       & home       & selection     &
+    -1.33 & 1.53 & N/A & false    \\
+
+    agent & sell & property &
+    company        & specify   & need       & selection     &
+    -3.00 & 0.00 & N/A & false    \\
+
+    agent & sell & property &
+    people         & represent & set        & selection     &
+    -3.00 & 0.00 & N/A & false    \\
+
+    student & acquire & skill &
+    student        & gain      & experience & selection     &
+    2.00    & 1.00 & strict & true \\
+  \bottomrule
+  \end{tabular}
+  \caption{\textbf{Query--document pairs.}}
+  \label{fig:emnlp-pairing}
+\end{figure*}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../thesis"
+%%% End:

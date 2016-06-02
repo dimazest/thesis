@@ -8,13 +8,15 @@
 \usepackage{fontspec}
 \defaultfontfeatures{Ligatures=TeX}
 \usepackage{sectsty}
-\allsectionsfont{\normalfont\scshape}
-\paragraphfont{\bfseries}
+\allsectionsfont{\normalfont\sffamily}
+% \paragraphfont{\bfseries}
 \setmainfont[
 BoldFont=texgyrepagella-bold.otf,
 ItalicFont=texgyrepagella-italic.otf,
 BoldItalicFont=texgyrepagella-bolditalic.otf]
 {texgyrepagella-regular.otf}
+
+\setsansfont{Transport Heavy.ttf}
 
 \usepackage[round,sort]{natbib}
 
@@ -94,6 +96,12 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 \def\logNSPMI/{$\operatorname{lognSPMI}$}
 \def\logNCPMI/{$\operatorname{lognCPMI}$}
 \def\logNSCPMI/{$\operatorname{lognSCPMI}$}
+
+\newcommand{\BASEURL}{http://www.eecs.qmul.ac.uk/~dm303/}
+\newcommand{\dataurl}[1]{\href{\BASEURL/#1}{\nolinkurl{#1}}}
+
+\def\emnlp/{\textit{KS2014}}
+
 
 \begin{document}
 \maketitle
