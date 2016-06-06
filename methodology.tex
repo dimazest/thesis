@@ -1,12 +1,18 @@
-\chapter{Experimental methodology}
+\chapter{Robust parameter selection}
 \label{sec:methodology}
 
-\todo[inline]{Motivate experimental setup}
+Co-occurrence based vector space models include many parameters \cite{Turney:2010:FMV:1861751.1861756,kiela-clark:2014:CVSC,TACL570}. The most important parameters are co-occurrence quantification, which is discussed in Section~\ref{sec:quantification}, vector space dimensionality (Section~\ref{sec:vect-dimens}), similarity measure (Section~\ref{sec:similarity-measure}) and compositional operator (Section~\ref{sec:comp-oper}).
+
+Model performance is very sensitive to parameter selection.
+
+\todo[]{Illustrate model sensitivity on dimensionality. 2K to 3K.}
+
+Section~\ref{sec:model-select} describes a parameter selection procedure that is robust to parameter overfitting and produces a set of heuristics that is can be used by others.
 
 \section{Co-occurrence quantification}
-\label{sec:parameters}
+\label{sec:quantification}
 
-\subsection{PMI variants (\texttt{discr})}
+\subsection{PMI variants (discr)}
 \label{sec:pmi-variants}
 
 Most co-occurrence weighting schemes in distributional semantics are based on \emph{point-wise mutual information} (PMI, Equation~\ref{eq:pmi}, \newcite{J90-1003,Turney:2010:FMV:1861751.1861756,NIPS2014_5477}).
@@ -16,8 +22,7 @@ Most co-occurrence weighting schemes in distributional semantics are based on \e
   \operatorname{PMI}(x, y) = \log\frac{P(x,y)}{P(x)P(y)}
 \end{equation}
 %
-PMI in its raw form is problematic: non-observed co-occurrences lead to infinite PMI values, making it impossible to compute similarity. A common ``fix'' to this problem is to replace all infinities with zeroes, and we use PMI hereafter to refer to a weighting with this fix.
-\todo[inline]{Look at the early versions of the ``IR inspired co-occurrence quantification'' paper for the effect of replacing infinities with zeros.}
+PMI in its raw form is problematic: non-observed co-occurrences lead to infinite PMI values, making it impossible to compute similarity. A common ``fix'' to this problem is to replace all infinities with zeroes, and we use PMI hereafter to refer to a weighting with this fix, refer to Section~\ref{sec:quantification-measures} for a discussion.
 
 An alternative solution is to increment the probability ratio by 1; we refer to this as \textit{compressed PMI} (CPMI):
 %
@@ -26,7 +31,7 @@ An alternative solution is to increment the probability ratio by 1; we refer to 
   \operatorname{CPMI}(x, y) = \log\Big( 1 + \frac{P(x,y)}{P(x)P(y)} \Big)
 \end{equation}
 
-\subsection{Shifted PMI (\texttt{neg})}
+\subsection{Shifted PMI (neg)}
 \label{sec:shifted-pmi}
 
 Many approaches use only \emph{positive} PMI values, as  negative PMI values may not positively contribute to model performance \cite{Turney:2010:FMV:1861751.1861756}. This can be generalised to an additional cutoff parameter $k$ (\texttt{neg}) following \newcite{TACL570}, giving our third PMI variant (abbreviated as SPMI):
@@ -43,7 +48,7 @@ We can apply the same idea to CPMI:
   \operatorname{SCPMI_k} = \max (0, \operatorname{CPMI}(x, y) - \log 2k)
 \end{equation}
 
-\subsection{Frequency weighting (\texttt{freq})}
+\subsection{Frequency weighting (freq)}
 \label{sec:frequency-weighting}
 
 Another issue with PMI is its bias towards rare events \cite{TACL570}; one way of solving this issue is to weight the value by the co-occurrence frequency \cite{Evert05}:
@@ -57,7 +62,7 @@ where $n(x, y)$ is the number of times $x$ was seen together with $y$. For clari
 
 In addition to the extreme $1$ and $n$ weightings, we also experiment with a \todo{Look into the ``Inspired IR'' paper for the discussion of $\log n$}$\log n$ weighting.
 
-\subsection{Context distribution smoothing (\texttt{cds})}
+\subsection{Context distribution smoothing (cds)}
 \label{sec:cont-distr-smooth}
 
 \newcite{TACL570} show that performance is affected by smoothing the context distribution $P(x)$:
@@ -129,22 +134,18 @@ From the probabilistic point of view, under the independence assumption of two w
 %
 When the constant 1 is used as the frequency component, it is equivalent to the subsumption assumption, when the probability of a sequence depends only on what elements it contains, rather than how many of them.
 
-From the geometric point of view, the transformation from \PMI/ to \NPMI/ changes the directions of vectors by pulling the vectors towards the dimensions for which $n(x, y)$ is higher. As a side effect, it also stretches the vectors. The importance of these two effects is discussed later in Section~\ref{sec:similarity-measures}.
+From the geometric point of view, the transformation from \PMI/ to \NPMI/ changes the directions of vectors by pulling the vectors towards the dimensions for which $n(x, y)$ is higher. As a side effect, it also stretches the vectors. The importance of these two effects is discussed later in Section~\ref{sec:similarity-measure}.
 
 From the linguistic perspective, \PMI/ captures a tendency of a word to co-occur with another word in general (captured by the direction of a vector), while \NPMI/ captures the expectation of seeing a particular co-occurrence in the source corpus. This is encoded in both the direction and the length of a vector.
 
 The sublinear frequency\footnote{We increment $n$ by one to avoid an infinite logarithm value when $n$ is 0.} $\log(n)$ stands between the two extreme cases of independence and subsumption. However, it is still a strong assumption as it treats all word pairs equally, but in natural language there are some pairs that are closer to subsumption and others that are closer to independence.
 
-% TODO: examples.
-% subsumption: expressions, e.g. prima facie
-% independence: determiners and prepositions
+In our case, the constant frequency is the only association measure that is able to distinguish from the case where a co-occurrence event was not observed (and so according to MLE, $P(x, y)= 0$) and the case where the events are independent ($P(x, y) = P(x)P(y)$). Because for other frequencies, when no co-occurrence is observed the frequency is 0 and the discriminativeness value does not matter unless it is finite. That is why the backing off strategy already mentioned in Section~\ref{sec:pmi-variants}, ``when $n(x, y) = 0$ assume that $P(x, y) = P(x)P(y)$'' is an appropriate way of avoiding $-\infty$. There are many other smoothing strategies, for example \newcite{kneser1995improved,bengio2006}.
 
-In our case, the constant frequency is the only association measure that is able to distinguish from the case where a co-occurrence event was not observed (and so according to MLE, $P(x, y)= 0$) and the case where the events are independent ($P(x, y) = P(x)P(y)$). Because for other frequencies, when no co-occurrence is observed the frequency is 0 and the discriminativeness value does not matter unless it is finite. That is why the backing off strategy already mentioned in \todo{check}Section~\ref{sec:background}, ``when $n(x, y) = 0$ assume that $P(x, y) = P(x)P(y)$'', is an appropriate way of avoiding $-\infty$. There are many other smoothing strategies, for example \newcite{kneser1995improved,bengio2006}.
-
-\section{Model parameters}
+\section{Other model parameters}
 \label{sec:other-model-paramt}
 
-\subsection{Vector dimensionality ($D$)}
+\subsection{Vector dimensionality (D)}
 \label{sec:vect-dimens}
 
 As context words we select the 1K, 2K, 3K, 5K, 10K, 20K, 30K, 40K and 50K most frequent lemmatised nouns, verbs, adjectives and adverbs. All context words are part of speech tagged, but we do not distinguish between refined word types (e.g.~intransitive vs.~transitive versions of verbs).
@@ -170,17 +171,23 @@ An advantage of cosine in a lexical similarity task is that it does not depend o
 
 For example, \NPMI/ makes ``feature selection'' by weighting PMI values with the co-occurrence frequency as discussed \todo{Make sure that the stretching effect is discussed}previously. When cosine is applied, the stretching effect of \NPMI/ is eliminated, but the rotation effect stays. On average, the rotational effect will be much more significant for rare words, while frequent words are more likely to be stretched.
 
-\section{Model selection}
-\label{sec:model-select}
-
-\todo[inline]{Motivate parameter selection procedure}
-
-\cite{kiela-clark:2014:CVSC,lapesa2014large}
-
-\section{Compositional operator}
+\subsection{Compositional operator}
 \label{sec:comp-oper}
 
 \todo[inline]{Compositional operators}
+
+\section{Model selection}
+\label{sec:model-select}
+
+Experiments answer two questions:
+\begin{compactitem}
+\item What the parameter combination gives the highest result, but is not overfitted?
+\item What parameter instance is superior, for example is Kronecker better than addition as a compositional operator?
+\end{compactitem}
+
+
+\cite{kiela-clark:2014:CVSC,lapesa2014large}
+
 
 %%% Local Variables:
 %%% mode: latex
