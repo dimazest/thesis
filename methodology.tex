@@ -179,15 +179,27 @@ For example, \NPMI/ makes ``feature selection'' by weighting PMI values with the
 \section{Model selection}
 \label{sec:model-select}
 
-Experiments answer two questions:
+
+Experiments with distributional vector space models can be divided to two related categories: the ones that aim to achieve the highest score on a task and the ones that study the difference between certain parameters. Given a parameter space described in Sections~\ref{sec:quantification} and \ref{sec:other-model-paramt} the difference between the two categories can be expressed as the following questions:
+%
 \begin{compactitem}
-\item What the parameter combination gives the highest result, but is not overfitted?
-\item What parameter instance is superior, for example is Kronecker better than addition as a compositional operator?
+\item What parameter combination gives the highest result?
+\item What parameter instance is superior? For example, is Kronecker better than addition as a compositional operator?
 \end{compactitem}
 
+The first question is applicable in the situation when a method based on distribution hypothesis is tested for modeling similarity as opposed to a conceptually different method, for example, ontological information. The second question is applicable to study the difference of parameters within a conceptual method.
 
-\cite{kiela-clark:2014:CVSC,lapesa2014large}
+Looking for an optimal \emph{single} parameter combination is dangerous because it can be easily overfitted. In such a large space of parameters, there will some that give high results by chance capturing idiosyncrasies of the dataset. Instead, once could look for tendencies to build recommendations for parameter selection as in \newcite{kiela-clark:2014:CVSC}, or even fit a general linear model to predict model performance \cite{lapesa2014large}.
 
+Not all parameters are equal from the vector space design point of view. For example, dimensionality choice might be dependent on the computation power that is available, while compositional operator choice might be dependant on the semantic theory used.
+
+Also, parameters have difference influence to the performance of the whole model, for example, the choice of compositional operator might influence model performance far more dramatically than the choice of underlying co-occurrence probability estimation.
+
+To take into account these considerations, we propose study the variance of model performance for a given parameter instances: for example, smoothed and unsmoothed probabilities.
+
+The parameter selection, then, can greedy, by looking to the behaviour of all parameters and choosing the ones that have the highest upper bound of the confidence interval.
+
+Alternatively, the parameter selection can be consecutive, by choosing the parameter with the highest \todo{elaborate}$R2$ scores first.
 
 %%% Local Variables:
 %%% mode: latex

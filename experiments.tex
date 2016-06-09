@@ -1,41 +1,38 @@
-
 \chapter{Intrinsic experiments}
 \label{cha:experiments}
 
+% \section{Similarity and relatedness of words}
+% \label{sec:lexical}
 
+% Table~\ref{tab:parameters} lists parameters and their values. As the source corpus we use the concatenation of Wackypedia and ukWaC \cite{ukwac} with a symmetric 5-word window \cite{milajevs-EtAl:2014:EMNLP2014}; our evaluation metric is the correlation with human judgements as is standard with SimLex \cite{hill2014simlex}. We derive our parameter selection heuristics by greedily selecting parameters (\texttt{cds}, \texttt{neg}) that lead to the highest average performance for each combination of frequency weighting, PMI variant and dimensionality $D$. Figures~\ref{fig:interaction-cds} and \ref{fig:interaction-neg} show the interaction of \texttt{cds} and \texttt{neg} with other parameters. We also vary the similarity measure (cosine and correlation  \cite{kiela-clark:2014:CVSC}), but do not report results here due to space limits.
 
-\section{Similarity and relatedness of words}
-\label{sec:lexical}
+% \input{figures/parameters}
 
-Table~\ref{tab:parameters} lists parameters and their values. As the source corpus we use the concatenation of Wackypedia and ukWaC \cite{ukwac} with a symmetric 5-word window \cite{milajevs-EtAl:2014:EMNLP2014}; our evaluation metric is the correlation with human judgements as is standard with SimLex \cite{hill2014simlex}. We derive our parameter selection heuristics by greedily selecting parameters (\texttt{cds}, \texttt{neg}) that lead to the highest average performance for each combination of frequency weighting, PMI variant and dimensionality $D$. Figures~\ref{fig:interaction-cds} and \ref{fig:interaction-neg} show the interaction of \texttt{cds} and \texttt{neg} with other parameters. We also vary the similarity measure (cosine and correlation  \cite{kiela-clark:2014:CVSC}), but do not report results here due to space limits.
+% \subsection{MEN}
+% \label{sec:men}
 
-\input{figures/parameters}
+% \subsection{SimLex-999}
+% \label{sec:simlex-999}
 
-\subsection{MEN}
-\label{sec:men}
+% \section{Similarity of sentences}
+% \label{sec:sentential}
 
-\subsection{SimLex-999}
-\label{sec:simlex-999}
+% \subsection{GS11}
+% \label{sec:gs11}
 
-\section{Similarity of sentences}
-\label{sec:sentential}
+% \subsection{GS12}
+% \label{sec:gs12}
 
-\subsection{GS11}
-\label{sec:gs11}
+% \subsection{KS14}
+% \label{sec:ks14}
 
-\subsection{GS12}
-\label{sec:gs12}
+% \subsubsection{Tweaked IR evaluation}
+% \label{sec:tweak-ir-eval}
 
-\subsection{KS14}
-\label{sec:ks14}
+% \todo[inline]{Discuss \cite{Milajevs:2015:IMN:2808194.2809448} and link to \ref{sec:phraserel}}
 
-\subsubsection{Tweaked IR evaluation}
-\label{sec:tweak-ir-eval}
-
-\todo[inline]{Discuss \cite{Milajevs:2015:IMN:2808194.2809448} and link to \ref{sec:phraserel}}
-
-\section{PhraseRel: relevance of sentences}
-\label{sec:sentential-relevance}
+% \section{PhraseRel: relevance of sentences}
+% \label{sec:sentential-relevance}
 
 %%% Local Variables:
 %%% mode: latex
