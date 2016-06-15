@@ -1,13 +1,54 @@
 \chapter{Robust parameter selection}
 \label{sec:methodology}
 
-Co-occurrence based vector space models include many parameters \cite{Turney:2010:FMV:1861751.1861756,kiela-clark:2014:CVSC,TACL570}. The most important parameters are co-occurrence quantification, which is discussed in Section~\ref{sec:quantification}, vector space dimensionality (Section~\ref{sec:vect-dimens}), similarity measure (Section~\ref{sec:similarity-measure}) and compositional operator (Section~\ref{sec:comp-oper}).
+% Co-occurrence based vector space models include many parameters \cite{Turney:2010:FMV:1861751.1861756,kiela-clark:2014:CVSC,TACL570}. The most important parameters are co-occurrence quantification, which is discussed in Section~\ref{sec:quantification}, vector space dimensionality (Section~\ref{sec:vect-dimens}), similarity measure (Section~\ref{sec:similarity-measure}) and compositional operator (Section~\ref{sec:comp-oper}).
 
-Model performance is very sensitive to parameter selection.
+% Because model performance is very sensitive to parameter selection, \todo[]{Illustrate model sensitivity on dimensionality. 2K to 3K.} we begin with the description of a parameter selection technique in Sections~\ref{sec:model-select} and \ref{sec:other-model-paramt} and then describe the parameters in Section~\ref{sec:parameters} that are used in the experiments (Chapters~\ref{cha:experiments} and \ref{cha:extr-exper}).
 
-\todo[]{Illustrate model sensitivity on dimensionality. 2K to 3K.}
+% \section{Problems with model selection}
+% \label{sec:model-select}
 
-Section~\ref{sec:model-select} describes a parameter selection procedure that is robust to parameter overfitting and produces a set of heuristics that is can be used by others.
+Experiments with distributional vector space models can be divided to two related categories: the ones that aim to achieve the highest score on a task and the ones that study the difference between certain parameters. Given a parameter space described in Sections~\ref{sec:quantification} and \ref{sec:other-model-paramt} the difference between the two categories can be expressed as the following questions:
+%
+\begin{compactitem}
+\item What parameter combination gives the highest result?
+\item What parameter instance is superior? For example, is Kronecker better than addition as a compositional operator?
+\end{compactitem}
+
+The first question is applicable in a situation when a method based on distribution hypothesis is tested for modeling similarity as opposed to a conceptually different method, for example, ontological information. The second question is applicable to study the difference of parameters within a conceptual method.
+
+Looking for an optimal \emph{single best} parameter combination is dangerous because it can be easily overfitted. In such a large space of parameters, there will some that give high results by chance capturing idiosyncrasies of the dataset. Instead, once could look for tendencies to build recommendations for parameter selection as in \newcite{kiela-clark:2014:CVSC}, or even fit a general linear model to predict model performance \cite{lapesa2014large} and avoid overfitting.
+
+Not all parameters are equal from the vector space design point of view. For example, dimensionality choice might be dependent on the computation power that is available, while compositional operator choice might be dependant on the semantic theory used.
+
+Also, parameters have different influence to the performance of the whole model, for example, the choice of compositional operator might influence model performance far more dramatically than the choice of underlying co-occurrence probability estimation.
+
+To take into account these considerations, we propose to study the variance of model performance for given parameter instances: for example, smoothed and unsmoothed probabilities.
+
+The parameter selection, then, can greedy, by looking to the behaviour of all parameters and choosing the ones that have the highest upper bound of the confidence interval. Alternatively, the parameter selection can be consecutive, by choosing the parameter with the highest effect.
+
+We contrast this \emph{heuristic} based model selection with two other methods: a method based on the best parameter selection and cross-validation.
+
+\section{Model selection methods}
+\label{sec:model-select-meth}
+
+\subsection{Best model}
+
+This parameter selection technique chooses the parameters that yield best result for all operator-dimension combinations.
+
+This method is widely adopted \cite{mitchell-lapata:2008:ACLMain,Grefenstette:2011:ESC:2145432.2145580,milajevs-purver:2014:CVSC,milajevs-EtAl:2014:EMNLP2014}, but as previously discussed is prone to overfitting.
+
+\subsection{Cross-validation}
+
+Cross-validation is similar, but the parameter selection is done on the average performance of the training splits over 5 folds. We report the average performance over the testing splits.
+
+Cross-validation avoids overfitting, but its performance results are not compatible with the best model selection, because they are based on averages over the folds. Also, the existing datasets are not made with such evaluation in mind.
+
+\subsection{Heuristics}
+
+This parameter selection is based on parameter selection based on their average behaviour. We look for the average parameter performance for the each dimensionality (for lexical experiments) or operator-dimensionality combination (for compositional experiments) and choose the parameter value with the highest upper bound of the 0.95 confidence interval.
+
+This method not only avoids overfitting but also yields evaluation results that are comparable with the best-model reports.
 
 \section{Co-occurrence quantification}
 \label{sec:quantification}
@@ -176,30 +217,6 @@ For example, \NPMI/ makes ``feature selection'' by weighting PMI values with the
 
 \todo[inline]{Compositional operators}
 
-\section{Model selection}
-\label{sec:model-select}
-
-
-Experiments with distributional vector space models can be divided to two related categories: the ones that aim to achieve the highest score on a task and the ones that study the difference between certain parameters. Given a parameter space described in Sections~\ref{sec:quantification} and \ref{sec:other-model-paramt} the difference between the two categories can be expressed as the following questions:
-%
-\begin{compactitem}
-\item What parameter combination gives the highest result?
-\item What parameter instance is superior? For example, is Kronecker better than addition as a compositional operator?
-\end{compactitem}
-
-The first question is applicable in the situation when a method based on distribution hypothesis is tested for modeling similarity as opposed to a conceptually different method, for example, ontological information. The second question is applicable to study the difference of parameters within a conceptual method.
-
-Looking for an optimal \emph{single} parameter combination is dangerous because it can be easily overfitted. In such a large space of parameters, there will some that give high results by chance capturing idiosyncrasies of the dataset. Instead, once could look for tendencies to build recommendations for parameter selection as in \newcite{kiela-clark:2014:CVSC}, or even fit a general linear model to predict model performance \cite{lapesa2014large}.
-
-Not all parameters are equal from the vector space design point of view. For example, dimensionality choice might be dependent on the computation power that is available, while compositional operator choice might be dependant on the semantic theory used.
-
-Also, parameters have difference influence to the performance of the whole model, for example, the choice of compositional operator might influence model performance far more dramatically than the choice of underlying co-occurrence probability estimation.
-
-To take into account these considerations, we propose study the variance of model performance for a given parameter instances: for example, smoothed and unsmoothed probabilities.
-
-The parameter selection, then, can greedy, by looking to the behaviour of all parameters and choosing the ones that have the highest upper bound of the confidence interval.
-
-Alternatively, the parameter selection can be consecutive, by choosing the parameter with the highest \todo{elaborate}$R2$ scores first.
 
 %%% Local Variables:
 %%% mode: latex
