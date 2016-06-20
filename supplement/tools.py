@@ -13,7 +13,7 @@ def read_results(f_name='results_all.csv'):
 
     columns = [
         c for c in all_results.columns
-        if c not in ('fold_label', 'men', 'SimLex999', 'emnlp2013_turk', 'gs2011')
+        if c not in ('fold_label', 'men', 'SimLex999', 'KS14', 'GS11')
     ]
 
     all_results.loc[:, 'fold_label'].fillna('max', inplace=True)
@@ -67,6 +67,7 @@ def cross_validation(*others):
 
     return cross_validation
 
+
 def _selection_plot(results, selection_type, dataset):
     for hue in (
             'freq',
@@ -88,7 +89,7 @@ def _selection_plot(results, selection_type, dataset):
                 'discr': ('pmi', 'cpmi', 'spmi', 'scpmi'),
             }[hue],
             col='operator',
-            col_order=('add', 'head', 'mult', 'kron') if dataset in ('emnlp_2013', ) else ['head'],
+            col_order=('head', 'add', 'mult', 'kron') if dataset in ('KS14', 'GS11') else ['head'],
             size=3,
             aspect=1.6,
         )
@@ -104,38 +105,55 @@ def plot_selection(results, dataset, selector_function):
     )
     selection['selection'] = selector_function.__name__
 
-    _selection_plot(selection, selection_type='max', dataset=dataset)
+    _selection_plot(selection, selection_type=selector_function.__name__, dataset=dataset)
 
     return selection
 
 
 def plot_interaction(data, hue, dataset_name):
     g = sns.factorplot(
-        data=data['max'].reset_index(),
+        data=data.reset_index(),
         y=dataset_name,
         x='dimensionality',
         hue=hue,
         hue_order={
             'cds': ('global', '1', '0.75'),
-            'neg': (0.2, 0.5, 0.7, 1, 1.4, 2, 5, 7, 'N/A'),
-            'similarity': ('cos', 'correlation'),
+            'neg': (
+                0.2,
+                0.5,
+                0.7,
+                1,
+                1.4,
+                2,
+                5,
+                7,
+                'N/A',
+            ),
+            'similarity': ('cos', 'correlation', 'inner_product'),
             'freq': ('1', 'n', 'logn'),
             'discr': ('pmi', 'cpmi', 'spmi', 'scpmi'),
         }[hue],
         size=3,
         aspect=1.6,
-        # sharey=False,
+        sharey=False,
         dodge=0.3,
+        col='operator',
+        col_order=('head', 'add', 'mult', 'kron') if dataset_name in ('KS14', 'GS11') else ['head'],
     )
 
     g.fig.savefig('figures/{}-interaction-{}.pdf'.format(dataset_name, hue))
 
 
-def plot_parameter_selection_comparison(results, original_dataset, other_dataset=None, ax=None):
+def plot_parameter_selection_comparison(results, original_dataset, other_dataset=None, ax=None, operator=None):
     other_dataset = other_dataset or original_dataset
 
+    results = pd.concat(results)
+
+    if operator is not None:
+        results = results.loc[operator]
+
     g = sns.pointplot(
-        data=pd.concat(results),
+        data=results,
         y=other_dataset,
         x='dimensionality',
         # col='operator',
