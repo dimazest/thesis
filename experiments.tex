@@ -1,34 +1,65 @@
 \chapter{Intrinsic experiments}
 \label{cha:experiments}
 
-% \section{Similarity and relatedness of words}
-% \label{sec:lexical}
+\section{Similarity and relatedness of words}
+\label{sec:lexical}
 
 % Table~\ref{tab:parameters} lists parameters and their values. As the source corpus we use the concatenation of Wackypedia and ukWaC \cite{ukwac} with a symmetric 5-word window \cite{milajevs-EtAl:2014:EMNLP2014}; our evaluation metric is the correlation with human judgements as is standard with SimLex \cite{hill2014simlex}. We derive our parameter selection heuristics by greedily selecting parameters (\texttt{cds}, \texttt{neg}) that lead to the highest average performance for each combination of frequency weighting, PMI variant and dimensionality $D$. Figures~\ref{fig:interaction-cds} and \ref{fig:interaction-neg} show the interaction of \texttt{cds} and \texttt{neg} with other parameters. We also vary the similarity measure (cosine and correlation  \cite{kiela-clark:2014:CVSC}), but do not report results here due to space limits.
 
-% \input{figures/parameters}
+\input{figures/parameters}
+
+\subsection{MEN}
+\label{sec:men}
+
+\subsubsection{Max selection}
+\label{sec:max-selection-men}
+
+\subsubsection{Heuristics}
+\label{sec:heuristics-men}
 
 
-\input{figures/selection-ks14}
+\subsection{SimLex-999}
+\label{sec:simlex-999}
+
+\subsubsection{Max selection}
+\label{sec:max-selection-simlex}
+
+\subsubsection{Heuristics}
+\label{sec:heuristics-simlex}
+
+
+\subsection{Universal parameter selection for lexical datasets}
+\label{sec:Universal-lexical-param-selection}
+
+% SimLex --> Men
+% Men --> SimLex
+% Universal, normalized!
+
+% Idea: find common parameters and take average over one for which there is not agreement. Normalize the result and repeat the heuristics selection?
+
+\section{Similarity of sentences}
+\label{sec:sentential}
+
+\subsection{GS11}
+\label{sec:gs11}
+
 \input{figures/selection-gs11}
-
-% \subsection{MEN}
-% \label{sec:men}
-
-% \subsection{SimLex-999}
-% \label{sec:simlex-999}
-
-% \section{Similarity of sentences}
-% \label{sec:sentential}
-
-% \subsection{GS11}
-% \label{sec:gs11}
 
 % \subsection{GS12}
 % \label{sec:gs12}
 
-% \subsection{KS14}
-% \label{sec:ks14}
+\subsection{KS14}
+\label{sec:ks14}
+
+\input{figures/selection-ks14}
+
+\subsection{Universal parameter selection for compositional datasets}
+\label{sec:robust-param-comp-selecion}
+
+\section{Universal parameter selection for lexical and compositional datasets}
+\label{sec:universal-param-selection}
+
+
 
 % \subsubsection{Tweaked IR evaluation}
 % \label{sec:tweak-ir-eval}
