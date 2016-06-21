@@ -13,7 +13,7 @@ def read_results(f_name='results_all.csv'):
 
     columns = [
         c for c in all_results.columns
-        if c not in ('fold_label', 'men', 'SimLex999', 'KS14', 'GS11')
+        if c not in ('fold_label', 'men', 'SimLex999', 'KS14', 'GS11', 'PhraseRel', 'GS12')
     ]
 
     all_results.loc[:, 'fold_label'].fillna('max', inplace=True)
@@ -89,7 +89,7 @@ def _selection_plot(results, selection_type, dataset):
                 'discr': ('pmi', 'cpmi', 'spmi', 'scpmi'),
             }[hue],
             col='operator',
-            col_order=('head', 'add', 'mult', 'kron') if dataset in ('KS14', 'GS11') else ['head'],
+            col_order=('head', 'add', 'mult', 'kron') if dataset in ('KS14', 'GS11', 'GS12', 'PhraseRel') else ['head'],
             size=3,
             aspect=1.6,
         )
@@ -98,16 +98,22 @@ def _selection_plot(results, selection_type, dataset):
 
 
 def plot_selection(results, dataset, selector_function):
-    selection = (
-        results
-        .groupby(level=['operator', 'dimensionality'])
-        .apply(selector_function, dataset=dataset)
-    )
-    selection['selection'] = selector_function.__name__
+    if not isinstance(selector_function, str):
+        selection = (
+            results
+            .groupby(level=['operator', 'dimensionality'])
+            .apply(selector_function, dataset=dataset)
+        )
+        selection_type = selection['selection'] = selector_function.__name__
 
-    _selection_plot(selection, selection_type=selector_function.__name__, dataset=dataset)
+    else:
+        selection = results
+        selection_type = selector_function
 
-    return selection
+    _selection_plot(selection, selection_type=selection_type, dataset=dataset)
+
+    if not isinstance(selector_function, str):
+        return selection
 
 
 def plot_interaction(data, hue, dataset_name):
