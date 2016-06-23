@@ -4,9 +4,59 @@
 \section{Similarity and relatedness of words}
 \label{sec:lexical}
 
-% Table~\ref{tab:parameters} lists parameters and their values. As the source corpus we use the concatenation of Wackypedia and ukWaC \cite{ukwac} with a symmetric 5-word window \cite{milajevs-EtAl:2014:EMNLP2014}; our evaluation metric is the correlation with human judgements as is standard with SimLex \cite{hill2014simlex}. We derive our parameter selection heuristics by greedily selecting parameters (\texttt{cds}, \texttt{neg}) that lead to the highest average performance for each combination of frequency weighting, PMI variant and dimensionality $D$. Figures~\ref{fig:interaction-cds} and \ref{fig:interaction-neg} show the interaction of \texttt{cds} and \texttt{neg} with other parameters. We also vary the similarity measure (cosine and correlation  \cite{kiela-clark:2014:CVSC}), but do not report results here due to space limits.
+Table~\ref{tab:parameters} lists parameters and their values. As the source corpus we use the concatenation of Wackypedia and ukWaC \cite{ukwac} with a symmetric 5-word window \cite{milajevs-EtAl:2014:EMNLP2014}; the evaluation metric is the correlation with human judgements as is standard with SimLex \cite{hill2014simlex}.
 
-\input{figures/parameters}
+% We derive our parameter selection heuristics by greedily selecting parameters (\texttt{cds}, \texttt{neg}) that lead to the highest average performance for each combination of frequency weighting, PMI variant and dimensionality $D$. Figures~\ref{fig:interaction-cds} and \ref{fig:interaction-neg} show the interaction of \texttt{cds} and \texttt{neg} with other parameters. We also vary the similarity measure (cosine and correlation  \cite{kiela-clark:2014:CVSC}), but do not report results here due to space limits.
+
+\subsection{SimLex-999}
+\label{sec:simlex-999}
+
+\input{figures/SimLex999-results}
+
+\subsubsection{Max selection}
+\label{sec:max-selection-simlex}
+
+Figure~\ref{fig:SimLex999-results} illustrates the results based on the best model selection and Table~\ref{tab:parameters} shows the results together with picked parameters. Note that maximum selection is identical with cross-validation: they pick the same models.
+
+In general model performance increases as the dimensionality increases. However, the best result of 0.389 is achieved with a 2000 dimensional space, this could be an example of overfitting. Model performance becomes changes for dimensions grater than 20000.
+
+For spaces with dimensionality less than 5000 \texttt{freq} 1 and inner product yield best results. Otherwise, cosine with \logNSCPMI/, smoothing $\alpha=0.75$ and shifting $k=0.7$ gives the best results.
+
+\input{figures/SimLex999-max-selection-table.tex}
+
+\subsubsection{Heuristics}
+\label{sec:heuristics-simlex}
+
+\input{figures/SimLex999-ablation.tex}
+
+% \input{figures/SimLex999-interaction.tex}
+
+The linear model achieves an adjusted $R^2$ of 0.867, indicating that the model is able to predict model performance based on parameter selection quite well. Table~\ref{tab:SimLex999-ablation} shows partial $R^2$ scores for parameters. The most influential parameters in decreasing order are similarity, \texttt{freq} and \texttt{neg}.
+
+\input{figures/SimLex999-similarity}
+Figure~\ref{fig:SimLex999-similarity} shows the average performance of similarity measures. Correlation outperforms all other measures for all dimensions and peaks at the dimensionality of 20000.
+
+\input{figures/SimLex999-freq}
+The influence of \texttt{freq}, the second parameter, is shown on Figure~\ref{fig:SimLex999-freq}. $\log n$ frequency outperforms other choices for all dimensions. After 20000 dimensions $\log n$'s performance stabilises.
+
+\input{figures/SimLex999-neg}
+The third parameter \texttt{neg} of 0.7 shows the best performance (Figure~\ref{fig:SimLex999-neg}). However, there is little difference between models with dimensionality grater than 20000, apart from the models that do not perform shifting, whose performance peaks at 20000 dimensions.
+
+\input{figures/SimLex999-discr}
+There is little difference between SPMI and SCPMI performance with a little advantage to SCPMI (Figure~\ref{fig:SimLex999-discr}).
+
+\input{figures/SimLex999-cds}
+Finally, models benefit from context distribution smoothing, spaces with less than 10000 dimensions produce the best results with $\alpha = 1$, for spaces with higher dimensionality $\alpha = 0.75$ is the most advantageous (Figure~\ref{fig:SimLex999-cds}).
+
+\todo[noline]{Contrast or compare results with \cite{milajevs:2016:SRW1}}
+
+\paragraph{Difference with "Max" selection}
+
+\input{figures/SimLex999-heuristics-selection-table}
+
+As expected manual parameter selection is more stable. Both selection models agree on parameters for highly dimensional spaces ($D \geq 2000$), with an exception of similarity: Max selection prefers cosine, while manual prefers correlation based similarity measure. Because of this, manual selection does not pick the best result of the 2000 dimensional model, but at the 50000 dimensions  a model selected manually scores 0.001 lower: 0.384 versus 0.385 as also seen on Figure~\ref{fig:SimLex999-results}.
+
+The average relative difference between Max selection and heuristics is 0.039.
 
 \subsection{MEN}
 \label{sec:men}
@@ -16,16 +66,6 @@
 
 \subsubsection{Heuristics}
 \label{sec:heuristics-men}
-
-
-\subsection{SimLex-999}
-\label{sec:simlex-999}
-
-\subsubsection{Max selection}
-\label{sec:max-selection-simlex}
-
-\subsubsection{Heuristics}
-\label{sec:heuristics-simlex}
 
 
 \subsection{Universal parameter selection for lexical datasets}
@@ -40,6 +80,11 @@
 \section{Similarity of sentences}
 \label{sec:sentential}
 
+\subsection{KS14}
+\label{sec:ks14}
+
+\input{figures/selection-ks14}
+
 \subsection{GS11}
 \label{sec:gs11}
 
@@ -47,11 +92,6 @@
 
 % \subsection{GS12}
 % \label{sec:gs12}
-
-\subsection{KS14}
-\label{sec:ks14}
-
-\input{figures/selection-ks14}
 
 \subsection{Universal parameter selection for compositional datasets}
 \label{sec:robust-param-comp-selecion}
