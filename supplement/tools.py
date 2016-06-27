@@ -235,3 +235,16 @@ def calculate_feature_ablation(responses, predictors, data):
     df.sort_values(df.columns[0], inplace=True)
 
     return df
+
+
+def average_error(max_selection, heuristics_selection, dataset):
+    return np.round(
+        (
+            (
+                max_selection[dataset] -
+                heuristics_selection[dataset]
+            ) /
+            max_selection[dataset]
+        ).dropna().mean(),
+        3
+    )

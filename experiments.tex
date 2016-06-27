@@ -54,7 +54,7 @@ Finally, models benefit from context distribution smoothing, spaces with less th
 
 \input{figures/SimLex999-heuristics-selection-table}
 
-As expected manual parameter selection is more stable. Both selection models agree on parameters for highly dimensional spaces ($D \geq 2000$), with an exception of similarity: Max selection prefers cosine, while manual prefers correlation based similarity measure. Because of this, manual selection does not pick the best result of the 2000 dimensional model, but at the 50000 dimensions  a model selected manually scores 0.001 lower: 0.384 versus 0.385 as also seen on Figure~\ref{fig:SimLex999-results}.
+As expected manual parameter selection is more stable as Table~\ref{tab:Simlex999-heuristics-selection} shows. Both selection models agree on parameters for highly dimensional spaces ($D \geq 2000$), with an exception of similarity: Max selection prefers cosine, while manual prefers correlation based similarity measure. Because of this, manual selection does not pick the best result of the 2000 dimensional model, but at the 50000 dimensions  a model selected manually scores 0.001 lower: 0.384 versus 0.385 as also seen on Figure~\ref{fig:SimLex999-results}.
 
 The average relative difference between Max selection and heuristics is 0.039.
 
@@ -70,9 +70,42 @@ Figure~\ref{fig:SimLex999-results} shows the selection results. Again, cross-val
 
 \input{figures/men-max-selection-table}
 
+Model performance monotonically increases as the dimensionality increases. The highest score of 0.765 is achieved by 3 spaces with $D \geq 30000$, \logNSCPMI/, smoothed contest distribution ($\alpha = 0.75$), shifted PMI values ($k = 1$) and the similarity measure based on correlation.
+
+In comparison with SimLex-999, models with ``more extreme'' parameters give better results. For example, $\alpha = 0.75$ is the best for models tested on SimLex-999 with dimensionality starting with 20000, while for models tested on MEN, this parameter choice is the best starting with 5000. Similar behaviour is observed for \texttt{neg} and similarity. For highly dimensional spaces the switch from SimLex-999 to MEN changes the best \texttt{neg} choice from 0.7 to 1 and similarity from cosine to correlation. Such a switch of parameter choices might suggest the difference between \textit{relatedness} and \textit{similarity}.
+
 \subsubsection{Heuristics}
 \label{sec:heuristics-men}
 
+\input{figures/men-ablation}
+The linear model give an adjusted $R2$ of 0.733, which is lover than on SimLex-999, but is still high. Table~\ref{tab:men-ablation} shows partial $R^2$ scores for the explored parameters. The most influential parameter is \texttt{neg}, followed by \texttt{freq} and similarity. This is different in the case of SimLex-999 where these parameters influence ``order'' is reversed.
+
+\input{figures/men-neg}
+\texttt{neg} with $k = 2$ is preferable for spaces with dimensionality of less than 20000, for spaces with more dimensions, $k = 5$ is more beneficial (Figure~\ref{fig:men-neg}).  We, however, expect that for spaces with more than 500000 dimensions even higher values should be preferred. This contrasts with the heuristics derived from SimLex-999, where single \texttt{neg} value of 0.7 is chosen.
+
+\input{figures/men-freq}
+Regarding the frequency component, $\log n$ outperforms all other choices (Figure~\ref{fig:men-freq}). It is exactly same choice as for heuristics based on SimLex-999.
+
+\input{figures/men-similarity}
+Correlation is the preferred similarity measure (Figure~\ref{fig:men-similarity}), again this is inline with the choice based on SimLex-999.
+
+\input{figures/men-discr}
+SPMI is the preferred discriminativeness (Figure~\ref{fig:men-discr}), however it is closely followed by CPMI and SCPMI. This contrasts with SimLex-999, where SCPMI is preferred, however in both cases the difference between the two discriminativeness choices is minimal.
+
+\input{figures/men-cds}
+Global context probability gives on average higher results (Figure~\ref{fig:men-cds}), while SimLex-999 prefers context distribution smoothing.
+
+\paragraph{Difference with Max selection on MEN}
+
+\input{figures/men-heuristics-selection-table}
+
+The two selection procedures agree on fewer parameters than the ones bases on SimLex-999. Both agree on discrimination ($\log n$) and similarity score for spaces with dimensionality greater than 10000 (correlation). While SCPMI is chosen by Max selection, SPMI is preferred by the selection based on heuristics. In contrast to the Max selection, which chooses the models with context distribution smoothing, heuristics prefer models with global context probabilities. Also, heuristics pick models with higher shifting values $\alpha$ (2 and 5), in contrast to Max selection, where 0.7 and 1 are picked. Table~\ref{tab:men-heuristics-selection} summarises the parameter selection based on heuristics.
+
+The average difference between Max selection and heuristics is 0.008.
+
+\paragraph{Difference with heuristics based on SimLex-999}
+
+Heuristics based on MEN agree with ones bases on SimLex-999 on two parameters: frequency ($\log n$) and similarity (correlation). The methods disagree on \texttt{discr} (SCPMI versus SPMI), context distribution (smoothed versus global) and shifting parameter, for which higher values for MEN are preferred.
 
 \subsection{Universal parameter selection for lexical datasets}
 \label{sec:Universal-lexical-param-selection}
