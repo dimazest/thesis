@@ -66,7 +66,7 @@ The average relative difference between Max selection and heuristics is 0.039.
 
 \input{figures/men-results}
 
-Figure~\ref{fig:SimLex999-results} shows the selection results. Again, cross-validation results are identical with Max selection. Table~\ref{tab:men-max-selection} shows the results together with the selected models.
+Figure~\ref{fig:men-results} shows the selection results. Again, cross-validation results are identical with Max selection. Table~\ref{tab:men-max-selection} shows the results together with the selected models.
 
 \input{figures/men-max-selection-table}
 
@@ -110,8 +110,16 @@ Heuristics based on MEN agree with ones bases on SimLex-999 on two parameters: f
 \subsection{Universal parameter selection for lexical datasets}
 \label{sec:Universal-lexical-param-selection}
 
-% SimLex --> Men
-% Men --> SimLex
+\paragraph{SimLex-999 to MEN}
+
+\input{figures/lexical-transfer}
+
+The models selected using heuristics based on the SimLex-999 dataset perform well on MEN: for all dimensions the selected models are close to the best possible score (Figure~\ref{fig:SimLex999-transfer}). The average difference is 0.006. The max based selection becomes close to the upper bound for models with dimensionality grater than 5000.
+
+\paragraph{MEN to SimLex-999}
+
+Heuristics transferred from MEN to SimLex-999 behave less efficient, they do not always outperform Max selection, though for highly dimensional spaces the difference decreases. The average difference is 0.062.
+
 % Universal, normalized!
 
 % Idea: find common parameters and take average over one for which there is not agreement. Normalize the result and repeat the heuristics selection?
