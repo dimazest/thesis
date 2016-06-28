@@ -74,11 +74,11 @@ Model performance monotonically increases as the dimensionality increases. The h
 
 In comparison with SimLex-999, models with ``more extreme'' parameters give better results. For example, $\alpha = 0.75$ is the best for models tested on SimLex-999 with dimensionality starting with 20000, while for models tested on MEN, this parameter choice is the best starting with 5000. Similar behaviour is observed for \texttt{neg} and similarity. For highly dimensional spaces the switch from SimLex-999 to MEN changes the best \texttt{neg} choice from 0.7 to 1 and similarity from cosine to correlation. Such a switch of parameter choices might suggest the difference between \textit{relatedness} and \textit{similarity}.
 
-\subsubsection{Heuristics}
+r\subsubsection{Heuristics}
 \label{sec:heuristics-men}
 
 \input{figures/men-ablation}
-The linear model give an adjusted $R2$ of 0.733, which is lover than on SimLex-999, but is still high. Table~\ref{tab:men-ablation} shows partial $R^2$ scores for the explored parameters. The most influential parameter is \texttt{neg}, followed by \texttt{freq} and similarity. This is different in the case of SimLex-999 where these parameters influence ``order'' is reversed.
+The linear model give an adjusted $R^2$ of 0.733, which is lover than on SimLex-999, but is still high. Table~\ref{tab:men-ablation} shows partial $R^2$ scores for the explored parameters. The most influential parameter is \texttt{neg}, followed by \texttt{freq} and similarity. This is different in the case of SimLex-999 where these parameters influence ``order'' is reversed.
 
 \input{figures/men-neg}
 \texttt{neg} with $k = 2$ is preferable for spaces with dimensionality of less than 20000, for spaces with more dimensions, $k = 5$ is more beneficial (Figure~\ref{fig:men-neg}).  We, however, expect that for spaces with more than 500000 dimensions even higher values should be preferred. This contrasts with the heuristics derived from SimLex-999, where single \texttt{neg} value of 0.7 is chosen.
@@ -107,22 +107,82 @@ The average difference between Max selection and heuristics is 0.008.
 
 Heuristics based on MEN agree with ones bases on SimLex-999 on two parameters: frequency ($\log n$) and similarity (correlation). The methods disagree on \texttt{discr} (SCPMI versus SPMI), context distribution (smoothed versus global) and shifting parameter, for which higher values for MEN are preferred.
 
-\subsection{Universal parameter selection for lexical datasets}
-\label{sec:Universal-lexical-param-selection}
+\subsection{Selected model transfer to another dataset}
+\label{sec:select-model-transf}
 
 \paragraph{SimLex-999 to MEN}
 
 \input{figures/lexical-transfer}
 
-The models selected using heuristics based on the SimLex-999 dataset perform well on MEN: for all dimensions the selected models are close to the best possible score (Figure~\ref{fig:SimLex999-transfer}). The average difference is 0.006. The max based selection becomes close to the upper bound for models with dimensionality grater than 5000.
+The models selected using heuristics based on the SimLex-999 dataset perform well on MEN: for all dimensions the selected models are close to the best possible score (Figure~\ref{fig:SimLex999-transfer}). The average difference with the upper bound is 0.006.
+
+The max based selection becomes close to the upper bound for models with dimensionality grater than 5000. The average difference with the upper bound is 0.039.
+
+In this case, heuristic based selection leads to better performance than the Max based selection.
 
 \paragraph{MEN to SimLex-999}
 
-Heuristics transferred from MEN to SimLex-999 behave less efficient, they do not always outperform Max selection, though for highly dimensional spaces the difference decreases. The average difference is 0.062.
+Heuristics transferred from MEN to SimLex-999 behave less efficient, they do not always outperform Max selection, though for highly dimensional spaces the difference decreases (Figure~\ref{fig:men-transfer}). The average difference is 0.062.
 
-% Universal, normalized!
+Max selection neither picks the best possible results when transferred from MEN to SimLex-999, but the average difference is lower: it is 0.042.
 
-% Idea: find common parameters and take average over one for which there is not agreement. Normalize the result and repeat the heuristics selection?
+In this case, Max based selection leads to better performance than the heuristics.
+
+\subsection{Universal parameter selection for lexical datasets}
+\label{sec:universal-lexical-param-selection}
+
+\input{figures/lexical-results}
+
+Figure~\ref{fig:lexical-results} shows performance of the models based on the average of the normalised scores over SimLex-999 and MEN. The performance of selected models on both datasets and the normalised average is shown on Table~\ref{tab:lexical-max-selection} (Max selection) and Table~\ref{tab:lexical-heuristics-selection} (selection based on heuristics).
+%
+\todo[noline]{Compare with Baroni and Levy.}
+
+\subsubsection{Max selection}
+\label{sec:max-selection}
+
+\input{figures/lexical-max-selection-table}
+
+\subsubsection{Heuristics}
+
+\input{figures/lexical-ablation}
+
+The linear model achieves an adjusted $R^2$ of 0.817, which is less then $R^2 = 0.867$ of SimLex-999, but is greater than the $R^2 = 0.733$ of MEN. Table~\ref{tab:lexical-ablation} shows partial $R^2$ for each parameter, the most influential are similarity, \texttt{neg} and \texttt{freq}.
+
+\input{figures/lexical-similarity}
+Correlation is the similarity measure of choice (Figure~\ref{fig:lexical-similarity}).
+
+\input{figures/lexical-neg}
+For the models with dimensionality less than 20000 shifting should be used with $k = 1$, otherwise $k = 2$ is preferred (Figure~\ref{fig:lexical-neg}).
+
+\input{figures/lexical-freq}
+$\log n$ on average performs the best as the frequency component (Figure~\ref{fig:lexical-freq}).
+
+\input{figures/lexical-discr}
+SCPMI is the preferred discrimination component, but SCPMI is very close to it (Figure~\ref{fig:lexical-discr}).
+
+\input{figures/lexical-cds}
+Global context probabilities on average behave the best (Figure~\ref{fig:lexical-cds}).
+
+\input{figures/lexical-heuristics-selection-table}
+
+\subsubsection{Comparison with the single dataset based selection}
+
+Both selection methods mostly agree on frequency ($\log n$) and discriminativeness (SCPMI).
+
+Context probability distribution smoothing varies between the selection methods, but follows the corresponding procedures based on MEN.
+
+The Max based selection for \texttt{neg} follows the Max selection on SimLex-999.
+
+Even though the similarity choice is different between the Max and heuristic selections, it is consistent with SimLex-999 in both cases and with MEN for the heuristic-based selection.
+
+For the Max-based selection, the average difference is 0.020 on SimLex-999 and 0.004 for MEN.
+
+For the heuristics-based selection, the average difference is 0.048 for SimLex-999 and 0.010 for MEN.
+
+Max selection behaves better than the heuristics based on the average difference, but we can not check how well these two selections behave on other lexical datasets.
+
+Based on the experiments, \logNSCPMI/ with shifting close to 1 is the quantification of choice for the lexical tasks, however more work needs to be done to find robust choice for context distribution smoothing and similarity measure choice.
+
 
 \section{Similarity of sentences}
 \label{sec:sentential}

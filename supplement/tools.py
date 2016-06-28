@@ -152,6 +152,7 @@ def plot_interaction(data, hue, dataset_name):
 
 
 def plot_parameter_selection_comparison(results, original_dataset, other_dataset=None, ax=None, operator=None):
+    other_given = other_dataset is not None
     other_dataset = other_dataset or original_dataset
 
     results = pd.concat(results)
@@ -165,7 +166,7 @@ def plot_parameter_selection_comparison(results, original_dataset, other_dataset
         x='dimensionality',
         # col='operator',
         hue='selection',
-        hue_order=('max_', 'cross_validation', 'heuristics') + (('upper bound',) if other_dataset != original_dataset else tuple()),
+        hue_order=('max_', 'cross_validation', 'heuristics') + (('upper bound',) if other_given else tuple()),
         dodge=0.3,
         ax=ax,
     )
