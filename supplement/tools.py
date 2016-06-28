@@ -97,7 +97,7 @@ def _selection_plot(results, selection_type, dataset):
         g.fig.savefig('figures/{}-{}-selection-{}.pdf'.format(dataset, selection_type, hue))
 
 
-def plot_selection(results, dataset, selector_function):
+def plot_selection(results, dataset, selector_function, plot=True):
     if not isinstance(selector_function, str):
         selection = (
             results
@@ -110,7 +110,8 @@ def plot_selection(results, dataset, selector_function):
         selection = results
         selection_type = selector_function
 
-    _selection_plot(selection, selection_type=selection_type, dataset=dataset)
+    if plot:
+        _selection_plot(selection, selection_type=selection_type, dataset=dataset)
 
     if not isinstance(selector_function, str):
         return selection
