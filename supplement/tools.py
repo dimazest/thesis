@@ -151,7 +151,7 @@ def plot_interaction(data, hue, dataset_name):
     g.fig.savefig('figures/{}-interaction-{}.pdf'.format(dataset_name, hue))
 
 
-def plot_parameter_selection_comparison(results, original_dataset, other_dataset=None, ax=None, operator=None):
+def plot_parameter_selection_comparison(results, original_dataset, other_dataset=None, ax=None, operator=None, col=None):
     other_given = other_dataset is not None
     other_dataset = other_dataset or original_dataset
 
@@ -160,16 +160,28 @@ def plot_parameter_selection_comparison(results, original_dataset, other_dataset
     if operator is not None:
         results = results.loc[operator]
 
-    g = sns.pointplot(
+    if col is None:
+        plot_func = sns.pointplot
+        kwargs = {'ax': ax}
+    else:
+        plot_func = sns.factorplot
+        kwargs = {
+            'col': col,
+            'col_order': ['head', 'add', 'mult', 'kron'],
+        }
+
+    g = plot_func(
         data=results,
         y=other_dataset,
         x='dimensionality',
-        # col='operator',
         hue='selection',
         hue_order=('max_', 'cross_validation', 'heuristics') + (('upper bound',) if other_given else tuple()),
         dodge=0.3,
-        ax=ax,
+        **kwargs,
     )
+
+    if col:
+        return g
     # g.fig.savefig('figures/{}-parameter_selection_comparison.pdf'.format(dataset))
 
 

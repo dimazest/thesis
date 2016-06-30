@@ -183,19 +183,37 @@ Max selection behaves better than the heuristics based on the average difference
 
 Based on the experiments, \logNSCPMI/ with shifting close to 1 is the quantification of choice for the lexical tasks, however more work needs to be done to find robust choice for context distribution smoothing and similarity measure choice.
 
-
 \section{Similarity of sentences}
 \label{sec:sentential}
 
 \subsection{KS14}
 \label{sec:ks14}
 
-\input{figures/selection-ks14}
+\subsubsection{Max selection}
+\label{sec:max-selection-ks14}
+
+\input{figures/ks14-results}
+
+Figure~\ref{fig:ks14-results} shows the performance of compositional model on the sentence similarity dataset KS14.
+All operators outperform the non-compositional \texttt{head} operator. Table~\ref{tab:ks14-max-selection} shows the performance of models selected by Max selection together with the selected parameters.
+
+\todo[noline]{Significance test}
+Kronecker with low dimensions and thus with correlation as the similarity measure gives the highest scores. As the dimensionality increases, Kronecker performance stays constant. Addition is slightly better than multiplication, but the performance of both peaks at 2000 dimensions and decreases as the dimensionality increases.
+
+``Head'' parameters are similar to the lexical Max selection (Table~\ref{tab:lexical-max-selection}), with an exception of \texttt{neg}, where values similar to MEN (Table~\ref{tab:men-max-selection}) are chosen.
+
+All compositional operators agree in the choice of \texttt{freq}, \texttt{discr} and similarity (note that Kronecker was tested only with the inner product for $D > 3000$ because of limited computational resources).
+
+Compositional operators perform best with constant \texttt{freq} of 1, in contrast to the lexical setting, where $\log n$ is more beneficial. This might be because during composition the $\log n$ term dominates over the PMI value and minimises its effect.
+
+\input{figures/ks14-max-selection-table}
+
+% \input{figures/selection-ks14}
 
 \subsection{GS11}
 \label{sec:gs11}
 
-\input{figures/selection-gs11}
+% \input{figures/selection-gs11}
 
 % \subsection{GS12}
 % \label{sec:gs12}
