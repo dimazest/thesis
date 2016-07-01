@@ -28,7 +28,6 @@ def read_results(f_name='results_all.csv'):
 
     return results
 
-
 def max_(*others):
     def max_(df, dataset):
         best_index = df['max', dataset].argmax()
@@ -142,7 +141,7 @@ def plot_interaction(data, hue, dataset_name):
         }[hue],
         size=3,
         aspect=1.6,
-        sharey=False,
+        sharey=True,
         dodge=0.3,
         col='operator',
         col_order=('head', 'add', 'mult', 'kron') if dataset_name in ('KS14', 'GS11') else ['head'],
