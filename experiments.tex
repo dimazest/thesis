@@ -222,6 +222,55 @@ Kronecker, in contrast to addition, performs best with dense low dimensional mod
 
 \input{figures/ks14-max-selection-table}
 
+\subsubsection{Heuristics}
+\label{sec:heuristics}
+
+\input{figures/ks14-ablation}
+The linear model achieves an $R^2 = 0.794$. The partial $R^2$ are shown on Table~\ref{tab:ks14-ablation}. The most influential parameters are \texttt{neg}, \texttt{freq}, compositional operator and \texttt{cds}. Interestingly, similarity has much less influence on this compositional dataset than on lexical datasets, where for Sim-Lex-999 (Table~\ref{tab:SimLex999-ablation}) and combined (Table~\ref{tab:lexical-ablation}) it is the most influencing parameter. Also, note that dimensionality has the lowest partial $R^2$.
+
+\paragraph{Shifting}
+
+\input{figures/ks14-neg}
+For \texttt{head}, the best \texttt{neg} choice of $k$ is 1 for spaces with dimensionality less than 5000 (Figure~\ref{fig:ks14-neg}x). For $5000 \leq D < 30000$, \texttt{head} behaves best with $k = 1.4$ and for $D \geq 3000$ \texttt{neg} should be set to 2.
+
+For addition, spaces with $D < 20000$ should be used with $k = 1.4$, and with $k = 2$ otherwise.
+
+For multiplication as with addition, there are three most beneficial choices: for $D < 10000$ $k = 0.5$, for $10000 \leq D < 30000$ $k = 0.7$ and, finally, for $D > 30000$ $k = 1$.
+
+\todo{See whether the trend ``if small then dense and if big then sparse'' holds.}
+Kronecker shows similar behaviour of $k$ as dimensionality increases as multiplication, but prefers sparser spaces: for $D < 3000$ $k = 0.5$, for $3000 \leq D < 20000$ and $D \geq 20000$ $k = 1$.
+
+\paragraph{Frequency}
+The best option of \texttt{freq} for \texttt{head} is $\log n$ (Figure~\ref{fig:ks14-freq}). The constant frequency 1 is very close $\log n$, but its performance declines for spaces with $D > 20000$.
+
+For addition, frequency should be set to 1 for spaces with $D < 5000$ and to $\log n$ otherwise.
+
+There is one choice of frequency for multiplication: 1.
+
+\todo{Check whether \texttt{freq}:n is bad for operators that do multiplication.}
+Kronecker follows addition with regard to \texttt{freq}, but the split point is $D = 10000$: low dimensional spaces should be used with constant frequency 1, and high dimensional spaces with $\log n$.
+
+\paragraph{Context distribution smoothing}
+
+\input{figures/ks14-cds}
+\texttt{Head} with spaces with dimensionality less than 20000 should be used with global probabilities, and more dimensional models should be used with smoothed local probabilities: $\alpha = 0.75$ (Figure~\ref{fig:ks14-cds}).
+
+All other operators perform best with global context probability.
+
+\paragraph{Similarity}
+\texttt{Head} with spaces with $D < 20000$ performs best with cosine similarity, while more dimensional models prefer correlation as the similarity measure (Figure~\ref{fig:ks14-similarity}).
+
+Other operators prefer correlation, however its not known correlation and cosine performance with Kronecker with spaces with $D > 3000$ as those were not tested, leaving inner product as the only choice.
+
+\paragraph{Discriminativeness}
+
+\input{figures/ks14-discr}
+\texttt{Head} with $D < 20000$ prefers SCPMI as the discriminativeness weighting. SPMI is preferred otherwise (Figure~\ref{fig:ks14-discr}).
+
+For addition, SPMI is the better choice. For multiplication, SCPMI is more beneficial.
+
+For Kronecker the two choices are very close to each other. However, for spaces with dimensionality less than 20000, SPMI is slightly better; for spaces with greater dimensionality, SCPMI is better.
+
 % \input{figures/selection-ks14}
 
 \subsection{GS11}
