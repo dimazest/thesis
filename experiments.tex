@@ -3,6 +3,11 @@
 
 Table~\ref{tab:parameters} lists parameters and their values. As the source corpus we use the concatenation of Wackypedia and ukWaC \cite{ukwac} with a symmetric 5-word window \cite{milajevs-EtAl:2014:EMNLP2014}; the evaluation metric is the correlation with human judgements as is standard with SimLex \cite{hill2014simlex} and other lexical datasets.
 
+\todo[inline]{What's the best selection method.}
+\todo[inline]{Does Max overfit?}
+\todo[inline]{Statistical significance.}
+\todo[inline]{Title: mention PMI?}
+
 % We derive our parameter selection heuristics by greedily selecting parameters (\texttt{cds}, \texttt{neg}) that lead to the highest average performance for each combination of frequency weighting, PMI variant and dimensionality $D$. Figures~\ref{fig:interaction-cds} and \ref{fig:interaction-neg} show the interaction of \texttt{cds} and \texttt{neg} with other parameters. We also vary the similarity measure (cosine and correlation  \cite{kiela-clark:2014:CVSC}), but do not report results here due to space limits.
 
 \section{Similarity and relatedness of words}
@@ -275,6 +280,13 @@ For Kronecker the two choices are very close to each other. However, for spaces 
 
 \subsection{GS11}
 \label{sec:gs11}
+
+\subsubsection{Max selection}
+\label{sec:max-selection-gs11}
+
+\input{figures/gs11-results}
+
+\input{figures/gs11-max-selection-table}
 
 % \input{figures/selection-gs11}
 
