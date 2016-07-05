@@ -1,14 +1,14 @@
-\chapter{Issues with evaluation of distributional models}
-\label{cha:reflection}
+% \chapter{Issues with evaluation of distributional models}
+% \label{cha:reflection}
 
-\section{Limitations of current similarity datasets}
-\label{sec:notion-similarity}
+% \section{Limitations of current similarity datasets}
+% \label{sec:notion-similarity}
 
-In contrast to linguistic datasets which contain randomly paired words from a broad selection, datasets that come from psychology contain entries that belong to a single category such as \textit{verbs of judging} \cite{FILLENBAUM197454} or \textit{animal terms} \cite{HENLEY1969176}. The reason for category oriented similarity studies is that ``stimuli can only be compared in so far as they have already been categorised as identical, alike, or equivalent at some higher level of abstraction'' \cite{turner1987rediscovering}. Moreover, because of the \emph{extension effect} \cite{medin1993respects}, the similarity of two entries in a context is less than the similarity between the same entries when the context is extended. ``For example, \textit{black} and \textit{white} received a similarity rating of 2.2 when presented by themselves; this rating increased to 4.0 when \textit{black} was simultaneously compared with \textit{white} and \textit{red} (\textit{red} only increased 4.2 to 4.9)'' \cite{medin1993respects}. In the first case \textit{black} and \textit{white} are more dissimilar because they are located on the extremes of the greyscale, but in the presence of \textit{red} they become more similar because they are both monochromes.
+% In contrast to linguistic datasets which contain randomly paired words from a broad selection, datasets that come from psychology contain entries that belong to a single category such as \textit{verbs of judging} \cite{FILLENBAUM197454} or \textit{animal terms} \cite{HENLEY1969176}. The reason for category oriented similarity studies is that ``stimuli can only be compared in so far as they have already been categorised as identical, alike, or equivalent at some higher level of abstraction'' \cite{turner1987rediscovering}. Moreover, because of the \emph{extension effect} \cite{medin1993respects}, the similarity of two entries in a context is less than the similarity between the same entries when the context is extended. ``For example, \textit{black} and \textit{white} received a similarity rating of 2.2 when presented by themselves; this rating increased to 4.0 when \textit{black} was simultaneously compared with \textit{white} and \textit{red} (\textit{red} only increased 4.2 to 4.9)'' \cite{medin1993respects}. In the first case \textit{black} and \textit{white} are more dissimilar because they are located on the extremes of the greyscale, but in the presence of \textit{red} they become more similar because they are both monochromes.
 
-Both MEN and SimLex-999 provide pairs that do not share any similarity to control for false positives, and they do not control for the comparison scale. This makes similarity judgements ambiguous as it is not clear what low similarity values mean: incompatible notions or contrast in meaning. SimLex-999 assigns low similarity scores to the incompatible pairs (0.48, \textit{trick} and \textit{size}) and to antonymy (0.55, \textit{smart} and \textit{dumb}), but \textit{smart} and \textit{dumb} have relatively much more in common than \textit{trick} and \textit{size}!
+% Both MEN and SimLex-999 provide pairs that do not share any similarity to control for false positives, and they do not control for the comparison scale. This makes similarity judgements ambiguous as it is not clear what low similarity values mean: incompatible notions or contrast in meaning. SimLex-999 assigns low similarity scores to the incompatible pairs (0.48, \textit{trick} and \textit{size}) and to antonymy (0.55, \textit{smart} and \textit{dumb}), but \textit{smart} and \textit{dumb} have relatively much more in common than \textit{trick} and \textit{size}!
 
-\section{PhraseRel: An IR-inspired evaluation dataset}
+\chapter{PhraseRel: An IR-inspired evaluation dataset}
 \label{sec:phraserel}
 
 Datasets that quantify relationships between words have a long history. Some of the most known datasets are RG65 \cite{Rubenstein:1965:CCS:365628.365657}, WordSim \cite{2002:PSC:503104.503110}, BLESS \cite{baroni-lenci:2011:GEMS}, MEN \cite{Bruni:2014:MDS:2655713.2655714} and SimLex-999 \cite{hill2014simlex}. All of them have been applied to evaluate the distributional models of meaning.
@@ -30,7 +30,7 @@ To overcome the flaw, we introduce a dataset that measures relevance. To develop
 % \footnotetext{The \emnlp dataset is available at \dataurl{emnlp2013_turk.txt}}
 
 
-\subsection{Preparation of candidate entries for the dataset}
+\section{Preparation of candidate entries for the dataset}
 \label{sec:design}
 
 As the base we took the 72 unique sentences from the dataset of \cite{kartsaklis-sadrzadeh:2013:EMNLP,kartsadrqpl2014}, which is later referred to as \emnlp/.\footnotemark{} These sentences formed the candidate \emph{query sentences}. We paired each query sentence with 23 \emph{document sentences} obtained by four conceptually different methods.
@@ -39,7 +39,7 @@ As the base we took the 72 unique sentences from the dataset of \cite{kartsaklis
 
 \input{figures/emnlp-pairing}
 
-\subsubsection{\emnlp/}
+\subsection{\emnlp/}
 
 Each query sentence is paired with a counterpart sentence from the highly similar band\footnotemark{} in the \emnlp/ dataset by treating the similarity band assignments as symmetric. For example, given the \emnlp/ combination
 %
@@ -59,12 +59,12 @@ The \emnlp/ dataset consists of three bands of intended similarity:
 \end{compactitem}
 }
 
-\subsubsection{WordNet}
+\subsection{WordNet}
 We generated two more document sentences for each query based on hyponymy and hypernymy relations from WordNet \cite{Miller:1995:WLD:219717.219748}. For each query sentence, one document sentence was manually generated by substituting the words of a sentence with their \emph{hypernymy} and another document sentence was obtained using \emph{hyponymy}.
 
 During the manual process of retrieving hypernymy and hyponymy we noticed that some were very good, for instance, \textit{datum}: \textit{information} and \textit{statistics}. However, some candidates were problematic, such as \textit{party}: \textit{political unit} and \textit{communist party} because we were looking for single words rather than phrases. In such cases, we dropped adjectives and adverbs or ignored a candidate. Two instances of WordNet based sentence generation are shown on Figure~\ref{fig:emnlp-pairing} with the method set to \texttt{wordnet:hyper} and \texttt{wordnet:hypo}.
 
-\subsubsection{ukWaC frequency}
+\subsection{ukWaC frequency}
 
 To generate more document sentences we used a dependency parsed version of ukWaC \cite{ukwac}.\footnotemark{} We extracted all possible subject--verb--object triplets from the corpus with their frequencies. Then, to generate document sentences for a query we extract candidate subjects, verbs and objects independently.
 
@@ -74,7 +74,7 @@ Consider that we need to extract candidate objects for the phrase \textit{agent 
 
 Once candidate subjects, verbs and objects are fetched, we rank all possible combinations of them by the frequency of appearance in ukWaC and select the top 7 triplets. Documents generated in this manner are labeled as \texttt{frequency:*} on Figure~\ref{fig:emnlp-pairing}, where the numbers are the frequency ranks of the triplets.
 
-\subsubsection{Vector space similarity score}
+\subsection{Vector space similarity score}
 
 To obtain more query--document pairings, we computed the cosine similarity of all queries and documents generated by the models described above using a \todo{Refer to the paper and a related section (PPM5)}PPMI5 multiplicative model. We appended 13 more documents most similar to a corresponding query to each query--document pool. On Figure~\ref{fig:emnlp-pairing} these pairs are labeled as \texttt{selection}.
 
@@ -82,7 +82,7 @@ To obtain more query--document pairings, we computed the cosine similarity of al
 \texttt{frequency} and 13 \texttt{selection}) for each of 72 queries, making
 1656 query--document pairs to be evaluated by humans.
 
-\subsection{Human evaluation}
+\section{Human evaluation}
 \label{sec:human-evaluation}
 
 \input{figures/instructions}
@@ -104,14 +104,14 @@ An example of a question is shown on Figure~\ref{fig:task}. The \dataurl{tuple-r
 
 \input{figures/task}
 
-\subsection{Final dataset construction}
+\section{Final dataset construction}
 \label{sec:postprocessing}
 
-\paragraph{Pair classification}
+\subsection{Pair classification}
 
 The pairs have been classified by the individual relevance judgements. A pair is of the \textit{strict relevance} type if all human judgements are greater than or equal to 0 and there is at least one 3. A pair of the \textit{loosely   relevant} type is a pair where all human judgements are greater than or equal to 0. Figure~\ref{fig:emnlp-pairing} shows the mean and standard deviation of human judgements per query--document pair and the relevance division of a pair if applicable. There are 110 (or 7\%) strictly relevant pairs and 221 (13\%) loosely relevant pairs.
 
-\paragraph{Query classification}
+\subsection{Query classification}
 
 Each query has been classified by the number of the strictly relevant documents it has been paired with. On average, each query in the dataset is paired with 3.3 loosely relevant and 1.6 strictly relevant documents. The minimum number of loosely relevant documents is 1, the maximum is 14. Regarding the strict relevance, there are 8 queries without a single strictly relevant document, and the maximum number of strictly relevant documents per query is 7.
 

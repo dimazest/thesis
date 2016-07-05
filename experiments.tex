@@ -1,7 +1,7 @@
-\chapter{Intrinsic experiments}
-\label{cha:experiments}
+% \chapter{Intrinsic experiments}
+% \label{cha:experiments}
 
-Table~\ref{tab:parameters} lists parameters and their values. As the source corpus we use the concatenation of Wackypedia and ukWaC \cite{ukwac} with a symmetric 5-word window \cite{milajevs-EtAl:2014:EMNLP2014}; the evaluation metric is the correlation with human judgements as is standard with SimLex \cite{hill2014simlex} and other lexical datasets.
+% Table~\ref{tab:parameters} lists parameters and their values. As the source corpus we use the concatenation of Wackypedia and ukWaC \cite{ukwac} with a symmetric 5-word window \cite{milajevs-EtAl:2014:EMNLP2014}; the evaluation metric is the correlation with human judgements as is standard with SimLex \cite{hill2014simlex} and other lexical datasets.
 
 \todo[inline]{
   What's the best selection method.
@@ -12,13 +12,13 @@ Table~\ref{tab:parameters} lists parameters and their values. As the source corp
 
 % We derive our parameter selection heuristics by greedily selecting parameters (\texttt{cds}, \texttt{neg}) that lead to the highest average performance for each combination of frequency weighting, PMI variant and dimensionality $D$. Figures~\ref{fig:interaction-cds} and \ref{fig:interaction-neg} show the interaction of \texttt{cds} and \texttt{neg} with other parameters. We also vary the similarity measure (cosine and correlation  \cite{kiela-clark:2014:CVSC}), but do not report results here due to space limits.
 
-\section{Similarity and relatedness of words}
+\chapter{Similarity and relatedness of words}
 \label{sec:lexical}
 
-\subsection{SimLex-999}
+\section{SimLex-999}
 \label{sec:simlex-999}
 
-\subsubsection{Max selection}
+\subsection{Max selection}
 \label{sec:max-selection-simlex}
 
 \input{figures/SimLex999-results}
@@ -31,7 +31,7 @@ For spaces with dimensionality less than 5000 \texttt{freq} 1 and inner product 
 
 \input{figures/SimLex999-max-selection-table.tex}
 
-\subsubsection{Heuristics}
+\subsection{Heuristics}
 \label{sec:heuristics-simlex}
 
 \input{figures/SimLex999-ablation.tex}
@@ -57,7 +57,7 @@ Finally, models benefit from context distribution smoothing, spaces with less th
 
 \todo[noline]{Contrast or compare results with \cite{milajevs:2016:SRW1}}
 
-\subsubsection{Difference between Max selection and heuristics}
+\subsection{Difference between Max selection and heuristics on SimLex-999}
 
 \input{figures/SimLex999-heuristics-selection-table}
 
@@ -65,10 +65,10 @@ As expected manual parameter selection is more stable as Table~\ref{tab:Simlex99
 
 The average relative difference between Max selection and heuristics is 0.039.
 
-\subsection{MEN}
+\section{MEN}
 \label{sec:men}
 
-\subsubsection{Max selection}
+\subsection{Max selection}
 \label{sec:max-selection-men}
 
 \input{figures/men-results}
@@ -81,7 +81,7 @@ Model performance monotonically increases as the dimensionality increases. The h
 
 In comparison with SimLex-999, models with ``more extreme'' parameters give better results. For example, $\alpha = 0.75$ is the best for models tested on SimLex-999 with dimensionality starting with 20000, while for models tested on MEN, this parameter choice is the best starting with 5000. Similar behaviour is observed for \texttt{neg} and similarity. For highly dimensional spaces the switch from SimLex-999 to MEN changes the best \texttt{neg} choice from 0.7 to 1 and similarity from cosine to correlation. Such a switch of parameter choices might suggest the difference between \textit{relatedness} and \textit{similarity}.
 
-\subsubsection{Heuristics}
+\subsection{Heuristics}
 \label{sec:heuristics-men}
 
 \input{figures/men-ablation}
@@ -104,7 +104,7 @@ SPMI is the preferred discriminativeness (Figure~\ref{fig:men-discr}), however i
 \input{figures/men-cds}
 Global context probability gives on average higher results for MEN (Figure~\ref{fig:men-cds}), while SimLex-999 prefers context distribution smoothing (Figure~\ref{fig:SimLex999-cds}).
 
-\subsubsection{Difference between Max selection and heuristics on MEN}
+\subsection{Difference between Max selection and heuristics on MEN}
 
 \input{figures/men-heuristics-selection-table}
 
@@ -112,14 +112,14 @@ The two selection procedures agree on fewer parameters than the ones bases on Si
 
 The average difference between Max selection and heuristics is 0.008.
 
-\subsection{Selected model transfer to another dataset}
+\section{Selected model transfer to another dataset}
 \label{sec:select-model-transf}
 
-\paragraph{Difference between heuristics based on MEN and SimLex-999}
+\subsection{Difference between heuristics based on MEN and SimLex-999}
 
 Heuristics based on MEN agree with ones bases on SimLex-999 on two parameters: frequency ($\log n$) and similarity (correlation). The methods disagree on \texttt{discr} (SCPMI versus SPMI, but again the difference is neglectable), context distribution (smoothed versus global) and shifting parameter, for which higher values for MEN are preferred.
 
-\paragraph{SimLex-999 to MEN}
+\subsection{SimLex-999 to MEN}
 
 \input{figures/lexical-transfer}
 
@@ -129,7 +129,7 @@ The max based selection comes close to the upper bound for models with dimension
 
 In this case, heuristic based selection leads to better performance than the Max based selection.
 
-\paragraph{MEN to SimLex-999}
+\subsection{MEN to SimLex-999}
 
 Heuristics transferred from MEN to SimLex-999 behave less efficient, they do not always outperform Max selection, though for highly dimensional spaces the difference decreases (Figure~\ref{fig:men-transfer}). The average difference is 0.062, which is ten times more than the transition from SimLex-999 to MEN.
 
@@ -137,7 +137,7 @@ Max selection neither picks the best possible results when transferred from MEN 
 
 Max based selection leads to better performance than the heuristics for MEN.
 
-\subsection{Universal parameter selection for lexical datasets}
+\section{Universal parameter selection for lexical datasets}
 \label{sec:universal-lexical-param-selection}
 
 \input{figures/lexical-results}
@@ -146,7 +146,7 @@ Figure~\ref{fig:lexical-results} shows performance of the models based on the av
 %
 \todo[noline]{Compare with Baroni and Levy.}
 
-\subsubsection{Max selection}
+\subsection{Max selection}
 \label{sec:max-selection}
 
 In general, the more dimensions, the better the results are. The selection yields the best results at $D = 50000$ for SimLex-999 and at $D = 3000$ for MEN. While for SimLex-999,  the Max selection approaches the upper limit after 20000 dimensions; for MEN, it peaks and slightly deviates from the upper bound as the dimensionality increases.
@@ -155,7 +155,7 @@ The Max parameter selection based on the combination of the two lexical datasets
 
 \input{figures/lexical-max-selection-table}
 
-\subsubsection{Heuristics}
+\subsection{Heuristics}
 
 \input{figures/lexical-ablation}
 
@@ -178,7 +178,7 @@ Global context probabilities on average behave the best (Figure~\ref{fig:lexical
 
 \input{figures/lexical-heuristics-selection-table}
 
-\subsubsection{Comparison with the single dataset based selection}
+\subsection{Comparison with the single dataset based selection}
 
 Both selection methods mostly agree on frequency ($\log n$) and discriminativeness (SCPMI).
 
@@ -196,13 +196,13 @@ Max selection behaves better than the heuristics based on the average difference
 
 Based on the experiments, \logNSCPMI/ with shifting close to 1 is the quantification of choice for the lexical tasks, however more work needs to be done to find robust choice for context distribution smoothing and similarity measure choice.
 
-\section{Similarity of sentences}
+\chapter{Similarity of sentences}
 \label{sec:sentential}
 
-\subsection{KS14}
+\section{KS14}
 \label{sec:ks14}
 
-\subsubsection{Max selection}
+\subsection{Max selection}
 \label{sec:max-selection-ks14}
 
 \input{figures/ks14-results}
@@ -229,14 +229,14 @@ Kronecker, in contrast to addition, performs best with dense low dimensional mod
 
 \input{figures/ks14-max-selection-table}
 
-\subsubsection{Heuristics}
+\subsection{Heuristics}
 \label{sec:heuristics}
 
 
 \input{figures/ks14-ablation}
 The linear model achieves an $R^2 = 0.794$. The partial $R^2$ are shown on Table~\ref{tab:ks14-ablation}. The most influential parameters are \texttt{neg}, \texttt{freq}, compositional operator and \texttt{cds}. Interestingly, similarity has much less influence on this compositional dataset than on lexical datasets, where for Sim-Lex-999 (Table~\ref{tab:SimLex999-ablation}) and combined (Table~\ref{tab:lexical-ablation}) it is the most influencing parameter. Also, note that dimensionality has the lowest partial $R^2$.
 
-\paragraph{Shifting}
+\subsubsection{Shifting}
 
 \input{figures/ks14-neg}
 For \texttt{head}, the best \texttt{neg} choice of $k$ is 1 for spaces with dimensionality less than 5000 (Figure~\ref{fig:ks14-neg}x). For $5000 \leq D < 30000$, \texttt{head} behaves best with $k = 1.4$ and for $D \geq 3000$ \texttt{neg} should be set to 2.
@@ -248,7 +248,7 @@ For multiplication as with addition, there are three most beneficial choices: fo
 \todo{See whether the trend ``if small then dense and if big then sparse'' holds.}
 Kronecker shows similar behaviour of $k$ as dimensionality increases as multiplication, but prefers sparser spaces: for $D < 3000$ $k = 0.5$, for $3000 \leq D < 20000$ and $D \geq 20000$ $k = 1$.
 
-\paragraph{Frequency}
+\subsubsection{Frequency}
 The best option of \texttt{freq} for \texttt{head} is $\log n$ (Figure~\ref{fig:ks14-freq}). The constant frequency 1 is very close $\log n$, but its performance declines for spaces with $D > 20000$.
 
 For addition, frequency should be set to 1 for spaces with $D < 5000$ and to $\log n$ otherwise.
@@ -258,19 +258,19 @@ There is one choice of frequency for multiplication: 1.
 \todo{Check whether \texttt{freq}:n is bad for operators that do multiplication.}
 Kronecker follows addition with regard to \texttt{freq}, but the split point is $D = 10000$: low dimensional spaces should be used with constant frequency 1, and high dimensional spaces with $\log n$.
 
-\paragraph{Context distribution smoothing}
+\subsubsection{Context distribution smoothing}
 
 \input{figures/ks14-cds}
 \texttt{Head} with spaces with dimensionality less than 20000 should be used with global probabilities, and more dimensional models should be used with smoothed local probabilities: $\alpha = 0.75$ (Figure~\ref{fig:ks14-cds}).
 
 All other operators perform best with global context probability.
 
-\paragraph{Similarity}
+\subsubsection{Similarity}
 \texttt{Head} with spaces with $D < 20000$ performs best with cosine similarity, while more dimensional models prefer correlation as the similarity measure (Figure~\ref{fig:ks14-similarity}).
 
 Other operators prefer correlation, however its not known correlation and cosine performance with Kronecker with spaces with $D > 3000$ as those were not tested, leaving inner product as the only choice.
 
-\paragraph{Discriminativeness}
+\subsubsection{Discriminativeness}
 
 \input{figures/ks14-discr}
 \texttt{Head} with $D < 20000$ prefers SCPMI as the discriminativeness weighting. SPMI is preferred otherwise (Figure~\ref{fig:ks14-discr}).
@@ -279,7 +279,7 @@ For addition, SPMI is the better choice. For multiplication, SCPMI is more benef
 
 For Kronecker the two choices are very close to each other. However, for spaces with dimensionality less than 20000, SPMI is slightly better; for spaces with greater dimensionality, SCPMI is better.
 
-\subsubsection{Difference between Max selection and heuristics on KS14}
+\subsection{Difference between Max selection and heuristics on KS14}
 
 \todo[noline]{Difference between heuristics based on various datasets.}
 
@@ -289,10 +289,10 @@ Table~\ref{tab:ks14-heuristics-selection}\todo{finish}\ldots
 
 % \input{figures/selection-ks14}
 
-\subsection{GS11}
+\section{GS11}
 \label{sec:gs11}
 
-\subsubsection{Max selection}
+\subsection{Max selection}
 \label{sec:max-selection-gs11}
 
 \input{figures/gs11-results}
@@ -311,19 +311,19 @@ Addition works best with dense models. Multiplication and Kronecker prefer dense
 
 \input{figures/gs11-max-selection-table}
 
-\subsubsection{Heuristics}
+\subsection{Heuristics}
 \label{sec:heuristics-gs11}
 
 \input{figures/gs11-ablation}
 The linear model achieves a $R^2 = 0.753$. The partial $R^2$ scores are shown on Table~\ref{tab:gs11-ablation}. The most influential parameters are a compositional operator, \texttt{freq} and \texttt{neg}. This is the same as in case of KS14, but in the reversed order \ref{tab:ks14-ablation}. However, for GS11 the operator choice is the most important, in case of KS14, the partial $R^2$ scores of the top 3 parameters are much closer to each other.
 
-\paragraph{Frequency}
+\subsubsection{Frequency}
 
 \input{figures/gs11-freq}
 
 $\log n$ on average behaves best for all operators (Figure~\ref{fig:gs11-freq}).
 
-\paragraph{Shifting}
+\subsubsection{Shifting}
 
 \texttt{Head} on average works best with shifted models. For models with dimensionality less than 3000, $k = 0.5$, otherwise $k = 0.7$ is more beneficial (Figure~\ref{fig:gs11-neg}).
 
@@ -333,13 +333,13 @@ Multiplication also works best with unshifted low dimensional spaces ($D < 5000$
 
 Kronecker prefers shifting. For spaces with dimensionality less then 20000 $k = 0.7$ and $k = 1$ otherwise.
 
-\paragraph{Similarity}
+\subsubsection{Similarity}
 
 \input{figures/gs11-similarity}
 
 \texttt{Head} and multiplication work best with cosine similarity. Addition with correlation and Kronecker with inner product (Figure~\ref{fig:gs11-similarity}).
 
-\paragraph{Context distribution smoothing}
+\subsubsection{Context distribution smoothing}
 
 \texttt{Head} with $D < 10000$ works best with global context probabilities. For more dimensional spaces, local context probabilities $\alpha = 1$ should be preferred (Figure~\ref{fig:gs11-cds}).
 
@@ -347,7 +347,7 @@ Addition works best with local probabilities. In the low dimensional case, when 
 
 Multiplication works best with global context probabilities. Kronecker with smoothed local ($\alpha = 0.75$).
 
-\paragraph{Discriminativeness}
+\subsubsection{Discriminativeness}
 
 \input{figures/gs11-discr}
 
@@ -368,10 +368,10 @@ Kronecker with less than 5000 dimensions prefers SCPMI and SPMI otherwise.
 % \subsection{GS12}
 % \label{sec:gs12}
 
-\subsection{Universal parameter selection for compositional datasets}
+\section{Universal parameter selection for compositional datasets}
 \label{sec:robust-param-comp-selecion}
 
-\section{Universal parameter selection for lexical and compositional datasets}
+\chapter{Universal parameter selection for lexical and compositional datasets}
 \label{sec:universal-param-selection}
 
 
