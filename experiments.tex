@@ -3,10 +3,12 @@
 
 Table~\ref{tab:parameters} lists parameters and their values. As the source corpus we use the concatenation of Wackypedia and ukWaC \cite{ukwac} with a symmetric 5-word window \cite{milajevs-EtAl:2014:EMNLP2014}; the evaluation metric is the correlation with human judgements as is standard with SimLex \cite{hill2014simlex} and other lexical datasets.
 
-\todo[inline]{What's the best selection method.}
-\todo[inline]{Does Max overfit?}
-\todo[inline]{Statistical significance.}
-\todo[inline]{Title: mention PMI?}
+\todo[inline]{
+  What's the best selection method.
+  Does Max overfit?  Statistical significance.
+  Title: mention PMI?
+  Lexical comparison with other work.
+}
 
 % We derive our parameter selection heuristics by greedily selecting parameters (\texttt{cds}, \texttt{neg}) that lead to the highest average performance for each combination of frequency weighting, PMI variant and dimensionality $D$. Figures~\ref{fig:interaction-cds} and \ref{fig:interaction-neg} show the interaction of \texttt{cds} and \texttt{neg} with other parameters. We also vary the similarity measure (cosine and correlation  \cite{kiela-clark:2014:CVSC}), but do not report results here due to space limits.
 
@@ -55,7 +57,7 @@ Finally, models benefit from context distribution smoothing, spaces with less th
 
 \todo[noline]{Contrast or compare results with \cite{milajevs:2016:SRW1}}
 
-\paragraph{Difference between Max selection and heuristics}
+\subsubsection{Difference between Max selection and heuristics}
 
 \input{figures/SimLex999-heuristics-selection-table}
 
@@ -102,7 +104,7 @@ SPMI is the preferred discriminativeness (Figure~\ref{fig:men-discr}), however i
 \input{figures/men-cds}
 Global context probability gives on average higher results for MEN (Figure~\ref{fig:men-cds}), while SimLex-999 prefers context distribution smoothing (Figure~\ref{fig:SimLex999-cds}).
 
-\paragraph{Difference between Max selection and heuristics on MEN}
+\subsubsection{Difference between Max selection and heuristics on MEN}
 
 \input{figures/men-heuristics-selection-table}
 
@@ -110,12 +112,12 @@ The two selection procedures agree on fewer parameters than the ones bases on Si
 
 The average difference between Max selection and heuristics is 0.008.
 
+\subsection{Selected model transfer to another dataset}
+\label{sec:select-model-transf}
+
 \paragraph{Difference between heuristics based on MEN and SimLex-999}
 
 Heuristics based on MEN agree with ones bases on SimLex-999 on two parameters: frequency ($\log n$) and similarity (correlation). The methods disagree on \texttt{discr} (SCPMI versus SPMI, but again the difference is neglectable), context distribution (smoothed versus global) and shifting parameter, for which higher values for MEN are preferred.
-
-\subsection{Selected model transfer to another dataset}
-\label{sec:select-model-transf}
 
 \paragraph{SimLex-999 to MEN}
 
@@ -205,7 +207,7 @@ Based on the experiments, \logNSCPMI/ with shifting close to 1 is the quantifica
 
 \input{figures/ks14-results}
 
-Figure~\ref{fig:ks14-results} shows the performance of compositional model on the sentence similarity dataset KS14.
+Figure~\ref{fig:ks14-results} shows the performance of compositional model on the sentence similarity dataset KS14 \cite{kartsadrqpl2014}.
 All operators outperform the non-compositional \texttt{head} operator. Table~\ref{tab:ks14-max-selection} shows the performance of models selected by Max selection together with the selected parameters.
 
 \todo[noline]{Significance test}
@@ -229,6 +231,7 @@ Kronecker, in contrast to addition, performs best with dense low dimensional mod
 
 \subsubsection{Heuristics}
 \label{sec:heuristics}
+
 
 \input{figures/ks14-ablation}
 The linear model achieves an $R^2 = 0.794$. The partial $R^2$ are shown on Table~\ref{tab:ks14-ablation}. The most influential parameters are \texttt{neg}, \texttt{freq}, compositional operator and \texttt{cds}. Interestingly, similarity has much less influence on this compositional dataset than on lexical datasets, where for Sim-Lex-999 (Table~\ref{tab:SimLex999-ablation}) and combined (Table~\ref{tab:lexical-ablation}) it is the most influencing parameter. Also, note that dimensionality has the lowest partial $R^2$.
@@ -276,6 +279,14 @@ For addition, SPMI is the better choice. For multiplication, SCPMI is more benef
 
 For Kronecker the two choices are very close to each other. However, for spaces with dimensionality less than 20000, SPMI is slightly better; for spaces with greater dimensionality, SCPMI is better.
 
+\subsubsection{Difference between Max selection and heuristics on KS14}
+
+\todo[noline]{Difference between heuristics based on various datasets.}
+
+Table~\ref{tab:ks14-heuristics-selection}\todo{finish}\ldots
+
+\input{figures/ks14-heuristics-selection-table}
+
 % \input{figures/selection-ks14}
 
 \subsection{GS11}
@@ -286,7 +297,71 @@ For Kronecker the two choices are very close to each other. However, for spaces 
 
 \input{figures/gs11-results}
 
+Figure~\ref{fig:gs14-results} shows performance of the compositional models on the transitive verb disambiguation task \cite{Grefenstette:2011:ESC:2145432.2145580}. Table~\ref{tab:gs11-max-selection} shows the selected model performance together with chosen parameters.
+
+Multiplication with 20000 dimensions gives the highest result of 0.532. Kronecker gets close with the score of 0.516 with $D = 50000$. Addition does not outperform the \texttt{head} operator: addition scores 0.338, while \texttt{head}'s best performance is 0.432.
+
+\texttt{Head}'s behaviour is unstable for dimensions less than 20000, and its best behaviour might be the case of overfitting similarly with SimLex-999. Models with dimensions greater than 20000 behave similarly to each other, even though the parameters are different.
+
+In general, parameter selection is very different than the one based on KS14 (Table~\ref{tab:ks14-max-selection}). Compositional operators behave best with $\log n$ frequency, especially Kronecker. PMI often outperforms other discriminativeness components in case of \texttt{head} and addition. Global context probability estimation behaves better than local. Correlation is not always the best similarity measure.
+
+Addition behaviour degrades as dimensionality increases, multiplication behaviour increases, but becomes unstable for spaces with high number of dimensions. Kronecker depends the least on the dimensionality.
+
+Addition works best with dense models. Multiplication and Kronecker prefer dense low dimensional space and sparse high dimensional spaces.
+
 \input{figures/gs11-max-selection-table}
+
+\subsubsection{Heuristics}
+\label{sec:heuristics-gs11}
+
+\input{figures/gs11-ablation}
+The linear model achieves a $R^2 = 0.753$. The partial $R^2$ scores are shown on Table~\ref{tab:gs11-ablation}. The most influential parameters are a compositional operator, \texttt{freq} and \texttt{neg}. This is the same as in case of KS14, but in the reversed order \ref{tab:ks14-ablation}. However, for GS11 the operator choice is the most important, in case of KS14, the partial $R^2$ scores of the top 3 parameters are much closer to each other.
+
+\paragraph{Frequency}
+
+\input{figures/gs11-freq}
+
+$\log n$ on average behaves best for all operators (Figure~\ref{fig:gs11-freq}).
+
+\paragraph{Shifting}
+
+\texttt{Head} on average works best with shifted models. For models with dimensionality less than 3000, $k = 0.5$, otherwise $k = 0.7$ is more beneficial (Figure~\ref{fig:gs11-neg}).
+
+For addition, models without shifting behaves best for $D < 20000$, however for more dimensional spaces, $k = 0.2$ should be preferred.
+
+Multiplication also works best with unshifted low dimensional spaces ($D < 5000$) and with $k = 0.7$ for high dimensional spaces.
+
+Kronecker prefers shifting. For spaces with dimensionality less then 20000 $k = 0.7$ and $k = 1$ otherwise.
+
+\paragraph{Similarity}
+
+\input{figures/gs11-similarity}
+
+\texttt{Head} and multiplication work best with cosine similarity. Addition with correlation and Kronecker with inner product (Figure~\ref{fig:gs11-similarity}).
+
+\paragraph{Context distribution smoothing}
+
+\texttt{Head} with $D < 10000$ works best with global context probabilities. For more dimensional spaces, local context probabilities $\alpha = 1$ should be preferred (Figure~\ref{fig:gs11-cds}).
+
+Addition works best with local probabilities. In the low dimensional case, when $D < 20000$, unsmoothed estimation ($\alpha = 1$) is preferred and $\alpha = 0.75$ should be chosen otherwise.
+
+Multiplication works best with global context probabilities. Kronecker with smoothed local ($\alpha = 0.75$).
+
+\paragraph{Discriminativeness}
+
+\input{figures/gs11-discr}
+
+\texttt{Head} works best with SPMI, but SCPMI is very close (Figure~\ref{fig:gs11-discr}).
+
+Addition works best with PMI for $D < 20000$ and SCPMI otherwise.
+
+Multiplication is similar to addition that it prefers PMI in the low dimensional case and SCPMI in the high dimensional case, but the change happens at 5000 dimensions.
+
+Kronecker with less than 5000 dimensions prefers SCPMI and SPMI otherwise.
+
+\todo[noline]{Heuristics selection table.}
+
+\input{figures/gs11-heuristics-selection-table}
 
 % \input{figures/selection-gs11}
 
