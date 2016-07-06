@@ -227,13 +227,11 @@ Multiplication, independently of dimensionality, performs best with dense spaces
 
 Kronecker, in contrast to addition, performs best with dense low dimensional models ($k = 0.2$, $D < 5000$) and sparser high dimensional models ($k = 0.7$, $D \geq 5000$). But this difference might depend on the similarity measure, which is inner product for $D \geq 5000$.
 
-\input{figures/ks14-max-selection-table}
-
 \subsection{Heuristics}
 \label{sec:heuristics}
 
-
 \input{figures/ks14-ablation}
+
 The linear model achieves an $R^2 = 0.794$. The partial $R^2$ are shown on Table~\ref{tab:ks14-ablation}. The most influential parameters are \texttt{neg}, \texttt{freq}, compositional operator and \texttt{cds}. Interestingly, similarity has much less influence on this compositional dataset than on lexical datasets, where for Sim-Lex-999 (Table~\ref{tab:SimLex999-ablation}) and combined (Table~\ref{tab:lexical-ablation}) it is the most influencing parameter. Also, note that dimensionality has the lowest partial $R^2$.
 
 \subsubsection{Shifting}
@@ -285,8 +283,6 @@ For Kronecker the two choices are very close to each other. However, for spaces 
 
 Table~\ref{tab:ks14-heuristics-selection}\todo{finish}\ldots
 
-\input{figures/ks14-heuristics-selection-table}
-
 % \input{figures/selection-ks14}
 
 \section{GS11}
@@ -309,7 +305,6 @@ Addition behaviour degrades as dimensionality increases, multiplication behaviou
 
 Addition works best with dense models. Multiplication and Kronecker prefer dense low dimensional space and sparse high dimensional spaces.
 
-\input{figures/gs11-max-selection-table}
 
 \subsection{Heuristics}
 \label{sec:heuristics-gs11}
@@ -363,8 +358,6 @@ Kronecker with less than 5000 dimensions prefers SCPMI and SPMI otherwise.
 
 \todo[noline]{Heuristics selection table.}
 
-\input{figures/gs11-heuristics-selection-table}
-
 \subsection{Difference between Max selection and heuristics on GS11}
 
 Only logarithmic frequency component ($\log n$) was chosen by heuristics (Table~\ref{tab:gs11-heuristics-selection}), while there is a mix of 1 and $\log n$ in the Max selection (Table~\ref{tab:gs11-max-selection}).
@@ -372,6 +365,18 @@ Only logarithmic frequency component ($\log n$) was chosen by heuristics (Table~
 Kronecker and most of multiplication discriminativeness choices agree, while for \texttt{head} and addition there is little agreement of parameter selection. Same goes for context distribution smoothing and shifting.
 
 Similarity choice is same for Kronecker and addition, but \texttt{head} and multiplication---according to heuristics---should be used with cosine similarity, while there is no single metric that leads to maximum performance.
+
+\section{PhraseRel}
+\label{sec:phraserel-experiment}
+
+\subsection{Max selection}
+\label{sec:max-selection-phraserel}
+
+\input{figures/phraserel-results}
+
+Figure~\ref{fig:phraserel-results} shows the performance of the models on the PhraseRel dataset. All operators outperform non-compositional \texttt{head} baseline. Table~\ref{tab:phraserel-max-selection} shows the models that yield the best result together with model parameters.
+
+Multiplication, in general, outperforms all other operators, and in two cases gets the perfect score.
 
 % \input{figures/selection-gs11}
 

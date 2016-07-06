@@ -144,7 +144,7 @@ def plot_interaction(data, hue, dataset_name):
         sharey=True,
         dodge=0.3,
         col='operator',
-        col_order=('head', 'add', 'mult', 'kron') if dataset_name in ('KS14', 'GS11') else ['head'],
+        col_order=('head', 'add', 'mult', 'kron') if dataset_name in ('KS14', 'GS11', 'PhraseRel') else ['head'],
     )
 
     g.fig.savefig('figures/{}-interaction-{}.pdf'.format(dataset_name, hue))
