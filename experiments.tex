@@ -314,8 +314,10 @@ Addition works best with dense models. Multiplication and Kronecker prefer dense
 \subsection{Heuristics}
 \label{sec:heuristics-gs11}
 
-\input{figures/gs11-ablation}
 The linear model achieves a $R^2 = 0.753$. The partial $R^2$ scores are shown on Table~\ref{tab:gs11-ablation}. The most influential parameters are a compositional operator, \texttt{freq} and \texttt{neg}. This is the same as in case of KS14, but in the reversed order \ref{tab:ks14-ablation}. However, for GS11 the operator choice is the most important, in case of KS14, the partial $R^2$ scores of the top 3 parameters are much closer to each other.
+
+\todo[noline]{wraptable \ref{tab:gs11-ablation}}
+\input{figures/gs11-ablation}
 
 \subsubsection{Frequency}
 
@@ -362,6 +364,14 @@ Kronecker with less than 5000 dimensions prefers SCPMI and SPMI otherwise.
 \todo[noline]{Heuristics selection table.}
 
 \input{figures/gs11-heuristics-selection-table}
+
+\subsection{Difference between Max selection and heuristics on GS11}
+
+Only logarithmic frequency component ($\log n$) was chosen by heuristics (Table~\ref{tab:gs11-heuristics-selection}), while there is a mix of 1 and $\log n$ in the Max selection (Table~\ref{tab:gs11-max-selection}).
+
+Kronecker and most of multiplication discriminativeness choices agree, while for \texttt{head} and addition there is little agreement of parameter selection. Same goes for context distribution smoothing and shifting.
+
+Similarity choice is same for Kronecker and addition, but \texttt{head} and multiplication---according to heuristics---should be used with cosine similarity, while there is no single metric that leads to maximum performance.
 
 % \input{figures/selection-gs11}
 
