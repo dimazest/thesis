@@ -376,7 +376,17 @@ Similarity choice is same for Kronecker and addition, but \texttt{head} and mult
 
 Figure~\ref{fig:phraserel-results} shows the performance of the models on the PhraseRel dataset. All operators outperform non-compositional \texttt{head} baseline. Table~\ref{tab:phraserel-max-selection} shows the models that yield the best result together with model parameters.
 
-Multiplication, in general, outperforms all other operators, and in two cases gets the perfect score.
+Multiplication, in general, outperforms all other operators, and with dimensions of 10000 and 20000 gets the perfect score. Model performance weakly depends on the dimensionality for all operators.
+
+Addition and Kronecker achieve the best score with constant frequency, \texttt{head} works best with linear and multiplication with sublinear ($\log n$).
+
+SPMI is the preferred discriminativeness component for the low-dimensional spaces ($D < 10000$) for \texttt{head}, otherwise, SCPMI is the best behaving \texttt{discr}. For addition and the spaces with $D > 1000$, SPMI is the best, while for the spaces with the same dimensionality multiplication prefers CPMI. Kronecker, most of the times, prefers SCPMI.
+
+\texttt{Head} with dimensions less than 20000 works best with local smoothed context probabilities, however for more dimensional spaces global context probabilities are more competitive. Addition, contrary, prefers smoothed local context probabilities for spaces with dimensions more than 5000. Multiplication exhibits different pattern: when a model contains few dimensions, it prefers local smoothed context probabilities, and for highly-dimensional spaces it prefers local, but unsmoothed context probabilities. Kronecker is inconsistent with regards to the choice of \texttt{cds}, but models with $D \geq 30000$ global context probabilities perform the best.
+
+Regarding shifting, \texttt{head} prefers sparse spaces $k > 1$, but as dimensionality increases the optimal $k$ values decreases. Addition does not show a consistent behaviour with regard to this parameter. Multiplication, in general, benefits from dense unshifted spaces. Kronecker works best with sparse spaces with increasing sparsity as the dimensionality increases.
+
+\texttt{Head} benefits from the correlation as the similarity measure, as does multiplication. Addition works best with correlation with spaces $D < 10000$, and with the inner product for more dimensional spaces. Multiplication works best with correlation. Kronecker, for spaces with less than 5000 dimensions, works best with correlation and with the inner product otherwise.
 
 % \input{figures/selection-gs11}
 
