@@ -388,10 +388,63 @@ Regarding shifting, \texttt{head} prefers sparse spaces $k > 1$, but as dimensio
 
 \texttt{Head} benefits from the correlation as the similarity measure, as does multiplication. Addition works best with correlation with spaces $D < 10000$, and with the inner product for more dimensional spaces. Multiplication works best with correlation. Kronecker, for spaces with less than 5000 dimensions, works best with correlation and with the inner product otherwise.
 
-% \input{figures/selection-gs11}
+\subsection{Heuristics}
+\label{sec:heuristics-phraserel}
 
-% \subsection{GS12}
-% \label{sec:gs12}
+\input{figures/phraserel-ablation}
+
+\input{figures/phraserel-neg}
+The linear model achieves an $R^2 = 0.856$. The partial $R^2$ scores are shown on Table~\ref{tab:phraserel-ablation}. The most influential parameters are \texttt{neg}, operator and \texttt{cds}, but the first two have the partial $R^2$ scores much higher then the other parameters. Table~\ref{tab:phraserel-heuristics-selection} shows the performance of the picked models.
+
+\subsubsection{Shifting}
+\label{sec:shifting-phraserel}
+
+\texttt{Head} should be used with $k = 1.4$, addition should be used with $k = 2$ and multiplication should be used with $k = 0.5$ (Figure~\ref{fig:phraserel-neg}).
+
+Kronecker has three optimal values of $k$ that is proportional to dimensionality. For models with dimensionality less than 5000, $k = 0.5$ is preferred; for $5000 \geq D < 20000$, the most beneficial choice of \texttt{neg} is $k = 1$; finally, for spaces with more than 20000 dimensions, $k$ should be set to 1.4.
+
+\subsubsection{Context distribution smoothing}
+\label{sec:cont-distr-smooth-phraserel}
+
+The best choice of \texttt{head} is dependant on dimensionality: spaces with less than 10000 dimensions benefit from smoothed local context probabilities ($\alpha = 0.75$) (Figure~\ref{fig:phraserel-cds}). Addition and multiplication work best with global context probabilities, while Kronecker prefers unsmoothed local probabilities ($\alpha = 1$).
+
+\subsubsection{Frequency}
+\label{sec:frequency-phraserel}
+
+\input{figures/phraserel-freq}
+
+\texttt{Head} works best with linear frequency, but the difference with other options is small (Figure~\ref{fig:phraserel-freq}).
+
+Addition benefits from linear frequency, sublinear frequency is very close.
+
+Multiplication works best with sublinear frequency, but linear is very close to it.
+
+Finally, Kronecker works best with $\log n$ with spaces with dimensionality less than 5000, and with linear frequency with more dimensional spaces.
+
+\subsubsection{Similarity}
+\label{sec:similarity-phraserel}
+
+\texttt{Head} works best with correlation as the similarity measure with models with $D < 5000$, and with cosine for more dimensional ones (Figure~\ref{fig:phraserel-similarity}). Note, however, that the difference between the two is very small.
+
+Addition benefits from cosine when $D < 20000$ and from inner product otherwise. But in case of addition, all three similarity measures are close to each others.
+
+Multiplication works best with correlation.
+
+Where tested, correlation behaves best with Kronecker.
+
+\subsubsection{Discriminativeness}
+\label{sec:discriminativeness-phraserel}
+
+\input{figures/phraserel-discr}
+
+\texttt{Head} is the only ``operator'' that prefers from different discriminativeness components depending on dimensionality. For models with $D < 5000$, SPMI is the best, while for other dimensions SCPMI is more competitive.
+
+Addition and Kronecker benefit from SPMI, while multiplication from SCPMI.
+
+\subsection{Difference between Max selection and heuristics on PhraseRel}
+\label{sec:diff-phraserel}
+
+
 
 \section{Universal parameter selection for compositional datasets}
 \label{sec:robust-param-comp-selecion}
