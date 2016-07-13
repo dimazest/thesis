@@ -310,6 +310,8 @@ well studied and developed logical methods \cite{bos2000first}.
 \subsection{Compositional distributional semantics}
 \label{sec:composition}
 
+\todo[inline]{Form-independent semantics.}
+
 Methods based on this distributional hypothesis have recently been applied to many tasks, but mostly at the word level, for instance, word sense disambiguation \cite{ZhitomirskyGeffet2009} and lexical substitution \cite{Thater:2010:CSR:1858681.1858778}. They exploit the notion of similarity which correlates with the angle between word vectors \cite{Turney:2010:FMV:1861751.1861756}.
 
 \emph{Compositional} distributional semantics goes beyond the word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator associativity, which ignores the argument order, and thus word order. As a result, ``\textit{John loves Mary}'' and ``\textit{Mary loves John}'' get assigned the same meaning.
