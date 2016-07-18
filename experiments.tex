@@ -119,7 +119,7 @@ The average difference between Max selection and heuristics is 0.008.
 
 Heuristics based on MEN agree with ones bases on SimLex-999 on two parameters: frequency ($\log n$) and similarity (correlation). The methods disagree on \texttt{discr} (SCPMI versus SPMI, but again the difference is neglectable), context distribution (smoothed versus global) and shifting parameter, for which higher values for MEN are preferred.
 
-\subsection{SimLex-999 to MEN}
+\subsection{From SimLex-999 to MEN}
 
 \input{figures/lexical-transfer}
 
@@ -129,7 +129,7 @@ The max based selection comes close to the upper bound for models with dimension
 
 In this case, heuristic based selection leads to better performance than the Max based selection.
 
-\subsection{MEN to SimLex-999}
+\subsection{From MEN to SimLex-999}
 
 Heuristics transferred from MEN to SimLex-999 behave less efficient, they do not always outperform Max selection, though for highly dimensional spaces the difference decreases (Figure~\ref{fig:men-transfer}). The average difference is 0.062, which is ten times more than the transition from SimLex-999 to MEN.
 
@@ -451,6 +451,23 @@ Manual parameter selection is more stable than the one based on the maximum valu
 Manual heuristics do not pick the best result of 1 (Table~\ref{tab:phraserel-max-selection}), but are close with a multiplicative model with 20000 and 30000 dimensions yielding the score of 0.964 (Table~\ref{tab:phraserel-heuristics-selection}).
 
 The average relative difference between the max selection and the selection based on heuristics is 0.022 for \texttt{head}, 0.072 for addition, 0.041 for multiplication and 0.061 for Kronecker.
+
+\section{Selected model transfer across the datasets}
+\label{sec:select-model-transf-comp}
+
+\subsection{Difference between heuristics}
+\label{sec:diff-betw-heur-comp}
+
+\subsection{From KS14}
+\label{sec:from-ks14}
+
+\subsection{From GS11}
+\label{sec:from-gs11}
+
+\subsection{From PhraseRel}
+\label{sec:from-phraserel}
+
+
 
 \section{Universal parameter selection for compositional datasets}
 \label{sec:robust-param-comp-selecion}
