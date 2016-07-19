@@ -458,16 +458,41 @@ The average relative difference between the max selection and the selection base
 \subsection{Difference between heuristics}
 \label{sec:diff-betw-heur-comp}
 
+There is little agreement on parameter selection based on heuristics among the 3 compositional datasets. The only consistent choice is global context probability (\texttt{cds}) and SCPMI discriminativeness for multiplicative models.
+
+There is more pairwise agreement, for example similarity based on correlation for additive models on KS14 and GS11 and $\log n$ frequency for multiplicative models between GS11 and PhraseRel. The pairwise agreement might be a sign of overfitting, because there is no clear pattern. On the other side, the difference in performance between parameter choices might be neglectable as some parameters consistently show low $R^2$ scores, for example \texttt{discr}.
+
 \subsection{From KS14}
 \label{sec:from-ks14}
+
+\input{figures/ks14-transfer}
+
+Figure~\ref{fig:ks14-transfer} show the behaviour of models selected on the KS14 when they are transferred to GS11 and PhraseRel. During the transfer there is little difference in performance between the selection methods, except of multiplicative models where heuristics show better performance and 5000 dimensional Kronecker where heuristics give lower results than the max-based selection.
+
+\todo[noline]{Significance tests}
+Heuristic-based selecting on average is closer to the upper bound. When transferred to GS11 the average difference with the upper bound is 0.335 for max and 0.238 for heuristics. When transferred to PhraseRel the average difference is 0.093 for max and 0.091 for heuristics.
 
 \subsection{From GS11}
 \label{sec:from-gs11}
 
+\input{figures/gs11-transfer}
+
+Figure~\ref{fig:gs11-transfer} shows that there is little difference between max and heuristic selections. In case of \texttt{head} composition, heuristics lead to higher performance, while for low-dimensional multiplicative models heuristics fall behind the max selection on the KS14 dataset.
+
+\todo[noline]{Significance tests}
+When GS11 models are transferred to KS14, the average difference with the upper bound is 0.119 and 0.106 for max and heuristics respectively. For the transfer to PhraseRel, the differences are 0.133 for max and 0.188 for heuristics. Again, the heuristic-based selection outperforms the max based.
+
 \subsection{From PhraseRel}
 \label{sec:from-phraserel}
 
+\input{figures/phraserel-transfer}
 
+Figure~\ref{fig:phraserel-transfer} shows that the performance of models based on PhraseRel is less stable, especially for selection by maximum performance.
+
+\todo[noline]{Significance tests}
+Transfer to KS14 yields the average differences of 0.152 for max and 0.136 for heuristics. Transfer to GS11 yields the average differences of 0.454 for max and 0.509 for heuristics. Note that the PhraseRel to GS11 transfer is the only case where max selection on average is better than heuristics.
+
+\todo[inline]{Here we showed, in contrast to the lexical evaluation, that the heuristics might be indeed be more beneficial than the max-based selection.}
 
 \section{Universal parameter selection for compositional datasets}
 \label{sec:robust-param-comp-selecion}
