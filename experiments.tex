@@ -178,7 +178,7 @@ Global context probabilities on average behave the best (Figure~\ref{fig:lexical
 
 \input{figures/lexical-heuristics-selection-table}
 
-\subsection{Comparison with the single dataset based selection}
+\subsection{Comparison with single dataset based selections}
 
 Both selection methods mostly agree on frequency ($\log n$) and discriminativeness (SCPMI).
 
@@ -497,9 +497,67 @@ Transfer to KS14 yields the average differences of 0.152 for max and 0.136 for h
 \section{Universal parameter selection for compositional datasets}
 \label{sec:robust-param-comp-selecion}
 
+\input{figures/compositional-results}
+
+Figure~\ref{fig:compositional-results} show the performance of the models based on the combined selection over the KS14, GS11 and PhraseRel datasets. The performance of selected models together with the selected parameters is shown on the Table~\ref{tab:compositional-max-selection} (Max selection) and Table~\ref{tab:compositional-heuristics-selection} (selection based on heuristics).
+
+\subsection{Max selection}
+\label{sec:max-selection-compositional}
+
+Models with many dimensions not always perform better than their low-dimensional counterparts. Particularly, only \texttt{head} and multiplication benefit from the high number of dimensions. Addition and Kronecker are closer to the upper bound with the dimensionality of few thousands.
+
+\subsection{Heuristics}
+\label{sec:heuristics-compositional}
+
+\input{figures/compositional-ablation}
+The linear model achieves the $R^2 = 0.769$. Table~\ref{tab:compositional-ablation} shows the partial $R^2$ values for the parameters. The most influential parameters are \texttt{neg}, \texttt{freq} and compositional operator.
+
+\subsubsection{Neg}
+\label{sec:neg-compositional}
+
+\input{figures/compositional-neg}
+
+For \texttt{head} and models with $D < 10000$ the \texttt{neg} should be set to 1, otherwise it should be 1.4 (Figure~\ref{fig:compositional-neg}).
+
+For addition, 1 is the best choice of \texttt{neg}.
+
+Multiplication benefits from denser spaces. If the dimensionality is less than 10000, then \texttt{neg} should be set to 0.5, otherwise 0.7 is a good choice.
+
+Kronecker benefits from the \texttt{neg} of 0.7 if $D < 10000$ and from 1 for the more dimensional cases. This is similar to multiplication, but Kronecker prefers less dense vectors.
+
+\subsubsection{Freq}
+\label{sec:freq-compositional}
+
+$\log n$ is the frequency value of choice of all operators with an exception of multiplication, where the constant frequency is preferred (Figure~\ref{fig:compositional-freq}).
+
+\subsubsection{Context distribution smoothing}
+\label{sec:cont-distr-smooth-compositional}
+
+\input{figures/compositional-cds}
+
+As Figure~\ref{fig:compositional-cds} shows, global context probability is the preferred choice of context probability in all cases, but in cases of Kronecker composition with $D > 3000$, where smoothed local probabilities are better ($\alpha = 0.75$).
+
+\subsubsection{Similarity}
+\label{sec:similarity-compositional}
+
+Correlation is the dominant choice of the similarity measure (Figure~\ref{fig:compositional-similarity}). However, cosine is preferred in the case of \texttt{head}, with $D > 5000$, and inner product is the only choice for the composition with Kronecker with $D > 3000$.
+
+\subsubsection{Discr}
+\label{sec:discr-compositional}
+
+\input{figures/compositional-discr}
+
+SPMI is the choice of \texttt{discr} that leads to the best average performance in most cases (Figure~\ref{fig:compositional-discr}). However the difference between SPMI and SCPMI is very little.
+
+The exceptions are Multiplicative composition with $D \geq 10000$ and Kronecker with $D \leq 5000$ where SCPMI outperforms SPMI.
+
+\subsection{Comparison with the single dataset beased selections}
+\label{sec:comp-with-single-comp}
+
+
+
 \chapter{Universal parameter selection for lexical and compositional datasets}
 \label{sec:universal-param-selection}
-
 
 \todo[inline]{From lexical to compositional.}
 
