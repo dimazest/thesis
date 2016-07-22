@@ -547,14 +547,16 @@ Correlation is the dominant choice of the similarity measure (Figure~\ref{fig:co
 
 \input{figures/compositional-discr}
 
-SPMI is the choice of \texttt{discr} that leads to the best average performance in most cases (Figure~\ref{fig:compositional-discr}). However the difference between SPMI and SCPMI is very little.
+SPMI is the choice of \texttt{discr} that leads to the best average performance in most cases (Figure~\ref{fig:compositional-discr}). However the difference between SPMI and SCPMI is very small.
 
 The exceptions are Multiplicative composition with $D \geq 10000$ and Kronecker with $D \leq 5000$ where SCPMI outperforms SPMI.
 
 \subsection{Comparison with the single dataset beased selections}
 \label{sec:comp-with-single-comp}
 
+Manual selection based on a combination of the compositional datasets is more stable with regards to the chosen parameter values than the selection based on the highest values, even though manual selection does not always achieve the performance of Max selection, see Figure~\ref{fig:compositional-results}.
 
+The average difference with the upper bound is 0.040 and 0.041 for Max and heuristics, respectively, when applied to KS14. For GS11, the difference is 0.045 (Max) and 0.127 (Heuristics). For PhraseRel, the difference is 0.055 (Max) and 0.084 (Heuristics).
 
 \chapter{Universal parameter selection for lexical and compositional datasets}
 \label{sec:universal-param-selection}

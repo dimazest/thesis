@@ -174,7 +174,7 @@ def plot_parameter_selection_comparison(results, original_dataset, other_dataset
         y=other_dataset,
         x='dimensionality',
         hue='selection',
-        hue_order=('max_', 'cross_validation', 'heuristics') + (('upper bound',) if other_given else tuple()),
+        hue_order=('max_', 'cross_validation', 'heuristics') + (('upper bound', 'upper bound1') if other_given else tuple()),
         dodge=0.3,
         **kwargs,
     )
