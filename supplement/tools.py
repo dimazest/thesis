@@ -88,7 +88,9 @@ def _selection_plot(results, selection_type, dataset):
                 'discr': ('pmi', 'cpmi', 'spmi', 'scpmi'),
             }[hue],
             col='operator',
-            col_order=('head', 'add', 'mult', 'kron') if dataset in ('KS14', 'GS11', 'GS12', 'PhraseRel') else ['head'],
+            col_order=('head', 'add', 'mult', 'kron') if dataset in (
+                    'KS14', 'GS11', 'GS12', 'PhraseRel', 'compositional', 'universal'
+                ) else ['head'],
             size=3,
             aspect=1.6,
         )
@@ -144,7 +146,9 @@ def plot_interaction(data, hue, dataset_name):
         sharey=True,
         dodge=0.3,
         col='operator',
-        col_order=('head', 'add', 'mult', 'kron') if dataset_name in ('KS14', 'GS11', 'PhraseRel', 'compositional') else ['head'],
+        col_order=('head', 'add', 'mult', 'kron') if dataset_name in (
+            'KS14', 'GS11', 'PhraseRel', 'compositional', 'universal',
+        ) else ['head'],
     )
 
     g.fig.savefig('figures/{}-interaction-{}.pdf'.format(dataset_name, hue))
@@ -174,7 +178,9 @@ def plot_parameter_selection_comparison(results, original_dataset, other_dataset
         y=other_dataset,
         x='dimensionality',
         hue='selection',
-        hue_order=('max_', 'cross_validation', 'heuristics') + (('upper bound', 'upper bound1') if other_given else tuple()),
+        hue_order=('max_', 'cross_validation', 'heuristics') + (
+            ('upper bound', 'lexical, max_', 'lexical, heuristics') if other_given else tuple()
+        ),
         dodge=0.3,
         **kwargs,
     )
