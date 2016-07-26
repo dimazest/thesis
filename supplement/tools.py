@@ -154,7 +154,10 @@ def plot_interaction(data, hue, dataset_name):
     g.fig.savefig('figures/{}-interaction-{}.pdf'.format(dataset_name, hue))
 
 
-def plot_parameter_selection_comparison(results, original_dataset, other_dataset=None, ax=None, operator=None, col=None):
+def plot_parameter_selection_comparison(
+    results, original_dataset, other_dataset=None, ax=None, operator=None, col=None,
+    extra_hue=None,
+):
     other_given = other_dataset is not None
     other_dataset = other_dataset or original_dataset
 
@@ -173,14 +176,17 @@ def plot_parameter_selection_comparison(results, original_dataset, other_dataset
             'col_order': ['head', 'add', 'mult', 'kron'],
         }
 
+    if extra_hue is None:
+        extra_hue = tuple()
+
     g = plot_func(
         data=results,
         y=other_dataset,
         x='dimensionality',
         hue='selection',
         hue_order=('max_', 'cross_validation', 'heuristics') + (
-            ('upper bound', 'lexical, max_', 'lexical, heuristics') if other_given else tuple()
-        ),
+            ('upper bound', ) if other_given else tuple()
+        ) + tuple(extra_hue),
         dodge=0.3,
         **kwargs,
     )
