@@ -584,6 +584,14 @@ Refer to Figure~\ref{fig:universal-parameters} for the parameter average behavio
 \section{Comparison}
 \label{sec:comparison-universal}
 
+\input{figures/universal-results}
+
+On lexical datasets, there is little difference between the model selection methods especially for spaces with more than 30000 dimensions, as Figure~\ref{fig:uniersal-results-simlex} and Figure~\ref{fig:universal-results-men} show. As Kronecker was tested only with the inner product as the similarity measure for spaces with dimensionality greater than 3000, Kronecker does not follow this patter of addition and multiplication.
+
+For compositional tasks, dimensionality does not contribute as much as in case of lexical, the best results are achieved with low dimensional models ($D \leq 10000$, with an exception of GS11 and Kronecker, where a models with 50000 gives the highest result) Refer to Figures~\ref{fig:universal-results-ks14}, \ref{fig:universal-results-gs11} and \ref{fig:universal-results-phraserel}.
+
+\todo[noline]{Probably this should be one of the major conclusions.}
+However, when the models selected on lexical tasks are applied in a compositional setting, they perform worse than the models selected by the universal score. This suggests that a model that is good on lexical tasks will not necessarily perform well on a compositional task. In addition, sometimes this difference increases as dimensionality increases, for example this is the case for multiplication.
 
 
 % \subsubsection{Tweaked IR evaluation}
