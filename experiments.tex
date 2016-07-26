@@ -239,7 +239,7 @@ The linear model achieves an $R^2 = 0.794$. The partial $R^2$ are shown on Table
 \subsubsection{Shifting}
 
 \input{figures/ks14-neg}
-For \texttt{head}, the best \texttt{neg} choice of $k$ is 1 for spaces with dimensionality less than 5000 (Figure~\ref{fig:ks14-neg}x). For $5000 \leq D < 30000$, \texttt{head} behaves best with $k = 1.4$ and for $D \geq 3000$ \texttt{neg} should be set to 2.
+For \texttt{head}, the best \texttt{neg} choice of $k$ is 1 for spaces with dimensionality less than 5000 (Figure~\ref{fig:ks14-neg}). For $5000 \leq D < 30000$, \texttt{head} behaves best with $k = 1.4$ and for $D \geq 3000$ \texttt{neg} should be set to 2.
 
 For addition, spaces with $D < 20000$ should be used with $k = 1.4$, and with $k = 2$ otherwise.
 
@@ -566,8 +566,20 @@ The average difference with the upper bound is 0.040 and 0.041 for Max and heuri
 \section{Max selection}
 \label{sec:max-selection-universal}
 
+Table~\ref{tab:universal-max-selection} shows the performance of the models selected by a combined score of the lexical and compositional datasets. Parameter selection is much more stable than on all previous max-based selections. $\log n$ is a dominant \texttt{freq} choice, cosine is the measure of choice for multiplication and Kronecker, if available. Correlation is the similarity measure for additive composition. Interestingly, if shifting applied, then 1 or 0.7 are chosen as \texttt{neg} values.
+
+Addition with many dimensions gives the best results on lexical tasks: 0.384 on SimLex-999 and 0.761 on MEN. Kronecker, on the other side, gives the highest values for compositional datasets: 0.798 on KS14, 0.514 on GS11 and 0.964 on PhraseRel. Multiplication, however, gives the highest ``combined'' score of 0.945, showing that the selection is the closest to the upper bound.
+
 \section{Heuristics}
 \label{sec:heuristics-universal}
+
+\input{figures/universal-ablation}
+
+Performance of the models selected manually shown on Table~\ref{tab:universal-heuristics-selection}. Again, there is a lot consistency between parameters. Global context probabilities are chosen most of the times. The linear model achieves $R^2 = 0.828$. The most influencing parameters are \texttt{neg}, \texttt{freq} and compositional operator, refer to Table~\ref{tab:universal-ablation}.
+
+Multiplication gives the best results on lexical tasks, together with PhraseRel. The scores are 0.378, 0.758 and 0.893, respectively. For the dimensions of 20000, 30000 and 40000, heuristics for multiplication match the max-based selection. Kronecker is strong in compositional tasks, scoring 0.792 for KS14, 0.516 for GS11 and 0.893 for PhraseRel.
+
+Refer to Figure~\ref{fig:universal-parameters} for the parameter average behaviour.
 
 \section{Comparison}
 \label{sec:comparison-universal}
