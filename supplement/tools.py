@@ -89,7 +89,7 @@ def _selection_plot(results, selection_type, dataset):
             }[hue],
             col='operator',
             col_order=('head', 'add', 'mult', 'kron') if dataset in (
-                    'KS14', 'GS11', 'GS12', 'PhraseRel', 'compositional', 'universal'
+                    'KS14', 'GS11', 'GS12', 'PhraseRel', 'compositional', 'universal',
                 ) else ['head'],
             size=3,
             aspect=1.6,

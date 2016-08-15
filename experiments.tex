@@ -25,7 +25,7 @@
 
 Figure~\ref{fig:SimLex999-results} illustrates the results based on the best model selection and Table~\ref{tab:parameters} shows the results together with picked parameters. Note that the maximum selection is identical with cross-validation: they pick the same models.
 
-In general, model performance increases as the dimensionality increases. However, the best result of 0.389 is achieved with a 2000 dimensional space, this could, however, be an example of overfitting. Model performance becomes stable for dimensions grater than 20000.
+In general, model performance increases as the dimensionality increases. However, the best result of 0.389 is achieved with a 2000 dimensional space, this could, however, be an example of overfitting. Model performance becomes stable for dimensions greater than 20000.
 
 For spaces with dimensionality less than 5000 \texttt{freq} 1 and inner product yield best results. Otherwise, cosine with \logNSCPMI/, smoothing $\alpha=0.75$ and shifting $k=0.7$ gives the best results.
 
@@ -47,7 +47,7 @@ Figure~\ref{fig:SimLex999-similarity} shows the average performance of similarit
 The influence of \texttt{freq}, the second parameter, is shown on Figure~\ref{fig:SimLex999-freq}. $\log n$ frequency outperforms other choices for all dimensions. After 20000 dimensions $\log n$'s performance stabilises: variance decreases and the performance stays constant.
 
 \input{figures/SimLex999-neg}
-The third parameter \texttt{neg} of 0.7 shows the best performance (Figure~\ref{fig:SimLex999-neg}). However, there is little difference between models with dimensionality grater than 20000, apart from the models that do not perform shifting, whose performance peaks at 20000 dimensions and decreases afterwards with increasing variance.
+The third parameter \texttt{neg} of 0.7 shows the best performance (Figure~\ref{fig:SimLex999-neg}). However, there is little difference between models with dimensionality greater than 20000, apart from the models that do not perform shifting, whose performance peaks at 20000 dimensions and decreases afterwards with increasing variance.
 
 % \input{figures/SimLex999-discr}
 There is little difference between SPMI and SCPMI performance with a little advantage to SCPMI (Figure~\ref{fig:SimLex999-discr}).
@@ -55,7 +55,7 @@ There is little difference between SPMI and SCPMI performance with a little adva
 \input{figures/SimLex999-cds}
 Finally, models benefit from context distribution smoothing, spaces with less than 10000 dimensions produce the best results with $\alpha = 1$, for spaces with higher dimensionality $\alpha = 0.75$ is the most advantageous (Figure~\ref{fig:SimLex999-cds}).
 
-\todo[noline]{Contrast or compare results with \cite{milajevs:2016:SRW1}}
+\todo[noline]{Contrast or compare results with \cite{milajevs-sadrzadeh-purver:2016:ACL-SRW}}
 
 \subsection{Difference between Max selection and heuristics on SimLex-999}
 
@@ -125,7 +125,7 @@ Heuristics based on MEN agree with ones bases on SimLex-999 on two parameters: f
 
 The models selected using heuristics based on the SimLex-999 dataset perform well on MEN: for all dimensions the selected models are close to the best possible score (Figure~\ref{fig:SimLex999-transfer}). The average difference with the upper bound is 0.006.
 
-The max based selection comes close to the upper bound for models with dimensionality grater than 5000. The average difference with the upper bound is 0.039.
+The max based selection comes close to the upper bound for models with dimensionality greater than 5000. The average difference with the upper bound is 0.039.
 
 In this case, heuristic based selection leads to better performance than the Max based selection.
 
@@ -563,6 +563,8 @@ The average difference with the upper bound is 0.040 and 0.041 for Max and heuri
 
 \todo[inline]{From lexical to compositional.}
 
+\todo[inline]{Outdated!!!}
+
 \section{Model selection}
 \label{sec:model-selection}
 
@@ -596,6 +598,7 @@ For compositional tasks, dimensionality does not contribute as much as in case o
 \todo[noline]{Probably this should be one of the major conclusions.}
 However, when the models selected on lexical tasks are applied in a compositional setting, they perform worse than the models selected by the universal score. This suggests that a model that is good on lexical tasks will not necessarily perform well on a compositional task. In addition, sometimes this difference increases as dimensionality increases, for example this is the case for multiplication.
 
+\todo[inline]{Compare the average differences of every dataset.}
 
 % \subsubsection{Tweaked IR evaluation}
 % \label{sec:tweak-ir-eval}

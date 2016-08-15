@@ -11,6 +11,8 @@
 \chapter{PhraseRel: An IR-inspired evaluation dataset}
 \label{sec:phraserel}
 
+\todo[inline]{Have a look to \cite{2016arXiv160801972K}.}
+
 Datasets that quantify relationships between words have a long history. Some of the most known datasets are RG65 \cite{Rubenstein:1965:CCS:365628.365657}, WordSim \cite{2002:PSC:503104.503110}, BLESS \cite{baroni-lenci:2011:GEMS}, MEN \cite{Bruni:2014:MDS:2655713.2655714} and SimLex-999 \cite{hill2014simlex}. All of them have been applied to evaluate the distributional models of meaning.
 
 Naturally, the idea of capturing lexical relationships got extended to phrases and sentences. Many phrase and sentence datasets exist such as the MS Paraphrase Corpus \cite{dolan2005par} or the phrase entailment dataset of \newcite{baroni-EtAl:2012:EACL2012}. These are potentially applicable to evaluate compositional distributional models of meaning. We say potentially, since the grammar-preserving compositional settings \cite{baroni2014frege,DBLP:journals/corr/abs-1003-4394}  rely on high dimensional tensor spaces which do not, at the moment, scale up to  the complex syntactic structures of such datasets. Instead, a family of phrasal, mostly \emph{similarity} oriented datasets \cite{mitchell-lapata:2008:ACLMain,Grefenstette:2011:ESC:2145432.2145580,kartsaklis-sadrzadeh:2013:EMNLP,kartsadrqpl2014} is widely used for the evaluation of these models \cite{milajevs-EtAl:2014:EMNLP2014,kim-demarneffe-foslerlussier:2015:VSM-NLP}.
