@@ -563,9 +563,7 @@ The average difference with the upper bound is 0.040 and 0.041 for Max and heuri
 
 \todo[inline]{From lexical to compositional.}
 
-\todo[inline]{Outdated!!!}
-
-\section{Model selection}
+\section{Operator dependant (universal) models}
 \label{sec:model-selection}
 
 \subsection{Max selection}
@@ -573,6 +571,8 @@ The average difference with the upper bound is 0.040 and 0.041 for Max and heuri
 
 Table~\ref{tab:universal-max-selection} shows the performance of the models selected by a combined score of the lexical and compositional datasets. Parameter selection is much more stable than on all previous max-based selections. $\log n$ is a dominant \texttt{freq} choice, cosine is the measure of choice for multiplication and Kronecker, if available. Correlation is the similarity measure for additive composition. Interestingly, if shifting applied, then 1 or 0.7 are chosen as \texttt{neg} values.
 
+\todo[noline]{This is one of the major findings.}
+Compositional operator preference depends on the focus of a model.
 Addition with many dimensions gives the best results on lexical tasks: 0.384 on SimLex-999 and 0.761 on MEN. Kronecker, on the other side, gives the highest values for compositional datasets: 0.798 on KS14, 0.514 on GS11 and 0.964 on PhraseRel. Multiplication, however, gives the highest ``combined'' score of 0.945, showing that the selection is the closest to the upper bound.
 
 \subsection{Heuristics}
@@ -580,25 +580,50 @@ Addition with many dimensions gives the best results on lexical tasks: 0.384 on 
 
 \input{figures/universal-ablation}
 
-Performance of the models selected manually shown on Table~\ref{tab:universal-heuristics-selection}. Again, there is a lot consistency between parameters. Global context probabilities are chosen most of the times. The linear model achieves $R^2 = 0.828$. The most influencing parameters are \texttt{neg}, \texttt{freq} and compositional operator, refer to Table~\ref{tab:universal-ablation}.
+Performance of the models selected manually shown on Table~\ref{tab:universal-heuristics-selection}. Again, there is a lot consistency between parameters. The linear model achieves $R^2 = 0.828$. The most influencing parameters are \texttt{freq}, \texttt{neg} and a similarity measure, refer to Table~\ref{tab:universal-ablation}.
 
-Multiplication gives the best results on lexical tasks, together with PhraseRel. The scores are 0.378, 0.758 and 0.893, respectively. For the dimensions of 20000, 30000 and 40000, heuristics for multiplication match the max-based selection. Kronecker is strong in compositional tasks, scoring 0.792 for KS14, 0.516 for GS11 and 0.893 for PhraseRel.
+Heuristics for addition choose models that score the highest on lexical tasks: 0.384 on SimLex-999 and 0.764 on MEN (Table~\ref{tab:universal-heuristics-selection}). Moreover, with more than 20000 dimensions there is no difference between the selection procedures (Max or heuristics) of the additive and Kronecker-based models.
 
-Refer to Figure~\ref{fig:universal-parameters} for the parameter average behaviour.
+Kronecker is strong in compositional tasks scoring 0.795 on KS14, 0.516 on GS11 and 0.929 on PhraseRel (Table~\ref{tab:universal-heuristics-selection}).
+
+Multiplication, again, is a compromise between the two: it gives the highest combined score of 0.941. The highest Kronecker's combined is 0.913, while addition's highest score is only 0.843.
 
 \subsection{Comparison}
 \label{sec:comparison-universal}
 
 \input{figures/universal-results}
 
-On lexical datasets, there is little difference between the model selection methods especially for spaces with more than 30000 dimensions, as Figure~\ref{fig:uniersal-results-simlex} and Figure~\ref{fig:universal-results-men} show. As Kronecker was tested only with the inner product as the similarity measure for spaces with dimensionality greater than 3000, Kronecker does not follow this patter of addition and multiplication.
+On lexical tasks, there is little difference between the model selection methods especially for spaces with more than 30000 dimensions, as Figures~\ref{fig:universal-results-simlex} and \ref{fig:universal-results-men} show.
 
-For compositional tasks, dimensionality does not contribute as much as in case of lexical, the best results are achieved with low dimensional models ($D \leq 10000$, with an exception of GS11 and Kronecker, where a models with 50000 gives the highest result) Refer to Figures~\ref{fig:universal-results-ks14}, \ref{fig:universal-results-gs11} and \ref{fig:universal-results-phraserel}.
+On compositional tasks, dimensionality does not contribute as much as in case of lexical tasks, with an exception of addition on the GS11 dataset, where performance decreases as dimensionality increases.
 
-\todo[noline]{Probably this should be one of the major conclusions.}
-However, when the models selected on lexical tasks are applied in a compositional setting, they perform worse than the models selected by the universal score. This suggests that a model that is good on lexical tasks will not necessarily perform well on a compositional task. In addition, sometimes this difference increases as dimensionality increases, for example this is the case for multiplication.
+\todo[noline]{One of the major findings.}
+When the models that are selected on lexical tasks are applied in a compositional setting, they perform worse than the models selected based on the universal score. This suggests that a model that is good on lexical tasks will not necessarily perform well on a compositional task. In addition, sometimes this difference increases as dimensionality increases, for example this is the case for multiplication, the most notable difference is observed on KS14 (Figure~\ref{fig:universal-results-ks14}).
 
 \todo[inline]{Compare the average differences of every dataset.}
+
+\section{Operator independant universal models}
+
+\todo[inline]{We have seen in the previous section that even though parameter selection is different between operators, there are choices that are shared. Given this and the fact that the difference between some of the choices is marginal, we try to look for truly universal parameters.}
+
+\subsection{Max selection}
+\label{sec:max-selection-single}
+
+Table~\ref{tab:single-max-selection} shows \todo{describe how it was combined} the combined score for all datasets abstracting over a compositional operator.
+
+The parameter selection shows a clear pattern. \texttt{freq} shows a clear pattern: low-dimensional spaces perform best with 1 as the frequency choice, while high dimensional models perform better with $\log n$. Cosine is a better suited similarity measure for models with few dimensions, correlation with many. Finally, global context probabilities are the best in a low-dimensional case, while local context probabilities perform best with many dimensions.
+
+\todo[inline]{Average difference with the upper bound.}
+
+\subsection{Heuristics}
+\label{sec:heuristics-single}
+
+Heuristics in general repeat the parameter selection choice, but the switch happens with more dimensions (at 20000, not at 5000) refer to Table~\ref{tab:single-heuristics-selection} for the results and Figure~\ref{fig:single-params} for the parameter behavior.
+
+\input{figures/single-ablation}
+The linear model gives $R^2 = 898$. The most influential parameters are \texttt{freq}, similarity measure and \texttt{neg}, refer to Table~\ref{tab:single-ablation}.
+
+\input{figures/single-freq}
 
 % \subsubsection{Tweaked IR evaluation}
 % \label{sec:tweak-ir-eval}

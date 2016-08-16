@@ -140,6 +140,7 @@ def plot_interaction(data, hue, dataset_name):
             'similarity': ('cos', 'correlation', 'inner_product'),
             'freq': ('1', 'n', 'logn'),
             'discr': ('pmi', 'cpmi', 'spmi', 'scpmi'),
+            'operator': ('head', 'add', 'mult', 'kron'),
         }[hue],
         size=3,
         aspect=1.6,
