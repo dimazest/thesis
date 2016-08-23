@@ -10,18 +10,18 @@ Experiments with distributional vector space models can be divided to two relate
 
 The first question is applicable in a situation when conceptually different methods are compared, for example ``count'' and  ``predict'' methods \cite{baroni-dinu-kruszewski:2014:P14-1}. The second question is applicable to a study of the difference of parameters within a conceptual method as in \newcite{lapesa-evert:2013:CMCL}.
 
-The co-occurrence information can be used in many different ways to build distributional models of meaning \cite{Turney:2010:FMV:1861751.1861756}. This has led to a series of systematic parameter studies \cite{Bullinaria2007,BullinariaLevy2012,kiela-clark:2014:CVSC,lapesa2014large,TACL570}. All of them explore a large number of parameter combinations, report the best scores, compare and derive recommendations of the parameter choices.
+The co-occurrence information can be used in different ways to build distributional models of meaning \cite{Turney:2010:FMV:1861751.1861756}. This has led to a series of systematic parameter studies \cite{Bullinaria2007,BullinariaLevy2012,kiela-clark:2014:CVSC,lapesa2014large,TACL570}. All of them explore numerous parameter combinations, report the best scores, compare and derive recommendations of the parameter choices.
 
 \newcite{lapesa2014large} make one step further in studying parameter behaviour by identifying the most influential parameters and their two-way interactions with a linear model, which is fit in such a way that parameters of a vector space model predict its performance. This approach solves two problems. First of all, it is designed to avoid overfitting. Secondly, it avoids noise in parameter selection revealing the regularity in the parameter choices.
 
-The goal of this work is to provide the representative performance numbers of count-based distributional models of meaning---so they could be compared to other semantic models---and to study general behaviour of vector space parameters and compositional operators---so they could be compared. The study is performed in a systematic manner using recently developed evaluation datasets for lexical and phrasal meaning representations.
+The goal of this work is to provide the representative performance numbers of count-based distributional models of meaning---so they could be compared to other semantic models---and to study general behaviour of vector space parameters and compositional operators---so they could be compared. The study is performed systematically using recently developed evaluation datasets for lexical and phrasal meaning representations.
 
 \section{Strategies of avoiding overfitting}
 \label{sec:avoiding-overfitting}
 
 This work adopts the strategy of \newcite{lapesa2014large} to avoid overfitting and reduce noise in parameter selection. Several evaluation datasets are used individually and in combination.
 
-The models are tested on two lexical datasets: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. These two datasets are chosen because they are larger than other previously used datasets. It has been argued that the score variance is strongly dependant on the size of the evaluation dataset \cite{W16-2502}. SimLex-999 consists of 999 word pairs and MEN consists of 3000. Compare this with the sizes of other popular datasets: 353 \cite{2002:PSC:503104.503110} and 65 \cite{Rubenstein:1965:CCS:365628.365657}.
+The models are tested on two lexical datasets: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. These two datasets are chosen because they are larger than other previously used datasets. It has been argued that the score variance is strongly dependent on the size of the evaluation dataset \cite{W16-2502}. SimLex-999 consists of 999 word pairs and MEN consists of 3000. Compare this with the sizes of other popular datasets: 353 \cite{2002:PSC:503104.503110} and 65 \cite{Rubenstein:1965:CCS:365628.365657}.
 
 The three compositional datasets that are employed in this study are KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ESC:2145432.2145580} and PhraseRel (Section~\ref{sec:phraserel}). They consist of phrases with controlled syntax (they are subject-verb-object phrases) and cover several aspects: similarity, disambiguation and relevance.
 
@@ -102,6 +102,8 @@ There is a universal model that performs well on a broad range of tasks.
 \end{hyp}
 
 \chapter{Parameters and experimental setup}
+
+\todo[inline]{Intro}
 
 \section{Co-occurrence quantification}
 \label{sec:quantification}
