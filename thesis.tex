@@ -55,6 +55,10 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 \usepackage{hyperref}
 \def\UrlBreaks{\do\/\do-}
 
+\usepackage{ntheorem}
+\theoremseparator{:}
+\newtheorem{hyp}{Hypothesis}
+
 % \title{Categorical Composition Models in Large Scale NLP Tasks}
 % \title{Bringing Semantics to NLP Tasks Using Categorical Composition}
 % \title{Scaling Up Distributional Semantics to Real World NLP Tasks Using Categorical Composition}
@@ -118,9 +122,18 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 
 % \setcounter{tocdepth}{3}
 \tableofcontents
-\cleardoublepage
 
-% \todototoc
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Tables}
+\listoftables
+
+\cleardoublepage
 \listoftodos
 
 \chapter{Introduction}

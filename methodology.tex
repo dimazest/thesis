@@ -1,54 +1,105 @@
-\chapter{Robust parameter selection}
+\chapter{Methodology for robust parameter selection}
 \label{sec:methodology}
 
-% Co-occurrence based vector space models include many parameters \cite{Turney:2010:FMV:1861751.1861756,kiela-clark:2014:CVSC,TACL570}. The most important parameters are co-occurrence quantification, which is discussed in Section~\ref{sec:quantification}, vector space dimensionality (Section~\ref{sec:vect-dimens}), similarity measure (Section~\ref{sec:similarity-measure}) and compositional operator (Section~\ref{sec:comp-oper}).
+Experiments with distributional vector space models can be divided to two related categories: one that aims to achieve the highest score on a task, and another that studies the difference between certain parameters. The difference between the two categories can be expressed in the following questions:
 
-% Because model performance is very sensitive to parameter selection, \todo[]{Illustrate model sensitivity on dimensionality. 2K to 3K.} we begin with the description of a parameter selection technique in Sections~\ref{sec:model-select} and \ref{sec:other-model-paramt} and then describe the parameters in Section~\ref{sec:parameters} that are used in the experiments (Chapters~\ref{cha:experiments} and \ref{cha:extr-exper}).
-
-% \section{Problems with model selection}
-% \label{sec:model-select}
-
-Experiments with distributional vector space models can be divided to two related categories: the ones that aim to achieve the highest score on a task and the ones that study the difference between certain parameters. Given a parameter space described in Sections~\ref{sec:quantification} and \ref{sec:other-model-paramt} the difference between the two categories can be expressed as the following questions:
-%
 \begin{compactitem}
-\item What parameter combination gives the highest result?
-\item What parameter instance is superior? For example, is Kronecker better than addition as a compositional operator?
+\item What parameter combination gives the highest result? \newcite{baroni-dinu-kruszewski:2014:P14-1} is a representative study of this kind.
+\item What parameter instance is superior? For example, the comparison of neighbour rank and distance measure in predicting semantic priming \cite{lapesa-evert:2013:CMCL}.
 \end{compactitem}
 
-The first question is applicable in a situation when a method based on distribution hypothesis is tested for modeling similarity as opposed to a conceptually different method, for example, ontological information. The second question is applicable to study the difference of parameters within a conceptual method.
+The first question is applicable in a situation when conceptually different methods are compared, for example ``count'' and  ``predict'' methods \cite{baroni-dinu-kruszewski:2014:P14-1}. The second question is applicable to a study of the difference of parameters within a conceptual method as in \newcite{lapesa-evert:2013:CMCL}.
 
-Looking for an optimal \emph{single best} parameter combination is dangerous because it can be easily overfitted. In such a large space of parameters, there will some that give high results by chance capturing idiosyncrasies of the dataset. Instead, once could look for tendencies to build recommendations for parameter selection as in \newcite{kiela-clark:2014:CVSC}, or even fit a general linear model to predict model performance \cite{lapesa2014large} and avoid overfitting.
+The co-occurrence information can be used in many different ways to build distributional models of meaning \cite{Turney:2010:FMV:1861751.1861756}. This has led to a series of systematic parameter studies \cite{Bullinaria2007,BullinariaLevy2012,kiela-clark:2014:CVSC,lapesa2014large,TACL570}. All of them explore a large number of parameter combinations, report the best scores, compare and derive recommendations of the parameter choices.
 
-Not all parameters are equal from the vector space design point of view. For example, dimensionality choice might be dependent on the computation power that is available, while compositional operator choice might be dependant on the semantic theory used.
+\newcite{lapesa2014large} make one step further in studying parameter behaviour by identifying the most influential parameters and their two-way interactions with a linear model, which is fit in such a way that parameters of a vector space model predict its performance. This approach solves two problems. First of all, it is designed to avoid overfitting. Secondly, it avoids noise in parameter selection revealing the regularity in the parameter choices.
 
-Also, parameters have different influence to the performance of the whole model, for example, the choice of compositional operator might influence model performance far more dramatically than the choice of underlying co-occurrence probability estimation.
+The goal of this work is to provide the representative performance numbers of count-based distributional models of meaning---so they could be compared to other semantic models---and to study general behaviour of vector space parameters and compositional operators---so they could be compared. The study is performed in a systematic manner using recently developed evaluation datasets for lexical and phrasal meaning representations.
 
-To take into account these considerations, we propose to study the variance of model performance for given parameter instances: for example, smoothed and unsmoothed probabilities.
+\section{Strategies of avoiding overfitting}
+\label{sec:avoiding-overfitting}
 
-The parameter selection, then, can greedy, by looking to the behaviour of all parameters and choosing the ones that have the highest upper bound of the confidence interval. Alternatively, the parameter selection can be consecutive, by choosing the parameter with the highest effect.
+This work adopts the strategy of \newcite{lapesa2014large} to avoid overfitting and reduce noise in parameter selection. Several evaluation datasets are used individually and in combination.
 
-We contrast this \emph{heuristic} based model selection with two other methods: a method based on the best parameter selection and cross-validation.
+The models are tested on two lexical datasets: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. These two datasets are chosen because they are larger than other previously used datasets. It has been argued that the score variance is strongly dependant on the size of the evaluation dataset \cite{W16-2502}. SimLex-999 consists of 999 word pairs and MEN consists of 3000. Compare this with the sizes of other popular datasets: 353 \cite{2002:PSC:503104.503110} and 65 \cite{Rubenstein:1965:CCS:365628.365657}.
 
-\section{Model selection methods}
-\label{sec:model-select-meth}
+The three compositional datasets that are employed in this study are KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ESC:2145432.2145580} and PhraseRel (Section~\ref{sec:phraserel}). They consist of phrases with controlled syntax (they are subject-verb-object phrases) and cover several aspects: similarity, disambiguation and relevance.
+
+We combine the lexical datasets to see whether there are models that perform well on both lexical datasets simultaneously and thus to supposingly avoid individual dataset idiosyncrasies. Similarly, we combine the phrasal datasets.
+
+Lexical and phrasal datasets are combined to look for a universal vector space. The model selection procedure is performed in two ways. First, we take the compositional operator into account, so we are able to recommend models that perform well on lexical dataset and phrasal datasets with, for example, addition. Finally, we abstract over the compositional method and seek for parameters that are universally good for lexical and phrasal tasks for all operator.
+
+Because we test the models on several datasets, transfer selected models to the unseen datasets and perform model selection on their combinations (which is another way of avoiding overfitting) we also report the models that performed best in our exhaustive evaluation. This allows us to see whether overfitting actually happens, as we expect that during transfer the models with the highest score will degrade their performance more than the models selected using heuristics.
+
+Concretely, we perform 3 different parameter selections that are discussed below.
 
 \subsection{Best model}
 
-This parameter selection technique chooses the parameters that yield best result for all operator-dimension combinations.
-
-This method is widely adopted \cite{mitchell-lapata:2008:ACLMain,Grefenstette:2011:ESC:2145432.2145580,milajevs-purver:2014:CVSC,milajevs-EtAl:2014:EMNLP2014}, but as previously discussed is prone to overfitting.
+This parameter selection technique chooses the parameters that yield the best result. This method is widely adopted \cite{mitchell-lapata:2008:ACLMain,Grefenstette:2011:ESC:2145432.2145580,milajevs-purver:2014:CVSC,milajevs-EtAl:2014:EMNLP2014}, but as previously discussed is prone to overfitting.
 
 \subsection{Cross-validation}
 
-Cross-validation is similar, but the parameter selection is done on the average performance of the training splits over 5 folds. We report the average performance over the testing splits.
+Cross-validation is similar model selection method, but the parameter selection is done on the average performance of the training splits over 5 folds. We report the average performance over the testing splits.
 
-Cross-validation avoids overfitting, but its performance results are not compatible with the best model selection, because they are based on averages over the folds. Also, the existing datasets are not made with such evaluation in mind.
+Even though cross-validation avoids overfitting, its performance results are not compatible with the best model selection, because they are based on averages over the folds. Also, the existing datasets are not made with such evaluation in mind \cite{W16-2506}.
 
 \subsection{Heuristics}
 
-This parameter selection is based on parameter selection based on their average behaviour. We look for the average parameter performance for the each dimensionality (for lexical experiments) or operator-dimensionality combination (for compositional experiments) and choose the parameter value with the highest upper bound of the 0.95 confidence interval.
+This parameter selection is based on parameters' average behaviour. We look for the average parameter performance for the each dimensionality (for lexical experiments) or operator-dimensionality combination (for compositional experiments) and choose the parameter value with the highest upper bound of the 0.95 confidence interval.
+
+The parameters processed in order of their ablation. Parameter's ablation is proportional to the reduction of the adjusted $R^2$ score if the parameter is left out. Refer to \newcite{lapesa2014large} for the details.
 
 This method not only avoids overfitting but also yields evaluation results that are comparable with the best-model reports.
+
+\section{Hypotheses}
+\label{sec:hypotheses}
+
+\begin{hyp}[H\ref{hyp:overfitting}]
+\label{hyp:overfitting}
+Heuristic-based model selection avoids overfitting.
+\end{hyp}
+
+In other words, models that are chosen using heuristic-based selection achieve better results than max-based selected models on the datasets they were not instantiated on.
+
+\begin{hyp}[H\ref{hyp:10percent}]
+\label{hyp:10percent}
+The performance difference between the best behaving model and a model selected using heuristics is 10\%.
+\end{hyp}
+
+The optimal results reported in \citep[\textcolor{citecolor}{Table~5}]{lapesa2014large} are within 10\% (with an exception of the ESSLLI dataset, where the difference is 21\%). We expect similar relative difference.
+
+\begin{hyp}[H\ref{hyp:dimen}]
+\label{hyp:dimen}
+The optimal parameter choice depends on dimensionality.
+\end{hyp}
+
+\newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} showed that the parameter recommendations provided by \newcite{TACL570} are not applicable to the vector spaces with dimensionality of few thousand.
+
+The difference could be because the counts of the most frequent words do not contain noise. The counts (and therefore the probability estimates) of less frequent words are noisy and require special treatment such as smoothing to patch PMI's Achilles heel when small counts receive a high value \cite{TACL570}.
+
+\begin{hyp}[H\ref{hyp:var}]
+\label{hyp:var}
+Highly dimensional models are more likely to perform better than their low dimensional counterparts.
+\end{hyp}
+
+As the vector space dimensionality increases, performance stabilises \cite{kiela-clark:2014:CVSC,BullinariaLevy2012,lapesa2014large}. We speculate that in a highly dimensional case the difference between parameter choices matter less and thus higher results are reported more often for highly-dimensional spaces.
+
+\begin{hyp}[H\ref{hyp:lextocomp}]
+\label{hyp:lextocomp}
+Models that perform exceptionally well on lexical tasks not necessarily perform well on compositional tasks.
+\end{hyp}
+
+\begin{hyp}[H\ref{hyp:order}]
+\label{hyp:order}
+In compositional tasks, models that take word order into account perform better than the models that ignore it.
+\end{hyp}
+
+Addition perform very well in compositional tasks \cite{milajevs-EtAl:2014:EMNLP2014}, but that could be because optimal parameters for other operators were not chosen.
+
+\begin{hyp}[H\ref{hyp:universal}]
+\label{hyp:universal}
+There is a universal model that performs well on a broad range of tasks.
+\end{hyp}
 
 \chapter{Parameters and experimental setup}
 
