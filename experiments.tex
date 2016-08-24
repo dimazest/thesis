@@ -22,12 +22,12 @@ Before reporting lexical experiments, we would like to elaborate stated hypothes
 
 \begin{hyp}[H\ref{hyp:lex-pmi-cpmi}]
   \label{hyp:lex-pmi-cpmi}
-  In lexical tasks, there is no difference between PMI and its compressed version CPMI (Section~\ref{sec:pmi-variants}). Shifted PMI variants behave the same (Section~\ref{sec:shifted-pmi}.
+  In lexical tasks, there is no difference between PMI and its compressed version CPMI (Section~\ref{sec:pmi-variants}). Shifted PMI variants behave the same (Section~\ref{sec:shifted-pmi}).
 \end{hyp}
 
 The main effect of C*PMI is to avoid negative values that might be problematic for multiplication during composition as it leads to negative or positive values. As there is no composition involved in lexical tasks, the weighting schemes should behave equally.
 
-The next hypotheses are related to PMI's Achilles heel and are supposed to lower the influence of low co-occurrence counts, therefore we expect that they are beneficial for highly dimensional spaces as partially showed in \cite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
+The next hypotheses are related to PMI's Achilles heel and are supposed to lower the influence of low co-occurrence counts, therefore we expect that they are beneficial for highly dimensional spaces as partially showed in \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
 
 \begin{hyp}[H\ref{hyp:freq}]
   \label{hyp:freq}
@@ -87,13 +87,13 @@ The third parameter \texttt{neg} of 0.7 shows the best performance (Figure~\ref{
 There is little difference between SPMI and SCPMI performance with a little advantage to SCPMI (Figure~\ref{fig:SimLex999-discr}), supporting H\ref{hyp:lex-pmi-cpmi}.
 
 \input{figures/SimLex999-cds}
-Finally, models benefit from context distribution smoothing, spaces with less than 10000 dimensions produce the best results with $\alpha = 1$, for spaces with higher dimensionality $\alpha = 0.75$ is the most advantageous (Figure~\ref{fig:SimLex999-cds}). This supports H\ref{hyp:cds} and replicates the results of \cite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
+Finally, models benefit from context distribution smoothing, spaces with less than 10000 dimensions produce the best results with $\alpha = 1$, for spaces with higher dimensionality $\alpha = 0.75$ is the most advantageous (Figure~\ref{fig:SimLex999-cds}). This supports H\ref{hyp:cds} and replicates the results of \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
 
 \input{figures/SimLex999-heuristics-selection-table}
 
 \subsection{Difference between Max selection and heuristics on SimLex-999}
 
-As expected, manual parameter selection is more stable as Table~\ref{tab:Simlex999-heuristics-selection} shows. Both selection models agree on parameters for highly dimensional spaces ($D \geq 2000$), with an exception of similarity: Max selection prefers cosine, while manual prefers correlation based similarity measure. Because of this, manual selection does not pick the best result of the 2000 dimensional model, but at 50000 dimensions a model selected manually scores 0.001 lower: 0.384 versus 0.385 as also seen on Figure~\ref{fig:SimLex999-results}.
+As expected, manual parameter selection is more homogeneous as Table~\ref{tab:Simlex999-heuristics-selection} shows. Both selection models agree on parameters for highly dimensional spaces ($D \geq 2000$), with an exception of similarity: Max selection prefers cosine, while manual prefers correlation based similarity measure. Because of this, manual selection does not pick the best result of the 2000 dimensional model, but at 50000 dimensions a model selected manually scores 0.001 lower: 0.384 versus 0.385 as also seen on Figure~\ref{fig:SimLex999-results}.
 
 The average relative difference between Max selection and heuristics is 0.039, which is within the margin set by H\ref{hyp:10percent}.
 
@@ -171,16 +171,28 @@ Max based selection leads to better performance than the heuristics for MEN, mak
 
 \input{figures/lexical-results}
 
-Figure~\ref{fig:lexical-results} shows performance of the models based on the average of the normalised scores over SimLex-999 and MEN. The performance of selected models on both datasets and the normalised average is shown on Table~\ref{tab:lexical-max-selection} (Max selection) and Table~\ref{tab:lexical-heuristics-selection} (selection based on heuristics).
-%
-\todo[noline]{Compare with Baroni and Levy.}
+Figure~\ref{fig:lexical-results} shows performance of the models based on the average of the normalised scores over SimLex-999 and MEN:
+$$
+\operatorname{score}_\mathit{lexical}(\mathit{model}) =%
+\frac{1}{2}%
+\frac{\operatorname{score}_\mathit{SimLex-999}(model)}%
+{\max_m\operatorname{score}_\mathit{SimLex-999}(m)}%
++%
+\frac{1}{2}%
+\frac{\operatorname{score}_\mathit{MEN}(model)}%
+{\max_m\operatorname{score}_\mathit{MEN}(m)}%
+$$
+
+The performance of the selected models on both datasets and the normalised average is shown on Table~\ref{tab:lexical-max-selection} (Max selection) and Table~\ref{tab:lexical-heuristics-selection} (selection based on heuristics).
+
+\todo[inline]{Compare with Baroni and Levy.}
 
 \subsection{Max selection}
 \label{sec:max-selection}
 
 In general, the more dimensions, the better the results are. The selection yields the best results at $D = 50000$ for SimLex-999 and at $D = 3000$ for MEN. While for SimLex-999,  the Max selection approaches the upper limit after 20000 dimensions; for MEN, it peaks and slightly deviates from the upper bound as the dimensionality increases.
 
-The Max parameter selection based on the combination of the two lexical datasets is closer to the Max selection based on SimLex-999 (Table~\ref{tab:Simlex999-max-selection}) than on MEN (Table~\ref{tab:men-max-selection}).
+The Max selection based on the combination of the two lexical datasets is closer to the Max selection based on SimLex-999 (Table~\ref{tab:Simlex999-max-selection}) than on MEN (Table~\ref{tab:men-max-selection}).
 
 \input{figures/lexical-max-selection-table}
 
@@ -191,19 +203,17 @@ The Max parameter selection based on the combination of the two lexical datasets
 The linear model achieves an adjusted $R^2$ of 0.817, which is less then $R^2 = 0.867$ of SimLex-999, but is greater than the $R^2 = 0.733$ of MEN. Table~\ref{tab:lexical-ablation} shows partial $R^2$ for each parameter, the most influential are similarity, \texttt{neg} and \texttt{freq}.
 
 \input{figures/lexical-similarity}
-Correlation is the similarity measure of choice (Figure~\ref{fig:lexical-similarity}).
+Correlation is the similarity measure of choice (Figure~\ref{fig:lexical-similarity}). However, the difference between cosine and correlation is minimal for $D \leq 5000$.
 
-% \input{figures/lexical-neg}
-For the models with dimensionality less than 20000 shifting should be used with $k = 1$, otherwise $k = 2$ is preferred (Figure~\ref{fig:lexical-neg}).
+For the models with dimensionality less than 20000 shifting should be used with $k = 1$, otherwise $k = 2$ is preferred (Figure~\ref{fig:lexical-neg}). This supports H\ref{hyp:neg}.
 
 \input{figures/lexical-freq}
-$\log n$ on average performs the best as the frequency component (Figure~\ref{fig:lexical-freq}).
+$\log n$ on average performs the best as the frequency component (Figure~\ref{fig:lexical-freq}). But for $D \leq 5000$, 1 is also performs competitively to $\log n$, supporting H\ref{hyp:freq}.
 
-% \input{figures/lexical-discr}
-SCPMI is the preferred discrimination component, but SCPMI is very close to it (Figure~\ref{fig:lexical-discr}).
+SCPMI is the preferred discrimination component, but SPMI is very close to it (Figure~\ref{fig:lexical-discr}) backing up H\ref{hyp:lex-pmi-cpmi}.
 
 \input{figures/lexical-cds}
-Global context probabilities on average behave the best (Figure~\ref{fig:lexical-cds}).
+Global context probabilities on average behave the best (Figure~\ref{fig:lexical-cds}). However, global context probabilities and local context probabilities with $\alpha = 1$ yield close results for $D > 10000$, giving support to H\ref{hyp:cds}.
 
 \input{figures/lexical-heuristics-selection-table}
 
@@ -219,11 +229,24 @@ Even though the similarity choice is different between the Max and heuristic sel
 
 For the Max-based selection, the average difference is 0.020 on SimLex-999 and 0.004 for MEN.
 
-For the heuristics-based selection, the average difference is 0.048 for SimLex-999 and 0.010 for MEN.
+For the heuristics-based selection, the average difference is 0.048 for SimLex-999 and 0.010 for MEN, which is within the 10\% limit set by H\ref{hyp:10percent}.
 
-Max selection behaves better than the heuristics based on the average difference, but we can not check how well these two selections behave on other lexical datasets.
+Max selection behaves better than the heuristics based on the average difference, but we can not check how well these two selections behave on other lexical datasets. This is an evidence against H\ref{hyp:overfitting}.
 
-Based on the experiments, \logNSCPMI/ with shifting close to 1 is the quantification of choice for the lexical tasks, however more work needs to be done to find robust choice for context distribution smoothing and similarity measure choice.
+Based on the experiments, \logNSCPMI/ with shifting close to 1 is the quantification of choice for the lexical tasks, however more work needs to be done to find robust choice for context distribution smoothing and similarity measure.
+
+\section{Conclusion}
+\label{sec:conclusion-lexical}
+
+Lexical experiments give support to the most of the stated hypotheses in Sections~\ref{sec:hypotheses} and \ref{sec:elab-hypoth-lexical}.
+
+The optimal parameter choice depends on dimensionality (H\ref{hyp:dimen}). In particular, non constant frequency component (Section~\ref{sec:frequency-weighting}, H\ref{hyp:freq}), context distribution smoothing (Section~\ref{sec:cont-distr-smooth}, H\ref{hyp:cds}) and shifting (Section~\ref{sec:shifted-pmi}, H\ref{hyp:neg}) should be applied for spaces with $D \geq 10000$.
+
+The switch at 10000 dimensions is a ``parameter sweet spot'' as parameter choice is not significant at these points, the most representable example is \texttt{cds} behaviour on SimLex-999 (Figure~\ref{fig:SimLex999-cds}. After that point performance either converges (supporting H\ref{hyp:var}), as in case of \texttt{neg} on SimLex-999 (Figure~\ref{fig:SimLex999-neg}), or there is one dominant choice, as for \texttt{freq} on SimLex-999 (Figure~\ref{fig:SimLex999-freq}).
+
+As expected, we did not see a significant influence of the ``compression'' of the PMI values (H\ref{hyp:lex-pmi-cpmi}).
+
+We could not find supporting evidence for H\ref{hyp:overfitting}, as Max-selected models performed well on transfer and bot selection methods are within the 10\% difference margin to the highest result (H\ref{hyp:10percent}).
 
 \chapter{Similarity of sentences}
 \label{sec:sentential}
