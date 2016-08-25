@@ -547,7 +547,7 @@ Overall, the difference is 0.049, which is within H\ref{hyp:10percent}.
 
 There is little agreement on parameter selection based on heuristics among the 3 compositional datasets. The only consistent choice is global context probability (\texttt{cds}) and SCPMI discriminativeness for multiplicative models.
 
-There is more pairwise agreement, for example similarity based on correlation for additive models on KS14 and GS11 and $\log n$ frequency for multiplicative models between GS11 and PhraseRel. The pairwise agreement might be a sign of overfitting, because there is no clear pattern. On the other side, the difference in performance between parameter choices might be neglectable as some parameters consistently show low $R^2$ scores, for example \texttt{discr}.
+There is more pairwise agreement, for example similarity based on correlation for additive models on KS14 and GS11 and $\log n$ frequency for multiplicative models between GS11 and PhraseRel. The pairwise agreement might be a sign of overfitting, because there is no clear pattern. On the other side, the difference in performance between parameter choices might be neglectable as some parameters consistently show low $R^2$ scores, for example \texttt{discr}. Consequently, there is inconsistency in the hypotheses support.
 
 \subsection{From KS14}
 \label{sec:from-ks14}
@@ -557,17 +557,17 @@ There is more pairwise agreement, for example similarity based on correlation fo
 Figure~\ref{fig:ks14-transfer} show the behaviour of models selected on the KS14 when they are transferred to GS11 and PhraseRel. During the transfer there is little difference in performance between the selection methods, except of multiplicative models where heuristics show better performance and 5000 dimensional Kronecker where heuristics give lower results than the max-based selection.
 
 \todo[noline]{Significance tests}
-Heuristic-based selecting on average is closer to the upper bound. When transferred to GS11 the average difference with the upper bound is 0.335 for max and 0.238 for heuristics. When transferred to PhraseRel the average difference is 0.093 for max and 0.091 for heuristics.
+Heuristic-based selection on average is closer to the upper bound than max based selection, supporting H\ref{hyp:overfitting}. However, both of them are beyond the 10\% boundary set by H\ref{hyp:10percent}. When transferred to GS11 the average difference with the upper bound is 0.335 for max and 0.238 for heuristics. When transferred to PhraseRel the average difference is 0.093 for max and 0.091 for heuristics.
 
 \subsection{From GS11}
 \label{sec:from-gs11}
 
 \input{figures/gs11-transfer}
 
-Figure~\ref{fig:gs11-transfer} shows that there is little difference between max and heuristic selections. In case of \texttt{head} composition, heuristics lead to higher performance, while for low-dimensional multiplicative models heuristics fall behind the max selection on the KS14 dataset.
+Figure~\ref{fig:gs11-transfer} shows that there is little difference between max and heuristic-based selections. In case of \texttt{head} composition, heuristics lead to higher performance, while for low-dimensional multiplicative models heuristics fall behind the max selection on the KS14 dataset.
 
 \todo[noline]{Significance tests}
-When GS11 models are transferred to KS14, the average difference with the upper bound is 0.119 and 0.106 for max and heuristics respectively. For the transfer to PhraseRel, the differences are 0.133 for max and 0.188 for heuristics. Again, the heuristic-based selection outperforms the max based.
+When GS11 models are transferred to KS14, the average difference with the upper bound is 0.119 and 0.106 for max and heuristics respectively. For the transfer to PhraseRel, the differences are 0.133 for max and 0.188 for heuristics. Again, the heuristic-based selection outperforms the max based. This supports H\ref{overfitting}, but the results are beyond the limit of H\ref{hyp:10percent}.
 
 \subsection{From PhraseRel}
 \label{sec:from-phraserel}
@@ -579,24 +579,43 @@ Figure~\ref{fig:phraserel-transfer} shows that the performance of models based o
 \todo[noline]{Significance tests}
 Transfer to KS14 yields the average differences of 0.152 for max and 0.136 for heuristics. Transfer to GS11 yields the average differences of 0.454 for max and 0.509 for heuristics. Note that the PhraseRel to GS11 transfer is the only case where max selection on average is better than heuristics.
 
-\todo[inline]{Here we showed, in contrast to the lexical evaluation, that the heuristics might be indeed be more beneficial than the max-based selection.}
+In general, over all compositional datasets, we see---in contrast to the lexical evaluation---that the Max-based selection might be prone to overfitting (H\ref{hyp:overfitting}). However, the result difference is far beyond H\ref{hyp:10percent}, which might be due to the different nature of the tasks: similarity, disambiguation and relevance.
 
 \section{Universal parameter selection for compositional datasets}
 \label{sec:robust-param-comp-selecion}
 
 \input{figures/compositional-results}
 
-Figure~\ref{fig:compositional-results} show the performance of the models based on the combined selection over the KS14, GS11 and PhraseRel datasets. The performance of selected models together with the selected parameters is shown on the Table~\ref{tab:compositional-max-selection} (Max selection) and Table~\ref{tab:compositional-heuristics-selection} (selection based on heuristics).
+Figure~\ref{fig:compositional-results} shows the performance of the models based on the combined selection over the KS14, GS11 and PhraseRel datasets. The combined score is calculated the following way:
+$$
+\operatorname{score}_\mathit{compositional}(\mathit{model}) =%
+\frac{1}{3}%
+\frac{\operatorname{score}_\mathit{KS14}(model)}%
+{\max_m\operatorname{score}_\mathit{KS14}(m)}%
++%
+\frac{1}{3}%
+\frac{\operatorname{score}_\mathit{GS11}(model)}%
+{\max_m\operatorname{score}_\mathit{GS11}(m)}%
++%
+\frac{1}{3}%
+\frac{\operatorname{score}_\mathit{PhraseRel}(model)}%
+{\max_m\operatorname{score}_\mathit{PhraseRel}(m)}%
+$$
+
+The performance of selected models together with the selected parameters is shown on the Table~\ref{tab:compositional-max-selection} (Max selection) and Table~\ref{tab:compositional-heuristics-selection} (selection based on heuristics).
 
 \subsection{Max selection}
 \label{sec:max-selection-compositional}
 
 Models with many dimensions not always perform better than their low-dimensional counterparts. Particularly, only \texttt{head} and multiplication benefit from the high number of dimensions. Addition and Kronecker are closer to the upper bound with the dimensionality of few thousands.
 
+\input{figures/compositional-ablation}
+
+Regarding the hypotheses, there is support of H\ref{hyp:freq} for addition, multiplication and Kronecker, H\ref{hyp:cds} for multiplication and H\ref{hyp:neg} for Kronecker.
+
 \subsection{Heuristics}
 \label{sec:heuristics-compositional}
 
-\input{figures/compositional-ablation}
 The linear model achieves the $R^2 = 0.769$. Table~\ref{tab:compositional-ablation} shows the partial $R^2$ values for the parameters. The most influential parameters are \texttt{neg}, \texttt{freq} and compositional operator.
 
 \subsubsection{Neg}
@@ -606,28 +625,32 @@ The linear model achieves the $R^2 = 0.769$. Table~\ref{tab:compositional-ablati
 
 For \texttt{head} and models with $D < 10000$ the \texttt{neg} should be set to 1, otherwise it should be 1.4 (Figure~\ref{fig:compositional-neg}).
 
-For addition, 1 is the best choice of \texttt{neg}.
+For addition, 1 is the best choice of \texttt{neg}, but the performance of $k$ values follows H\ref{hyp:neg}.
 
-Multiplication benefits from denser spaces. If the dimensionality is less than 10000, then \texttt{neg} should be set to 0.5, otherwise 0.7 is a good choice.
+Multiplication benefits from denser spaces. If the dimensionality is less than 10000, then \texttt{neg} should be set to 0.5, otherwise 0.7 is a good choice, confirming H\ref{hyp:neg}.
 
-Kronecker benefits from the \texttt{neg} of 0.7 if $D < 10000$ and from 1 for the more dimensional cases. This is similar to multiplication, but Kronecker prefers less dense vectors.
+Kronecker benefits from the \texttt{neg} of 0.7 if $D < 10000$ and from 1 for the more dimensional cases, supporting H\ref{hyp:neg}. This is similar to multiplication, but Kronecker prefers less dense vectors.
 
 \subsubsection{Freq}
 \label{sec:freq-compositional}
 
 $\log n$ is the frequency value of choice of all operators with an exception of multiplication, where the constant frequency is preferred (Figure~\ref{fig:compositional-freq}).
 
+1 behaves good for low-dimensional vector spaces ($D \leq 5000$), giving support of H\ref{hyp:freq}.
+
 \subsubsection{Context distribution smoothing}
 \label{sec:cont-distr-smooth-compositional}
 
 \input{figures/compositional-cds}
 
-As Figure~\ref{fig:compositional-cds} shows, global context probability is the preferred choice of context probability in all cases, but in cases of Kronecker composition with $D > 3000$, where smoothed local probabilities are better ($\alpha = 0.75$).
+As Figure~\ref{fig:compositional-cds} shows, global context probability is the preferred choice of context probability in all cases, with an exception of Kronecker with $D > 3000$, where smoothed local probabilities are better ($\alpha = 0.75$), supporting H\ref{hyp:cds}.
 
 \subsubsection{Similarity}
 \label{sec:similarity-compositional}
 
 Correlation is the dominant choice of the similarity measure (Figure~\ref{fig:compositional-similarity}). However, cosine is preferred in the case of \texttt{head}, with $D > 5000$, and inner product is the only choice for the composition with Kronecker with $D > 3000$.
+
+There is no distinction between cosine and correlation for all compositional operators, which does not contradict H\ref{hyp:similarity}.
 
 \subsubsection{Discr}
 \label{sec:discr-compositional}
@@ -636,7 +659,7 @@ Correlation is the dominant choice of the similarity measure (Figure~\ref{fig:co
 
 SPMI is the choice of \texttt{discr} that leads to the best average performance in most cases (Figure~\ref{fig:compositional-discr}). However the difference between SPMI and SCPMI is very small.
 
-The exceptions are Multiplicative composition with $D \geq 10000$ and Kronecker with $D \leq 5000$ where SCPMI outperforms SPMI.
+The exceptions are Multiplicative composition with $D \geq 10000$ and Kronecker with $D \leq 5000$ where SCPMI outperforms SPMI, as expected by H\ref{hyp:comp-pmi-cpmi}.
 
 \subsection{Comparison with the single dataset beased selections}
 \label{sec:comp-with-single-comp}
@@ -645,10 +668,12 @@ Manual selection based on a combination of the compositional datasets is more st
 
 The average difference with the upper bound is 0.040 and 0.041 for Max and heuristics, respectively, when applied to KS14. For GS11, the difference is 0.045 (Max) and 0.127 (Heuristics). For PhraseRel, the difference is 0.055 (Max) and 0.084 (Heuristics).
 
+The numbers are much lower than the transfer of spaces selected on the basis of one dataset (Section~\ref{sec:select-model-transf-comp}. The average normalised difference is within the 10\% limit (H\ref{hyp:10percent}), with an exception of heuristics on GS11. This is an evidence, that there might be one universal model that fits various tasks H\ref{hyp:universal}.
+
+The model selection procedures improve from combination of datasets. One needs to keep in mind that in this case we test model performance on the same dataset as we do parameter selection.
+
 \chapter[Universal model]{Universal model for both lexical and compositional tasks}
 \label{sec:universal-param-selection}
-
-\todo[inline]{From lexical to compositional.}
 
 \section{Operator dependant (universal) models}
 \label{sec:model-selection}
