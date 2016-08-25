@@ -246,7 +246,7 @@ The switch at 10000 dimensions is a ``parameter sweet spot'' as parameter choice
 
 As expected, we did not see a significant influence of the ``compression'' of the PMI values (H\ref{hyp:lex-pmi-cpmi}).
 
-We could not find supporting evidence for H\ref{hyp:overfitting}, as Max-selected models performed well on transfer and bot selection methods are within the 10\% difference margin to the highest result (H\ref{hyp:10percent}).
+We could not find supporting evidence for H\ref{hyp:overfitting}, as Max-selected models performed well on transfer and both selection methods are within the 10\% difference margin to the highest result (H\ref{hyp:10percent}), suggesting that there indeed might be a universal vector space (H\ref{hyp:universal}).
 
 We observed another regularity: cosine is a good similarity choice for low-dimensional spaces, but correlation is a better choice for highly-dimensional spaces.
 
@@ -254,6 +254,27 @@ We observed another regularity: cosine is a good similarity choice for low-dimen
 \label{sec:sentential}
 
 \todo[inline]{Selection description: global best; best operator, its general behaviour, general behaviour of others; parameters.}
+
+\section{Elaborated hypotheses}
+\label{sec:elab-hypoth-comp}
+
+As for the lexical experiments (Section~\ref{sec:elab-hypoth-lexical}), before reporting the results we refine some of our initial hypothesis (Section~\ref{sec:hypotheses}).
+
+\begin{hyp}[H\ref{hyp:comp-pmi-cpmi}]
+  \label{hyp:comp-pmi-cpmi}
+  Compositional methods based on addition perform best with either PMI or SPMI, while methods that are based on multiplication should work best with CPMI and SCPMI.
+\end{hyp}
+
+The reason for that is the presence of negative values. In case of multiplication as a compositional operator, the sign of a vector component depends on the number of the corresponding negative components of the constituents. If the number of negative values is odd, then the resulting value will be negative. This makes the difference between 0.001 and -0.001 significant, while in the first case the value means that the co-occurrence pair is weakly associated, but in the second case the value means that the co-occurrence is weakly unassociated.
+
+We also expect hypotheses related to PMI's Achilles heel (H\ref{hyp:freq}, H\ref{hyp:cds}, H\ref{hyp:neg}) to apply in the compositional case.
+
+\begin{hyp}[H\ref{hyp:similarity}]
+  \label{hyp:similarity}
+  Cosine is an optimal similarity measure for low-dimensional spaces, while correlation is for highly-dimensional spaces.
+\end{hyp}
+
+We observed such behaviour in lexical tasks (Section~\ref{sec:conclusion-lexical}) and expect to see similar behaviour in compositional tasks.
 
 \section{KS14}
 \label{sec:ks14}
@@ -263,11 +284,10 @@ We observed another regularity: cosine is a good similarity choice for low-dimen
 
 \input{figures/ks14-results}
 
-Figure~\ref{fig:ks14-results} shows the performance of compositional model on the sentence similarity dataset KS14 \cite{kartsadrqpl2014}.
-All operators outperform the non-compositional \texttt{head} operator. Table~\ref{tab:ks14-max-selection} shows the performance of models selected by Max selection together with the selected parameters.
+Figure~\ref{fig:ks14-results} shows the performance of compositional model on the sentence similarity dataset KS14 \cite{kartsadrqpl2014}. All operators outperform the non-compositional \texttt{head} operator. Table~\ref{tab:ks14-max-selection} shows the performance of models selected by Max selection together with the selected parameters.
 
 \todo[noline]{Significance test}
-Kronecker with low dimensions and thus with correlation as the similarity measure gives the highest scores. As the dimensionality increases, Kronecker performance stays constant. Addition is slightly better than multiplication, but the performance of both peaks at 2000 dimensions and decreases as the dimensionality increases.
+Kronecker with few thousand dimensions and correlation as the similarity measure gives the highest scores, supporting H\ref{hyp:order}. As the dimensionality increases, Kronecker performance stays constant. Addition is slightly better than multiplication, but the performance of both peaks at 2000 dimensions and decreases as the dimensionality increases.
 
 \texttt{Head} parameters are similar to the lexical Max selection (Table~\ref{tab:lexical-max-selection}), with an exception of \texttt{neg}, where values similar to MEN (Table~\ref{tab:men-max-selection}) are chosen.
 
@@ -275,13 +295,13 @@ All compositional operators agree in the choice of \texttt{freq} ($\log n$), \te
 
 Compositional operators perform best with constant \texttt{freq} of 1, in contrast to the lexical setting, where $\log n$ is more beneficial. This might be because during composition the $\log n$ term dominates over the PMI value and minimises its effect.
 
-Local context probabilities perform better in compositional tasks. Multiplication benefits from the unsmoothed distribution probability, while highly dimensional models perform best with smoothing ($\alpha = 0.75$). The only exception are additive models with $D < 5000$, where global probabilities perform best.
+Local context probabilities perform better in compositional tasks. Multiplication benefits from the unsmoothed distribution probability, while highly dimensional models perform best with smoothing ($\alpha = 0.75$), supporting H\ref{hyp:cds}. The only exception are additive models with $D < 5000$, where global probabilities perform best.
 
-For low dimensional spaces, addition performs best with sparse spaces ($k > 1$, $D < 5000$), but for high dimensional spaces, addition performs best  with dense spaces ($k = 0,7$, $D \geq 5000$).
+For low dimensional spaces, addition performs best with sparse spaces ($k > 1$, $D < 5000$), but for high dimensional spaces, addition performs best  with dense spaces ($k = 0,7$, $D \geq 5000$), supporting H\ref{hyp:neg}.
 
 Multiplication, independently of dimensionality, performs best with dense spaces ($k = 0.2$).
 
-Kronecker, in contrast to addition, performs best with dense low dimensional models ($k = 0.2$, $D < 5000$) and sparser high dimensional models ($k = 0.7$, $D \geq 5000$). But this difference might depend on the similarity measure, which is inner product for $D \geq 5000$.
+Kronecker, in contrast to addition, performs best with dense low dimensional models ($k = 0.2$, $D < 5000$) and sparser high dimensional models ($k = 0.7$, $D \geq 5000$). However, this difference might be explained by the change of the similarity measure, which is inner product for $D \geq 5000$.
 
 \subsection{Heuristics}
 \label{sec:heuristics}
@@ -297,49 +317,51 @@ For \texttt{head}, the best \texttt{neg} choice of $k$ is 1 for spaces with dime
 
 For addition, spaces with $D < 20000$ should be used with $k = 1.4$, and with $k = 2$ otherwise.
 
-For multiplication as with addition, there are three most beneficial choices: for $D < 10000$ $k = 0.5$, for $10000 \leq D < 30000$ $k = 0.7$ and, finally, for $D > 30000$ $k = 1$.
+For multiplication, there are three most beneficial choices: for $D < 10000$ $k = 0.5$, for $10000 \leq D < 30000$ $k = 0.7$ and, finally, for $D > 30000$ $k = 1$.
 
-\todo{See whether the trend ``if small then dense and if big then sparse'' holds.}
 Kronecker shows similar behaviour of $k$ as dimensionality increases as multiplication, but prefers sparser spaces: for $D < 3000$ $k = 0.5$, for $3000 \leq D < 20000$ and $D \geq 20000$ $k = 1$.
+
+All operators behave in accordance to H\ref{hyp:neg}.
 
 \subsubsection{Frequency}
 The best option of \texttt{freq} for \texttt{head} is $\log n$ (Figure~\ref{fig:ks14-freq}). The constant frequency 1 is very close $\log n$, but its performance declines for spaces with $D > 20000$.
 
 For addition, frequency should be set to 1 for spaces with $D < 5000$ and to $\log n$ otherwise.
 
-There is one choice of frequency for multiplication: 1.
+There is one choice of frequency for multiplication: 1, however $\log n$ behaves similarly to it for large values of $D$.
 
-\todo{Check whether \texttt{freq}:n is bad for operators that do multiplication.}
 Kronecker follows addition with regard to \texttt{freq}, but the split point is $D = 10000$: low dimensional spaces should be used with constant frequency 1, and high dimensional spaces with $\log n$.
+
+Therefore, H\ref{hyp:freq} is supported by this dataset.
 
 \subsubsection{Context distribution smoothing}
 
 \input{figures/ks14-cds}
 \texttt{Head} with spaces with dimensionality less than 20000 should be used with global probabilities, and more dimensional models should be used with smoothed local probabilities: $\alpha = 0.75$ (Figure~\ref{fig:ks14-cds}).
 
-All other operators perform best with global context probability.
+All other operators perform best with global context probability. Even though local context probability with $\alpha = 1$ is close to it, H\ref{hyp:cds} is not supported by this dataset.
 
 \subsubsection{Similarity}
-\texttt{Head} with spaces with $D < 20000$ performs best with cosine similarity, while more dimensional models prefer correlation as the similarity measure (Figure~\ref{fig:ks14-similarity}).
+\texttt{Head} on spaces with $D < 20000$ performs best with cosine similarity, while more dimensional models prefer correlation as the similarity measure (Figure~\ref{fig:ks14-similarity}).
 
-Other operators prefer correlation, however its not known correlation and cosine performance with Kronecker with spaces with $D > 3000$ as those were not tested, leaving inner product as the only choice.
+Other operators work best with correlation. Only addition supports H\ref{hyp:similarity}. In case of multiplication, correlation dominates over cosine even for small values of $D$. There is little to say about Kronecker, as it is tested only with the inner product for spaces with $D > 3000$ due to its computational complexity ($\mathcal{O}(n^2)$ with respect to the number of vector components).
 
 \subsubsection{Discriminativeness}
 
 \input{figures/ks14-discr}
 \texttt{Head} with $D < 20000$ prefers SCPMI as the discriminativeness weighting. SPMI is preferred otherwise (Figure~\ref{fig:ks14-discr}).
 
-For addition, SPMI is the better choice. For multiplication, SCPMI is more beneficial.
+For addition, SPMI is the better choice. For multiplication, SCPMI is more beneficial, as expected by H\ref{hyp:comp-pmi-cpmi}.
 
-For Kronecker the two choices are very close to each other. However, for spaces with dimensionality less than 20000, SPMI is slightly better; for spaces with greater dimensionality, SCPMI is better.
+For Kronecker, the two choices are very close to each other. However, for spaces with dimensionality less than 20000, SPMI is slightly better; for spaces with greater dimensionality, SCPMI is better.
 
 \subsection{Difference between Max selection and heuristics on KS14}
 
-\todo[noline]{Difference between heuristics based on various datasets.}
+Table~\ref{tab:ks14-heuristics-selection} shows the selection based on heuristics. Both methods agree on the similarity choice (with an exception of \texttt{head}).
 
-Table~\ref{tab:ks14-heuristics-selection}\todo{finish}\ldots
+Multiplication agrees on the majority of parameters, but \texttt{cds} and \texttt{neg}. Local probabilities ($\alpha = 1$) and $k = 0.2$ give the highest score, while manual selection picked global context probabilities with \texttt{neg} in range on 0.5 to 1, in accordance to H\ref{hyp:neg}.
 
-% \input{figures/selection-ks14}
+The average difference between Max and heuristic-based selections is 0.022. Per operator, the differences are: 0.028 \texttt{head}, 0.012 addition, 0.018 multiplication and 0.028 Kronecker. All the values are within the 10\% set by H\ref{hyp:10percent}.
 
 \section{GS11}
 \label{sec:gs11}
