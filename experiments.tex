@@ -175,11 +175,11 @@ Figure~\ref{fig:lexical-results} shows performance of the models based on the av
 $$
 \operatorname{score}_\mathit{lexical}(\mathit{model}) =%
 \frac{1}{2}%
-\frac{\operatorname{score}_\mathit{SimLex-999}(model)}%
+\frac{\operatorname{score}_\mathit{SimLex-999}(\mathit{model})}%
 {\max_m\operatorname{score}_\mathit{SimLex-999}(m)}%
 +%
 \frac{1}{2}%
-\frac{\operatorname{score}_\mathit{MEN}(model)}%
+\frac{\operatorname{score}_\mathit{MEN}(\mathit{model})}%
 {\max_m\operatorname{score}_\mathit{MEN}(m)}%
 $$
 
@@ -240,7 +240,7 @@ Based on the experiments, \logNSCPMI/ with shifting close to 1 is the quantifica
 
 Lexical experiments give support to the most of the stated hypotheses in Sections~\ref{sec:hypotheses} and \ref{sec:elab-hypoth-lexical}.
 
-The optimal parameter choice depends on dimensionality (H\ref{hyp:dimen}). In particular, non constant frequency component (Section~\ref{sec:frequency-weighting}, H\ref{hyp:freq}), context distribution smoothing (Section~\ref{sec:cont-distr-smooth}, H\ref{hyp:cds}) and shifting (Section~\ref{sec:shifted-pmi}, H\ref{hyp:neg}) should be applied for spaces with $D \geq 10000$.
+The optimal parameter choice depends on dimensionality (H\ref{hyp:dimen}). In particular, non constant frequency component (Section~\ref{sec:frequency-weighting}), H\ref{hyp:freq}), context distribution smoothing (Section~\ref{sec:cont-distr-smooth}, H\ref{hyp:cds}) and shifting (Section~\ref{sec:shifted-pmi}, H\ref{hyp:neg}) should be applied for spaces with $D \geq 10000$.
 
 The switch at 10000 dimensions is a ``parameter sweet spot'' as parameter choice is not significant at these points, the most representable example is \texttt{cds} behaviour on SimLex-999 (Figure~\ref{fig:SimLex999-cds}. After that point performance either converges (supporting H\ref{hyp:var}), as in case of \texttt{neg} on SimLex-999 (Figure~\ref{fig:SimLex999-neg}), or there is one dominant choice, as for \texttt{freq} on SimLex-999 (Figure~\ref{fig:SimLex999-freq}).
 
@@ -381,7 +381,7 @@ Multiplication with 20000 dimensions gives the highest result of 0.532. Kronecke
 
 In general, parameter selection is very different than the one based on KS14 (Table~\ref{tab:ks14-max-selection}). Compositional operators behave best with $\log n$ frequency, especially Kronecker. PMI often outperforms other discriminativeness components in case of \texttt{head} and addition. Global context probability estimation behaves better than local. Correlation is not always the best similarity measure.
 
-Addition behaviour degrades as dimensionality increases, multiplication behaviour increases, but becomes unstable for spaces with high number of dimensions. Kronecker depends the least on the dimensionality. This gives no support to H\ref{hyp:var}.
+Addition behaviour degrades as dimensionality increases, multiplication behaviour increases, but becomes unstable for spaces with high number of dimensions. Kronecker depends the least on the dimensionality.
 
 Addition works best with dense models. Multiplication and Kronecker prefer dense low dimensional space and sparse high dimensional spaces, supporting H\ref{hyp:neg}.
 
@@ -567,7 +567,7 @@ Heuristic-based selection on average is closer to the upper bound than max based
 Figure~\ref{fig:gs11-transfer} shows that there is little difference between max and heuristic-based selections. In case of \texttt{head} composition, heuristics lead to higher performance, while for low-dimensional multiplicative models heuristics fall behind the max selection on the KS14 dataset.
 
 \todo[noline]{Significance tests}
-When GS11 models are transferred to KS14, the average difference with the upper bound is 0.119 and 0.106 for max and heuristics respectively. For the transfer to PhraseRel, the differences are 0.133 for max and 0.188 for heuristics. Again, the heuristic-based selection outperforms the max based. This supports H\ref{overfitting}, but the results are beyond the limit of H\ref{hyp:10percent}.
+When GS11 models are transferred to KS14, the average difference with the upper bound is 0.119 and 0.106 for max and heuristics respectively. For the transfer to PhraseRel, the differences are 0.133 for max and 0.188 for heuristics. Again, the heuristic-based selection outperforms the max based. This supports H\ref{hyp:overfitting}, but the results are beyond the limit of H\ref{hyp:10percent}.
 
 \subsection{From PhraseRel}
 \label{sec:from-phraserel}
@@ -590,15 +590,15 @@ Figure~\ref{fig:compositional-results} shows the performance of the models based
 $$
 \operatorname{score}_\mathit{compositional}(\mathit{model}) =%
 \frac{1}{3}%
-\frac{\operatorname{score}_\mathit{KS14}(model)}%
+\frac{\operatorname{score}_\mathit{KS14}(\mathit{model})}%
 {\max_m\operatorname{score}_\mathit{KS14}(m)}%
 +%
 \frac{1}{3}%
-\frac{\operatorname{score}_\mathit{GS11}(model)}%
+\frac{\operatorname{score}_\mathit{GS11}(\mathit{model})}%
 {\max_m\operatorname{score}_\mathit{GS11}(m)}%
 +%
 \frac{1}{3}%
-\frac{\operatorname{score}_\mathit{PhraseRel}(model)}%
+\frac{\operatorname{score}_\mathit{PhraseRel}(\mathit{model})}%
 {\max_m\operatorname{score}_\mathit{PhraseRel}(m)}%
 $$
 
@@ -668,14 +668,31 @@ Manual selection based on a combination of the compositional datasets is more st
 
 The average difference with the upper bound is 0.040 and 0.041 for Max and heuristics, respectively, when applied to KS14. For GS11, the difference is 0.045 (Max) and 0.127 (Heuristics). For PhraseRel, the difference is 0.055 (Max) and 0.084 (Heuristics).
 
-The numbers are much lower than the transfer of spaces selected on the basis of one dataset (Section~\ref{sec:select-model-transf-comp}. The average normalised difference is within the 10\% limit (H\ref{hyp:10percent}), with an exception of heuristics on GS11. This is an evidence, that there might be one universal model that fits various tasks H\ref{hyp:universal}.
+The numbers are much lower than the transfer of spaces selected on the basis of one dataset (Section~\ref{sec:select-model-transf-comp}). The average normalised difference is within the 10\% limit (H\ref{hyp:10percent}), with an exception of heuristics on GS11. This is an evidence, that there might be one universal model that fits various tasks H\ref{hyp:universal}. The fact that the average normalised difference is smaller for Max-based selection is against H\ref{hyp:overfitting}, a combination of datasets that covers several phenomena (in our case, similarity, disambiguation and relatedness) might be more effective than manual heuristic-based selection.
 
 The model selection procedures improve from combination of datasets. One needs to keep in mind that in this case we test model performance on the same dataset as we do parameter selection.
 
-\chapter[Universal model]{Universal model for both lexical and compositional tasks}
+\section{Conclusion}
+\label{sec:conclusion-comp}
+
+Phrasal experiments support most of the hypotheses stated in
+Sections~\ref{sec:hypotheses}, \ref{sec:elab-hypoth-lexical} and
+\ref{sec:elab-hypoth-comp}.
+
+The confirmation of hypotheses on optimal parameter dependence on dimensionality (in particular H\ref{hyp:freq} and H\ref{hyp:neg}, that are supported by all datasets) confirms H\ref{hyp:dimen}. It worth noting, that even though an optimal choice of \texttt{cds} does not depend on dimensionality on KS14 and GS11, in the combined case the dependence holds.
+
+Models that are selected on the experiments on a single dataset are prone to overfitting. Neither manual selection of parameters prevents it, the average normalised difference is above 10\% on model transfer. This confirms H\ref{hyp:overfitting} and rejects H\ref{hyp:10percent}.
+
+Model selection based on combination of datasets performs much better on each datasets (contrary to a single-dataset selected models). Both selection methods are within 10\%, supporting H\ref{hyp:10percent}.
+
+Max selection models outperform heuristic selection models, suggesting that there is no overfitting in this case and H\ref{hyp:overfitting} is not valid. In this case, the dataset combination covered three phenomena (similarity, disambiguation and relevance) and the precaution of overfitting by heuristics might be redundant.
+
+This also suggests, that there is a unique parameter choice that is universally applicable to compositional tasks H\ref{hyp:universal}.
+
+\chapter[Universal model]{A universal model for both lexical and compositional tasks}
 \label{sec:universal-param-selection}
 
-\section{Operator dependant (universal) models}
+\section{Operator-dependent universal models}
 \label{sec:model-selection}
 
 \subsection{Max selection}
@@ -714,7 +731,7 @@ When the models that are selected on lexical tasks are applied in a compositiona
 
 \todo[inline]{Compare the average differences of every dataset.}
 
-\section{Operator independant universal models}
+\section{An operator-independent universal model}
 
 \todo[inline]{We have seen in the previous section that even though parameter selection is different between operators, there are choices that are shared. Given this and the fact that the difference between some of the choices is marginal, we try to look for truly universal parameters.}
 
