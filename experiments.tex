@@ -3,44 +3,40 @@
 
 % Table~\ref{tab:parameters} lists parameters and their values. As the source corpus we use the concatenation of Wackypedia and ukWaC \cite{ukwac} with a symmetric 5-word window \cite{milajevs-EtAl:2014:EMNLP2014}; the evaluation metric is the correlation with human judgements as is standard with SimLex \cite{hill2014simlex} and other lexical datasets.
 
-\todo[inline]{
-  What's the best selection method.
-  Does Max overfit?  Statistical significance.
-  Title: mention PMI?
-  Lexical comparison with other work.
-}
-
 % We derive our parameter selection heuristics by greedily selecting parameters (\texttt{cds}, \texttt{neg}) that lead to the highest average performance for each combination of frequency weighting, PMI variant and dimensionality $D$. Figures~\ref{fig:interaction-cds} and \ref{fig:interaction-neg} show the interaction of \texttt{cds} and \texttt{neg} with other parameters. We also vary the similarity measure (cosine and correlation  \cite{kiela-clark:2014:CVSC}), but do not report results here due to space limits.
 
 \chapter{Relationships between words}
 \label{sec:lexical}
 
-\section{Elaborated hypotheses}
+\section{Specialised hypotheses}
 \label{sec:elab-hypoth-lexical}
 
-Before reporting lexical experiments, we would like to elaborate stated hypotheses in Section~\ref{sec:hypotheses} to the lexical case.
+Before reporting the results of the lexical experiments, we would like to expand on the hypotheses stated in Section~\ref{sec:hypotheses} to the lexical case.
 
 \begin{hyp}[H\ref{hyp:lex-pmi-cpmi}]
   \label{hyp:lex-pmi-cpmi}
-  In lexical tasks, there is no difference between PMI and its compressed version CPMI (Section~\ref{sec:pmi-variants}). Shifted PMI variants behave the same (Section~\ref{sec:shifted-pmi}).
+  In lexical tasks, there should be no difference between PMI and its compressed version CPMI (Section~\ref{sec:pmi-variants}). Shifted PMI variants behave the same (Section~\ref{sec:shifted-pmi}).
 \end{hyp}
 
-The main effect of C*PMI is to avoid negative values that might be problematic for multiplication during composition as it leads to negative or positive values. As there is no composition involved in lexical tasks, the weighting schemes should behave equally.
+The main effect of CPMI is to transform negative values into the positive range of $(0; 1)$. The reason to avoid negative values is that they might be problematic for multiplication during composition as the sign of the result depends on the number of negative components. However as there is no composition involved in lexical tasks, the weighting schemes should behave equally.
 
 The next hypotheses are related to PMI's Achilles heel and are supposed to lower the influence of low co-occurrence counts, therefore we expect that they are beneficial for highly dimensional spaces as partially showed in \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
 
 \begin{hyp}[H\ref{hyp:freq}]
   \label{hyp:freq}
-  A non-constant frequency component ($n$ or $\log n$, Section~\ref{sec:frequency-weighting}) is beneficial for highly-dimensional spaces.
+ $N$ or $\log n$ frequency components (Section~\ref{sec:frequency-weighting}) should be beneficial for highly-dimensional spaces.
 \end{hyp}
-
+%
+\todo[noline]{Mention the reason behind LMI.}
+%
 This is the most direct way of boosting high co-occurrence counts.
 
 \begin{hyp}[H\ref{hyp:cds}]
   \label{hyp:cds}
-  Low-dimensional spaces do not need context distribution smoothing, while highly-dimensional spaces require it (Section~\ref{sec:cont-distr-smooth}).
+  Low-dimensional spaces should not need context distribution smoothing, while highly-dimensional spaces should benefit from it (Section~\ref{sec:cont-distr-smooth}).
 \end{hyp}
 
+\todo[noline]{Refer to L\&G}
 This is because the estimated probabilities of rare contexts are noisy.
 
 \begin{hyp}[H\ref{hyp:neg}]
@@ -242,7 +238,7 @@ Lexical experiments give support to the most of the stated hypotheses in Section
 
 The optimal parameter choice depends on dimensionality (H\ref{hyp:dimen}). In particular, non constant frequency component (Section~\ref{sec:frequency-weighting}), H\ref{hyp:freq}), context distribution smoothing (Section~\ref{sec:cont-distr-smooth}, H\ref{hyp:cds}) and shifting (Section~\ref{sec:shifted-pmi}, H\ref{hyp:neg}) should be applied for spaces with $D \geq 10000$.
 
-The switch at 10000 dimensions is a ``parameter sweet spot'' as parameter choice is not significant at these points, the most representable example is \texttt{cds} behaviour on SimLex-999 (Figure~\ref{fig:SimLex999-cds}. After that point performance either converges (supporting H\ref{hyp:var}), as in case of \texttt{neg} on SimLex-999 (Figure~\ref{fig:SimLex999-neg}), or there is one dominant choice, as for \texttt{freq} on SimLex-999 (Figure~\ref{fig:SimLex999-freq}).
+The switch at 10000 dimensions is a ``parameter sweet spot'' as parameter choice is not significant at these points, the most representative example is \texttt{cds} behaviour on SimLex-999 (Figure~\ref{fig:SimLex999-cds}. After that point performance either converges (supporting H\ref{hyp:var}), as in case of \texttt{neg} on SimLex-999 (Figure~\ref{fig:SimLex999-neg}), or there is one dominant choice, as for \texttt{freq} on SimLex-999 (Figure~\ref{fig:SimLex999-freq}).
 
 As expected, we did not see a significant influence of the ``compression'' of the PMI values (H\ref{hyp:lex-pmi-cpmi}).
 
