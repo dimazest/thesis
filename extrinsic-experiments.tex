@@ -492,27 +492,36 @@ Addition with many dimensions gives the best results on lexical tasks: 0.384 on 
 
 \input{figures/universal-ablation}
 
-Performance of the models selected manually shown on Table~\ref{tab:universal-heuristics-selection}. Again, there is a lot consistency between parameters. The linear model achieves $R^2 = 0.828$. The most influencing parameters are \texttt{freq}, \texttt{neg} and a similarity measure, refer to Table~\ref{tab:universal-ablation}.
+Performance of the models selected manually is shown on Table~\ref{tab:universal-heuristics-selection}. Again, there is a lot consistency between parameters. The linear model achieves $R^2 = 0.828$. The most influencing parameters are \texttt{freq}, \texttt{neg} and a similarity measure, refer to Table~\ref{tab:universal-ablation} for more details.
 
 Heuristics for addition choose models that score the highest on lexical tasks: 0.384 on SimLex-999 and 0.764 on MEN (Table~\ref{tab:universal-heuristics-selection}). Moreover, with more than 20000 dimensions there is no difference between the selection procedures (Max or heuristics) of the additive and Kronecker-based models.
 
-Kronecker is strong in compositional tasks scoring 0.795 on KS14, 0.516 on GS11 and 0.929 on PhraseRel (Table~\ref{tab:universal-heuristics-selection}).
+Kronecker is strong in compositional tasks scoring 0.795 on KS14, 0.516 on GS11 and 0.929 on PhraseRel, which is inline with H\ref{hyp:order} (Table~\ref{tab:universal-heuristics-selection}).
 
-Multiplication, again, is a compromise between the two: it gives the highest combined score of 0.941. The highest Kronecker's combined is 0.913, while addition's highest score is only 0.843.
+Multiplication and Kronecker support H\ref{hyp:neg}: the optimal shifting value $k$ depends on the dimensionality. Addition and Kronecker are consistent with H\ref{hyp:cds}, low-dimensional spaces benefit from global context probabilities, while high-dimensional spaces benefit from smoothed context probabilities with $\alpha=0.75$.
 
-\subsection{Comparison}
+Multiplication, again, is a compromise between the two: it gives the highest combined score of 0.941. The highest Kronecker's combined score is 0.913, while addition's highest score is only 0.843.
+
+\subsection{Comparison of the selection methods}
 \label{sec:comparison-universal}
 
 \input{figures/universal-results}
 
 On lexical tasks, there is little difference between the model selection methods especially for spaces with more than 30000 dimensions, as Figures~\ref{fig:universal-results-simlex} and \ref{fig:universal-results-men} show.
 
-On compositional tasks, dimensionality does not contribute as much as in case of lexical tasks, with an exception of addition on the GS11 dataset, where performance decreases as dimensionality increases.
+The average relative differences for Max selection are 0.034 (SimLex-999), 0.010 (MEN), 0.033 (KS14), 0.109 (GS11) and 0.061 (PhraseRel). For manual heuristics, the differences are 0.047 (SimLex-999), 0.009 (MEN), 0.034 (KS14), 0.114 (GS11) and 0.065 (PhraseRel). The numbers between different selection methods are close, with the exceptions of SimLex-999 (where Max selection is 0.013 points lower), and GS11, where Max is lower by 0.05 points.
+
+The high relative difference on GS11 is due to a poor performance of addition and \texttt{head}. The average normalised difference for addition is 0.219 for Max selection and 0.224 for heuristics. For \texttt{head} the differences are 0.105 and 0.141 respectively. The differences for multiplication and Kronecker are less than 0.07, which is according to H\ref{hyp:10percent}.
+
+Contrary to H\ref{hyp:overfitting}, Max selection does not overfit, probably due to a broad selection of evaluation datasets.
 
 \todo[noline]{One of the major findings.}
-When the models that are selected on lexical tasks are applied in a compositional setting, they perform worse than the models selected based on the universal score. This suggests that a model that is good on lexical tasks will not necessarily perform well on a compositional task. In addition, sometimes this difference increases as dimensionality increases, for example this is the case for multiplication, the most notable difference is observed on KS14 (Figure~\ref{fig:universal-results-ks14}).
+When the models that are selected on lexical tasks are applied in a compositional setting, they perform worse than the models selected based on the universal score. This suggests that a model that is good on lexical tasks will not necessarily perform well on a compositional task, supporting H\ref{hyp:lextocomp}.
 
-\todo[inline]{Compare the average differences of every dataset.}
+In addition, the difference between the good lexical models and the upper bound increases as dimensionality increases. This is the case for multiplication, the most notable difference is observed on KS14 (Figure~\ref{fig:universal-results-ks14}).
+
+It worth noting that on compositional tasks dimensionality does not contribute as much as on lexical tasks, with an exception of addition on the GS11 dataset, where performance decreases as dimensionality increases.
+
 
 \section{An operator-independent universal model}
 
