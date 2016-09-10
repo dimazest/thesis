@@ -479,11 +479,13 @@ Table~\ref{tab:universal-max-selection} shows the performance of the models sele
 \end{align*}
 \normalsize
 
-Parameter selection is much more stable than on all previous max-based selections. $\log n$ is a dominant \texttt{freq} choice, cosine is the measure of choice for multiplication and Kronecker (if available). Correlation is the best similarity measure for additive composition. Interestingly, if shifting applied, then 1 or 0.7 are chosen as \texttt{neg} values.
+Parameter selection is much more stable than on all previous max-based selections. $\log n$ is the dominant \texttt{freq} choice, cosine is the measure of choice for multiplication and Kronecker (if available). Correlation is the best similarity measure for additive composition. The optimal choice of a similarity measure does not depend on dimensionality, this observation does not support H\ref{hyp:similarity}.
+
+Interestingly, when shifting is applied, then dense spaces perform better: 1 and 0.7 are the optimal \texttt{neg} values. Multiplication shows a clear patter in support of H\ref{hyp:neg}.
 
 \todo[noline]{This is one of the major findings.}
 Compositional operator preference depends on the focus of a model.
-Addition with many dimensions gives the best results on lexical tasks: 0.384 on SimLex-999 and 0.761 on MEN. Kronecker, on the other side, gives the highest values for compositional datasets: 0.798 on KS14, 0.514 on GS11 and 0.964 on PhraseRel. Multiplication, however, gives the highest ``combined'' score of 0.945, showing that the selection is the closest to the upper bound.
+Addition with many dimensions gives the best results on lexical tasks: 0.384 on SimLex-999 and 0.761 on MEN. Kronecker, on the other side, gives the highest values for compositional datasets supporting H\ref{hyp:order}: 0.798 on KS14, 0.514 on GS11 and 0.964 on PhraseRel. Multiplication, however, is a good compromise between the two. It gives the highest ``combined'' score of 0.945.
 
 \subsection{Heuristics}
 \label{sec:heuristics-universal}
