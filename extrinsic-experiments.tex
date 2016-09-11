@@ -461,9 +461,9 @@ Table~\ref{tab:universal-max-selection} shows the performance of the models sele
 \frac{1}{2}%
 \frac{\operatorname{score}_\mathit{MEN}(\mathit{model})}%
 {\max_m\operatorname{score}_\mathit{MEN}(m)}%
-\right)
+\right) +
 \\
-+&\frac{1}{2}\left(
+&\frac{1}{2}\left(
 \frac{1}{3}%
 \frac{\operatorname{score}_\mathit{KS14}(\mathit{model}, \mathit{operator})}%
 {\max_m\operatorname{score}_\mathit{KS14}(m, \mathit{operator})}%
@@ -510,10 +510,10 @@ We also see that there is no difference between cosine and correlation similarit
 
 Addition and Kronecker work best with global context probabilities on low-dimensional spaces, but benefit from local probabilities ($\alpha=0.75$) for high-dimensional spaces, supporting H\ref{hyp:cds}. Multiplication, however, does not follow H\ref{hyp:cds} as $\alpha=0.75$ leads to weak performance for all dimensions.
 
+There is no support of H\ref{hyp:discr}: for all operators, there is little difference between SPMI and SCPMI.
+
 \subsection{Comparison of the selection methods}
 \label{sec:comparison-universal}
-
-\input{figures/universal-results}
 
 On lexical tasks, there is little difference between the model selection methods especially for spaces with more than 30000 dimensions, as Figures~\ref{fig:universal-results-simlex} and \ref{fig:universal-results-men} show.
 
@@ -532,26 +532,70 @@ It worth noting that on compositional tasks dimensionality does not contribute a
 
 \section{An operator-independent universal model}
 
-\todo[inline]{We have seen in the previous section that even though parameter selection is different between operators, there are choices that are shared. Given this and the fact that the difference between some of the choices is marginal, we try to look for truly universal parameters.}
+In the previous section we have seen that even though parameter selection varies between operators, there are parameter choices that are shared. Given this and the fact that the difference between some of the choices is marginal, we try to look for a truly universal parameter combination.
+
+The experiment scores are aggregated as:
+\scriptsize
+\begin{align*}
+\operatorname{score}_\mathit{universal}&(\mathit{model}) =\\%
+& \frac{1}{2}\left(
+\frac{1}{2}%
+\frac{\operatorname{score}_\mathit{SimLex-999}(\mathit{model})}%
+{\max_m\operatorname{score}_\mathit{SimLex-999}(m)}%
++%
+\frac{1}{2}%
+\frac{\operatorname{score}_\mathit{MEN}(\mathit{model})}%
+{\max_m\operatorname{score}_\mathit{MEN}(m)}%
+\right)+
+\\
+&\frac{1}{2}\Bigg(
+\frac{1}{6}%
+\frac{\operatorname{score}_\mathit{KS14}(\mathit{model}, \mathit{add})}%
+{\max_m\operatorname{score}_\mathit{KS14}(m, \mathit{add})}%
++%
+\frac{1}{6}%
+\frac{\operatorname{score}_\mathit{GS11}(\mathit{model}, \mathit{add})}%
+{\max_m\operatorname{score}_\mathit{GS11}(m, \mathit{add})}%
++%
+\frac{1}{6}%
+\frac{\operatorname{score}_\mathit{PhraseRel}(\mathit{model, \mathit{add}})}%
+{\max_m\operatorname{score}_\mathit{PhraseRel}(m, \mathit{add})}
++
+\\
+&\phantom{\frac{1}{2}\Bigg(}
+\frac{1}{6}%
+\frac{\operatorname{score}_\mathit{KS14}(\mathit{model}, \mathit{mult})}%
+{\max_m\operatorname{score}_\mathit{KS14}(m, \mathit{mult})}%
++%
+\frac{1}{6}%
+\frac{\operatorname{score}_\mathit{GS11}(\mathit{model}, \mathit{mult})}%
+{\max_m\operatorname{score}_\mathit{GS11}(m, \mathit{mult})}%
++%
+\frac{1}{6}%
+\frac{\operatorname{score}_\mathit{PhraseRel}(\mathit{model, \mathit{mult}})}%
+{\max_m\operatorname{score}_\mathit{PhraseRel}(m, \mathit{mult})}
+\Bigg)
+\end{align*}
+\normalsize
 
 \subsection{Max selection}
 \label{sec:max-selection-single}
 
-Table~\ref{tab:single-max-selection} shows \todo{describe how it was combined} the combined score for all datasets abstracting over a compositional operator.
+Table~\ref{tab:single-max-selection} shows the combined scores for all datasets abstracting over a compositional operator.
 
-The parameter selection shows a clear pattern. Low-dimensional spaces perform best with 1 as the frequency choice, while high dimensional models perform better with $\log n$. Cosine is a better suited similarity measure for models with few dimensions, correlation with many. Finally, global context probabilities are the best in a low-dimensional case, while local context probabilities perform best with many dimensions.
-
-\todo[inline]{Average difference with the upper bound.}
+The parameter selection shows a clear pattern. Low-dimensional spaces perform best with 1 as the frequency choice, while high dimensional models perform better with $\log n$ confirming H\ref{hyp:freq}. Cosine is a better suited similarity measure for models with few dimensions, correlation with many, which is inline with H\ref{hyp:similarity}. Finally, global context probabilities are the best in a low-dimensional case, while local context probabilities perform best with many dimensions supporting H\ref{hyp:cds}.
 
 \subsection{Heuristics}
 \label{sec:heuristics-single}
 
-Heuristics in general repeat the parameter selection choice, but the switch happens with more dimensions (at 20000, not at 5000) refer to Table~\ref{tab:single-heuristics-selection} for the results and Figure~\ref{fig:single-params} for the parameter behaviour.
-
 \input{figures/single-ablation}
 The linear model gives $R^2 = 0.898$. The most influential parameters are \texttt{freq}, similarity measure and \texttt{neg}, refer to Table~\ref{tab:single-ablation}.
 
-\input{figures/single-freq}
+Heuristics in general repeat the parameter choice of Max selection, but the switch between parameter values happens at more dimensions (at 20000, not at 5000) refer to Table~\ref{tab:single-heuristics-selection} for the results and Figure~\ref{fig:single-params} for the parameter behaviour.
+
+The average normalised differences with the upper bound for Max selection are 0.049 (SimLex-999), 0.032 (MEN), 0.063 (KS14), 0.106 (GS11) and 0.116 (PhraseRel). The differences for heuristics are in general higher: 0.062 (SimLex-999), 0.045 (MEN), 0.076 (KS14), 0.090 (GS11) and 0.139 (PhraseRel).
+
+Max selection is above the 10\% margin of H\ref{hyp:10percent} on GS11 and PraseRel, while heuristics are above the margin only on PhraseRel.
 
 % \subsubsection{Tweaked IR evaluation}
 % \label{sec:tweak-ir-eval}
