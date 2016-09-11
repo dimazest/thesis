@@ -502,6 +502,14 @@ Multiplication and Kronecker support H\ref{hyp:neg}: the optimal shifting value 
 
 Multiplication, again, is a compromise between the two: it gives the highest combined score of 0.941. The highest Kronecker's combined score is 0.913, while addition's highest score is only 0.843.
 
+Regarding the hypotheses, we clearly see that there is a little difference between 1 and $\log n$ frequencies for low-dimensional spaces, but $\log n$ it best choice for high-dimensional spaces which is consistent with H\ref{hyp:freq}.
+
+Shifting performs also in accordance to H\ref{hyp:neg}: for low-dimensional spaces $k=0.7$ or even $k=0.5$ leads to the highest result, while for high-dimensional spaces $k=1$ or $k=1.4$ are optimal.
+
+We also see that there is no difference between cosine and correlation similarity measures giving a weak support of H\ref{hyp:similarity}.
+
+Addition and Kronecker work best with global context probabilities on low-dimensional spaces, but benefit from local probabilities ($\alpha=0.75$) for high-dimensional spaces, supporting H\ref{hyp:cds}. Multiplication, however, does not follow H\ref{hyp:cds} as $\alpha=0.75$ leads to weak performance for all dimensions.
+
 \subsection{Comparison of the selection methods}
 \label{sec:comparison-universal}
 
@@ -521,7 +529,6 @@ When the models that are selected on lexical tasks are applied in a compositiona
 In addition, the difference between the good lexical models and the upper bound increases as dimensionality increases. This is the case for multiplication, the most notable difference is observed on KS14 (Figure~\ref{fig:universal-results-ks14}).
 
 It worth noting that on compositional tasks dimensionality does not contribute as much as on lexical tasks, with an exception of addition on the GS11 dataset, where performance decreases as dimensionality increases.
-
 
 \section{An operator-independent universal model}
 
