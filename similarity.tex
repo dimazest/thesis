@@ -19,8 +19,7 @@ and language modelling \cite{bengio2006}.
 
 Concretely, a parser might benefit from a generalisation about the part of speech tag of a word which did not occur in the training data based on its occurrence pattern in a large corpus of documents from the web. A dialogue act tagging system, contrastly, might require to classify a whole sentence based on its role in a dialogue. To be useful, the similarity component has to be able to measure similarity between \emph{words} and \emph{sentences}.
 
-According to \newcite{WCS:WCS1282} ``similarity is an essentially psychological notion, based on the way we represent objects, that is, the way they appear to us.'' An important consequence of this observation is that before measuring similarity of two
-\todo{What's the general term for events and objects? Entity?}%
+According to \newcite{WCS:WCS1282}, ``similarity is an essentially psychological notion, based on the way we represent objects, that is, the way they appear to us.'' An important consequence of this observation is that before measuring similarity of two
 entities,\footnotemark{} their representation has to be obtained.
 
 \footnotetext{Here and later \emph{entity} is a common term for \textit{events} and \textit{objects}.}
@@ -179,9 +178,9 @@ result.\footnote{\newcite{levy2014linguistic} improved
 \label{sec:similarity-metrics}
 
 
-\subsection{Aggregation of word similarities for similarity of compaunds}
+% \subsection{Aggregation of word similarities for similarity of compaunds}
 
-\cite{turney2012domain}
+% \cite{turney2012domain}
 
 \section{Similarity of compound expressions}
 \label{sec:similarity-compounds}
@@ -274,7 +273,7 @@ categories and semantic types is defined as a function $\mathit{type}$:
 \end{align*}
 
 Syntactic backward and forward application corresponds to functional
-application. Figure \ref{fig:syn} shows the final parse tree.
+application. Figure~\ref{fig:syn} shows the final parse tree.
 
 \begin{figure}
   \centering
@@ -312,7 +311,7 @@ well studied and developed logical methods \cite{bos2000first}.
 
 \todo[inline]{Form-independent semantics.}
 
-Methods based on this distributional hypothesis have recently been applied to many tasks, but mostly at the word level, for instance, word sense disambiguation \cite{ZhitomirskyGeffet2009} and lexical substitution \cite{Thater:2010:CSR:1858681.1858778}. They exploit the notion of similarity which correlates with the angle between word vectors \cite{Turney:2010:FMV:1861751.1861756}.
+Methods based on the distributional hypothesis have recently been applied to many tasks, but mostly at the word level, for instance, word sense disambiguation \cite{ZhitomirskyGeffet2009} and lexical substitution \cite{Thater:2010:CSR:1858681.1858778}. They exploit the notion of similarity which correlates with the angle between word vectors \cite{Turney:2010:FMV:1861751.1861756}.
 
 \emph{Compositional} distributional semantics goes beyond the word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator associativity, which ignores the argument order, and thus word order. As a result, ``\textit{John loves Mary}'' and ``\textit{Mary loves John}'' get assigned the same meaning.
 
@@ -321,7 +320,7 @@ represented as vectors $\ov{\mathit{john}}$, $\ov{\mathit{mary}}$ and
 $\ov{\mathit{loves}}$, the meaning of the sentence \textit{John loves Mary} is
 $\ov{\mathit{john}} + \ov{\mathit{loves}} + \ov{\mathit{mary}}$.
 
-To capture word order, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} extend the compositional approach by using non-associative linear algebra operators as proposed in the theoretical work of \cite{DBLP:journals/corr/abs-1003-4394}.
+To capture word order and the syntactic structure of a sentence, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} extend the compositional approach by using non-associative linear algebra operators as proposed in the theoretical work of \newcite{DBLP:journals/corr/abs-1003-4394}.
 
 The functional application of semantic term can be replaced with tensors \cite{Bourbaki1998commutative}. Then, a transitive verb is represented by matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ (the relation method of \newcite{Grefenstette:2011:ESC:2145432.2145580}), where $\ov{s_i}$ and $\ov{i_i}$ are the subject--object pairs of the verb. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$.
 
