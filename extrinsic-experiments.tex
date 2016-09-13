@@ -637,15 +637,25 @@ They achieve the best result of 0.732 with additive composition on KS14 with an 
 
 On the GS11 dataset, our spaces improve over the corresponding operators on all but two compositional methods (exceptions are copy object and Frobenius mult). Only multiplication and Kronecker improve over the best reported score of 0.456 in \newcite{milajevs-EtAl:2014:EMNLP2014}. Kronecker yields the highest score of 0.516.
 
-\newcite{kim2015neural} adopted the evaluation procedure of \newcite{milajevs-EtAl:2014:EMNLP2014} to test an extended word2vec model that is tuned for multiplicative interaction of the vectors, not additive. The improve on most of the composition operators on the KS14 and GS11 datasets.
+\newcite{kim2015neural} adopts the evaluation procedure of \newcite{milajevs-EtAl:2014:EMNLP2014} to test an extended word2vec model that is tuned for multiplicative interaction of the vectors, not additive. They improve on most of the composition operators on the KS14 and GS11 datasets.
 
 They achieve the best result of 0.770 with addition on KS14. 3 our our models (addition, multiplication and Kronecker) outperform that. Also, our results are better than the results reported there ``operator-wise''.
 
 On G11, their best score is 0.387, which is lower than the results that we get with multiplication, Kronecker, relational and copy subject. However, we get lower results with Copy object and Frobenius outer.
 
-\newcite{hashimoto-tsuruoka:2015:CVSC}
+\newcite{hashimoto-tsuruoka:2015:CVSC} learns the matrices of transitive verbs using implicit tensor factorisation. The verb matrices are learned in two ways: one only takes into account the verb arguments (the subject and the object, referred as SVO in the paper), another, in addition to that, employs the adjuncts that complement the meaning of the verb phrases (SVOPN). They use copy-subject as the compositional operator. The main baseline is their previous method described in \newcite{hashimoto-EtAl:2014:EMNLP2014}.
 
-% \newcite{zanzotto-pennacchiotti-pazienza:2006:COLACL}
+In comparison to their SVO results, our are higher: they get 0.480 on GS11 and 0.481 on KS14. These results are lower than our Multiplication and Kronecker on GS11 and all operators on KS14.
+
+The SVOPN model with the score of 0.614 outperforms our best (0.516) on GS11. While they get a higher score on KS14 of 0.744 (though it is obtained with the \newcite{hashimoto-EtAl:2014:EMNLP2014} baseline) it is still lower than all our results except copy-subject and copy-object. Interestingly, our result of 0.738 with copy-subject is close to their score, but is still lower.
+
+\newcite{hashimoto-tsuruoka:2016:P16-1} jointly learn compositional and non-compositional phrase embeddings by using a compositionality scoring function. They improve on their previous work and get the score of 0.680 on GS11 versus our 0.516.
+
+\newcite{fried-polajnar-clark:2015:ACL-IJCNLP} uses low-rank tensors to approximate third-order tensors of verbs. They achieve the scores of 0.47 on GS11 and 0.68 on KS14 with categorical composition and 0.71 on KS14 with addition. While our best result is higher on GS11, categorical operators score lower, the best is copy-subject (0.402). On KS14 our experiments produce higher results, with an exception of copy-object, than their best (additive) model. It worth noting the study of \newcite{polajnar-rimell-clark:2015:LSDSem} that uses discourse features to build vectors, but the experiment results reported there are not compatible with ours.
+
+\input{figures/lexical-comparison}
+On lexical tasks the best results among the selected models are 0.384 (SimLex-999) and 0.764 (MEN). On the similarity dataset scores are 0.009 points behind the PPMI model of \newcite{TACL570}, however on the relatedness dataset 0.019 points above. Note the difference in dimensionality, source corpora and window size. Table~\ref{tab:lexical-comparison} shows the results of SVD, SGNS and GloVe based vector spaces for comparison are given for comparison.
+
 
 %%% Local Variables:
 %%% mode: latex
