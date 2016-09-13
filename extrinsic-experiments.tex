@@ -479,13 +479,12 @@ Table~\ref{tab:universal-max-selection} shows the performance of the models sele
 \end{align*}
 \normalsize
 
-Parameter selection is much more stable than on all previous max-based selections. $\log n$ is the dominant \texttt{freq} choice, cosine is the measure of choice for multiplication and Kronecker (if available). Correlation is the best similarity measure for additive composition. The optimal choice of a similarity measure does not depend on dimensionality, this observation does not support H\ref{hyp:similarity}.
+Parameter selection is much more stable than on all previous max-based selections. $\log n$ is the dominant \texttt{freq} choice, cosine is the measure of choice for multiplication and Kronecker (if available). Correlation is the best similarity measure for the additive composition. The optimal choice of a similarity measure does not depend on dimensionality, this observation does not support H\ref{hyp:similarity}.
 
 Interestingly, when shifting is applied, then dense spaces perform better: 1 and 0.7 are the optimal \texttt{neg} values. Multiplication shows a clear patter in support of H\ref{hyp:neg}.
 
 \todo[noline]{This is one of the major findings.}
-Compositional operator preference depends on the focus of a model.
-Addition with many dimensions gives the best results on lexical tasks: 0.384 on SimLex-999 and 0.761 on MEN. Kronecker, on the other side, gives the highest values for compositional datasets supporting H\ref{hyp:order}: 0.798 on KS14, 0.514 on GS11 and 0.964 on PhraseRel. Multiplication, however, is a good compromise between the two. It gives the highest ``combined'' score of 0.945.
+The preference of a compositional operator depends on the focus of a model. Addition with many dimensions gives the best results on lexical tasks: 0.384 on SimLex-999 and 0.761 on MEN. Kronecker, on the other side, gives the highest values on compositional datasets supporting H\ref{hyp:order}: 0.798 on KS14, 0.514 on GS11 and 0.964 on PhraseRel. Multiplication, however, is a good compromise between the two. It gives the highest ``combined'' score of 0.945.
 
 \subsection{Heuristics}
 \label{sec:heuristics-universal}
@@ -502,11 +501,11 @@ Multiplication and Kronecker support H\ref{hyp:neg}: the optimal shifting value 
 
 Multiplication, again, is a compromise between the two: it gives the highest combined score of 0.941. The highest Kronecker's combined score is 0.913, while addition's highest score is only 0.843.
 
-Regarding the hypotheses, we clearly see that there is a little difference between 1 and $\log n$ frequencies for low-dimensional spaces, but $\log n$ it best choice for high-dimensional spaces which is consistent with H\ref{hyp:freq}.
+Regarding the hypotheses, we clearly see on Figure~\ref{fig:universal-freq} that there is a little difference between 1 and $\log n$ frequencies for the low-dimensional spaces, but $\log n$ is the best choice for the high-dimensional spaces which is consistent with H\ref{hyp:freq}.
 
-Shifting performs also in accordance to H\ref{hyp:neg}: for low-dimensional spaces $k=0.7$ or even $k=0.5$ leads to the highest result, while for high-dimensional spaces $k=1$ or $k=1.4$ are optimal.
+Shifting performs also in accordance with H\ref{hyp:neg}: for low-dimensional spaces $k=0.7$ or even $k=0.5$ leads to the highest result, while for high-dimensional spaces $k=1$ or $k=1.4$ are optimal.
 
-We also see that there is no difference between cosine and correlation similarity measures giving a weak support of H\ref{hyp:similarity}.
+We also see that there is no difference between the cosine and correlation similarity measures giving a weak support of H\ref{hyp:similarity}.
 
 Addition and Kronecker work best with global context probabilities on low-dimensional spaces, but benefit from local probabilities ($\alpha=0.75$) for high-dimensional spaces, supporting H\ref{hyp:cds}. Multiplication, however, does not follow H\ref{hyp:cds} as $\alpha=0.75$ leads to weak performance for all dimensions.
 
@@ -592,7 +591,7 @@ The parameter selection shows a clear pattern. Low-dimensional spaces perform be
 \input{figures/single-ablation}
 The linear model gives $R^2 = 0.898$. The most influential parameters are \texttt{freq}, similarity measure and \texttt{neg}, refer to Table~\ref{tab:single-ablation}.
 
-Heuristics in general repeat the parameter choice of Max selection, but the switch between parameter values happens at more dimensions (at 20000, not at 5000) refer to Table~\ref{tab:single-heuristics-selection} for the results and Figure~\ref{fig:single-params} for the parameter behaviour.
+Heuristics, in general, repeat the parameter choice of Max selection, but the switch between parameter values happens at more dimensions (at 20000, not at 5000) refer to Table~\ref{tab:single-heuristics-selection} for the results and Figure~\ref{fig:single-params} for the parameter behaviour.
 
 The average normalised differences with the upper bound for Max selection are 0.049 (SimLex-999), 0.032 (MEN), 0.063 (KS14), 0.106 (GS11) and 0.116 (PhraseRel). The differences for heuristics are in general higher: 0.062 (SimLex-999), 0.045 (MEN), 0.076 (KS14), 0.090 (GS11) and 0.139 (PhraseRel).
 
@@ -631,19 +630,19 @@ While there is difference between selection methods, there are no clear outliers
 
 This section discussed the results of the experiments in the context of other work.
 
-The earliest of the relevant studies is the work of \newcite{milajevs-EtAl:2014:EMNLP2014}. They evaluate two count-based vector spaces and a space based on the original word2vec vectors obtained from the Google News corpus \cite{mikolov2013distributed} and experiment with the same compositional operators as this work. Their count-based models are the ones that are considered to be efficient in compositional task and are used in the studies that introduced the evaluation datasets---KS14 \cite{kartsadrqpl2014} and GS11 \cite{Grefenstette:2011:ESC:2145432.2145580}---and therefore can be seen as replication of the experiments in those papers. They conclude that on small-scale tasks (KS14 and GS11) count-based models are competitive with the neural word vectors.
+The earliest of the relevant studies is the work of \newcite{milajevs-EtAl:2014:EMNLP2014}. They evaluate two count-based vector spaces and a space based on the original word2vec vectors obtained from the Google News corpus \cite{mikolov2013distributed} and experiment with the same compositional operators as this work. Their count-based models are the ones that are considered to be efficient in the compositional tasks and are used in the studies that introduced the evaluation datasets---KS14 \cite{kartsadrqpl2014} and GS11 \cite{Grefenstette:2011:ESC:2145432.2145580}---and therefore can be seen as a replication of the experiments in those papers. They conclude that on small-scale tasks (KS14 and GS11) count-based models are competitive with the neural word vectors.
 
-They achieve the best result of 0.732 with additive composition on KS14 with an SVD-reduced vector space. Their best tensor-based result is 0.655 achieved with word2vec and copy object. Our models (Table~\ref{tab:frobenius-results}), with an exception of copy object, improve over their best score. Even being lower, our copy-object (0.628) is close to the score reported in \cite{milajevs-EtAl:2014:EMNLP2014}.
+They achieve the best result of 0.732 with the additive composition on KS14 with an SVD-reduced vector space. Their best tensor-based result is 0.655 achieved with word2vec and copy-object. All our models (Table~\ref{tab:frobenius-results}), with an exception of copy-object, improve over their best score. Even being lower, our copy-object (0.628) is close to the score reported in \cite{milajevs-EtAl:2014:EMNLP2014}.
 
-On the GS11 dataset, our spaces improve over the corresponding operators on all but two compositional methods (exceptions are copy object and Frobenius mult). Only multiplication and Kronecker improve over the best reported score of 0.456 in \newcite{milajevs-EtAl:2014:EMNLP2014}. Kronecker yields the highest score of 0.516.
+On the GS11 dataset, our spaces improve over the corresponding operators on all but two compositional methods (the exceptions being copy object and Frobenius mult). Only multiplication and Kronecker improve over the best reported score of 0.456 in \newcite{milajevs-EtAl:2014:EMNLP2014}. Kronecker yields the highest score of 0.516.
 
-\newcite{kim2015neural} adopts the evaluation procedure of \newcite{milajevs-EtAl:2014:EMNLP2014} to test an extended word2vec model that is tuned for multiplicative interaction of the vectors, not additive. They improve on most of the composition operators on the KS14 and GS11 datasets.
+\newcite{kim2015neural} adopt the evaluation procedure of \newcite{milajevs-EtAl:2014:EMNLP2014} to test an extended word2vec model that is tuned for multiplicative interaction of the vectors, not additive. They improve on most of the composition operators on the KS14 and GS11 datasets.
 
 They achieve the best result of 0.770 with addition on KS14. 3 our our models (addition, multiplication and Kronecker) outperform that. Also, our results are better than the results reported there ``operator-wise''.
 
 On G11, their best score is 0.387, which is lower than the results that we get with multiplication, Kronecker, relational and copy subject. However, we get lower results with Copy object and Frobenius outer.
 
-\newcite{hashimoto-tsuruoka:2015:CVSC} learns the matrices of transitive verbs using implicit tensor factorisation. The verb matrices are learned in two ways: one only takes into account the verb arguments (the subject and the object, referred as SVO in the paper), another, in addition to that, employs the adjuncts that complement the meaning of the verb phrases (SVOPN). They use copy-subject as the compositional operator. The main baseline is their previous method described in \newcite{hashimoto-EtAl:2014:EMNLP2014}.
+\newcite{hashimoto-tsuruoka:2015:CVSC} learn the matrices of transitive verbs using implicit tensor factorisation. The verb matrices are learned in two ways: one only takes into account the verb arguments (the subject and the object, referred as SVO in the paper), another, in addition to that, employs the adjuncts that complement the meaning of the verb phrases (SVOPN). They use copy-subject as the compositional operator. The main baseline is their previous method described in \newcite{hashimoto-EtAl:2014:EMNLP2014}.
 
 In comparison to their SVO results, our are higher: they get 0.480 on GS11 and 0.481 on KS14. These results are lower than our Multiplication and Kronecker on GS11 and all operators on KS14.
 
@@ -651,10 +650,30 @@ The SVOPN model with the score of 0.614 outperforms our best (0.516) on GS11. Wh
 
 \newcite{hashimoto-tsuruoka:2016:P16-1} jointly learn compositional and non-compositional phrase embeddings by using a compositionality scoring function. They improve on their previous work and get the score of 0.680 on GS11 versus our 0.516.
 
-\newcite{fried-polajnar-clark:2015:ACL-IJCNLP} uses low-rank tensors to approximate third-order tensors of verbs. They achieve the scores of 0.47 on GS11 and 0.68 on KS14 with categorical composition and 0.71 on KS14 with addition. While our best result is higher on GS11, categorical operators score lower, the best is copy-subject (0.402). On KS14 our experiments produce higher results, with an exception of copy-object, than their best (additive) model. It worth noting the study of \newcite{polajnar-rimell-clark:2015:LSDSem} that uses discourse features to build vectors, but the experiment results reported there are not compatible with ours.
+\newcite{fried-polajnar-clark:2015:ACL-IJCNLP} use low-rank tensors to approximate third-order tensors of verbs. They achieve the scores of 0.47 on GS11 and 0.68 on KS14 with categorical composition and 0.71 on KS14 with addition. While our best result is higher on GS11, categorical operators score lower, the best is copy-subject (0.402). On KS14 our experiments produce higher results, with an exception of copy-object, than their best (additive) model. It worth noting the study of \newcite{polajnar-rimell-clark:2015:LSDSem} that uses discourse features to build vectors, but the experiment results reported there are not compatible with ours.
 
 \input{figures/lexical-comparison}
 On lexical tasks the best results among the selected models are 0.384 (SimLex-999) and 0.764 (MEN). On the similarity dataset scores are 0.009 points behind the PPMI model of \newcite{TACL570}, however on the relatedness dataset 0.019 points above. Note the difference in dimensionality, source corpora and window size. Table~\ref{tab:lexical-comparison} shows the results of SVD, SGNS and GloVe based vector spaces for comparison are given for comparison.
+
+\section{Conclusion}
+\label{sec:conclusion-universal}
+
+This chapter identified a few spaces that work well on a broad range of lexical and compositional tasks.
+
+Despite the expectation in H\ref{hyp:overfitting}, we see that Max selection does not overfit if the models are evaluated on diverse tasks. In fact, heuristics become too conservative in this case, however we still suggest to do manual analysis when a small number of datasets is used.
+
+Our universal models perform within the 10\% margin of H\ref{hyp:10percent} in the majority of the experiments. Moreover, the operator-independent universal space is competitive with spaces that were selected with an operator in mind, supporting the idea that there is a universal vector space for all kind of tasks and H\ref{hyp:universal}.
+
+The selections show that an optimal parameter choice depends on dimensionality (H\ref{hyp:dimen}). As we have seen in Section~\ref{sec:comparison-universal}, a good lexical model might fail in a compositional setting (H\ref{hyp:lextocomp}). We have also seen in Section~\ref{sec:max-selection-universal} that good lexical models favour the additive composition, while Kronecker is more optimal for composition and multiplication is a compromise between the two. This and the fact that there has been found a similarity between lexical and compositional tasks \cite[\textcolor{citecolor}{Section~4}]{kiela-clark:2014:CVSC} might be an explanation why addition is considered to be the best compositional operator. In our experiments, multiplication and Kronecker consistently outperform addition.
+
+While parameter selection depends on dimensionality, the performance on compositional task depends on it to a much lower extent.
+
+Our selection methodology leads to a significant improvement on the KS14 dataset over widely used count-based vectors \cite{milajevs-EtAl:2014:EMNLP2014}, neural vectors in a compositional setting \cite{milajevs-EtAl:2014:EMNLP2014,kim2015neural} and learned verb tensors \cite{fried-polajnar-clark:2015:ACL-IJCNLP,hashimoto-tsuruoka:2016:P16-1,hashimoto-tsuruoka:2015:CVSC}.
+
+While our results on GS11 are close to the current state of the art \cite{hashimoto-tsuruoka:2016:P16-1}, there is a room for improvement especially for tensor-based compositional operators. The difference in the performance might be explained as the limit of the count-based methods or the unexplored and therefore untuned parameters of the building of the verb matrix (for example, we consider all different subject-object occurrences, while they might be weighted or only a part of them might be used).
+
+The gap between the multiplicative and Kronecker composition in our work indicates that the tensor-based methods can be improved.
+
 
 
 %%% Local Variables:
