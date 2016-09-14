@@ -16,8 +16,6 @@ The co-occurrence information can be used in different ways to build distributio
 
 The goal of this work is to provide the representative performance numbers of count-based distributional models of meaning---so they could be compared to other semantic models---and to study general behaviour of vector space parameters and compositional operators---so the compositional operators could be fairly compared. The study is performed systematically using recently developed evaluation datasets for lexical and phrasal meaning representations.
 
-\todo[noline]{Mann-Whitney test}
-
 \section{Strategies of avoiding overfitting}
 \label{sec:avoiding-overfitting}
 
@@ -82,7 +80,6 @@ As the vector space dimensionality increases, performance stabilises \cite{kiela
 
 \begin{hyp}[H\ref{hyp:dimen}]
 \label{hyp:dimen}
-\todo[noline]{Mention that dimensions are ''sorted'' by token frequency.}
 The optimal parameter choice should depend on dimensionality.
 \end{hyp}
 
@@ -164,9 +161,7 @@ Another issue with PMI is its bias towards rare events \cite{TACL570}; one way o
   \operatorname{LMI}(x, y) = n(x, y)\operatorname{PMI}(x, y)
 \end{equation}
 %
-where $n(x, y)$ is the number of times $x$ was seen together with $y$. For clarity, we refer to $n$-weighted PMIs as \NPMI/, \NSPMI/, etc. When this weighting component is set to 1, it has no effect; we can  explicitly label it as \PMI/, \SPMI/, etc.
-
-In addition to the extreme $1$ and $n$ weightings, we also experiment with a \todo{Look into the ``Inspired IR'' paper for the discussion of $\log n$}$\log n$ weighting.
+where $n(x, y)$ is the number of times $x$ was seen together with $y$. For clarity, we refer to $n$-weighted PMIs as \NPMI/, \NSPMI/, etc. When this weighting component is set to 1, it has no effect; we can  explicitly label it as \PMI/, \SPMI/, etc. In addition to the extreme $1$ and $n$ weightings, we also experiment with the $\log n$ weighting.
 
 \subsection{Context distribution smoothing (cds)}
 \label{sec:cont-distr-smooth}
@@ -253,7 +248,9 @@ In our case, the constant frequency is the only association measure that is able
 
 \input{figures/parameters}
 
-As the source corpus we use the concatenation of ukWac and Wackypedia \cite{ukwac}. A symmetric widow of 5 neighbouring is used to collect co-occurrences.
+As the source corpus we use the concatenation of ukWaC and Wackypedia \cite{ukwac}.\footnotemark{} A symmetric widow of 5 neighbouring is used to collect co-occurrences.
+
+\footnotetext{The ukWaC corpus is available at \url{http://wacky.sslmit.unibo.it}.}
 
 \subsection{Vector dimensionality (D)}
 \label{sec:vect-dimens}
