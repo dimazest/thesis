@@ -1,0 +1,70 @@
+\begin{table}
+  \begin{center}
+    \footnotesize
+    \begin{tabular}{lll}
+      \toprule
+      Method &
+      % Sentence &
+      Linear algebraic formula &
+      Reference \\
+      \midrule
+      Addition &
+      % $w_1 w_2 \cdots w_n$ &
+      $\overrightarrow{\text{Sbj}} + \overrightarrow{\text{Verb}} + \overrightarrow{\text{Obj}}$ &
+      \newcite{mitchell-lapata:2008:ACLMain}
+      \\
+      Multiplication &
+      % % $w_1 w_2 \cdots w_n$ &
+      $\overrightarrow{\text{Sbj}} \odot \overrightarrow{\text{Verb}} \odot \overrightarrow{\text{Obj}}$ &
+      \newcite{mitchell-lapata:2008:ACLMain}
+      \\
+      Kronecker &
+      % $\mbox{Sbj Verb Obj}$ &
+      $\widetilde{\text{Verb}} \odot (\overrightarrow{\text{Sbj}} \otimes \overrightarrow{\text{Obj}})$ &
+      \newcite{Grefenstette:2011:ETV:2140490.2140497}
+      \\
+      \midrule
+      Relational &
+      % $\mbox{Sbj Verb Obj}$ &
+      $\overline{\text{Verb}} \odot (\overrightarrow{\text{Sbj}} \otimes \overrightarrow{\text{Obj}})$ &
+      \newcite{Grefenstette:2011:ESC:2145432.2145580}
+      \\
+      Copy-object&
+      % $\mbox{Sbj Verb Obj}$ &
+      $\overrightarrow{\text{Sbj}} \odot (\overline{\text{Verb}} \times \overrightarrow{\text{Obj}})$ &
+      \newcite{kartsaklis-sadrzadeh-pulman:2012:POSTERS}
+      \\
+      Copy-subject&
+      % $\mbox{Sbj Verb Obj}$&
+      $\overrightarrow{\text{Obj}} \odot (\overline{\text{Verb}}^{\mathsf{T}} \times \overrightarrow{\text{Sbj}})$ &
+      \newcite{kartsaklis-sadrzadeh-pulman:2012:POSTERS}
+      \\
+      Frob. add.&
+      % $\mbox{Sbj Verb Obj}$ &
+      $(\overrightarrow{\text{Sbj}} \odot (\overline{\text{Verb}} \times \overrightarrow{\text{Obj}})) +
+      (\overrightarrow{\text{Obj}} \odot (\overline{\text{Verb}}^{\mathsf{T}} \times \overrightarrow{\text{Sbj}}))$ &
+      \newcite{kartsadrqpl2014}
+      \\
+      Frob. mult.&
+      % $\mbox{Sbj Verb Obj}$ &
+      $(\overrightarrow{\text{Sbj}} \odot (\overline{\text{Verb}} \times \overrightarrow{\text{Obj}})) \odot
+      (\overrightarrow{\text{Obj}} \odot (\overline{\text{Verb}}^{\mathsf{T}} \times \overrightarrow{\text{Sbj}}))$ &
+      \newcite{kartsadrqpl2014}
+      \\
+      Frob. outer&
+      % $\mbox{Sbj Verb Obj}$ &
+      $(\overrightarrow{\text{Sbj}} \odot (\overline{\text{Verb}} \times \overrightarrow{\text{Obj}})) \otimes
+      (\overrightarrow{\text{Obj}} \odot (\overline{\text{Verb}}^{\mathsf{T}} \times \overrightarrow{\text{Sbj}}))$ &
+      \newcite{kartsadrqpl2014}
+      \\
+      \bottomrule
+    \end{tabular}
+    \caption{Compositional operators.}
+    \label{tbl:comp-methods}
+  \end{center}
+\end{table}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../thesis.tex"
+%%% End:

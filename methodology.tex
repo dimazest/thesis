@@ -23,13 +23,13 @@ The goal of this work is to provide the representative performance numbers of co
 
 This work adopts the strategy of \newcite{lapesa2014large} to avoid overfitting and reduce noise in parameter selection. Following them, we use several evaluation datasets one by one. Because different datasets might favour particular models, we also test models on all datasets simultaneously by aggregating model performance scores.
 
-The models are tested on two lexical datasets: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. These two datasets are chosen because they are larger than other previously used datasets. It has been argued that the score variance is strongly dependent on the size of the evaluation dataset \cite{W16-2502}. SimLex-999 consists of 999 word pairs and MEN consists of 3000, making them the largest lexical datasets available to us. Other alike datasets are much smaller in size: 353 \cite{2002:PSC:503104.503110} and 65 \cite{Rubenstein:1965:CCS:365628.365657}.
+The models are tested on two lexical datasets: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. These two datasets are chosen because they are larger than other previously used datasets. It has been argued that the score variance is strongly dependent on the size of the evaluation dataset \cite{W16-2502}. SimLex-999 consists of 999 word pairs and MEN consists of 3000, making them the largest lexical datasets available to us. Other alike datasets are much smaller in size: 353 \cite{2002:PSC:503104.503110} and 65 \cite{Rubenstein:1965:CCS:365628.365657} for example.
 
 The three compositional datasets that are employed in this study are KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ESC:2145432.2145580} and PhraseRel (Section~\ref{sec:phraserel}). They consist of phrases with controlled syntax (all of them are subject-verb-object phrases) and cover two relationships between phrases: similarity and relevance.
 
 We test the models on the lexical datasets simultaneously to see whether there are models that perform well on both lexical datasets and thus to supposingly avoid individual dataset idiosyncrasies. Similarly, we test the models on the phrasal datasets.
 
-Similarly, the scores on lexical and phrasal datasets are combined
+The scores on lexical and phrasal datasets are combined
 to identify a model that is universally good in lexical and compositional tasks. The model selection procedure is performed in two ways. First, we take the compositional operator into account, so we are able to recommend models that perform well on lexical and phrasal datasets with, for example, addition. Finally, we abstract over the compositional operator and seek for a model that is universally good for lexical and phrasal tasks for all operators.
 
 Because we test the models on several datasets, transfer selected models to the unseen datasets and perform model selection on their combinations (which is another way of avoiding overfitting) we also report the models that performed best in our exhaustive evaluation. This allows us to see whether overfitting actually happens, as we expect that during transfer the models with the highest scores will degrade their performance more than the models selected more conservatively. Concretely, we apply 3 different parameter selection methods that are discussed below.
@@ -40,15 +40,15 @@ This parameter selection technique chooses the parameters that yield the best re
 
 \subsection{Cross-validation}
 
-Cross-validation is a model selection method, where parameter selection is based on the average performance of the training splits over 5 folds. We report the average performance over the testing splits.
+Cross-validation is a model selection method, where parameter selection is based on the average performance of the training splits over several folds. The average performance over the testing splits is reported.
 
-Even though cross-validation avoids overfitting, its performance results are not comparable with the best model selection, because they are based on averages over the folds. Moreover, existing datasets are not made with such evaluation in mind \cite{W16-2506} and there is no common agreement on how the dataset should be split to the training and testing splits.
+Even though cross-validation avoids overfitting, its performance results are not comparable with the best model selection, because they are based on averages over the folds. Moreover, existing datasets are not made with such evaluation in mind \cite{W16-2506} and there is no common agreement on how the datasets should be split to the training and testing parts.
 
 \subsection{Heuristics}
 
 This parameter selection is based on the average performance of the models where some parameters are fixed.
 
-We look for the average model performance for every dimensionality (for lexical experiments) or operator-dimensionality combination (for compositional experiments) and a parameter of interest. Knowing the average performances of the values of the parameter of interest, we choose the value with the highest upper bound of the 0.95 confidence interval as it is done in \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
+We look for the average model performance for every dimensionality (for lexical experiments) or for every operator-dimensionality combination (for compositional experiments) and a parameter of interest. Knowing the average performances of the values of the parameter of interest, we choose the value with the highest upper bound of the 0.95 confidence interval as it is done in \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
 
 Because parameters influence model performance differently, the parameters are processed in order of their ablation \cite{lapesa2014large}. Parameter's ablation is proportional to the reduction of the adjusted $R^2$ score if the parameter is left out.
 
@@ -111,8 +111,9 @@ There should be a universal model that performs well on a broad range of tasks.
 \todo[inline]{Mention Bullinaria and Levy.}
 
 \chapter{Parameters and experimental setup}
+\label{sec:parameters}
 
-\todo[inline]{Intro}
+This chapter explain in details the parameters that are explored in the experiments. The core of them are the parameters that modify the co-occurrence quantification. The other parameters define the dimensionality of the vector space, the similarity measure and compositional operator.
 
 \section{Co-occurrence quantification}
 \label{sec:quantification}
@@ -133,7 +134,7 @@ An alternative solution is to increment the probability ratio by 1; we refer to 
 %
 \begin{equation}
   \label{eq:cpmi}
-  \operatorname{CPMI}(x, y) = \log\Big( 1 + \frac{P(x,y)}{P(x)P(y)} \Big)
+  \operatorname{CPMI}(x, y) = \log\left( 1 +  \frac{P(x,y)}{P(x)P(y)} \right)
 \end{equation}
 
 \subsection{Shifted PMI (neg)}
@@ -250,10 +251,14 @@ In our case, the constant frequency is the only association measure that is able
 \section{Other model parameters}
 \label{sec:other-model-paramt}
 
+\input{figures/parameters}
+
+As the source corpus we use the concatenation of ukWac and Wackypedia \cite{ukwac}. A symmetric widow of 5 neighbouring is used to collect co-occurrences.
+
 \subsection{Vector dimensionality (D)}
 \label{sec:vect-dimens}
 
-As context words we select the 1K, 2K, 3K, 5K, 10K, 20K, 30K, 40K and 50K most frequent lemmatised nouns, verbs, adjectives and adverbs. All context words are part of speech tagged, but we do not distinguish between refined word types (e.g.~intransitive vs.~transitive versions of verbs).
+As context words we select the 1K, 2K, 3K, 5K, 10K, 20K, 30K, 40K and 50K most frequent lemmatised nouns, verbs, adjectives and adverbs in the source corpus. All context words are part of speech tagged, but we do not distinguish between refined word types (e.g.~intransitive vs.~transitive versions of verbs).
 
 \subsection{Similarity measure}
 \label{sec:similarity-measure}
@@ -274,15 +279,29 @@ Euclidean normalization removes the effect of vector lengths, emphasizing instea
 
 An advantage of cosine in a lexical similarity task is that it does not depend on the word frequency. Imagine a case where the similarity of a frequent and a rare word is calculated. In this situation, the similarity judgement should not depend on the relative frequency of the words; instead, their tendency of agreement on features should take the dominant role.
 
-For example, \NPMI/ makes ``feature selection'' by weighting PMI values with the co-occurrence frequency as discussed \todo{Make sure that the stretching effect is discussed}previously. When cosine is applied, the stretching effect of \NPMI/ is eliminated, but the rotation effect stays. On average, the rotational effect will be much more significant for rare words, while frequent words are more likely to be stretched.
+For example, \NPMI/ makes ``feature selection'' by weighting PMI values with the co-occurrence frequency as discussed previously. When cosine is applied, the stretching effect of \NPMI/ is eliminated, but the rotational effect stays. On average, the rotational effect will be much more significant for rare words, while frequent words are more likely to be stretched.
+
+\todo[inline]{correlation}
 
 \subsection{Compositional operator}
 \label{sec:comp-oper}
 
-\todo[inline]{Compositional operators}
+For phrasal tasks, the phrase vectors are obtained via composition of constituents' vectors using these operations: addition, multiplication \cite{mitchell2010composition,mitchell-lapata:2008:ACLMain} and Kronecker \cite{Grefenstette:2011:ESC:2145432.2145580} and categorical operators listed in Table~\ref{tbl:comp-methods} \cite{milajevs-EtAl:2014:EMNLP2014,DBLP:journals/corr/abs-1003-4394}.
 
+Addition and multiplication are point-wise operations, which do not take into account the word order. We also work with another operator, Kronecker, which is  word order sensitive. The verb matrix for it is defined as the Kronecker product of the vector of verb with itself:
+%
+\begin{equation*}
+  \widetilde{\text{Verb}} = \overrightarrow{\text{Verb}} \otimes \overrightarrow{\text{Verb}}
+\end{equation*}
 
-\input{figures/parameters}
+As a non-compositional baseline, we take the condition \texttt{head}, which ignores the subject and the object of a phrase, causing the vector of a whole phrase to be equal to the vector of its verb \cite{milajevs-EtAl:2014:EMNLP2014}.
+
+For other operators, a transitive verb is represented by matrix $\overline{\text{Verb}}$ which is obtained from a corpus using the formula:
+$$
+\overline{\text{Verb}} = \sum_i\ov{s_i} \otimes \ov{o_i}
+$$
+where $\ov{s_i}$ and $\ov{i_i}$ are the subject-object pairs of the verb found in the source corpus.
+\input{figures/comp-methods}
 
 %%% Local Variables:
 %%% mode: latex

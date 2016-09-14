@@ -26,9 +26,9 @@ entities,\footnotemark{} their representation has to be obtained.
 
 % \cite{Huth2016}
 
-\todo[inline]{Bring together psychology, linguistics and NLP%
+% \todo[inline]{Bring together psychology, linguistics and NLP%
 % Apart from a pragmatic attempt to alleviate the problems of evaluating similarity components, these datasets serve as an empirical test of the hypotheses of Firth and Harris, bringing together our understanding of human mind, language and technology.
-}
+% }
 
 \section{Similarity of words}
 \label{sec:word-meaning}
@@ -46,22 +46,23 @@ But the word meaning in isolation is not defined, according to \emph{the princip
 Never ask for the meaning of a word in isolation, but only in the context of a sentence.
 \end{displayquote}
 
-It worth noting here, that similarity in isolation is also problematic because the number of features an entity has is infinite and its easy to show that two entities will always have an infinite amount of common features \cite{goodman1972problems,hahn1997concepts}. To make similarity measurement possible, it has to be measured \emph{under a given description} \cite{WCS:WCS1282,medin1993respects,Markman1996}, thus similarity is always contextualised. Also, \newcite{Huth2016} were able to comprehensively map individual words across cortex, meaning that there are word representations.
+It worth noting here, that similarity in isolation is also problematic because the number of features an entity has is infinite and its easy to show that two entities will always have an infinite amount of common features \cite{goodman1972problems,hahn1997concepts}. To make similarity measurement possible, it has to be measured \emph{under a given description} \cite{WCS:WCS1282,medin1993respects,Markman1996}, thus similarity is always contextualised.
+% On the other side, \newcite{Huth2016} were able to comprehensively map individual words across cortex, meaning that there are word representations supporting the idea of \newcite{WCS:WCS1282}.
 
-Frege's principle of contextuality allows to define the meaning of a word by identifying its contribution to the meaning of a sentence. Firth's \citeyearpar{firth1957lingtheory} famous quote that ``you shall know a word by the company it keeps''  suggests that the word meaning can be \emph{modelled} as the combination of the meanings of its occurrences in sentences of a corpus. Note, that this does not provide the absolute word meaning, but only its meaning relative to the corpus. This assumption is also supported by the hypothesis of \newcite{harris1954distributional} that the differences of occurrences of two words \emph{quantify} the difference in their relative meanings.
+Frege's principle of contextuality allows to define the meaning of a word by identifying its contribution to the meaning of a sentence. Firth's \citeyearpar{firth1957lingtheory} famous quote that ``you shall know a word by the company it keeps''  suggests that the word meaning can be \emph{modelled} as the combination of the meanings of its occurrences in sentences of a corpus. Note, that this does not provide the absolute word meaning, but only its meaning relative to the corpus. This assumption is also supported by the hypothesis of \newcite{harris1954distributional} that the differences of occurrences of two words quantify the \emph{difference} in their relative meaning, but do not necessarily \emph{define} the meaning.
 
 Once relative word meaning is accepted, compositionality can be used to obtain representations of phrases and sentences \cite{THEO:THEO373,Dowty1980,sep-montague-semantics,DBLP:journals/corr/abs-1003-4394,baroni2014frege}.
 
-\subsection{Distributional hypothesis}
+\section{Distributional hypothesis}
 \label{sec:distr-hypoth}
 
-We would like to capture the intuition that while \textit{John} and \textit{Mary} are distinct, they are rather similar to each other (both of them are humans) and dissimilar to \textit{dog}, \textit{pavement} or \textit{idea}.
+In principle, we would like to capture the intuition that while \textit{John} and \textit{Mary} are distinct entities, they are rather similar to each other (both of them are humans) and are dissimilar to \textit{dog}, \textit{pavement} or \textit{idea}.
 
 % The same applies at the phrase and sentence level: \textit{dogs chase cats} is similar in meaning to \textit{hounds pursue kittens}, but less so to \textit{cats chase dogs} (despite the lexical overlap).
 
 Distributional methods provide a way to approach this problem. By representing words and phrases as vectors in a vector space, we can express similarity in meaning via a suitable distance metric within that space.
 
-\subsubsection{Co-occurrence based word representation}
+\subsection{Co-occurrence based word representation}
 \label{sec:distr-repr}
 
 One way to produce such representations is to directly exploit Harris' \citeyearpar{harris1954distributional} intuition by counting the contexts a word appears in.
@@ -89,14 +90,14 @@ For example, one can construct a vector space in which the dimensions correspond
 
 Table~\ref{tab:comparison} shows 5 3-dimensional vectors for the words \textit{Mary}, \textit{John}, \textit{girl}, \textit{boy} and \textit{idea}. The words \textit{philosophy}, \textit{book} and \textit{school} label vector space dimensions.
 
-As the vector for \textit{Mary} is \todo{Is it accurate to talk about vector closeness?}closer to \textit{girl} than it is to \textit{boy} in the vector space, we can say that \textit{Mary}'s contexts are similar to \textit{girls}'s (and less similar to \textit{boy}'s), therefore \textit{Mary} is semantically more similar to \textit{girl} than to \textit{boy}.
+As the vector for \textit{Mary} is ``closer'' to \textit{girl} than it is to \textit{boy} in the vector space, we can say that \textit{Mary}'s contexts are similar to \textit{girls}'s (and less similar to \textit{boy}'s), therefore \textit{Mary} is semantically more similar to \textit{girl} than to \textit{boy}.
 
 Mathematically the similarity can be expressed using, for instance, the cosine of the angle between two vectors:
 %
 \begin{align*}
 \cos(\theta) &=
 \frac{\ov{\mathit{Mary}}\cdot\ov{\mathit{girl}}}
-{||\ov{\mathit{Mary}}||\ov{\mathit{girl}}||} =
+{||\ov{\mathit{Mary}}||||\ov{\mathit{girl}}||} =
 %
 \frac{0\times0 + 10\times19 + 22\times93}
 {\sqrt{0^2 + 10^2 + 22^2}\sqrt{0^2 + 19^2 + 93^2}} \approx
@@ -104,7 +105,7 @@ Mathematically the similarity can be expressed using, for instance, the cosine o
  \\
 \cos(\phi) &=
 \frac{\ov{\mathit{Mary}}\cdot\ov{\mathit{boy}}}
-{||\ov{\mathit{Mary}}||\ov{\mathit{boy}}||} =
+{||\ov{\mathit{Mary}}||||\ov{\mathit{boy}}||} =
 %
 \frac{0\times0 + 10\times12 + 22\times146}
 {\sqrt{0^2 + 10^2 + 22^2}\sqrt{0^2 + 12^2 + 146^2}} \approx
@@ -115,18 +116,14 @@ where $\theta$ is the angle between the vectors of \textit{Mary} and \textit{gir
 
 In the current example of a na{\"\i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers. Refer to \newcite{Turney:2010:FMV:1861751.1861756} and \newcite{TACL570} for the discussion of vector space parameters, and see \newcite{kiela-clark:2014:CVSC}, \newcite{lapesa2014large} and
 %
-\todo{reference the section about parameters} below
+Chapter~\ref{sec:parameters}
 %
-for a detailed comparison of their tuning and performance.
+for the detailed descriptions of vector space parameters.
 
-\subsubsection{Neural word embedding}
+\subsection{Neural word embedding}
 \label{sec:neural-embedding}
 
-Deep learning techniques use this distributional hypothesis
-differently. Instead of relying on observed co-occurrence frequencies,
-a neural model is trained to maximise some objective function related
-to e.g.~the probability of observing the surrounding words in some
-context \cite{mikolov2013distributed}:
+Deep learning techniques use the distributional hypothesis differently. Instead of relying on observed co-occurrence frequencies, a neural model is trained to maximise some objective function related to, for example, the probability of observing the surrounding words in some context \cite{mikolov2013distributed}:
 %
 \begin{align}
  \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log p(w_{t+j}|w_t)
@@ -140,8 +137,6 @@ target word $w_t$, where $c$ is the size of the training context, and
 $w_1 w_2, \cdots w_T$ is a sequence of training words. They therefore
 capture the distributional intuition and can express degrees of
 lexical similarity.
-
-% Explain why is this better than counting
 
 They have also proved successful at other tasks \cite{mikolov2013linguistic}; the vectors obtained encode not only attributional similarity (similar words are close to each other), but also relational similarities \cite{Turney:2010:FMV:1861751.1861756}. For example, it is possible to extract the \texttt{singular:plural} relation (\textit{apple}:\textit{apples}, \textit{car}:\textit{cars}) using vector subtraction:
 %
@@ -163,27 +158,16 @@ allowing the formation of analogy queries similar to
 $\overrightarrow{\mathit{king}} - \overrightarrow{\mathit{man}} +
 \overrightarrow{\mathit{woman}} = \mathtt{?}$, obtaining
 $\overrightarrow{\mathit{queen}}$ as the
-result.\footnote{\newcite{levy2014linguistic} improved
-  \newcite{mikolov2013linguistic}'s method of retrieving relational similarities
-  by changing the objective function and improved the state-of-the-art results
-  both for neural embeddings and co-occurrence based vectors.}
+result.
 
-% Both neural and co-occurrence-based approaches have advantages over
-% classical formal approaches in their ability to capture lexical
-% semantics and degrees of similarity; their success at extending this
-% to the sentence level, and to more complex semantic phenomena, depends
-% on their applicability within compositional models.
+\newcite{levy2014linguistic} improved the method of retrieving relational similarities by changing the objective function and improved the state-of-the-art results both for neural embeddings and co-occurrence based vectors. However, recently the evaluation method based on analogies and vector offsets has been criticised, see \cite{linzen:2016:RepEval}.
 
-\subsection{Similarity metrics}
-\label{sec:similarity-metrics}
-
-
-% \subsection{Aggregation of word similarities for similarity of compaunds}
-
-% \cite{turney2012domain}
-
-\section{Similarity of compound expressions}
+\section{Similarity of phrases and sentences}
 \label{sec:similarity-compounds}
+
+Both neural and co-occurrence-based approaches have advantages over
+the classical formal approaches in their ability to capture lexical
+semantics and degrees of similarity. However, their success at extending this to the sentence level, and to more complex semantic phenomena, depends on the applicability within compositional models.
 
 \subsection{The principle of compositionality}
 \label{sec:formal-semantics}
@@ -209,15 +193,8 @@ to form other constituents (and finally a sentence). Translation rules define
 how semantic representations of the constituents are combined to get a semantic
 representation of the whole.
 
-Categorial grammars are widely used to obtain syntactic structure of a
-sentence. Given a set of basic categories $\texttt{ATOM}$, for example
-$\{\mathit{n}, \mathit{s}, \mathit{np}\}$ complex categories
-$\mathtt{CAT} \backslash \mathtt{CAT}$ and $\mathtt{CAT}/\mathtt{CAT}$ can be
-constructed, where $\mathtt{CAT}$ is either an element of \texttt{\texttt{ATOM}}
-or a complex category. So the transitive verb category is
-$\mathtt{np}\backslash\mathtt{s}/\mathtt{np}$. Intuitively we want to say that
-obtaining a sentence with a transitive verb there must be a noun phrase before
-and after it.
+Categorial grammars are widely used to obtain syntactic structure of a sentence. Given a set of basic categories $\texttt{ATOM}$, for example $\{\mathit{n}, \mathit{s}, \mathit{np}\}$ complex categories
+$\mathtt{CAT} \backslash \mathtt{CAT}$ and $\mathtt{CAT}/\mathtt{CAT}$ can be constructed, where $\mathtt{CAT}$ is either an element of \texttt{\texttt{ATOM}} or a complex category. So the transitive verb category is $\mathtt{np}\backslash\mathtt{s}/\mathtt{np}$. Intuitively we want to say that obtaining a sentence with a transitive verb there must be a noun phrase before and after the verb.
 
 Parsing is done by composing categories together according to two rules:
 %
@@ -299,17 +276,10 @@ application. Figure~\ref{fig:syn} shows the final parse tree.
 \label{fig:syn}
 \end{figure}
 
-Given a suitable pairing between a syntactic grammar, semantic representations
-and corresponding general combinatory operators, this can produce structured
-sentential representations with broad coverage and good generalisability \cite{step2008:2222}. This logical approach is extremely powerful because
-it can capture complex aspects of meaning such as quantifiers and their
-interaction \cite{Copestake2005}, and enables inference using
-well studied and developed logical methods \cite{bos2000first}.
+Given a suitable pairing between a syntactic grammar, semantic representations and corresponding general combinatory operators, this can produce structured sentential representations with a broad coverage and good generalisability \cite{step2008:2222}. This logical approach is extremely powerful because it can capture complex aspects of meaning such as quantifiers and their interaction \cite{Copestake2005}, and enables inference using well studied and developed logical methods \cite{bos2000first}.
 
 \subsection{Compositional distributional semantics}
 \label{sec:composition}
-
-\todo[inline]{Form-independent semantics.}
 
 Methods based on the distributional hypothesis have recently been applied to many tasks, but mostly at the word level, for instance, word sense disambiguation \cite{ZhitomirskyGeffet2009} and lexical substitution \cite{Thater:2010:CSR:1858681.1858778}. They exploit the notion of similarity which correlates with the angle between word vectors \cite{Turney:2010:FMV:1861751.1861756}.
 
@@ -322,31 +292,25 @@ $\ov{\mathit{john}} + \ov{\mathit{loves}} + \ov{\mathit{mary}}$.
 
 To capture word order and the syntactic structure of a sentence, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} extend the compositional approach by using non-associative linear algebra operators as proposed in the theoretical work of \newcite{DBLP:journals/corr/abs-1003-4394}.
 
-The functional application of semantic term can be replaced with tensors \cite{Bourbaki1998commutative}. Then, a transitive verb is represented by matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ (the relation method of \newcite{Grefenstette:2011:ESC:2145432.2145580}), where $\ov{s_i}$ and $\ov{i_i}$ are the subject--object pairs of the verb. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$.
+The functional application of semantic term can be replaced with tensors \cite{Bourbaki1998commutative}. Then, a transitive verb is represented by matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ \cite{Grefenstette:2011:ESC:2145432.2145580}), where $\ov{s_i}$ and $\ov{i_i}$ are the subject--object pairs of the verb. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$.
 
 \subsection{Similarity of heads in context}
 \label{sec:similarity-context}
 
-A noun phrase can be similar to a noun as in \textit{female lion} and \textit{lioness}, and to another noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as to words. In this case, similarity is measured in \emph{context}, but is still comparison of the phrases' head words which meaning is modified by arguments they appear with \cite{Kintsch2001173,mitchell-lapata:2008:ACLMain,mitchell2010composition,Dinu:2010:MDS:1870658.1870771,Baroni2010nouns,thater-furstenau-pinkal:2011:IJCNLP-2011,Seaghdha:2011:PMS:2145432.2145545}. With verbs this idea can be applied to compare transitive verbs with intransitive. For example, \textit{to cycle} is similar to \textit{ride a bicycle}.
+A noun phrase can be similar to a noun as in \textit{female lion} and \textit{lioness}, and to another noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as to words. In this case, similarity is measured in \emph{context}, but is still comparison of the phrases' head words which meaning is modified by arguments they appear with \cite{Kintsch2001173,mitchell-lapata:2008:ACLMain,mitchell2010composition,Dinu:2010:MDS:1870658.1870771,Baroni2010nouns,thater-furstenau-pinkal:2011:IJCNLP-2011,Seaghdha:2011:PMS:2145432.2145545}. With verbs this idea can be applied to compare transitive verbs with intransitive. For example, \textit{to cycle} is similar to \textit{ride a bicycle}. Here we see that \textit{a bicycle} disambiguates the verb \textit{ride} making the phrase similar to the verb \textit{cycle}. Connection of measuring similarity of a phrase and disambiguation has been noted in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
 
 % TODO: mention \cite{wieting2015paraphrase}
 
-Sentential similarity might be treated as the similarity of the heads in the contexts. That is, the similarity between \textit{sees} and \textit{notices} in \textit{John \textbf{sees} Mary} and \textit{John \textbf{notices} a woman}. This approach abstracts away grammatical difference between the sentences and concentrates on semantics and fits the proposed model as the respect for the head, which is a lexical entity, has to be found.
+Sentential similarity might be treated as the similarity of the heads in the contexts. That is, the similarity between \textit{sees} and \textit{notices} in \textit{John \textbf{sees} Mary} and \textit{John \textbf{notices} a woman}. This approach abstracts away the grammatical difference between the sentences and concentrates on their semantics.
 
-
-\section{Intrinsic evaluation}
+\section{Evaluation}
 \label{sec:intrinsic-evaluation}
 
-As we have established, the semantic formalisation of similarity is based on two ideas. The occurrence pattern of a word \emph{defines} its meaning \cite{firth1957lingtheory}, while the difference in occurrence between two words \emph{quantifies} the difference in their meaning \cite{harris1954distributional}. From a computational perspective, this motivates and guides development of similarity components that are embedded into natural language processing systems that deal with tasks such as
-word sense disambiguation \cite{Schutze:1998:AWS:972719.972724},
-information retrieval \cite{Salton:1975:VSM:361219.361220,Milajevs:2015:IMN:2808194.2809448},
-machine translation \cite{Dagan:1993:CWS:981574.981596},
-dependency parsing \cite{hermann-blunsom:2013:ACL2013,andreas-klein:2014:P14-2},
-and dialogue act tagging \cite{kalchbrenner-blunsom:2013:CVSC,milajevs-purver:2014:CVSC}.
+As we have established, the difference in occurrence between two words quantifies the difference in their meaning \cite{harris1954distributional} and there is a machinery to measure the difference in meaning of two sentences \cite{DBLP:journals/corr/abs-1003-4394}. The final necessary part is the evaluation methodology.
 
-% TODO: Mention \cite{bengio2006}?
+Because it is difficult to measure the performance of a single (similarity) component in a pipeline of a complete natural language processing system (for example, a dialog system), datasets that focus on similarity are popular among computational linguists.
 
-Because it is difficult to measure performance of a single (similarity) component in a pipeline, datasets that focus on similarity are popular among computational linguists. Apart from a pragmatic attempt to alleviate the problems of evaluating similarity components, these datasets serve as an empirical test of the hypotheses of Firth and Harris, bringing together our understanding of human mind, language and technology.
+Apart from a pragmatic attempt to alleviate the problems of evaluating similarity components, these datasets serve as an empirical test of the hypotheses of Firth and Harris, bringing together our understanding of human mind, language and technology. The following sections introduce the datasets used in this study.
 
 \subsection{Word similarity}
 \label{sec:lexical-similarity}
@@ -356,53 +320,26 @@ Two datasets, namely MEN \cite{Bruni:2012:DST:2390524.2390544} and SimLex-999 \c
 \subsection{Disambiguation of verbs in context}
 \label{sec:disamb}
 
-The transitive verb disambiguation dataset\footnote{This and the sentence   similarity datasets are available at   \url{http://www.cs.ox.ac.uk/activities/compdistmeaning/}} described in \newcite{Grefenstette:2011:ETV:2140490.2140497}. The dataset consists of ambiguous transitive verbs together with their arguments; landmark verbs, which identify one of the verb senses; and human judgements which specify the similarity to the landmarks of the disambiguated sense of the verb in the given context. This is similar to the intransitive dataset described in \newcite{mitchell-lapata:2008:ACLMain}.
+The transitive verb disambiguation dataset
+% \footnote{This and the sentence   similarity datasets are available at \url{http://www.cs.ox.ac.uk/activities/compdistmeaning/}}
+described in \newcite{Grefenstette:2011:ETV:2140490.2140497} consists of ambiguous transitive verbs together with their arguments, landmark verbs (which identify one of the verb senses) and human judgements (which specify the similarity to the landmarks of the disambiguated sense of the verb in the given context). This is similar to the intransitive dataset described in \newcite{mitchell-lapata:2008:ACLMain}.
 
-Consider the sentence \textit{``system meets specification''}; here,
-\textit{meets} is the ambiguous transitive verb, and \textit{system}
-and \textit{specification} are the arguments in this context. Possible
-landmarks for \emph{meet} are \textit{satisfy} and \textit{visit}; for
-this sentence, the human judgements show that the disambiguated verb
-meaning is similar to the landmark \textit{satisfy}, and less similar
-to \textit{visit}.
+Consider the sentence \textit{system meets specification}. \textit{Meets} is an ambiguous transitive verb, and \textit{system}
+and \textit{specification} are its arguments. Possible landmarks for \emph{meet} are \textit{satisfy} and \textit{visit}. For this sentence, the human judgements show that the disambiguated verb meaning is similar to the landmark \textit{satisfy}, and less similar to \textit{visit}.
 
-The task is to estimate the similarity of the sense of a verb in a context with
-a given landmark. To provide our similarity measures, we compose the verb with
-its arguments using one of our compositional operators, do the same for the
-landmark and the arguments, and compute the cosine similarity of the two
-vectors. To evaluate performance, we average the human judgements for the same
-verb, argument and landmark entries, and use the average values to calculate the
-correlation. As a baseline, we compare to the correlation achieved using only
-the verb vector, without composing with its arguments.
+The task is to estimate the similarity of the sense of a verb in a context with a given landmark. To estimate similarity, we compose the verb with its arguments, do the same for the landmark and the arguments, and compute the similarity of the two vectors. To evaluate performance, we average the human judgements for the same verb, argument and landmark entries, and use the average values to calculate the correlation.
 
 \subsection{Sentence similarity}
 \label{sec:sentence-similarity}
 
-The transitive sentence similarity dataset described in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}. The dataset consists of transitive sentence pairs and a human similarity judgement. The task is to estimate similarity between two sentences.
+The transitive sentence similarity dataset described in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}. The dataset consists of transitive sentence pairs and a human similarity judgement. The task is to estimate similarity between two sentences. The evaluation is the same as in Section~\ref{sec:disamb}.
 
-\section{Extrinsic evaluation}
-\label{sec:nlp-tasks}
+\subsection{Relevance}
+\label{sec:relevance}
 
-\subsection{Dialogue act tagging}
-\label{sec:dialogue-act-tagging}
+\newcite{Milajevs:2015:IMN:2808194.2809448} investigate whether distributional models of meaning and similarity are applicable to information retrieval. Despite the strong assumption that relevant documents are similar, they show that compositional models are essential for semantic information retrieval tasks.
 
-There are many ways to approach the task of dialogue act tagging
-\cite{Stolcke:2000:DAM:971869.971872}. The most successful approaches combine
-\emph{intra-}utterance features, such as the (sequences of) words and
-intonational contours used, together with \emph{inter-}utterance
-features, such as the sequence of utterance tags being used
-previously.
-%
-To capture both of these aspects, sequence models such as Hidden Markov Models are widely used \cite{Stolcke:2000:DAM:971869.971872,DBLP:conf/interspeech/SurendranL06}. The sequence of words is an observable variable, while the sequence of dialogue act tags is a hidden variable.
-
-However, some approaches have shown competitive results without exploiting features of inter-utterance context. \newcite{webb2005dialogue} concentrate only on features found inside an utterance, identifying ngrams that correlate strongly with particular utterance tags, and propose a statistical model for prediction which produces close to the state of the art results.
-
-The current state of the art \cite{kalchbrenner-blunsom:2013:CVSC} uses Recurrent Convolutional Neural Networks to achieve high accuracy. This model includes information about word identity, intra-utterance word sequence, and inter-utterance tag sequence, by using a vector space model of words with a compositional approach. The words vectors are not based on distributional frequencies in this case, however, but on randomly initialised vectors, with the model trained on a specific corpus. This raises several questions: what is the contribution of word sequence and/or utterance (tag) sequence; and might further gains be made by exploiting the distributional hypothesis? What is the contribution of utterance meaning to its tag?
-
-\subsection{Paraphrase detection}
-\label{sec:paraphrase}
-
-Microsoft paraphrase corpus \cite{dolan2005par} is a collection of sentences labeled whether one is a paraphrase of another.
+Chapter~\ref{sec:phraserel} introduces a new dataset that provides relevance judgements of subject-verb-object phrases and is aimed for an evaluation that is closer to the widely used evaluation metrics in information retrieval. Namely, we calculate the percentage of the queries for which there is a relevant document among the top 3 ranked.
 
 %%% Local Variables:
 %%% mode: latex
