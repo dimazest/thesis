@@ -15,7 +15,8 @@ Before reporting the results of the lexical experiments, we would like to expand
 
 \begin{hyp}[H\ref{hyp:lex-pmi-cpmi}]
   \label{hyp:lex-pmi-cpmi}
-  In lexical tasks, there should be no difference between PMI and its compressed version CPMI (Section~\ref{sec:pmi-variants}). Shifted PMI variants behave the same (Section~\ref{sec:shifted-pmi}).
+  In lexical tasks, there should be no difference between PMI and its compressed version CPMI (Section~\ref{sec:pmi-variants}).
+% Shifted PMI variants behave the same (Section~\ref{sec:shifted-pmi}).
 \end{hyp}
 
 The main effect of CPMI is to transform negative values into the positive range of $(0; 1)$. The reason to avoid negative values is that they might be problematic for multiplication during composition as the sign of the result depends on the number of negative components. However as there is no composition involved in lexical tasks, the weighting schemes should behave equally.
@@ -26,18 +27,15 @@ The next hypotheses are related to PMI's Achilles heel and are supposed to lower
   \label{hyp:freq}
  $N$ or $\log n$ frequency components (Section~\ref{sec:frequency-weighting}) should be beneficial for highly-dimensional spaces.
 \end{hyp}
-%
-\todo[noline]{Mention the reason behind LMI.}
-%
-This is the most direct way of boosting high co-occurrence counts.
+
+This is the most direct way of boosting high co-occurrence counts \cite{Evert05}. \NPMI/ is shown to be a good choice in lexical tasks \cite{Bruni:2012:DST:2390524.2390544}.
 
 \begin{hyp}[H\ref{hyp:cds}]
   \label{hyp:cds}
   Low-dimensional spaces should not need context distribution smoothing, while highly-dimensional spaces should benefit from it (Section~\ref{sec:cont-distr-smooth}).
 \end{hyp}
 
-\todo[noline]{Refer to L\&G}
-This is because the estimated probabilities of rare contexts are noisy.
+This is because the estimated probabilities of rare contexts are noisy. This smoothing is shown successful in high-dimensional count-based models \cite{TACL570} and word2vec \cite{mikolov2013efficient}. However, \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} showed that for low-dimensional spaces benefit from global context probabilities.
 
 \begin{hyp}[H\ref{hyp:neg}]
   \label{hyp:neg}
@@ -180,8 +178,6 @@ $$
 $$
 
 The performance of the selected models on both datasets and the normalised average is shown on Table~\ref{tab:lexical-max-selection} (Max selection) and Table~\ref{tab:lexical-heuristics-selection} (selection based on heuristics).
-
-\todo[inline]{Compare with Baroni and Levy.}
 
 \subsection{Max selection}
 \label{sec:max-selection}

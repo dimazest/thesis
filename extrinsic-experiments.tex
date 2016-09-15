@@ -32,7 +32,7 @@ We observed such behaviour in lexical tasks (Section~\ref{sec:conclusion-lexical
 
 Figure~\ref{fig:ks14-results} shows the performance of compositional model on the sentence similarity dataset KS14 \cite{kartsadrqpl2014}. All operators outperform the non-compositional \texttt{head} operator. Table~\ref{tab:ks14-max-selection} shows the performance of models selected by Max selection together with the selected parameters.
 
-\todo[noline]{Significance test}
+% \todo[noline]{Significance test}
 Kronecker with few thousand dimensions and correlation as the similarity measure gives the highest scores, supporting H\ref{hyp:order}. As the dimensionality increases, Kronecker performance stays constant. Addition is slightly better than multiplication, but the performance of both peaks at 2000 dimensions and decreases as the dimensionality increases.
 
 \texttt{Head} parameters are similar to the lexical Max selection (Table~\ref{tab:lexical-max-selection}), with an exception of \texttt{neg}, where values similar to MEN (Table~\ref{tab:men-max-selection}) are chosen.
@@ -300,7 +300,7 @@ There is more pairwise agreement, for example similarity based on correlation fo
 
 Figure~\ref{fig:ks14-transfer} show the behaviour of models selected on the KS14 when they are transferred to GS11 and PhraseRel. During the transfer there is little difference in performance between the selection methods, except of multiplicative models where heuristics show better performance and 5000 dimensional Kronecker where heuristics give lower results than the max-based selection.
 
-\todo[noline]{Significance tests}
+% \todo[noline]{Significance tests}
 Heuristic-based selection on average is closer to the upper bound than max based selection, supporting H\ref{hyp:overfitting}. However, both of them are beyond the 10\% boundary set by H\ref{hyp:10percent}. When transferred to GS11 the average difference with the upper bound is 0.335 for max and 0.238 for heuristics. When transferred to PhraseRel the average difference is 0.093 for max and 0.091 for heuristics.
 
 \subsection{From GS11}
@@ -310,7 +310,7 @@ Heuristic-based selection on average is closer to the upper bound than max based
 
 Figure~\ref{fig:gs11-transfer} shows that there is little difference between max and heuristic-based selections. In case of \texttt{head} composition, heuristics lead to higher performance, while for low-dimensional multiplicative models heuristics fall behind the max selection on the KS14 dataset.
 
-\todo[noline]{Significance tests}
+% \todo[noline]{Significance tests}
 When GS11 models are transferred to KS14, the average difference with the upper bound is 0.119 and 0.106 for max and heuristics respectively. For the transfer to PhraseRel, the differences are 0.133 for max and 0.188 for heuristics. Again, the heuristic-based selection outperforms the max based. This supports H\ref{hyp:overfitting}, but the results are beyond the limit of H\ref{hyp:10percent}.
 
 \subsection{From PhraseRel}
@@ -320,7 +320,7 @@ When GS11 models are transferred to KS14, the average difference with the upper 
 
 Figure~\ref{fig:phraserel-transfer} shows that the performance of models based on PhraseRel is less stable, especially for selection by maximum performance.
 
-\todo[noline]{Significance tests}
+% \todo[noline]{Significance tests}
 Transfer to KS14 yields the average differences of 0.152 for max and 0.136 for heuristics. Transfer to GS11 yields the average differences of 0.454 for max and 0.509 for heuristics. Note that the PhraseRel to GS11 transfer is the only case where max selection on average is better than heuristics.
 
 In general, over all compositional datasets, we see---in contrast to the lexical evaluation---that the Max-based selection might be prone to overfitting (H\ref{hyp:overfitting}). However, the result difference is far beyond H\ref{hyp:10percent}, which might be due to the different nature of the tasks: similarity, disambiguation and relevance.
@@ -355,8 +355,6 @@ The performance of selected models together with the selected parameters is show
 
 Models with many dimensions not always perform better than their low-dimensional counterparts. Particularly, only \texttt{head} and multiplication benefit from the high number of dimensions. Addition and Kronecker are closer to the upper bound with the dimensionality of few thousands.
 
-\input{figures/compositional-ablation}
-
 Regarding the hypotheses, there is support of H\ref{hyp:freq} for addition, multiplication and Kronecker, H\ref{hyp:cds} for multiplication and H\ref{hyp:neg} for Kronecker.
 
 \subsection{Heuristics}
@@ -366,6 +364,8 @@ The linear model achieves the $R^2 = 0.769$. Table~\ref{tab:compositional-ablati
 
 \subsubsection{Neg}
 \label{sec:neg-compositional}
+
+\input{figures/compositional-ablation}
 
 \input{figures/compositional-neg}
 

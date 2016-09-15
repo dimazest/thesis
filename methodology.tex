@@ -105,7 +105,7 @@ It has been shows that addition performs very well in compositional tasks \cite{
 There should be a universal model that performs well on a broad range of tasks.
 \end{hyp}
 
-\todo[inline]{Mention Bullinaria and Levy.}
+We are interested to see whether there is one parameter choice that performs competitively on all tasks.
 
 \chapter{Parameters and experimental setup}
 \label{sec:parameters}
@@ -278,7 +278,7 @@ An advantage of cosine in a lexical similarity task is that it does not depend o
 
 For example, \NPMI/ makes ``feature selection'' by weighting PMI values with the co-occurrence frequency as discussed previously. When cosine is applied, the stretching effect of \NPMI/ is eliminated, but the rotational effect stays. On average, the rotational effect will be much more significant for rare words, while frequent words are more likely to be stretched.
 
-\todo[inline]{correlation}
+In addition to cosine and inner product we use correlation \cite{kiela-clark:2014:CVSC} to measure similarity.
 
 \subsection{Compositional operator}
 \label{sec:comp-oper}
