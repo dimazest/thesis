@@ -1,7 +1,7 @@
 \chapter{Relationships between sentences}
 \label{sec:sentential}
 
-\section{Elaborated hypotheses}
+\section{Specialised hypotheses}
 \label{sec:elab-hypoth-comp}
 
 As for the lexical experiments (Section~\ref{sec:elab-hypoth-lexical}), before reporting the results we refine some of our initial hypothesis (Section~\ref{sec:hypotheses}).
@@ -433,7 +433,8 @@ Model selection based on combination of datasets performs much better on each da
 
 Max selection models outperform heuristic selection models, suggesting that there is no overfitting in this case and H\ref{hyp:overfitting} is not valid. In this case, the dataset combination covered three phenomena (similarity, disambiguation and relevance) and the precaution of overfitting by heuristics might be redundant.
 
-This also suggests, that there is a unique parameter choice that is universally applicable to compositional tasks H\ref{hyp:universal}.
+This also suggests, that there is a unique parameter choice that is universally applicable to compositional tasks H\ref{hyp:universal}. The universal spaces are studied in Section~
+\ref{sec:universal-param-selection}.
 
 \chapter[Universal models]{Universal models for both lexical and compositional tasks}
 \label{sec:universal-param-selection}
@@ -669,8 +670,6 @@ Our selection methodology leads to a significant improvement on the KS14 dataset
 While our results on GS11 are close to the current state of the art \cite{hashimoto-tsuruoka:2016:P16-1}, there is a room for improvement especially for tensor-based compositional operators. The difference in the performance might be explained as the limit of the count-based methods or the unexplored and therefore untuned parameters of the building of the verb matrix (for example, we consider all different subject-object occurrences, while they might be weighted or only a part of them might be used).
 
 The gap between the multiplicative and Kronecker composition in our work indicates that the tensor-based methods can be improved.
-
-
 
 %%% Local Variables:
 %%% mode: latex
