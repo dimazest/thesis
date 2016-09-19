@@ -10,11 +10,15 @@ Experiments with distributional vector space models can be divided to two relate
 
 The first question is applicable in a situation when conceptually different methods are compared, for example the ``count'' and  ``predict'' methods in \newcite{baroni-dinu-kruszewski:2014:P14-1}. The second question is applicable to a study of the difference of parameters within a conceptual method, for instance, the comparison of neighbour rank and distance measure in predicting semantic priming of \newcite{lapesa-evert:2013:CMCL}.
 
-The co-occurrence information can be used in different ways to build distributional models of meaning \cite{Turney:2010:FMV:1861751.1861756}. This has led to a series of systematic parameter studies \cite{Bullinaria2007,BullinariaLevy2012,kiela-clark:2014:CVSC,lapesa2014large,TACL570}. All of them explore numerous parameter combinations to report the best scores and derive recommendations of the optimal parameter choice.
+The co-occurrence information can be used in different ways to build distributional models of meaning \cite{Turney:2010:FMV:1861751.1861756}. This has led to a series of the systematic parameter studies \cite{Bullinaria2007,BullinariaLevy2012,kiela-clark:2014:CVSC,lapesa2014large,TACL570}. All of them explore numerous parameter combinations to report the best scores and derive recommendations of the optimal parameter choice.
 
 \newcite{lapesa2014large} make one step further in studying parameter behaviour by identifying the most influential parameters and their two-way interactions with a linear model, which is fit so that parameters of a vector space model predict its performance. This approach tackles two problems. First of all, it is designed to avoid overfitting. Secondly, it avoids noise in parameter selection revealing the regularities in the parameter behaviour.
 
-The goal of this work is to provide the representative performance numbers of count-based distributional models of meaning---so they could be compared to other semantic models---and to study general behaviour of vector space parameters and compositional operators---so the compositional operators could be fairly compared. The study is performed systematically using recently developed evaluation datasets for lexical and phrasal meaning representations.
+The goal of this work is to provide the representative performance numbers of count-based distributional models of meaning---so they could be compared to other semantic models---and to study general behaviour of vector space parameters and compositional operators---so the compositional operators could be fairly compared. The study is performed systematically using recently developed evaluation datasets for lexical and phrasal meaning representations. We express the goal in two research questions that are related to the categories of studies stated above.
+\begin{compactitem}
+\item What is the performance limit of the count-based distributional models of meaning?
+\item How are the count-based distributional models affected by parameter choices?
+\end{compactitem}
 
 \section{Strategies of avoiding overfitting}
 \label{sec:avoiding-overfitting}
@@ -55,7 +59,7 @@ This method not only avoids overfitting but also yields evaluation results that 
 \section{Hypotheses}
 \label{sec:hypotheses}
 
-To conduct the study, we introduce hypotheses that reflect the current consensus in the field of distributional semantics and summarise the motivation of this work.
+To conduct the study, we introduce hypotheses that reflect the current consensus in the field of distributional semantics and facilitate the answering of the research questions.
 
 \begin{hyp}[H\ref{hyp:overfitting}]
 \label{hyp:overfitting}
@@ -239,7 +243,7 @@ From the geometric point of view, the transformation from \PMI/ to \NPMI/ change
 
 From the linguistic perspective, \PMI/ captures a tendency of a word to co-occur with another word in general (captured by the direction of a vector), while \NPMI/ captures the expectation of seeing a particular co-occurrence in the source corpus. This is encoded in both the direction and the length of a vector.
 
-The sublinear frequency\footnote{We increment $n$ by one to avoid an infinite logarithm value when $n$ is 0.} $\log(n)$ stands between the two extreme cases of independence and subsumption. However, it is still a strong assumption as it treats all word pairs equally, but in natural language there are some pairs that are closer to subsumption and others that are closer to independence.
+The sublinear frequency\footnote{We increment $n$ by one to avoid an infinite logarithm value when $n$ is 0.} $\log n$ stands between the two extreme cases of independence and subsumption. However, it is still a strong assumption as it treats all word pairs equally, but in natural language there are some pairs that are closer to subsumption and others that are closer to independence.
 
 In our case, the constant frequency is the only association measure that is able to distinguish from the case where a co-occurrence event was not observed (and so according to MLE, $P(x, y)= 0$) and the case where the events are independent ($P(x, y) = P(x)P(y)$). Because for other frequencies, when no co-occurrence is observed the frequency is 0 and the discriminativeness value does not matter unless it is finite. That is why the backing off strategy already mentioned in Section~\ref{sec:pmi-variants}, ``when $n(x, y) = 0$ assume that $P(x, y) = P(x)P(y)$'' is an appropriate way of avoiding $-\infty$. There are many other smoothing strategies, for example \newcite{kneser1995improved,bengio2006}.
 
