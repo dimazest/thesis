@@ -484,7 +484,7 @@ Parameter selection is much more stable than on all previous max-based selection
 
 Interestingly, when shifting is applied, then dense spaces perform better: 1 and 0.7 are the optimal \texttt{neg} values. Multiplication shows a clear patter in support of H\ref{hyp:neg}.
 
-\todo[noline]{This is one of the major findings.}
+% \todo[noline]{This is one of the major findings.}
 The preference of a compositional operator depends on the focus of a model. Addition with many dimensions gives the best results on lexical tasks: 0.384 on SimLex-999 and 0.761 on MEN. Kronecker, on the other side, gives the highest values on compositional datasets supporting H\ref{hyp:order}: 0.798 on KS14, 0.514 on GS11 and 0.964 on PhraseRel. Multiplication, however, is a good compromise between the two. It gives the highest ``combined'' score of 0.945.
 
 \subsection{Heuristics}
@@ -523,7 +523,7 @@ The high relative difference on GS11 is due to a poor performance of addition an
 
 Contrary to H\ref{hyp:overfitting}, Max selection does not overfit, probably due to a broad selection of evaluation datasets.
 
-\todo[noline]{One of the major findings.}
+% \todo[noline]{One of the major findings.}
 When the models that are selected on lexical tasks are applied in a compositional setting, they perform worse than the models selected based on the universal score. This suggests that a model that is good on lexical tasks will not necessarily perform well on a compositional task, supporting H\ref{hyp:lextocomp}.
 
 In addition, the difference between the good lexical models and the upper bound increases as dimensionality increases. This is the case for multiplication, the most notable difference is observed on KS14 (Figure~\ref{fig:universal-results-ks14}).

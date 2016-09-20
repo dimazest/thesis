@@ -69,7 +69,8 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 % \title{What Computers Should Know about Texts}
 % \title{Robust methodology for measuring word and sentence similarity and relevance with distributional semantic models}
 % \title{Robust methodology for measuring word and sentence similarity with distributional semantic models}
-\title{Methodology for Robust Selection of Distributional Models of Word and Sentence  Similarity}
+% \title{Methodology for Robust Selection of Distributional Models of Word and Sentence  Similarity}
+\title{Methodology for Selection of Distributional Models to Measure Relationships between Words and Sentences}
 \author{Dmitrijs Milajevs}
 % \affil{Queen Mary University of London}
 
@@ -119,6 +120,11 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 
 \def\emnlp/{KS14}
 
+\patchcmd{\titlepage}
+{\thispagestyle{empty}}
+{\thispagestyle{plain}}
+{}
+{}
 
 \begin{document}
 \maketitle
@@ -152,12 +158,10 @@ This work was supported by the EPSRC grant EP/J002607/1.
 % \addcontentsline{toc}{chapter}{List of Tables}
 \listoftables
 
-\cleardoublepage
-\listoftodos
+% \cleardoublepage
+% \listoftodos
 
-\chapter{Introduction}
-
-% \input{introduction}
+\input{introduction}
 \input{similarity}
 \input{methodology}
 \input{experiments}
@@ -181,8 +185,6 @@ There are several directions for future work. First of all, we explored unreduce
 Another direction is the experimentation on a larger number of datasets. While more datasets are being proposed, for example \cite{2016arXiv160800869G}, and the current datasets are being criticised \cite{RepEval:2016}, it is important to have datasets that share the same goal (for example, provide similarity judgements), but are constructed by different groups and employing different methods during the dataset construction.
 
 While categorical compositional methods are build on the solid theoretical grounds \cite{DBLP:journals/corr/abs-1003-4394} and have been shown previously \cite{Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP,kim2015neural,hashimoto-tsuruoka:2016:P16-1}, and to some extend in this work, to be competitive with other methods more parameter exploration work has to be done, especially for the way how the verb (or other relational) tensors are build. On the theoretical side, the categorical methods need to be of lower computation complexity, as the current way of building verb matrices is not feasible for vectors over 3000 components.
-
-
 
 \cleardoublepage
 \appendix

@@ -4,8 +4,8 @@
 Computers, machines that play a more and more important role in our lives,
 require specially designed programming languages to be controlled. This is
 different from interactions between people where spoken or written natural
-language is used. Ideally, it would be perfect if interactions with computers
-was not different to interaction between humans. Computational linguistics is
+language is used. Ideally, it would be perfect if the interaction with computers
+was not different to the interaction between humans. Computational linguistics is
 one of the fields that aims to solve this problem.
 
 In order to be controlled by people, or be able to assist people in language
@@ -16,7 +16,7 @@ she can tell how many words there are, and that there is only one
 sentence. After a while, one can even say that this is probably a piece of
 poetry.
 
-The conclusions above require neither deep understanding of the language nor the
+The conclusions above require neither the complete understanding of the language nor the
 meaning of the text. Knowledge that texts (at least in some languages) consist
 of words separated by a space and how poems are usually written is
 enough. Moreover, knowing the letter combination distribution across the
@@ -26,13 +26,9 @@ without knowing what the text is about.
 
 \input{poem.tex}
 
-On the other hand, a task that provides a list of associations with the text, an
-essay or a painting inspired by it demands understanding of the text, language
-knowledge. Luckily, nowadays these kind of problems are not expected or demanded
-to be done by computers. People enjoy doing these kind of tasks themselves.
+On the other hand, a task that asks to provide a list of associations with the text, an essay or a painting inspired by it demands a much better understanding of the text that requires the language knowledge and familiarity with the culture. Luckily, nowadays these kind of problems are not expected to be done by computers. People enjoy doing these kind of tasks themselves.
 
-However, it is reasonable to ask a computer the following questions regarding
-text meaning:
+However, it is reasonable to ask a computer the following questions regarding text meaning:
 \begin{inparaenum}[a)]
 \item What is the text on Figure~\ref{fig:lv} about?
 \item What is the relation between the texts on Figure~\ref{fig:lv} and
@@ -42,41 +38,17 @@ text meaning:
 \item What poems are similar to this?
 \end{inparaenum}
 
-Text summarizaiton, machine translation, information extraction and retrieval
-are just a few of many branches of computational linguistics that provide
-methods for answering these questions. The questions above have a general
-property: all of them are about the meaning of the text. Natural language
-semantics is an area that studies meaning representation.
+Text summarizaiton, machine translation, information extraction and retrieval are just a few of many branches of computational linguistics that provide methods for answering these questions. The questions above have a general property: all of them are about the meaning of the text. Natural language semantics is an area that studies meaning representation and thus is necessary to solve the tasks.
 
-Creativity of natural languages---the fact that humans are able to produce and
-understand sentences they have never came across---complicates meaning
-modeling. Even if we had a way to map each word to its meaning, it is
-impractical to apply the same procedure to sentences, because as we process a
-piece of text most of the sentences in it will be seen for the fist
-time. Because of this, we need to be able to build the meaning representation of
-a sentence from its constituent parts: words.
+Creativity of natural languages---the fact that humans are able to produce and understand sentences they have never came across---complicates meaning modeling. Even if we had a way to map each word to its meaning, it is impractical to apply the same procedure to sentences, because as we process a piece of text most of the sentences in it will be seen for the fist time. Because of this, we need to be able to build the meaning representation of a sentence from its constituent parts: words.
 
-Syntax is a study about the structure of a sentence. Grammars define the rules
-that are describe how a sentences that belong to a language should look
-like. For example, a subject is in front of a verb and an object is after it in
-an English sentence. Having the constituent meaning representation, the meaning
-of a sentence is built guided by its syntax.
+Syntax is a study about the structure of a sentence. Grammars define the rules that are describe how a sentences that belong to a language should look like. For example, a subject is in front of a verb and an object is after it in an English sentence. Having the constituent meaning representation, the meaning of a sentence is built guided by its syntax.
 
-To a first, high level approximation, to be able to deal with the meaning of a
-text in natural language one needs to have meaning representation of
-constituents, a view to the (syntactic) structure of the text and a
-compositional procedure that outputs the meaning representation of the whole
-text.
+To a first, high level approximation, to be able to deal with the meaning of a text in natural language one needs to have meaning representation of constituents, a view to the (syntactic) structure of the text and a compositional procedure that outputs the meaning representation of the whole text.
 
-\todo[inline]{Finish introduction}
+This work studies an improvement of meaning representation for composition procedure. Distributional hypothesis \cite{harris1954distributional} is used to produce word meaning and categorical composition \cite{DBLP:journals/corr/abs-1003-4394} is the composition mechanism.
 
-
-% This work concentrates on, studies and proposes and improvement for two points:
-% meaning representation and composition procedure. Distributional hypothesis
-% \cite{harris1954distributional} is used to produce word meaning and categorical
-% composition \cite{coecke2010} is the composition mechanism. The goal of this
-% work is application of these techniques to the tasks which complex language such
-% as dialogue act tagging or paraphrase detection.
+% The goal of this work is application of these techniques to the tasks which complex language such as dialogue act tagging or paraphrase detection.
 
 %%% Local Variables:
 %%% mode: latex
