@@ -236,7 +236,7 @@ Lexical experiments give support to the most of the stated hypotheses in Section
 
 The optimal parameter choice depends on dimensionality (H\ref{hyp:dimen}). In particular, non constant frequency component (Section~\ref{sec:frequency-weighting}), H\ref{hyp:freq}), context distribution smoothing (Section~\ref{sec:cont-distr-smooth}, H\ref{hyp:cds}) and shifting (Section~\ref{sec:shifted-pmi}, H\ref{hyp:neg}) should be applied for spaces with $D \geq 10000$.
 
-The switch at 10000 dimensions is a ``parameter sweet spot'' as parameter choice is not significant at these points, the most representative example is \texttt{cds} behaviour on SimLex-999 (Figure~\ref{fig:SimLex999-cds}. After that point performance either converges (supporting H\ref{hyp:var}), as in case of \texttt{neg} on SimLex-999 (Figure~\ref{fig:SimLex999-neg}), or there is one dominant choice, as for \texttt{freq} on SimLex-999 (Figure~\ref{fig:SimLex999-freq}).
+The switch at 10000 dimensions is a ``parameter sweet spot'' as parameter choice is not significant at these points, the most representative example is the behaviour of \texttt{cds} on SimLex-999 (Figure~\ref{fig:SimLex999-cds}. After that point performance either converges (supporting H\ref{hyp:var}), as in case of \texttt{neg} on SimLex-999 (Figure~\ref{fig:SimLex999-neg}), or there is one dominant choice, as for \texttt{freq} on SimLex-999 (Figure~\ref{fig:SimLex999-freq}).
 
 As expected, we did not see a significant influence of the ``compression'' of the PMI values (H\ref{hyp:lex-pmi-cpmi}).
 
