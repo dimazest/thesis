@@ -46,9 +46,11 @@ Syntax is a study about the structure of a sentence. Grammars define the rules t
 
 To a first, high level approximation, to be able to deal with the meaning of a text in natural language one needs to have meaning representation of constituents, a view to the (syntactic) structure of the text and a compositional procedure that outputs the meaning representation of the whole text.
 
-This work studies an improvement of meaning representation for composition procedure. Distributional hypothesis \cite{harris1954distributional} is used to produce word meaning and categorical composition \cite{DBLP:journals/corr/abs-1003-4394} is the composition mechanism.
+Lexical distributional semantics \cite{BullinariaLevy2012,Bullinaria2007,Turney:2010:FMV:1861751.1861756} in recent years has been advanced after the success of the word2vec model \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} and practically redefined how the distributional lexical representations are obtained \cite{baroni-dinu-kruszewski:2014:P14-1}. On the other side, advances in compositional distributional semantics \cite{mitchell2010composition,maillard-clark-grefenstette:2014:TTNLS,Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP} showed that Frege's principle of compositionality \cite{Janssen2001} is useful in obtaining representations of phrases and sentences.
 
-% The goal of this work is application of these techniques to the tasks which complex language such as dialogue act tagging or paraphrase detection.
+Even though the new generation of lexical vectors is shown to be superior than the old-fashioned ``counting'' models \cite{milajevs-EtAl:2014:EMNLP2014} in compositional tasks, this work adopts the recommendations of \newcite{TACL570} for model parameter tuning and by applying a method robust to overfitting based on \newcite{lapesa2014large} performs a large-scale model selection study.
+
+The experiments show that after a careful selection of the vector space model parameters, the selected simple models are competitive with the current state of the art results and on some datasets even outperform it.
 
 %%% Local Variables:
 %%% mode: latex
