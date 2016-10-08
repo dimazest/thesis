@@ -19,8 +19,7 @@ and language modelling \cite{bengio2006}.
 
 Concretely, a parser might benefit from a generalisation about the part of speech tag of a word which did not occur in the training data based on its occurrence pattern in a large corpus of documents from the web. A dialogue act tagging system, contrastly, might require to classify a whole sentence based on its role in a dialogue. To be useful, the similarity component has to be able to measure similarity between \emph{words} and \emph{sentences}.
 
-According to \newcite{WCS:WCS1282}, ``similarity is an essentially psychological notion, based on the way we represent objects, that is, the way they appear to us.'' An important consequence of this observation is that before measuring similarity of two
-entities,\footnotemark{} their representation has to be obtained.
+According to \newcite{WCS:WCS1282}, ``similarity is an essentially psychological notion, based on the way we represent objects, that is, the way they appear to us.'' An important consequence of this observation is that before measuring similarity of two entities,\footnotemark{} their representation has to be obtained.
 
 \footnotetext{Here and later \emph{entity} is a common term for \textit{events} and \textit{objects}.}
 
@@ -49,7 +48,7 @@ Never ask for the meaning of a word in isolation, but only in the context of a s
 It worth noting here, that similarity in isolation is also problematic because the number of features an entity has is infinite and its easy to show that two entities will always have an infinite amount of common features \cite{goodman1972problems,hahn1997concepts}. To make similarity measurement possible, it has to be measured \emph{under a given description} \cite{WCS:WCS1282,medin1993respects,Markman1996}, thus similarity is always contextualised.
 % On the other side, \newcite{Huth2016} were able to comprehensively map individual words across cortex, meaning that there are word representations supporting the idea of \newcite{WCS:WCS1282}.
 
-Frege's principle of contextuality allows to define the meaning of a word by identifying its contribution to the meaning of a sentence. Firth's \citeyearpar{firth1957lingtheory} famous quote that ``you shall know a word by the company it keeps''  suggests that the word meaning can be \emph{modelled} as the combination of the meanings of its occurrences in sentences of a corpus. Note, that this does not provide the absolute word meaning, but only its meaning relative to the corpus. This assumption is also supported by the hypothesis of \newcite{harris1954distributional} that the differences of occurrences of two words quantify the \emph{difference} in their relative meaning, but do not necessarily \emph{define} the meaning.
+Frege's principle of contextuality allows to define the meaning of a word by identifying its contribution to the meaning of a sentence. Firth's \citeyearpar{firth1957lingtheory} famous quote that ``you shall know a word by the company it keeps'' suggests that the word meaning can be \emph{modelled} as the combination of the meanings of its occurrences in sentences of a corpus. Note, that this does not provide the absolute word meaning, but only its meaning relative to the corpus. This assumption is also supported by the hypothesis of \newcite{harris1954distributional} that the differences of occurrences of two words quantify the \emph{difference} in their relative meaning, but do not necessarily \emph{define} the meaning.
 
 Once relative word meaning is accepted, compositionality can be used to obtain representations of phrases and sentences \cite{THEO:THEO373,Dowty1980,sep-montague-semantics,DBLP:journals/corr/abs-1003-4394,baroni2014frege}.
 
@@ -88,7 +87,7 @@ For example, one can construct a vector space in which the dimensions correspond
   \label{tab:comparison}
 \end{wraptable}
 
-Table~\ref{tab:comparison} shows 5 3-dimensional vectors for the words \textit{Mary}, \textit{John}, \textit{girl}, \textit{boy} and \textit{idea}. The words \textit{philosophy}, \textit{book} and \textit{school} label vector space dimensions.
+Table~\ref{tab:comparison} shows 5 3-dimensional vectors for words \textit{Mary}, \textit{John}, \textit{girl}, \textit{boy} and \textit{idea}. The words \textit{philosophy}, \textit{book} and \textit{school} label vector space dimensions.
 
 As the vector for \textit{Mary} is ``closer'' to \textit{girl} than it is to \textit{boy} in the vector space, we can say that \textit{Mary}'s contexts are similar to \textit{girls}'s (and less similar to \textit{boy}'s), therefore \textit{Mary} is semantically more similar to \textit{girl} than to \textit{boy}.
 
@@ -114,11 +113,7 @@ Mathematically the similarity can be expressed using, for instance, the cosine o
 %
 where $\theta$ is the angle between the vectors of \textit{Mary} and \textit{girl}; and $\phi$ is the angle between the vectors of \textit{Mary} and \textit{boy}.
 
-In the current example of a na{\"\i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers. Refer to \newcite{Turney:2010:FMV:1861751.1861756} and \newcite{TACL570} for the discussion of vector space parameters, and see \newcite{kiela-clark:2014:CVSC}, \newcite{lapesa2014large} and
-%
-Chapter~\ref{sec:parameters}
-%
-for the detailed descriptions of vector space parameters.
+In the current example of a na{\"\i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers. Refer to \newcite{Turney:2010:FMV:1861751.1861756} and \newcite{TACL570} for the discussion of vector space parameters, and see \newcite{kiela-clark:2014:CVSC}, \newcite{lapesa2014large} and hapter~\ref{sec:parameters} for the detailed descriptions of vector space parameters.
 
 \subsection{Neural word embedding}
 \label{sec:neural-embedding}
@@ -138,7 +133,7 @@ $w_1 w_2, \cdots w_T$ is a sequence of training words. They therefore
 capture the distributional intuition and can express degrees of
 lexical similarity.
 
-They have also proved successful at other tasks \cite{mikolov2013linguistic}; the vectors obtained encode not only attributional similarity (similar words are close to each other), but also relational similarities \cite{Turney:2010:FMV:1861751.1861756}. For example, it is possible to extract the \texttt{singular:plural} relation (\textit{apple}:\textit{apples}, \textit{car}:\textit{cars}) using vector subtraction:
+They have also been proved successful at other tasks \cite{mikolov2013linguistic}. The vectors obtained by this method encode not only attributional similarity (similar words are close to each other), but also relational similarities \cite{Turney:2010:FMV:1861751.1861756}. For example, it is possible to extract the \texttt{singular:plural} relation (\textit{apple}:\textit{apples}, \textit{car}:\textit{cars}) using vector subtraction:
 %
 \begin{align*}
   \overrightarrow{\mathit{apple}} - \overrightarrow{\mathit{apples}}
@@ -160,7 +155,7 @@ $\overrightarrow{\mathit{king}} - \overrightarrow{\mathit{man}} +
 $\overrightarrow{\mathit{queen}}$ as the
 result.
 
-\newcite{levy2014linguistic} improved the method of retrieving relational similarities by changing the objective function and improved the state-of-the-art results both for neural embeddings and co-occurrence based vectors. However, recently the evaluation method based on analogies and vector offsets has been criticised, see \newcite{linzen:2016:RepEval}.
+\newcite{levy2014linguistic} improved the method of retrieving relational similarities by changing the objective function and improved the state of the art results both for neural embeddings and co-occurrence based vectors. However, recently the evaluation method based on analogies and vector offsets has been criticised, see \newcite{linzen:2016:RepEval}.
 
 \section{Similarity of phrases and sentences}
 \label{sec:similarity-compounds}
@@ -172,8 +167,8 @@ semantics and degrees of similarity. However, their success at extending this to
 \subsection{The principle of compositionality}
 \label{sec:formal-semantics}
 
-Formal approaches to the semantics of natural language have long built upon the
-classical idea of compositionality---that the meaning of a sentence is a
+Formal approaches to the semantics of natural language have built upon the
+classical idea of compositionality that the meaning of a sentence is a
 function of its parts \cite{Janssen2001}. In compositional type-logical
 approaches, predicate-argument structures representing phrases and sentences are
 built from their constituent parts by general operations such as beta-reduction
@@ -194,7 +189,7 @@ how semantic representations of the constituents are combined to get a semantic
 representation of the whole.
 
 Categorial grammars are widely used to obtain syntactic structure of a sentence. Given a set of basic categories $\texttt{ATOM}$, for example $\{\mathit{n}, \mathit{s}, \mathit{np}\}$ complex categories
-$\mathtt{CAT} \backslash \mathtt{CAT}$ and $\mathtt{CAT}/\mathtt{CAT}$ can be constructed, where $\mathtt{CAT}$ is either an element of \texttt{\texttt{ATOM}} or a complex category. So the transitive verb category is $\mathtt{np}\backslash\mathtt{s}/\mathtt{np}$. Intuitively we want to say that obtaining a sentence with a transitive verb there must be a noun phrase before and after the verb.
+$\mathtt{CAT} \backslash \mathtt{CAT}$ and $\mathtt{CAT}/\mathtt{CAT}$ can be constructed, where $\mathtt{CAT}$ is either an element of \texttt{\texttt{ATOM}} or a complex category. So the transitive verb category is $\mathtt{np}\backslash\mathtt{s}/\mathtt{np}$. Intuitively we want to say that to obtain a sentence with a transitive verb there must be noun phrases before and after the verb.
 
 Parsing is done by composing categories together according to two rules:
 %
@@ -285,19 +280,19 @@ Methods based on the distributional hypothesis have recently been applied to man
 
 \emph{Compositional} distributional semantics goes beyond the word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator associativity, which ignores the argument order, and thus word order. As a result, ``\textit{John loves Mary}'' and ``\textit{Mary loves John}'' get assigned the same meaning.
 
-Concretely, if \textit{John}, \textit{Mary} and \textit{loves} meaning is
+Concretely, if \textit{John}'s, \textit{Mary}'s and \textit{loves}'s meanings are
 represented as vectors $\ov{\mathit{john}}$, $\ov{\mathit{mary}}$ and
 $\ov{\mathit{loves}}$, the meaning of the sentence \textit{John loves Mary} is
 $\ov{\mathit{john}} + \ov{\mathit{loves}} + \ov{\mathit{mary}}$.
 
 To capture word order and the syntactic structure of a sentence, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} extend the compositional approach by using non-associative linear algebra operators as proposed in the theoretical work of \newcite{DBLP:journals/corr/abs-1003-4394}.
 
-The functional application of semantic term can be replaced with tensors \cite{Bourbaki1998commutative}. Then, a transitive verb is represented by matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ \cite{Grefenstette:2011:ESC:2145432.2145580}), where $\ov{s_i}$ and $\ov{i_i}$ are the subject--object pairs of the verb. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$.
+Functional application of semantic terms can be replaced with tensors \cite{Bourbaki1998commutative}. Then, a transitive verb is represented by a matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ \cite{Grefenstette:2011:ESC:2145432.2145580}), where $\ov{s_i}$ and $\ov{i_i}$ are the subject-object pairs of the verb. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$.
 
 \subsection{Similarity of heads in context}
 \label{sec:similarity-context}
 
-A noun phrase can be similar to a noun as in \textit{female lion} and \textit{lioness}, and to another noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as to words. In this case, similarity is measured in \emph{context}, but is still comparison of the phrases' head words which meaning is modified by arguments they appear with \cite{Kintsch2001173,mitchell-lapata:2008:ACLMain,mitchell2010composition,Dinu:2010:MDS:1870658.1870771,Baroni2010nouns,thater-furstenau-pinkal:2011:IJCNLP-2011,Seaghdha:2011:PMS:2145432.2145545}. With verbs this idea can be applied to compare transitive verbs with intransitive. For example, \textit{to cycle} is similar to \textit{ride a bicycle}. Here we see that \textit{a bicycle} disambiguates the verb \textit{ride} making the phrase similar to the verb \textit{cycle}. Connection of measuring similarity of a phrase and disambiguation has been noted in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
+A noun phrase can be similar to a noun as in \textit{female lion} and \textit{lioness}, and to another noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as to words. In this case, similarity is measured in \emph{context}, but is still comparison of the phrases' head words which meaning is modified by arguments they appear with \cite{Kintsch2001173,mitchell-lapata:2008:ACLMain,mitchell2010composition,Dinu:2010:MDS:1870658.1870771,Baroni2010nouns,thater-furstenau-pinkal:2011:IJCNLP-2011,Seaghdha:2011:PMS:2145432.2145545}. With verbs this idea can be applied to compare a transitive verb with intransitive. For example, \textit{cycle} is similar to \textit{ride a bicycle}. Here we see that \textit{a bicycle} disambiguates the verb \textit{ride} making the phrase similar to the verb \textit{cycle}. Connection of measuring similarity of a phrase and disambiguation has been noted in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
 
 % TODO: mention \cite{wieting2015paraphrase}
 
@@ -332,7 +327,7 @@ The task is to estimate the similarity of the sense of a verb in a context with 
 \subsection{Sentence similarity}
 \label{sec:sentence-similarity}
 
-The transitive sentence similarity dataset described in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}. The dataset consists of transitive sentence pairs and a human similarity judgement. The task is to estimate similarity between two sentences. The evaluation is the same as in Section~\ref{sec:disamb}.
+The transitive sentence similarity dataset described in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}. The dataset consists of transitive sentence pairs and human similarity judgements. The task is to estimate similarity between two sentences. The evaluation is the same as in Section~\ref{sec:disamb}.
 
 \subsection{Relevance}
 \label{sec:relevance}
