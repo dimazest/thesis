@@ -34,7 +34,7 @@ We test the models on the lexical datasets simultaneously to see whether there a
 The scores on lexical and phrasal datasets are combined
 to identify a model that is universally good in lexical and compositional tasks. The model selection procedure is performed in two ways. First, we take the compositional operator into account, so we are able to recommend models that perform well on lexical and phrasal datasets with, for example, addition. Finally, we abstract over the compositional operator and seek for a model that is universally good for lexical and phrasal tasks for all operators.
 
-Because we test the models on several datasets, transfer selected models to the unseen datasets and perform model selection on their combinations (which is another way of avoiding overfitting) we also report the models that performed best in our exhaustive evaluation. This allows us to see whether overfitting actually happens, as we expect that during transfer the models with the highest scores will degrade their performance more than the models selected more conservatively. Concretely, we apply 3 different parameter selection methods that are discussed below.
+Because we test the models on several datasets, transfer selected models to the unseen datasets and perform model selection on their combinations (which is another way of avoiding overfitting) we also report the models that performed best in our exhaustive evaluation. This allows us to see whether overfitting actually happens, as we expect that during transfer the models with the highest scores will degrade their performance more than the models selected more conservatively. Concretely, we apply 3 parameter selection methods that are discussed below.
 
 \subsection{Best model}
 
@@ -66,7 +66,7 @@ To conduct the study, we introduce hypotheses that reflect the current consensus
 Heuristics-based model selection should avoids overfitting.
 \end{hyp}
 
-In other words, models that are chosen using heuristics achieve better results than max-based selected models on the datasets they were not instantiated on.
+Models that are chosen using heuristics achieve better results than the best models on the datasets they were not instantiated on.
 
 \begin{hyp}[H\ref{hyp:10percent}]
 \label{hyp:10percent}
@@ -87,14 +87,13 @@ As the vector space dimensionality increases, performance stabilises \cite{kiela
 The optimal parameter choice should depend on dimensionality.
 \end{hyp}
 
-\newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} showed that the parameter recommendations provided by \newcite{TACL570} are not applicable to the vector spaces with dimensionality of few thousand.
+\newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} showed that the parameter recommendations provided by \newcite{TACL570} are not applicable to the vector spaces with dimensionality of a few thousand.
 
-The difference could be because the co-occurrence counts of the most frequent pairs do not contain noise. The counts (and therefore the probability estimates) of less frequent pairs are noisy and require special treatment to compensate for PMI's Achilles heel when small co-occurrence counts lead to extremely high PMI values \cite{TACL570}.
+The difference could be because the co-occurrence counts of the most frequent pairs do not contain noise. The counts (and therefore the probability estimates) of less frequent pairs are noisy and require a special treatment to compensate for PMI's Achilles heel when small co-occurrence counts lead to extremely high PMI values \cite{TACL570}.
 
-\begin{hyp}[H\ref{hyp:lextocomp}]
-\label{hyp:lextocomp}
-\todo[noline]{Rephrase to the opposite.}
-Models that perform exceptionally well on lexical tasks do not necessarily perform well on compositional tasks.
+\begin{hyp}[H\ref{hyp:not-lextocomp}]
+\label{hyp:not-lextocomp}
+Models that perform well on lexical tasks also perform well on compositional tasks.
 \end{hyp}
 
 \begin{hyp}[H\ref{hyp:order}]
@@ -102,7 +101,7 @@ Models that perform exceptionally well on lexical tasks do not necessarily perfo
 Best models for compositional tasks should take word order into account.
 \end{hyp}
 
-It has been shows that addition performs very well in compositional tasks \cite{milajevs-EtAl:2014:EMNLP2014}, but that could be because optimal parameters for other operators were not chosen.
+It has been shown that addition performs very well in compositional tasks \cite{milajevs-EtAl:2014:EMNLP2014}, but that could be because optimal parameters for other operators were not chosen.
 
 \begin{hyp}[H\ref{hyp:universal}]
 \label{hyp:universal}
@@ -114,7 +113,7 @@ We are interested to see whether there is one parameter choice that performs com
 \chapter{Parameters and experimental setup}
 \label{sec:parameters}
 
-This chapter explain in details the parameters that are explored in the experiments. The core of them are the parameters that modify the co-occurrence quantification. The other parameters define the dimensionality of the vector space, the similarity measure and compositional operator.
+This chapter explains in details the parameters that are explored in the experiments. The core of them are the parameters that modify the co-occurrence quantification. The other parameters define the dimensionality of the vector space, the similarity measure and compositional operator.
 
 \section{Co-occurrence quantification}
 \label{sec:quantification}
@@ -158,14 +157,14 @@ We can apply the same idea to CPMI:
 \subsection{Frequency weighting (freq)}
 \label{sec:frequency-weighting}
 
-Another issue with PMI is its bias towards rare events \cite{TACL570}; one way of solving this issue is to weight the value by the co-occurrence frequency \cite{Evert05}:
+Another issue with PMI is its bias toward rare events \cite{TACL570}; one way of solving this issue is to weight the value by the co-occurrence frequency \cite{Evert05}:
 %
 \begin{equation}
   \label{eq:lmi}
   \operatorname{LMI}(x, y) = n(x, y)\operatorname{PMI}(x, y)
 \end{equation}
 %
-where $n(x, y)$ is the number of times $x$ was seen together with $y$. For clarity, we refer to $n$-weighted PMIs as \NPMI/, \NSPMI/, etc. When this weighting component is set to 1, it has no effect; we can  explicitly label it as \PMI/, \SPMI/, etc. In addition to the extreme $1$ and $n$ weightings, we also experiment with the $\log n$ weighting.
+where $n(x, y)$ is the number of times $x$ was seen together with $y$. For clarity, we refer to $n$-weighted PMIs as \NPMI/, \NSPMI/, etc. When this weighting component is set to 1, it has no effect; we can explicitly label it as \PMI/, \SPMI/, etc. In addition to the extreme $1$ and $n$ weightings, we also experiment with the $\log n$ weighting.
 
 \subsection{Context distribution smoothing (cds)}
 \label{sec:cont-distr-smooth}
@@ -239,7 +238,7 @@ From the probabilistic point of view, under the independence assumption of two w
 %
 When the constant 1 is used as the frequency component, it is equivalent to the subsumption assumption, when the probability of a sequence depends only on what elements it contains, rather than how many of them.
 
-From the geometric point of view, the transformation from \PMI/ to \NPMI/ changes the directions of vectors by pulling the vectors towards the dimensions for which $n(x, y)$ is higher. As a side effect, it also stretches the vectors. The importance of these two effects is discussed later in Section~\ref{sec:similarity-measure}.
+From the geometric point of view, the transformation from \PMI/ to \NPMI/ changes the directions of vectors by pulling the vectors toward the dimensions for which $n(x, y)$ is higher. As a side effect, it also stretches the vectors. The importance of these two effects is discussed later in Section~\ref{sec:similarity-measure}.
 
 From the linguistic perspective, \PMI/ captures a tendency of a word to co-occur with another word in general (captured by the direction of a vector), while \NPMI/ captures the expectation of seeing a particular co-occurrence in the source corpus. This is encoded in both the direction and the length of a vector.
 
@@ -289,7 +288,7 @@ In addition to cosine and inner product we use correlation \cite{kiela-clark:201
 
 For phrasal tasks, the phrase vectors are obtained via composition of constituents' vectors using these operations: addition, multiplication \cite{mitchell2010composition,mitchell-lapata:2008:ACLMain} and Kronecker \cite{Grefenstette:2011:ESC:2145432.2145580} and categorical operators listed in Table~\ref{tbl:comp-methods} \cite{milajevs-EtAl:2014:EMNLP2014,DBLP:journals/corr/abs-1003-4394}.
 
-Addition and multiplication are point-wise operations, which do not take into account the word order. We also work with another operator, Kronecker, which is  word order sensitive. The verb matrix for it is defined as the Kronecker product of the vector of verb with itself:
+Addition and multiplication are point-wise operations, which do not take into account word order. We also work with another operator, Kronecker, which is  word order sensitive. The verb matrix for it is defined as the Kronecker product of the vector of verb with itself:
 %
 \begin{equation*}
   \widetilde{\text{Verb}} = \overrightarrow{\text{Verb}} \otimes \overrightarrow{\text{Verb}}
