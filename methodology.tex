@@ -29,7 +29,7 @@ The models are tested on two lexical datasets: SimLex-999 \cite{hill2014simlex} 
 
 The three compositional datasets that are employed in this study are KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ESC:2145432.2145580} and PhraseRel (Section~\ref{sec:phraserel}). They consist of phrases with controlled syntax (all of them are subject-verb-object phrases) and cover two relationships between phrases: similarity and relevance.
 
-We test the models on the lexical datasets simultaneously to see whether there are models that perform well on both lexical datasets and thus to supposingly avoid individual dataset idiosyncrasies. Similarly, we test the models on the phrasal datasets.
+We test the models on the lexical datasets simultaneously to see whether there are models that perform well on both lexical datasets and thus avoid individual dataset idiosyncrasies. Similarly, we test the models on the phrasal datasets.
 
 The scores on lexical and phrasal datasets are combined
 to identify a model that is universally good in lexical and compositional tasks. The model selection procedure is performed in two ways. First, we take the compositional operator into account, so we are able to recommend models that perform well on lexical and phrasal datasets with, for example, addition. Finally, we abstract over the compositional operator and seek for a model that is universally good for lexical and phrasal tasks for all operators.
@@ -128,7 +128,7 @@ Most co-occurrence weighting schemes in distributional semantics are based on \e
   \operatorname{PMI}(x, y) = \log\frac{P(x,y)}{P(x)P(y)}
 \end{equation}
 %
-PMI in its raw form is problematic: non-observed co-occurrences lead to infinite PMI values, making it impossible to compute similarity. A common ``fix'' to this problem is to replace all infinities with zeroes, and we use PMI hereafter to refer to a weighting with this fix, refer to Section~\ref{sec:quantification-measures} for a discussion.
+PMI in its raw form is problematic: non-observed co-occurrences lead to infinite PMI values, making it impossible to compute similarity. A common ``fix'' to this problem is to replace all infinities with zeros, and we use PMI hereafter to refer to a weighting with this fix, refer to Section~\ref{sec:quantification-measures} for a discussion.
 
 An alternative solution is to increment the probability ratio by 1; we refer to this as \textit{compressed PMI} (CPMI):
 %
@@ -251,7 +251,7 @@ In our case, the constant frequency is the only association measure that is able
 
 \input{figures/parameters}
 
-As the source corpus we use the concatenation of ukWaC and Wackypedia \cite{ukwac}.\footnotemark{} A symmetric widow of 5 neighbouring is used to collect co-occurrences.
+As the source corpus we use the concatenation of ukWaC and Wackypedia \cite{ukwac}.\footnotemark{} A symmetric widow of 5 neighboring is used to collect co-occurrences.
 
 \footnotetext{The ukWaC corpus is available at \url{http://wacky.sslmit.unibo.it}.}
 
@@ -277,7 +277,7 @@ However, the inner product $\vec{x} \cdot \vec{y}$ is preferred in IR and curren
 
 Euclidean normalization removes the effect of vector lengths, emphasizing instead their directions. Thus, remembering that vector length depends on overall frequency, linguistically we have two measures, cosine that is concerned with a similarity, and inner product which also reflects word frequency or expectation factors.
 
-An advantage of cosine in a lexical similarity task is that it does not depend on the word frequency. Imagine a case where the similarity of a frequent and a rare word is calculated. In this situation, the similarity judgement should not depend on the relative frequency of the words; instead, their tendency of agreement on features should take the dominant role.
+An advantage of cosine in a lexical similarity task is that it does not depend on the word frequency. Imagine a case where the similarity of a frequent and a rare word is calculated. In this situation, the similarity judgment should not depend on the relative frequency of the words; instead, their tendency of agreement on features should take the dominant role.
 
 For example, \NPMI/ makes ``feature selection'' by weighting PMI values with the co-occurrence frequency as discussed previously. When cosine is applied, the stretching effect of \NPMI/ is eliminated, but the rotational effect stays. On average, the rotational effect will be much more significant for rare words, while frequent words are more likely to be stretched.
 
@@ -286,22 +286,23 @@ In addition to cosine and inner product we use correlation \cite{kiela-clark:201
 \subsection{Compositional operator}
 \label{sec:comp-oper}
 
-For phrasal tasks, the phrase vectors are obtained via composition of constituents' vectors using these operations: addition, multiplication \cite{mitchell2010composition,mitchell-lapata:2008:ACLMain} and Kronecker \cite{Grefenstette:2011:ESC:2145432.2145580} and categorical operators listed in Table~\ref{tbl:comp-methods} \cite{milajevs-EtAl:2014:EMNLP2014,DBLP:journals/corr/abs-1003-4394}.
+\input{figures/comp-methods}
 
-Addition and multiplication are point-wise operations, which do not take into account word order. We also work with another operator, Kronecker, which is  word order sensitive. The verb matrix for it is defined as the Kronecker product of the vector of verb with itself:
+For phrasal tasks, the phrase vectors are obtained via composition of constituents' vectors using addition, multiplication \cite{mitchell2010composition,mitchell-lapata:2008:ACLMain}, Kronecker \cite{Grefenstette:2011:ESC:2145432.2145580} and categorical operators listed in Table~\ref{tbl:comp-methods} \cite{milajevs-EtAl:2014:EMNLP2014,DBLP:journals/corr/abs-1003-4394}.
+
+Addition and multiplication are point-wise operations do not take into account word order. Kronecker and categorical operators are word order sensitive. The verb matrix for Kronecker is defined as the Kronecker product of the vector of a verb with itself:
 %
 \begin{equation*}
   \widetilde{\text{Verb}} = \overrightarrow{\text{Verb}} \otimes \overrightarrow{\text{Verb}}
 \end{equation*}
 
-As a non-compositional baseline, we take the condition \texttt{head}, which ignores the subject and the object of a phrase, causing the vector of a whole phrase to be equal to the vector of its verb \cite{milajevs-EtAl:2014:EMNLP2014}.
-
-For other operators, a transitive verb is represented by matrix $\overline{\text{Verb}}$ which is obtained from a corpus using the formula:
+For categorical operators, a transitive verb is represented by matrix $\overline{\text{Verb}}$ which is obtained from a corpus using the formula:
 $$
 \overline{\text{Verb}} = \sum_i\ov{s_i} \otimes \ov{o_i}
 $$
 where $\ov{s_i}$ and $\ov{i_i}$ are the subject-object pairs of the verb found in the source corpus.
-\input{figures/comp-methods}
+
+As a non-compositional baseline, we take the condition \texttt{head}, which ignores the subject and the object of a phrase, causing the vector of a whole phrase to be equal to the vector of its verb \cite{milajevs-EtAl:2014:EMNLP2014}.
 
 %%% Local Variables:
 %%% mode: latex
