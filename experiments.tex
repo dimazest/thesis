@@ -8,7 +8,7 @@
 \chapter{Relationships between words}
 \label{sec:lexical}
 
-This chapter is dedicated to the lexical experiments. Two datasets are used: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. First, some of the  hypotheses in Section~\ref{sec:hypotheses} are defined more exactly. After the results and parameter selection are reported on the datasets individually, the model selection is performed on a combination of the two datasets. The models are evaluated by computing the Spearman's-$\rho$ (the correlation of ranked model predictions with ranked human judgements) as it is normally done \cite{Bruni:2014:MDS:2655713.2655714,hill2014simlex}. The results are available at \url{\BASEURL/results_all.csv}.
+This chapter is dedicated to the lexical experiments. Two datasets are used: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. First, some of the  hypotheses of Section~\ref{sec:hypotheses} are redefined more exactly. After the results and selected parameters are reported on the datasets individually, the model selection is performed on a combination of the two datasets. The models are evaluated by computing the Spearman's-$\rho$ (the correlation of ranked model predictions with ranked human judgments) as it is normally done \cite{Bruni:2014:MDS:2655713.2655714,hill2014simlex}. The results are available at \url{\BASEURL/results_all.csv}.
 
 \section{Specialised hypotheses}
 \label{sec:elab-hypoth-lexical}
@@ -21,7 +21,7 @@ Before reporting the results of the lexical experiments, we would like to expand
 % Shifted PMI variants behave the same (Section~\ref{sec:shifted-pmi}).
 \end{hyp}
 
-The main effect of CPMI is to transform negative values into the positive range of $(0; 1)$. The reason to avoid negative values is that they might be problematic for multiplication during composition as the sign of the result depends on the number of negative components. However as there is no composition involved in lexical tasks, the weighting schemes should behave equally.
+The main effect of CPMI is to transform negative values into the positive range of $(0; 1)$. The reason to avoid negative values is that they might be problematic for multiplication during composition as the sign of the result depends on the number of negative components. However, as there is no composition involved in lexical tasks, the weighting schemes should behave equally.
 
 The next hypotheses are related to PMI's Achilles heel and are supposed to lower the influence of low co-occurrence counts, therefore we expect that they are beneficial for highly dimensional spaces as partially showed in \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
 
@@ -60,7 +60,7 @@ Figure~\ref{fig:SimLex999-results} illustrates the results based on the best mod
 
 In general, model performance increases as the dimensionality increases. However, the best result of 0.389 is achieved with a 2000 dimensional space, this could, however, be an example of overfitting. Model performance becomes stable for dimensions greater than 20000.
 
-For spaces with dimensionality less than 5000 \texttt{freq} 1 and inner product yield best results. Otherwise, cosine with \logNSCPMI/, smoothing $\alpha=0.75$ and shifting $k=0.7$ gives the best results. This supports our hypotheses H\ref{hyp:freq}, H\ref{hyp:cds} and H\ref{hyp:neg}.
+For spaces with dimensionality less than 5000 \texttt{freq} 1 and inner product yield the best results. Otherwise, cosine with \logNSCPMI/, smoothing $\alpha=0.75$ and shifting $k=0.7$ gives the best results. This supports our hypotheses H\ref{hyp:freq}, H\ref{hyp:cds} and H\ref{hyp:neg}.
 
 \subsection{Heuristics}
 \label{sec:heuristics-simlex}
@@ -120,7 +120,7 @@ The linear model gives an adjusted $R^2$ of 0.733, which is lower than on SimLex
 
 \input{figures/men-neg}
 \texttt{neg} with $k = 2$ is preferable for spaces with dimensionality less than 20000, for spaces with more dimensions,
-$k = 5$ is more beneficial (Figure~\ref{fig:men-neg}). This replicates suggestions of \newcite{TACL570}). We, however, expect that for spaces with more than 500000 dimensions even higher values should be preferred. This contrasts with the heuristics derived from SimLex-999, where single \texttt{neg} value of 0.7 is chosen, but still complies with H\ref{hyp:neg}.
+$k = 5$ is more beneficial (Figure~\ref{fig:men-neg}). This replicates suggestions of \newcite{TACL570}. We, however, expect that for spaces with more than 50000 dimensions even higher values should be preferred. This contrasts with the heuristics derived from SimLex-999, where single \texttt{neg} value of 0.7 is chosen, but still complies with H\ref{hyp:neg}.
 
 Regarding the frequency component, $\log n$ outperforms all other choices (Figure~\ref{fig:men-freq}). It is exactly the same behaviour as for heuristics based on SimLex-999 including the fact that $1$ and $\log n$ behave similarly for $D \leq 50000$, so H\ref{hyp:freq} is once again confirmed.
 
@@ -157,9 +157,9 @@ In this case, heuristic based selection leads to better performance than the Max
 
 \subsection{From MEN to SimLex-999}
 
-Heuristics transferred from MEN to SimLex-999 behave less efficient, they do not always outperform Max selection, though for highly dimensional spaces the difference decreases (Figure~\ref{fig:men-transfer}). The average difference is 0.062, which is ten times more than the transition from SimLex-999 to MEN, but still is within the limit set by H\ref{hyp:10percent}.
+Heuristics transferred from MEN to SimLex-999 behave less efficiently, they do not always outperform Max selection, though for highly dimensional spaces the difference decreases (Figure~\ref{fig:men-transfer}). The average difference is 0.062, which is ten times more than the transition from SimLex-999 to MEN, but still is within the limit set by H\ref{hyp:10percent}.
 
-Max selection neither picks the best possible results when transferred from MEN to SimLex-999, however the average difference is lower: it is 0.042. This is similar to the transition in other direction.
+Neither max selection picks the best possible results when transferred from MEN to SimLex-999, however the average difference is lower: it is 0.042. This is similar to the transition in other direction.
 
 Max based selection leads to better performance than the heuristics for MEN, making a case against H\ref{hyp:overfitting}.
 
@@ -235,9 +235,9 @@ Based on the experiments, \logNSCPMI/ with shifting close to 1 is the quantifica
 
 Lexical experiments give support to the most of the stated hypotheses in Sections~\ref{sec:hypotheses} and \ref{sec:elab-hypoth-lexical}.
 
-The optimal parameter choice depends on dimensionality (H\ref{hyp:dimen}). In particular, non constant frequency component (Section~\ref{sec:frequency-weighting}), H\ref{hyp:freq}), context distribution smoothing (Section~\ref{sec:cont-distr-smooth}, H\ref{hyp:cds}) and shifting (Section~\ref{sec:shifted-pmi}, H\ref{hyp:neg}) should be applied for spaces with $D \geq 10000$.
+The optimal parameter choice depends on dimensionality (H\ref{hyp:dimen}). In particular, non constant frequency component (Section~\ref{sec:frequency-weighting}, H\ref{hyp:freq}), context distribution smoothing (Section~\ref{sec:cont-distr-smooth}, H\ref{hyp:cds}) and shifting (Section~\ref{sec:shifted-pmi}, H\ref{hyp:neg}) should be applied for spaces with $D \geq 10000$.
 
-The switch at 10000 dimensions is a ``parameter sweet spot'' as parameter choice is not significant at these points, the most representative example is the behaviour of \texttt{cds} on SimLex-999 (Figure~\ref{fig:SimLex999-cds}. After that point performance either converges (supporting H\ref{hyp:var}), as in case of \texttt{neg} on SimLex-999 (Figure~\ref{fig:SimLex999-neg}), or there is one dominant choice, as for \texttt{freq} on SimLex-999 (Figure~\ref{fig:SimLex999-freq}).
+The switch at 10000 dimensions is a ``parameter sweet spot'' as parameter choice is not significant at these points, the most representative example is the behaviour of \texttt{cds} on SimLex-999 (Figure~\ref{fig:SimLex999-cds}). After that point performance either converges (supporting H\ref{hyp:var}), as in case of \texttt{neg} on SimLex-999 (Figure~\ref{fig:SimLex999-neg}), or there is one dominant choice, as for \texttt{freq} on SimLex-999 (Figure~\ref{fig:SimLex999-freq}).
 
 As expected, we did not see a significant influence of the ``compression'' of the PMI values (H\ref{hyp:lex-pmi-cpmi}).
 
