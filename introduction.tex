@@ -1,0 +1,45 @@
+\chapter{Introduction}
+\label{ch:introduction}
+
+
+Computers require specially designed programming languages to be controlled, despite the fact that they play a crucial role in our lives. Ideally, it would be perfect if the interaction with computers was not different to the interaction between humans. Computational linguistics is one of the fields that addresses this problem.
+
+In order to be controlled by people, or be able to assist people in language related tasks, computers need to understand it. However, different tasks need various level of language understanding. For instance, even if one does not recognize or know the language of a piece of text in Figure~\ref{fig:lv}, one can tell how many words there are, and that there is only one sentence. After a while, one can even say that this is probably a piece of poetry.
+
+The conclusions above require neither the complete understanding of the language nor the meaning of the text. Knowledge that texts---at least in some languages---consist of words separated by a space and how poems are written is enough. Moreover, knowing the letter distribution across all human languages or having a list of words in them, one would conclude that the text is in Latvian. This information can be provided without knowing what the text is about.
+
+\input{poem.tex}
+
+On the other hand, a task that asks for a list of associations with the text, essay or a painting inspired by it demands a much better understanding of the text that requires a deeper knowledge of the language and greater familiarity with the culture. Luckily, nowadays these kind of problems are not expected to be done by computers in day-to-day life, because people enjoy doing these kind of tasks themselves.
+
+However, it is reasonable to ask a computer the following questions regarding the text:
+\begin{inparaenum}[a)]
+\item What is the text of Figure~\ref{fig:lv} about?
+\item What is the relationship between the texts in Figure~\ref{fig:lv} and
+  Figure~\ref{fig:ru}?
+% the *meanings are identical*
+\item Is the content similar or identical?
+\item Where did the meeting take place?
+\item What poems are similar to this?
+\end{inparaenum}
+
+Text summarizaiton, machine translation, information extraction and information retrieval are branches of computational linguistics that provide methods for answering these questions. The questions above have a general property: all of them are about the meaning of the text. Natural language semantics is an area that studies meaning and thus is necessary to solve the tasks.
+
+Creativity of natural languages---the fact that humans are able to produce and understand sentences they have never came across---complicates meaning modeling. Even if we had a way to map each word to its meaning, it is impractical to apply the same procedure to sentences, because as we process a piece of text most of the sentences in it will be seen for the fist time. Because of this, we need to be able to build the meaning of a sentence from its constituent parts.
+
+Syntax is a study about the structure of a sentence. Grammars define the rules that describe how a sentences that belong to a language should look like. For example, a subject is written before a verb and an object is after in an English sentence. Having the constituent meaning representations, the meaning of a sentence is built by following the syntactic structure of it.
+
+To be able to deal with the meaning of a text in a natural language one needs to have meaning representation of constituents, the syntactic structure and a compositional procedure that outputs the meaning representation.
+
+Recently, lexical distributional semantics \cite{BullinariaLevy2012,Bullinaria2007,Turney:2010:FMV:1861751.1861756} has been advanced after the success of word2vec \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}. At the same time, developments in compositional distributional semantics \cite{mitchell2010composition,maillard-clark-grefenstette:2014:TTNLS,Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP} showed that Frege's principle of compositionality \cite{Janssen2001} is useful in obtaining representations of phrases and sentences.
+
+Even though the new generation of meaning representation models is shown to be superior in compositional tasks \cite{milajevs-EtAl:2014:EMNLP2014}, it has been criticised most notably by \newcite{TACL570}. However, it is not known whether the critique of word2vec also applies to the compositional setting.
+
+This work adopts the recommendations of \newcite{TACL570} for model parameter tuning and performs a large-scale model selection study on lexical and compositional tasks.
+
+The experiments show that after a careful selection of a vector space model parameters, the selected models are competitive with the current state of the art results and on some datasets outperform it.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "thesis"
+%%% End:

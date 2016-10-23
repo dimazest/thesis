@@ -1,0 +1,231 @@
+\documentclass[11pt,a4paper,english,oneside]{book}
+\usepackage{url}
+\usepackage{latexsym}
+
+\usepackage[onehalfspacing]{setspace}
+\usepackage{pdflscape}
+\usepackage[top=1in,bottom=1in,left=1.5in,right=1in]{geometry}
+
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\usepackage{sectsty}
+\allsectionsfont{\normalfont\sffamily}
+% \paragraphfont{\bfseries}
+\setmainfont[
+BoldFont=texgyrepagella-bold.otf,
+ItalicFont=texgyrepagella-italic.otf,
+BoldItalicFont=texgyrepagella-bolditalic.otf]
+{texgyrepagella-regular.otf}
+
+\setsansfont{Transport-Heavy.ttf}
+
+\usepackage[round,sort]{natbib}
+
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{paralist}
+\usepackage[parfill]{parskip}
+\usepackage[colorinlistoftodos,prependcaption,textsize=footnotesize]{todonotes}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage{csquotes}
+
+\renewcommand{\mkcitation}[1]{ #1}
+
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage{textcomp}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\lstset{
+  captionpos=b,
+  basicstyle=\ttfamily,
+  keywordstyle=\color[RGB]{66, 54, 122},
+}
+
+% \clubpenalty=10000
+% \widowpenalty = 10000
+
+\usepackage[pdfusetitle]{hyperref}
+\def\UrlBreaks{\do\/\do-}
+
+\usepackage{ntheorem}
+\theoremseparator{:}
+\newtheorem{hyp}{Hypothesis}
+
+\setlength\theorempreskipamount{\baselineskip}
+% \setlength\theorempostskipamount{1ex}
+
+% \title{Categorical Composition Models in Large Scale NLP Tasks}
+% \title{Bringing Semantics to NLP Tasks Using Categorical Composition}
+% \title{Scaling Up Distributional Semantics to Real World NLP Tasks Using Categorical Composition}
+% \title{The Role of Computers in Understanding Natural Language}
+% \title{What Computers Should Know about Texts}
+% \title{Robust methodology for measuring word and sentence similarity and relevance with distributional semantic models}
+% \title{Robust methodology for measuring word and sentence similarity with distributional semantic models}
+% \title{Methodology for Robust Selection of Distributional Models of Word and Sentence  Similarity}
+\title{Methodology for Selection of Distributional Models to Measure Relationships between Words and Sentences}
+\author{Dmitrijs Milajevs}
+% \affil{Queen Mary University of London}
+
+% http://colorschemedesigner.com/#4o42FfqublRMS
+\definecolor{linkcolor}{RGB}{66, 54, 122}
+\definecolor{citecolor}{RGB}{84, 141, 100}
+\definecolor{urlcolor}{RGB}{168, 70, 67}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=linkcolor,
+  citecolor=citecolor,
+  urlcolor=urlcolor,
+}
+
+\bibpunct{\textcolor{citecolor}{(}}{\textcolor{citecolor}{)}}{\textcolor{citecolor}{,}}{\textcolor{citecolor}{a}}{}{\textcolor{citecolor}{;}}
+
+\sloppy
+\widowpenalty=500
+\clubpenalty=500
+
+\DeclareMathOperator{\my-c}{count}
+\newcommand{\ov}{\overrightarrow}
+
+\newcommand\newcite\citet
+\renewcommand\cite\citep
+
+\def\PMI/{$\operatorname{1PMI}$}
+\def\SPMI/{$\operatorname{1SPMI}$}
+\def\CPMI/{$\operatorname{1CPMI}$}
+\def\SCPMI/{$\operatorname{1SCPMI}$}
+
+\def\NPMI/{$\operatorname{nPMI}$}
+\def\NSPMI/{$\operatorname{nSPMI}$}
+\def\NCPMI/{$\operatorname{nCPMI}$}
+\def\NSCPMI/{$\operatorname{nSCPMI}$}
+
+\def\logNPMI/{$\operatorname{lognPMI}$}
+\def\logNSPMI/{$\operatorname{lognSPMI}$}
+\def\logNCPMI/{$\operatorname{lognCPMI}$}
+\def\logNSCPMI/{$\operatorname{lognSCPMI}$}
+
+\newcommand{\BASEURL}{http://www.eecs.qmul.ac.uk/~dm303/thesis}
+% \newcommand{\BASEURL}{http://localhost:8000/thesis}
+\newcommand{\dataurl}[1]{\href{\BASEURL/#1}{\nolinkurl{#1}}}
+
+\def\emnlp/{KS14}
+
+\patchcmd{\titlepage}
+{\thispagestyle{empty}}
+{\thispagestyle{plain}}
+{}
+{}
+
+\begin{document}
+\maketitle
+\addtocounter{page}{1}
+
+\input{statement_of_originality}
+\cleardoublepage
+
+\vspace*{\fill}
+\begin{center}
+% \begin{minipage}{\textwidth}
+This work was supported by the EPSRC grant EP/J002607/1.
+% \end{minipage}
+\end{center}
+\vfill
+
+
+\input{abstract}
+\cleardoublepage
+
+% \setcounter{tocdepth}{3}
+\tableofcontents
+
+\cleardoublepage
+% \phantomsection
+% \addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+
+\cleardoublepage
+% \phantomsection
+% \addcontentsline{toc}{chapter}{List of Tables}
+\listoftables
+
+% \cleardoublepage
+% \listoftodos
+
+\input{introduction}
+\input{similarity}
+\input{methodology}
+\input{experiments}
+\input{reflection}
+\input{extrinsic-experiments}
+
+\chapter{Conclusion}
+
+This work is a systematic study of vector space models of meaning based on the distributional hypothesis \cite{harris1954distributional} and Frege's principle of compositionality \cite{Janssen2001,DBLP:journals/corr/abs-1003-4394}. The goal of this work is to provide the performance numbers of count-based distributional models that are robust to overfitting and are representative of this kind of method in comparison to other meaning models, for example, predictive models \cite{mikolov2013efficient}. The other goal of the current study is to compare the parameters within the count-based models and identify their combinations that lead to high performance of the corresponding models.
+
+The experiments in the study are performed on two lexical tasks---SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}---and three phrasal tasks---KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ETV:2140490.2140497} and PhraseRel (Section~\ref{sec:phraserel}). In addition to individual dataset evaluation, the models performance scores are combined to identify models that perform well on the collections of tasks, namely lexical (Section~\ref{sec:universal-lexical-param-selection}), compositional (Section~\ref{sec:robust-param-comp-selecion}) and universal (Chapter~\ref{sec:universal-param-selection}).
+
+The vector component values are based on the PMI quantification of the co-occurrence counts. The PMI score itself is modified by weighting, shifting, compressing and others see Section~\ref{sec:quantification} for more details. We identify an optimal parameter choice based on dimensionality of the underlying vector space. In compositional tasks, we experiment with point-wise operators (addition and multiplication) and with categorical operators (Section~\ref{sec:frob-comp-oper}, \newcite{DBLP:journals/corr/abs-1003-4394}).
+
+The experiments (Chapters~\ref{sec:lexical}, \ref{sec:sentential} and \ref{sec:universal-param-selection}) show that the optimal parameter choice depends on dimensionality. While there are more optimal choices for particular datasets, we suggest using SCPMI with $\log n$ frequency, global context probabilities, shifted $k=0.7$ values and correlation as the similarity measure with at least 20000 dimensional space. For categorical tasks, we suggest 3000 dimensions and cosine as the similarity measure keeping other parameters the same. The paper show that indeed there might be a single model that is good in a variety of tasks \cite{doi:10.1080/02643294.2016.1176907}.
+
+Two model selection procedures were tested. One selects the parameters that lead to the highest performance, while the other performs selection based on the average performance of the parameter values. We see that if a single dataset is used for model selection, that the best model is overfitted and suggest using a more elaborated method. However, when the selection is based on a combination of the datasets, then the max-based selection picks models that do not overfit.
+
+There are several directions for future work. First of all, we explored unreduced spaces (for example, we did not apply SVD \newcite{BullinariaLevy2012}). Apart from a particular dimensionality reduction method being superior, it might interact with other parameters \cite{lapesa2014large} and change the optimal values, in contrast to the reasoning of \newcite{kiela-clark:2014:CVSC} that ``\ldots dimensionality reduction relies on some original non-reduced model, and directly depends on its quality.''
+
+Another direction is the experimentation on a larger number of datasets. While more datasets are being proposed, for example \newcite{2016arXiv160800869G}, and the current datasets are being criticised \cite{RepEval:2016}, it is important to have datasets that share the same goal (for example, provide similarity judgements), but are constructed by different groups and employing different methods during the dataset construction.
+
+While categorical compositional methods are build on the solid theoretical grounds \cite{DBLP:journals/corr/abs-1003-4394} and have been shown previously \cite{Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP,kim2015neural,hashimoto-tsuruoka:2016:P16-1} and in this work to be competitive with other methods more parameter exploration work has to be done, especially for the way how the verb (or other relational) tensors are build. On the theoretical side, the categorical methods need to be of lower computation complexity, as the current way of building verb matrices is not feasible for vectors over 3000 components.
+
+% Come back to the research questions.
+
+\cleardoublepage
+\appendix
+
+\chapter{Experimental data}
+
+\input{figures/ks14-max-selection-table}
+\input{figures/ks14-heuristics-selection-table}
+
+\input{figures/gs11-max-selection-table}
+\input{figures/gs11-heuristics-selection-table}
+
+\input{figures/phraserel-max-selection-table}
+\input{figures/phraserel-heuristics-selection-table}
+
+\input{figures/compositional-max-selection-table}
+\input{figures/compositional-heuristics-selection-table}
+
+\input{figures/universal-max-selection-table}
+\input{figures/universal-heuristics-selection-table}
+
+\input{figures/universal-results}
+
+\input{figures/universal-freq}
+
+\input{figures/single-max-selection-table}
+\input{figures/single-heuristics-selection-table}
+
+\input{figures/single-freq}
+\clearpage
+
+\input{figures/frobenius-ks14-results}
+\input{figures/frobenius-gs11-results}
+\input{figures/frobenius-phraserel-results}
+
+\input{figures/frobenius-plot}
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Bibliography}
+\phantomsection
+\bibliographystyle{plainnat}
+\bibliography{references,dmilajevs_publications}
+
+\end{document}
