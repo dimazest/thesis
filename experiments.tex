@@ -41,7 +41,7 @@ This is because the estimated probabilities of rare contexts are noisy. This smo
 
 Sparsity is controlled by the shifting parameter $k$ (Section~\ref{sec:shifted-pmi}); lower $k$ values make vectors denser.
 
-\section{Experiments on SimLex-999}
+\section{Experiments on SimLex-999 dataset}
 \label{sec:simlex-999}
 
 \input{figures/SimLex999-max-selection-table}
@@ -115,7 +115,7 @@ The average relative difference between Max selection and heuristics is 0.039, w
 %
 % ^.
 
-\section{MEN}
+\section{Experiments on MEN dataset}
 \label{sec:men}
 
 \subsection{Max selection}
@@ -172,7 +172,7 @@ The average difference between Max selection and heuristics is 0.008, supporting
 %
 % ^.
 
-\section{Selected model transfer to another dataset}
+\section{Transfer of selected models between dataset}
 \label{sec:select-model-transf}
 
 \subsection{The difference between heuristics based on MEN and SimLex-999}
@@ -222,15 +222,15 @@ Figure~\ref{fig:lexical-results} shows performance of the models based on the av
 % > ~\ref{fig:lexical-results} s
 %
 % In figure 5.10, there probably doesn't need to be a period after SimLex-999 and MEN (since they are just labels, not a whole sentence)
-%
+% DM: done.
 % ^.
 $$
 \operatorname{score}_\mathit{lexical}(\mathit{model}) =%
-\frac{1}{2}%
+\frac{1}{2}\times%
 \frac{\operatorname{score}_\mathit{SimLex-999}(\mathit{model})}%
 {\max_m\operatorname{score}_\mathit{SimLex-999}(m)}%
 +%
-\frac{1}{2}%
+\frac{1}{2}\times%
 \frac{\operatorname{score}_\mathit{MEN}(\mathit{model})}%
 {\max_m\operatorname{score}_\mathit{MEN}(m)}%
 $$
