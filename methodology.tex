@@ -12,7 +12,9 @@ The first question is applicable in a situation when conceptually different meth
 
 The co-occurrence information can be used in different ways to build distributional models of meaning \cite{Turney:2010:FMV:1861751.1861756}. This has led to a series of  systematic parameter studies \cite{Bullinaria2007,BullinariaLevy2012,kiela-clark:2014:CVSC,lapesa2014large,TACL570}. All of them explore numerous parameter combinations to report the best scores and derive recommendations for the optimal parameter choice.
 
-\newcite{lapesa2014large} make one step further in studying parameter behaviour by identifying the most influential parameters and their two-way interactions with a linear model, which is fit so that parameters of a vector space model predict its performance. This approach tackles two problems. First of all, it is designed to avoid overfitting. Secondly, it avoids noise in parameter selection revealing the regularities in the parameter behaviour.
+\newcite{lapesa2014large} make one step further in studying parameter behaviour by identifying the most influential parameters and their two-way interactions with a linear model, which is fit so that parameters of a vector space model predict its performance. This approach tackles two problems. First of all, it is designed to avoid overfitting.%
+\footnote{``Overfitting occurs when classifiers make decisions based on accidental properties of the training set that will lead to errors on the test set (or any new data)'' \newcite{9780262133609}.}
+Secondly, it avoids noise in parameter selection revealing the regularities in the parameter behaviour.
 
 The goal of this work is to provide the representative performance numbers of count-based distributional models of meaning---so they could be compared to other semantic models---and to study the general behaviour of vector space parameters and compositional operators---so the compositional operators could be fairly compared. The study is performed systematically using recently developed evaluation datasets for lexical and phrasal meaning representations. We express the goal in two research questions that are related to the categories of studies stated above.
 \begin{compactitem}
@@ -25,26 +27,26 @@ The goal of this work is to provide the representative performance numbers of co
 
 This work adopts the strategy of \newcite{lapesa2014large} to avoid overfitting and reduce noise in parameter selection. Following them, we use several evaluation datasets one by one. Because different datasets might favour particular models, we also test models on all datasets simultaneously by aggregating model performance scores.
 
-The models are tested on two lexical datasets: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. These two datasets are chosen because they are larger than other previously used datasets. It has been argued that the score variance is strongly dependent on the size of the evaluation dataset \cite{W16-2502}. SimLex-999 consists of 999 word pairs and MEN consists of 3000, making them the largest lexical datasets available to us. Other alike datasets are much smaller in size: 353 \cite{2002:PSC:503104.503110} and 65 \cite{Rubenstein:1965:CCS:365628.365657} for example.
+The models are tested on two lexical datasets: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. These two datasets are chosen because they are larger than other previously used datasets. It has been argued that the score variance is strongly dependent on the size of the evaluation dataset: the larger the dataset the more reliable experiment results are \cite{W16-2502}. SimLex-999 consists of 999 word pairs and MEN consists of 3000 word pairs, making them the largest lexical datasets available to us. Other alike datasets are much smaller in size: 353 word pairs \cite{2002:PSC:503104.503110} and 65 word pairs \cite{Rubenstein:1965:CCS:365628.365657} for example.
 % * <sdyck@ualberta.ca> 2016-11-03T04:18:49.491Z:
 % 
 % > score variance is strongly dependent
 % dependent in what way? are results more accurate with larger datasets vs smaller?
-% 
+% DM: they are more reliable.
 % ^.
 
 The three compositional datasets that are employed in this study are KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ESC:2145432.2145580} and PhraseRel (Section~\ref{sec:phraserel}). They consist of phrases with controlled syntax (all of them are subject-verb-object phrases) and cover two relationships between phrases: similarity and relevance.
 
 We test the models on the lexical datasets simultaneously to see whether there are models that perform well on both lexical datasets and thus avoid individual dataset idiosyncrasies. Similarly, we test the models on the phrasal datasets.
 
-The scores on lexical and phrasal datasets are combined to identify a model that is universally good in both lexical and compositional tasks. The model selection procedure is performed in two ways. First, we take the compositional operator into account, so we are able to recommend models that perform well on lexical and phrasal datasets with, for example, addition. Finally, we abstract over the compositional operator and seek a model that is universally good for lexical and phrasal tasks for all operators.
+The scores on lexical and phrasal datasets are combined to identify a model that is universally good in both lexical and compositional tasks. The model selection procedure is performed in two ways. First, we take the compositional operator into account, so we are able to recommend models that perform well on lexical and phrasal datasets with, for example, addition. Finally, we abstract over the compositional operator and seek a model that achieves competitive results in both lexical and phrasal tasks with all operators.
 % * <sdyck@ualberta.ca> 2016-11-03T04:23:43.069Z:
 %
 % > universally good
-%
+% DM: it achieves competitive results in both types of tasks.
 % ^.
 
-Because we test the models on several datasets, transfer selected models to the unseen datasets and perform model selection on their combinations (which is another way of avoiding overfitting), we also report the models that performed best in our exhaustive evaluation. This allows us to see whether overfitting actually happens, as we expect that during transfer the models with the highest scores will degrade their performance more than the models selected more conservatively. Concretely, we apply three parameter selection methods that are discussed below.
+Because we test the models on several datasets, transfer selected models to the unseen datasets and perform model selection on their combinations (which is another way of avoiding overfitting), we also report the models that performed best in our exhaustive evaluation. This allows us to see whether overfitting actually happens, as we expect that during transfer the models with the highest scores will degrade their performance more than the models selected more conservatively. In the sections to follow, we discuss three parameter selection methods.
 
 \subsection{Best model}
 
@@ -54,14 +56,14 @@ This parameter selection technique chooses the parameters that yield the best re
 % > overfitting
 %
 % Just as a note, it might be beneficial to quickly define overfitting the first time it shows up in the thesis. 
-%
+% DM: see the first page of Chapter 3 (Lapesa and Evert ...).
 % ^.
 
 \subsection{Cross-validation}
 
-Cross-validation is a model selection method where parameter selection is based on the average performance of the training splits over several folds. The average performance over the testing splits is reported.
+Cross-validation \cite{Ney1997} is a model selection method where parameter selection is based on the average performance of the training splits over several evaluation runs. Leaving-one-out cross validation splits the dasets to $N$ parts. Then $N$ runs are performed where each part is used as a testing split and the rest is used as a training split such that the $n$th run will use the $n$th part as a testing split. The average performance over the N testing splits is reported.
 
-Even though cross-validation avoids overfitting, its performance results are not comparable with the best model selection because they are based on averages over the folds. Moreover, existing datasets are not made with such an evaluation in mind \cite{W16-2506}, and there is no common agreement on how the datasets should be split to the training and testing parts.
+Even though cross-validation avoids overfitting, its performance results are not comparable with the best model selection because they are based on averages over the testing splits. Moreover, existing datasets are not made with such an evaluation in mind \cite{W16-2506}, and there is no common agreement on how the datasets should be split to the training and testing parts.
 
 \subsection{Heuristics}
 
@@ -130,13 +132,13 @@ We are interested to see whether there is one parameter choice that performs com
 \chapter{Parameters and experimental setup}
 \label{sec:parameters}
 
-This chapter explains in detail the parameters that are explored in the experiments. The core of them are the parameters that modify the co-occurrence quantification. The other parameters define the dimensionality of the vector space, the similarity measure and compositional operator.
+This chapter explains in detail the parameters that are explored in the experiments. The core of the parameters are the parameters that modify the co-occurrence quantification. The other parameters define the dimensionality of the vector space, the similarity measure and compositional operator.
 % * <sdyck@ualberta.ca> 2016-11-03T04:59:10.670Z:
 %
 % > f them
 %
 % core of what? the experiments?
-%
+% DM: parameters.
 % ^.
 
 \section{Co-occurrence quantification}
@@ -145,16 +147,20 @@ This chapter explains in detail the parameters that are explored in the experime
 \subsection{PMI variants (discr)}
 \label{sec:pmi-variants}
 
-Most co-occurrence weighting schemes in distributional semantics are based on \emph{point-wise mutual information} (PMI, Equation~\ref{eq:pmi}, \newcite{J90-1003,Turney:2010:FMV:1861751.1861756,NIPS2014_5477}).
+Most co-occurrence weighting schemes%
+\footnote{We abbreviate this parameter as \texttt{discr} because the weighting scheme discriminates the features.
+% TODO: refer to the ir-dataset paper.
+}
+in distributional semantics are based on \emph{point-wise mutual information} (PMI, Equation~\ref{eq:pmi}, \newcite{J90-1003,Turney:2010:FMV:1861751.1861756,NIPS2014_5477}).
 %
 \begin{equation}
   \label{eq:pmi}
   \operatorname{PMI}(x, y) = \log\frac{P(x,y)}{P(x)P(y)}
 \end{equation}
 %
-PMI in its raw form is problematic: non-observed co-occurrences lead to infinite PMI values, making it impossible to compute similarity. A common "fix" to this problem is to replace all infinities with zeros, and we use PMI hereafter to refer to a weighting with this fix. Refer to Section~\ref{sec:quantification-measures} for a discussion.
+PMI in its raw form is problematic: non-observed co-occurrences lead to infinite PMI values, making it impossible to compute similarity. A common solution to this problem is to replace all infinities with zeros, and we use PMI hereafter to refer to a weighting with this fix. Refer to Section~\ref{sec:quantification-measures} for a discussion.
 
-An alternative solution is to increment the probability ratio by 1; we refer to this as \textit{compressed PMI} (CPMI):
+An alternative solution is to increment the probability ratio by 1; we refer to weighting scheme as \emph{compressed PMI} (CPMI):
 %
 \begin{equation}
   \label{eq:cpmi}
@@ -164,14 +170,14 @@ An alternative solution is to increment the probability ratio by 1; we refer to 
 \subsection{Shifted PMI (neg)}
 \label{sec:shifted-pmi}
 
-Many approaches use only \emph{positive} PMI values, as  negative PMI values may not positively contribute to model performance \cite{Turney:2010:FMV:1861751.1861756}. This can be generalised to an additional cutoff parameter $k$ (\texttt{neg}) following \newcite{TACL570}, giving our third PMI variant (abbreviated as SPMI):
+Many approaches use only \emph{positive} PMI values, as  negative PMI values may not positively contribute to model performance \cite{Turney:2010:FMV:1861751.1861756}. This can be generalised to an additional cutoff parameter $k$ (abbreviated as \texttt{neg}) following \newcite{TACL570}, giving our third PMI variant: \emph{shifted PMI} or SPMI for short:
 %
 \begin{equation}
   \label{eq:ppmi}
   \operatorname{SPMI_k} = \max (0, \operatorname{PMI}(x, y) - \log k)
 \end{equation}
 %
-We can apply the same idea to CPMI:
+We can apply the same idea to CPMI and obtain \emph{shifted compressed PMI} or SCPMI:
 %
 \begin{equation}
   \label{eq:pcpmi}
@@ -181,14 +187,14 @@ We can apply the same idea to CPMI:
 \subsection{Frequency weighting (freq)}
 \label{sec:frequency-weighting}
 
-Another issue with PMI is its bias toward rare events \cite{TACL570}; one way of solving this issue is to weight the value by the co-occurrence frequency \cite{Evert05}:
+Another issue with PMI is its bias toward rare events \cite{TACL570}; one way of solving this issue is to weight the value by the co-occurrence frequency obtaining the \emph{local mutual information} measure \cite{Evert05}:
 %
 \begin{equation}
   \label{eq:lmi}
   \operatorname{LMI}(x, y) = n(x, y)\operatorname{PMI}(x, y)
 \end{equation}
 %
-where $n(x, y)$ is the number of times $x$ was seen together with $y$. For clarity, we refer to $n$-weighted PMIs as \NPMI/, \NSPMI/, etc. When this weighting component is set to 1, it has no effect; we can explicitly label it as \PMI/, \SPMI/, etc. In addition to the extreme $1$ and $n$ weightings, we also experiment with the $\log n$ weighting.
+where $n(x, y)$ is the number of times $x$ was seen together with $y$. For clarity, we do not use the LMI term and we refer to $n$-weighted PMIs as \NPMI/, \NSPMI/, etc. When this weighting component is set to 1, it has no effect; we can explicitly label it as \PMI/, \SPMI/, etc. In addition to the extreme $1$ and $n$ weightings, we also experiment with the $\log n$ weighting. We refer to this parameter as \texttt{freq}.
 
 \subsection{Context distribution smoothing (cds)}
 \label{sec:cont-distr-smooth}
@@ -197,10 +203,11 @@ where $n(x, y)$ is the number of times $x$ was seen together with $y$. For clari
 %
 \begin{equation}
   \label{eq:cds}
-  P_{\alpha}(x) = \frac{n(x)^{\alpha}}{\sum_{c}n(c)^{\alpha}}
+  P_{\alpha}(x) = \frac{n(x)^{\alpha}}{\sum_{f \in F}n(f)^{\alpha}}
 \end{equation}
-%
-We experiment with $\alpha=1$ (no smoothing) and $\alpha = 0.75$. We call this estimation method \emph{local context probability}; we can also estimate a \emph{global context probability} based on the size of the corpus $C$:
+where $n(x)$ is the frequency of the term $x$, F is the set of the features in the co-occurrence matrix and $n(f)$ is the frequency of the feature in the corpus. We experiment with $\alpha=1$ (no smoothing) and $\alpha = 0.75$. We call this estimation method \emph{local context probability}.
+
+We also estimate a \emph{global context probability} based on the size of the corpus $|C|$:
 %
 \begin{equation}
   \label{eq:cds-nan}
@@ -219,54 +226,23 @@ To systematically study the aforementioned quantification measures, together wit
                                        \operatorname{discr}(x, y)
 \end{equation}
 %
-which consists of two components: $\operatorname{freq}(x, y)$ which quantifies the co-occurrence of two terms---a target term $x$ and a feature term $y$; and $\operatorname{discr}(x, y)$ which quantifies the ``surprise'' or ``informativeness'' of seeing (or not seeing) the two terms together,  labeled as discriminativeness.
+which consists of two components: $\operatorname{freq}(x, y)$ which quantifies the co-occurrence of two terms---a target term $x$ and a feature term $y$; and $\operatorname{discr}(x, y)$ which quantifies the ``surprise'' or ``informativeness'' of seeing (or not seeing) the two terms together, labeled as discriminativeness.
 
-In this framework, PMI can be seen as a quantification measure where the frequency component is the constant 1 and the discriminativeness is the PMI itself. PosPMI is seen analogously. For LMI, $\operatorname{freq}(x, y) = n(x, y)$ and $\operatorname{discr}(x, y) = \operatorname{PMI}(x, y)$. It makes sense to set the frequency to 1 for PMI and PosPMI, as both of them already have the co-occurrence information.
+In this framework, PMI can be seen as a quantification measure where the frequency component is the constant 1 and the discriminativeness is the PMI itself, SPMI is seen analogously. For \NPMI/, $\operatorname{freq}(x, y) = n(x, y)$ and $\operatorname{discr}(x, y) = \operatorname{PMI}(x, y)$.
 
-% ITTF is a counterpart of IDF in TF-IDF. We define ITTF as
-% \begin{equation}
-%   \small
-%   \label{eq:ittf}
-%   \operatorname{ITTF}(y) = \log\frac{|W|}{|\{w \in W: n(w, y) > 0\}|}
-% \end{equation}
-% where $W$ is the set of all words used in a corpus. Whereas PMI depends on both the target word and the feature word, ITTF depends only on the feature, therefore $\operatorname{discr}(x, y) = \operatorname{ITTF}(y)\ \text{for all targets}\ x$.
-
-%  Table~\ref{fig:association-measures} shows the quantification measures discussed in this paper.
-
-% \begin{table}[ht]
-%   \centering
-%   \begin{tabular}{rccc}
-%     \toprule
-%     \multirow{2}{*}{Frequency} &
-%     \multicolumn{3}{c}{Discriminativeness} \\
-%     \cmidrule(r){2-4}
-%                   & PMI        & PosPMI     & ITTF       \\
-%     \midrule
-%     $1$                 & \checkmark & \checkmark &            \\
-%     $\log(n)$           & \checkmark & \checkmark & \checkmark \\
-%     $n$                 & \checkmark & \checkmark & \checkmark \\
-%     \bottomrule
-%   \end{tabular}
-%   \caption{\textbf{Quantifications studied in this work.}
-%     %Quantification is a combination of frequency and discriminativeness.
-%   }
-%   \label{fig:association-measures}
-% \end{table}
-
-% TODO: Needs attention!
-From the probabilistic point of view, under the independence assumption of two words occurring together, \NPMI/ can be seen as measuring the logarithm of the ratio of the probabilities of groups of length $n$ (the group that contains only $(x,y)$s and another one that contains $x$s and $y$s):
+From the probabilistic point of view, under the independence assumption of two words occurring together, \NPMI/ can be interpreted as measuring the logarithm of the ratio of the probabilities of groups of length $n$ (the group that contains only pairs of $(x,y)$s and another one that contains $x$s and $y$s):
 %
 \begin{equation*}
   n\log\frac{P(x, y)}{P(x)P(y)} = \log\frac{P(x, y)^{n}}{P(x)^{n}P(y)^{n}}
 \end{equation*}
 %
-When the constant 1 is used as the frequency component, it is equivalent to the subsumption assumption, when the probability of a sequence depends only on what elements it contains, rather than how many of them.
+% When the constant 1 is used as the frequency component, it is equivalent to the subsumption assumption (the probability of a sequence depends only on what elements it contains, rather than how many of them).
 % * <sdyck@ualberta.ca> 2016-11-03T05:38:23.892Z:
 %
 % >  when the probability of a sequence depends only on what elements it contains, rather than how many of them.
 %
 % is this the definition of the subsumption assumption, or is it a condition needed for the frequency component to be equivalent to it?
-%
+% DM: it's the definition. This is actually confusing to everyone I've shown this to, apart from someone who gave me this idea.
 % ^.
 
 From the geometric point of view, the transformation from \PMI/ to \NPMI/ changes the directions of vectors by pulling the vectors toward the dimensions for which $n(x, y)$ is higher. As a side effect, it also stretches the vectors. The importance of these two effects is discussed later in Section~\ref{sec:similarity-measure}.
@@ -275,20 +251,20 @@ From the linguistic perspective, \PMI/ captures the tendency for a word to co-oc
 
 The sublinear frequency\footnote{We increment $n$ by one to avoid an infinite logarithm value when $n$ is 0.} $\log n$ stands between the two extreme cases of independence and subsumption. However, it is still a strong assumption as it treats all word pairs equally, but in natural language there are some pairs that are closer to subsumption and others that are closer to independence.
 
-In our case, the constant frequency is the only association measure that is able to distinguish from the case where a co-occurrence event was not observed (and so according to MLE, $P(x, y)= 0$) and the case where the events are independent ($P(x, y) = P(x)P(y)$). For other frequencies, when no co-occurrence is observed, the frequency is 0 and the discriminativeness value does not matter unless it is finite. That is why the backing off strategy already mentioned in Section~\ref{sec:pmi-variants}, ``when $n(x, y) = 0$ assume that $P(x, y) = P(x)P(y)$'' is an appropriate way of avoiding $-\infty$. There are many other smoothing strategies, for example \newcite{kneser1995improved,bengio2006}.
+In our case, the constant frequency is the only association measure that is able to distinguish from the case where a co-occurrence event was not observed (and so according to MLE, $P(x, y)= 0$) and the case where the events are independent ($P(x, y) = P(x)P(y)$). For other frequencies, when no co-occurrence is observed, the frequency is 0 and the discriminativeness value does not matter unless it is finite. That is why the backing off strategy already mentioned in Section~\ref{sec:pmi-variants}, ``when $n(x, y) = 0$ assume that $P(x, y) = P(x)P(y)$'' is an appropriate way of avoiding $-\infty$. There are many other smoothing strategies, two examples of which are \newcite{kneser1995improved,bengio2006}.
 
 \section{Other model parameters}
 \label{sec:other-model-paramt}
 
 \input{figures/parameters}
 
-As the source corpus we use the concatenation of ukWaC and Wackypedia \cite{ukwac}.\footnotemark{} A symmetric widow of 5 neighbouring is used to collect co-occurrences.
+The source corpus that we use is the concatenation of ukWaC and Wackypedia \cite{ukwac}.\footnotemark{} A window of 5 neighbour words from each side is used to collect co-occurrences.
 % * <sdyck@ualberta.ca> 2016-11-03T05:48:30.822Z:
 %
 % > A symmetric widow of 5 neighbouring is
 %
 % This could just be my lack of familiarity with the specific subject matter, but this doesn't make sense to me!
-%
+% DM: it's a window not a widow :)
 % ^.
 
 \footnotetext{The ukWaC corpus is available at \url{http://wacky.sslmit.unibo.it}.}
@@ -311,27 +287,27 @@ The cosine of the angle between two vectors is a widely used similarity measure 
                                 {\|\vec{x}\| \|\vec{y}\|}
 \end{equation*}
 
-However, the inner product $\vec{x} \cdot \vec{y}$ is preferred in IR and current state-of-the-art NLP systems \cite{mikolov2013distributed,mikolov2013linguistic,TACL570}. The cosine of the angle is equivalent to the inner product if the vectors are Euclidean ($L_2$) normalized.
+However, the inner product $\vec{x} \cdot \vec{y}$ is preferred in information retrieval and current state-of-the-art natural language processing (NLP) systems \cite{mikolov2013distributed,mikolov2013linguistic,TACL570}. The cosine of the angle is the inner product of the normalised vectors (using Euclidean $L_2$ length).
 % * <sdyck@ualberta.ca> 2016-11-04T02:11:45.531Z:
 %
 % > IR and current state-of-the-art NLP
 %
 % I would possibly state was these acronyms stand for (if they are in fact acronyms)
-%
+% DM: in fact, they are.
 % ^.
 
-Euclidean normalization removes the effect of vector lengths, putting emphasis on their directions. Thus, remembering that vector length depends on overall frequency, linguistically we have two measures: cosine that is concerned with a similarity, and inner product which also reflects word frequency or expectation factors.
+Normalisation reduces all vectors to unit length leaving their directions to characterise them. Thus, remembering that vector length depends on overall frequency, linguistically we have two measures: the cosine measure that is concerned with similarity, and inner product with no normalisation which in addition to similarity also reflects word frequency and expectation factors.
 % * <sdyck@ualberta.ca> 2016-11-04T02:13:38.667Z:
 %
 % > also
 %
 % so, the inner product is concerned with similarity, just as the cosine is, as well as the word frequency/expectation factors?
-%
+% DM: just as well.
 % ^ <sdyck@ualberta.ca> 2016-11-04T02:15:23.212Z.
 
-An advantage of cosine in a lexical similarity task is that it does not depend on the word frequency. Imagine a case where the similarity of a frequent and a rare word is calculated. In this situation, the similarity judgment should not depend on the relative frequency of the words; instead, their tendency of agreement on features should take the dominant role.
+An advantage of cosine in a lexical similarity task is that it does not depend on the word frequency. Imagine a situation where the similarity of a frequent and a rare word is calculated. Then the similarity judgment should not depend on the relative frequency of the words; instead, their tendency of agreement on features should take the dominant role.
 
-For example, \NPMI/ makes ``feature selections'' by weighting PMI values with the co-occurrence frequency, as discussed previously. When cosine is applied, the stretching effect of \NPMI/ is eliminated, but the rotational effect stays. On average, the rotational effect will be much more significant for rare words, while frequent words are more likely to be stretched.
+For example, \NPMI/ makes ``feature selections'' by weighting PMI values with the co-occurrence frequency, as discussed in Section~\ref{sec:quantification-measures}. When cosine is applied, the stretching effect of \NPMI/ is eliminated, but the rotational effect stays. On average, the rotational effect will be much more significant for rare words, while frequent words are more likely to be stretched.
 
 In addition to cosine and inner product, we use correlation \cite{kiela-clark:2014:CVSC} to measure similarity.
 
@@ -340,9 +316,9 @@ In addition to cosine and inner product, we use correlation \cite{kiela-clark:20
 
 \input{figures/comp-methods}
 
-For phrasal tasks, the phrase vectors are obtained via composition of the constituents' vectors using addition, multiplication \cite{mitchell2010composition,mitchell-lapata:2008:ACLMain}, Kronecker \cite{Grefenstette:2011:ESC:2145432.2145580} and categorical operators listed in Table~\ref{tbl:comp-methods} \cite{milajevs-EtAl:2014:EMNLP2014,DBLP:journals/corr/abs-1003-4394}.
+For phrasal tasks, the phrase vectors are obtained via composition of the phrase constituents' vectors using addition, multiplication \cite{mitchell2010composition,mitchell-lapata:2008:ACLMain}, Kronecker \cite{Grefenstette:2011:ESC:2145432.2145580} and categorical operators listed in Table~\ref{tbl:comp-methods} \cite{milajevs-EtAl:2014:EMNLP2014,DBLP:journals/corr/abs-1003-4394}.
 
-Addition and multiplication are point-wise operations and do not take into account word order. Kronecker and categorical operators are word-order-sensitive. The verb matrix for Kronecker is defined as the Kronecker product of the vector of a verb with itself:
+Addition and multiplication are point-wise operations and do not take into account word order. Kronecker and categorical operators are sensitive to word ordering. The verb matrix for Kronecker is defined as the Kronecker product of the vector of a verb with itself:
 %
 \begin{equation*}
   \widetilde{\text{Verb}} = \overrightarrow{\text{Verb}} \otimes \overrightarrow{\text{Verb}}
