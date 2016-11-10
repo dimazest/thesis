@@ -668,51 +668,51 @@ The aggregated score of a model is computed as:
 % > model is computed 
 %
 % see previous comment about fitting equation on one line. Also be sure to define "add" and "mult". Although it is intuitive that they are short for addition and multiplication, it should still be defined. 
-%
+% DM: done.
 % ^.
 \scriptsize
 \begin{align*}
-\operatorname{score}_\mathit{universal}&(\mathit{model}) =\\%
-& \frac{1}{2}\left(
+\operatorname{score}_\mathit{universal}(\mathit{m}) = &%
+\frac{1}{2}\left(
 \frac{1}{2}%
-\frac{\operatorname{score}_\mathit{SimLex-999}(\mathit{model})}%
+\frac{\operatorname{score}_\mathit{SimLex-999}(\mathit{m})}%
 {\max_m\operatorname{score}_\mathit{SimLex-999}(m)}%
 +%
 \frac{1}{2}%
-\frac{\operatorname{score}_\mathit{MEN}(\mathit{model})}%
+\frac{\operatorname{score}_\mathit{MEN}(\mathit{m})}%
 {\max_m\operatorname{score}_\mathit{MEN}(m)}%
 \right)+
 \\
 &\frac{1}{2}\Bigg(
 \frac{1}{6}%
-\frac{\operatorname{score}_\mathit{KS14}(\mathit{model}, \mathit{add})}%
+\frac{\operatorname{score}_\mathit{KS14}(\mathit{m}, \mathit{add})}%
 {\max_m\operatorname{score}_\mathit{KS14}(m, \mathit{add})}%
 +%
 \frac{1}{6}%
-\frac{\operatorname{score}_\mathit{GS11}(\mathit{model}, \mathit{add})}%
+\frac{\operatorname{score}_\mathit{GS11}(\mathit{m}, \mathit{add})}%
 {\max_m\operatorname{score}_\mathit{GS11}(m, \mathit{add})}%
 +%
 \frac{1}{6}%
-\frac{\operatorname{score}_\mathit{PhraseRel}(\mathit{model, \mathit{add}})}%
+\frac{\operatorname{score}_\mathit{PhraseRel}(\mathit{m, \mathit{add}})}%
 {\max_m\operatorname{score}_\mathit{PhraseRel}(m, \mathit{add})}
 +
 \\
 &\phantom{\frac{1}{2}\Bigg(}
 \frac{1}{6}%
-\frac{\operatorname{score}_\mathit{KS14}(\mathit{model}, \mathit{mult})}%
+\frac{\operatorname{score}_\mathit{KS14}(\mathit{m}, \mathit{mult})}%
 {\max_m\operatorname{score}_\mathit{KS14}(m, \mathit{mult})}%
 +%
 \frac{1}{6}%
-\frac{\operatorname{score}_\mathit{GS11}(\mathit{model}, \mathit{mult})}%
+\frac{\operatorname{score}_\mathit{GS11}(\mathit{m}, \mathit{mult})}%
 {\max_m\operatorname{score}_\mathit{GS11}(m, \mathit{mult})}%
 +%
 \frac{1}{6}%
-\frac{\operatorname{score}_\mathit{PhraseRel}(\mathit{model, \mathit{mult}})}%
+\frac{\operatorname{score}_\mathit{PhraseRel}(\mathit{m, \mathit{mult}})}%
 {\max_m\operatorname{score}_\mathit{PhraseRel}(m, \mathit{mult})}
 \Bigg)
 \end{align*}
 \normalsize
-
+where $\mathit{add}$ stands for addition and $\mathit{mult}$ stands for multiplication.
 \subsection{Max selection}
 \label{sec:max-selection-single}
 
@@ -752,13 +752,15 @@ We apply these models with tensor-based operators on phrasal datasets (KS14, GS1
 
 In general, the best results are achieved with 3000-dimensional models (with an exception on GS11 where 1000-dimensional models perform better in 4 out of 6 cases, and copy-subject on KS14). Also, performance increases as dimensionality increases.
 
-Max selection based on Kronecker leads to the highest results, with an exception of Frobenius multiplication and copy-subject on KS14, where Max-add leads to the highest results. On PhraseRel, copy-subject performs best with operator-independently selected space.
+Max selection based on Kronecker leads to the highest results. The exceptions are
+Frobenius multiplication and copy-subject on KS14, where the model that is best
+with addition also leads to the highest results among tensor-based composition. On PhraseRel, copy-subject performs best with operator-independently selected space.
 % * <sdyck@ualberta.ca> 2016-11-05T01:12:39.066Z:
 %
 % > Max-add
 %
 % does this mean addition with Max?
-%
+% DM: done, I hope it's more clear now.
 % ^.
 
 Relational is the fourth best compositional operator after addition, multiplication or Kronecker on KS14 (0.768) and PhraseRel (0.893). Copy-subject is the best on GS11 (0.402). Frobenius-outer gives the highest result on PhraseRel together with relational.
@@ -780,13 +782,13 @@ On the GS11 dataset, our spaces improve over the corresponding operators on all 
 
 \newcite{kim2015neural} adopt the evaluation procedure of \newcite{milajevs-EtAl:2014:EMNLP2014} to test an extended word2vec model that is tuned for multiplicative interaction of the vectors, not additive, as the original word2vec. They improve on most of the composition operators on the KS14 and GS11 datasets.
 
-They achieve the best result of 0.770 with addition on KS14. Three of our models (addition, multiplication and Kronecker) outperform that score. Also, our results are better than the results reported  by comparing results by operator (our result are shown in brackets for comparison): multiplication 0.440 (0.771), Kronecker 0.623 (0.798), relational 0.665 (0.768), copy subject 0.454 (0.738), copy object 0.607 (0.628), Frobenius add 0.610 (0.761), Frobenious mult 0.608 (0.747), Frobenious outer 664 (0.765).
+They achieve the best result of 0.770 with addition on KS14. Three of our models (addition, multiplication and Kronecker) outperform that score. Also, our results are better than the results reported  by comparing results by operator (our result are shown in brackets for comparison): multiplication 0.440 (0.771), Kronecker 0.623 (0.798), relational 0.665 (0.768), copy subject 0.454 (0.738), copy object 0.607 (0.628), Frobenius addition 0.610 (0.761), Frobenious multiplication 0.608 (0.747), Frobenious outer 664 (0.765).
 % * <sdyck@ualberta.ca> 2016-11-05T01:16:56.439Z:
 %
 % > us mult 
 %
 % I would expand these abbreviations
-%
+% DM: done
 % ^.
 
 On G11, their best score is 0.387, which is lower than the results that we get with multiplication, Kronecker, relational and copy subject. However, we get lower results with copy object and Frobenius outer.
@@ -809,6 +811,9 @@ The SVOPN model with the score of 0.614 outperforms our best (0.516) on GS11. Wh
 \newcite{hashimoto-tsuruoka:2016:P16-1} jointly learn compositional and non-compositional phrase embeddings by using a compositionality scoring function. They improve on their previous work and get the score of 0.680 on GS11 versus our 0.516.
 
 \newcite{fried-polajnar-clark:2015:ACL-IJCNLP} use low-rank tensors to approximate third-order tensors of verbs. They achieve the scores of 0.47 on GS11 and 0.68 on KS14 with categorical composition and 0.71 on KS14 with addition. While our best result is higher on GS11, categorical operators score lower, the best is copy-subject (0.402). On KS14, our experiments produce higher results (with an exception of copy-object) than their best (additive) model. It is worth noting the study of \newcite{polajnar-rimell-clark:2015:LSDSem} uses discourse features to build vectors, but the experiment results reported they are not compatible with ours because we averaged the human-provided scores before computing correlation, while they treat each human score individually without averaging.
+
+Overall, we improved over the scores by identifying a better set of model
+parameters rather then developing a more sophisticated model.
 
 \input{figures/lexical-comparison}
 On lexical tasks, the best results among the selected models are 0.384 (SimLex-999) and 0.764 (MEN). On the similarity dataset, scores are 0.009 points behind the PPMI model of \newcite{TACL570}, however, on the relatedness dataset, 0.019 points above. Note the difference in dimensionality, source corpora and window size. Table~\ref{tab:lexical-comparison} shows the results of SVD, SGNS and GloVe-based vector spaces are given for comparison.
