@@ -4,20 +4,26 @@
 
 Computers require specially designed programming languages to be controlled, despite the fact that they play a crucial role in our lives. Ideally, it would be perfect if the interaction with computers was not different from the interaction between humans. Computational linguistics is one of the fields that addresses this problem.
 
-In order to be controlled by people, or be able to assist people in language-related tasks, computers need to understand it. However, different tasks require various levels of language understanding. For instance, even if one does not recognize or know the language of a piece of text in Figure~\ref{fig:lv}, one can tell how many words there are, and that there is only one sentence. After a while, one can even say that this is probably a piece of poetry.
+In order to be controlled by people, or be able to assist people in
+language-related tasks, computers need to understand human language. However,
+different tasks require various levels of language understanding. For instance,
+even if one does not recognize or know the language of a piece of text in
+Figure~\ref{fig:lv}, one can tell how many words there are, and that there is
+only one sentence. One can even argue that this is a piece of poetry basing the
+argument on the shape of the text.
 % * <sdyck@ualberta.ca> 2016-11-03T00:02:27.725Z:
 %
 % > After a while, 
 %
 % After a while of what? Analyzing it? reading it? 
-%
+% DM: done.
 % ^.
 % * <sdyck@ualberta.ca> 2016-11-03T00:00:40.843Z:
 %
 % > nd it.
 %
 % I would be a little more specific than just "it". The computers must understand the language used?
-%
+% DM: done.
 % ^.
 
 The conclusions above require neither the complete understanding of the language nor the meaning of the text. The knowledge that texts---at least in some languages---consist of words separated by a space and how poems are written is enough. Moreover, knowing the letter distribution across all human languages or having a list of words in them, one would conclude that the text is in Latvian. This information can be provided without knowing what the text is about.
@@ -37,11 +43,14 @@ However, it is reasonable to ask a computer the following questions regarding th
 \item What poems are similar to this?
 \end{inparaenum}
 
-Text summarisation, machine translation, information extraction and information retrieval are branches of computational linguistics that provide methods for answering these questions. The questions above have a general property: all of them are about the meaning of the text. Natural language semantics is an area that studies meaning and thus, is necessary to solve the tasks.
+Text summarisation, machine translation, information extraction and information
+retrieval are branches of computational linguistics that provide methods for
+answering these questions. The questions above have a general property: all of
+them are about the meaning of the text. Natural language semantics is an area that studies meaning and thus, is necessary to solve the tasks.
 
 The creativity of natural languages---the fact that humans are able to produce
-and understand sentences they have never come across---complicates meaning
-modeling. Even if we had a way to map each word to its meaning, it is
+and understand sentences they have never come across---complicates modelling of
+text meaning. Even if we had a way to map each word to its meaning, it is
 impractical to apply the same procedure to sentences because as we process a
 piece of text, most of the sentences in it will be seen for the fist time.
 Therefore, we need to be able to build the meaning of a sentence from its
@@ -49,10 +58,14 @@ constituent parts, rather than a sentence in its entirety.
 % * <sdyck@ualberta.ca> 2016-11-03T00:24:15.438Z:
 %
 % I would suggest adding here, ", rather than the sentence in its entirety."
-%
+% DM: done.
 % ^.
 
-Syntax is the study of the structure of a sentence. Grammar defines the rules that describe what a sentence that belongs to a language should look like. For example, In an English sentence, a subject is written before a verb and an object is after. Having the constituent meaning representations, the meaning of a sentence is built by following the syntactic structure of it.
+Syntax is the study of the structure of a sentence. Grammar defines the rules
+that describe what a sentence that belongs to a language should look like. For
+example, in an English sentence, a subject is written before a verb and an
+object is after. Having the constituent meaning representations, the meaning of
+a sentence is built by following its syntactic structure.
 
 To be able to deal with the meaning of a text in a natural language, one needs to have meaning representation of constituents, the syntactic structure and a compositional procedure that outputs the meaning representation.
 
@@ -81,7 +94,8 @@ This work adopts the recommendations of \newcite{TACL570} for model parameter tu
 %
 % ^.
 
-This work shows that after a careful selection of  vector space model parameters, the selected models are competitive with the current state-of-the-art results and on some datasets, outperform it.
+This work shows that after a careful selection of  vector space model
+parameters, the selected models are comparable with the current state-of-the-art results and on some datasets, outperform them.
 % * <sdyck@ualberta.ca> 2016-11-03T00:32:14.807Z:
 %
 % > The experiments show that after a careful selection of  vector space model parameters, the selected models are competitive with the current state-of-the-art results and on some datasets outperform it.
@@ -93,4 +107,5 @@ This work shows that after a careful selection of  vector space model parameters
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "thesis"
+%%% TeX-engine: xetex
 %%% End:
