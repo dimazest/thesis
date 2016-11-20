@@ -10,10 +10,10 @@ As for the lexical experiments (Section~\ref{sec:elab-hypoth-lexical}), before r
 
 \begin{hyp}[H\ref{hyp:comp-pmi-cpmi}]
   \label{hyp:comp-pmi-cpmi}
-  Compositional methods based on addition perform best with either PMI or SPMI, while methods that are based on multiplication should work best with CPMI and SCPMI.
+  Compositional methods that include addition perform best with either PMI or SPMI, while methods that include multiplication should work best with CPMI and SCPMI.
 \end{hyp}
 
-The reason for this is the presence of negative values. In the case of multiplication as a compositional operator, the sign of a vector component depends on the number of the corresponding negative components of the constituents. If the number of negative values is odd, then the resulting value will be negative---this makes the difference between 0.001 and -0.001 significant. In the first case, the value means that the co-occurrence pair is weakly associated, but in the second case, the value means that the co-occurrence is weakly unassociated.
+One of the reasons for this is the presence of negative values. For example, in the case of multiplication as a compositional operator, the sign of a vector component depends on the number of the corresponding negative components of the constituents. If the number of negative values is odd, then the resulting value will be negative---this makes the difference between 0.001 and -0.001 significant. In the first case, the value means that the co-occurrence pair is weakly associated, but in the second case, the value means that the co-occurrence is weakly unassociated. This also applies to categorical operators where the signs of the result vector components depends on the number of multiplication operations that leads to them.
 
 We also expect hypotheses related to PMI's Achilles heel (H\ref{hyp:freq}, H\ref{hyp:cds}, H\ref{hyp:neg}) to apply in the compositional case.
 

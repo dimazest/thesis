@@ -11,7 +11,9 @@
 \chapter{PhraseRel: an IR-inspired compositional dataset}
 \label{sec:phraserel}
 
-Datasets that quantify relationships between words have a long history. Some of the most well-known datasets are RG65 \cite{Rubenstein:1965:CCS:365628.365657}, WordSim \cite{2002:PSC:503104.503110}, BLESS \cite{baroni-lenci:2011:GEMS}, MEN \cite{Bruni:2014:MDS:2655713.2655714} and SimLex-999 \cite{hill2014simlex}. All of them have been applied to evaluate the distributional models of meaning.
+Datasets that quantify relationships between words have a long history.\footnotemark{} Some of the most well-known datasets are RG65 \cite{Rubenstein:1965:CCS:365628.365657}, WordSim \cite{2002:PSC:503104.503110}, BLESS \cite{baroni-lenci:2011:GEMS}, MEN \cite{Bruni:2014:MDS:2655713.2655714} and SimLex-999 \cite{hill2014simlex}. All of them have been applied to evaluate the distributional models of meaning.
+
+\footnotetext{This chapter addresses the evaluation concerns stated in \newcite{Milajevs:2015:IMN:2808194.2809448}. The dataset and all referred data files are available at \url{\BASEURL}.}
 
 Naturally, the idea of capturing lexical relationships was extended to phrases and sentences. Many phrase and sentence datasets exist, such as the MS Paraphrase Corpus \cite{dolan2005par} or the phrase entailment dataset of \newcite{baroni-EtAl:2012:EACL2012}. These are potentially applicable to evaluating compositional distributional models of meaning. We say potentially because the grammar-preserving compositional settings \cite{baroni2014frege,DBLP:journals/corr/abs-1003-4394}  rely on high dimensional tensor spaces which do not, at the moment, scale up to  the complex syntactic structures of such datasets. Instead, a family of phrasal, mostly \emph{similarity}-oriented datasets \cite{mitchell-lapata:2008:ACLMain,Grefenstette:2011:ESC:2145432.2145580,kartsaklis-sadrzadeh:2013:EMNLP,kartsadrqpl2014} are widely used for the evaluation of these models \cite{milajevs-EtAl:2014:EMNLP2014,kim-demarneffe-foslerlussier:2015:VSM-NLP}.
 
@@ -21,7 +23,7 @@ We extend the possibility of evaluating compositional distributional models by p
 
 To overcome that flaw, we introduce a dataset that measures relevance. To develop the dataset, we took the  dataset of \newcite{kartsaklis-sadrzadeh:2013:EMNLP,kartsadrqpl2014} as the base, extensively extended it with query-document phrase pairs and re-annotated it using Amazon Mechanical Turk, asking for relevance judgements.
 
-The dataset and all referred data files are available at \url{\BASEURL}.
+Due to the novelty of the method used in the creation of the dataset (which makes it to measure relevance rather than similarity), the effort dedicated to it and since is yet unpublished, we devote a separate chapter to explain it.
 
 \section{Preparation of candidate entries for the dataset}
 \label{sec:design}
