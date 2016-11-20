@@ -83,12 +83,11 @@ The best option of \texttt{freq} for \texttt{head} is $\log n$ (Figure~\ref{fig:
 
 For addition, frequency should be set to 1 for spaces with $D < 5000$ and to $\log n$ otherwise.
 
-There is one choice of frequency for multiplication: 1. However, $\log n$
-behaves similarly to it when $D \geq 3000$.
+There is one choice of frequency for multiplication: 1. However, $\log n$ behaves similarly to it when $D \geq 3000$.
 % * <sdyck@ualberta.ca> 2016-11-04T13:59:08.049Z:
 % 
 % >  large values of $D$.
-% How large? Since D goes to very high values, and sometimes high is only considered a few thousand, it seems. 
+% How large? Since D goes to very high values, and sometimes high is only considered a few thousand, it seems. behaviour is
 % DM: done.
 % ^.
 
@@ -137,9 +136,7 @@ Figure~\ref{fig:gs14-results} shows performance of the compositional models on t
 
 Multiplication with 20000 dimensions gives the highest result of 0.532. Kronecker gets close with a score of 0.516 with $D = 50000$, giving no support to H\ref{hyp:order}. Addition does not outperform the \texttt{head} operator: addition scores 0.338, while \texttt{head}'s best performance is 0.432.
 
-\texttt{Head}'s behaviour is unstable for dimensions less than 20000, and its
-best behaviour might be the case of overfitting similarly with SimLex-999.
-However, models with dimensions greater than 20000 behave similarly to each other, even though the parameters are different.
+\texttt{Head}'s behaviour is unstable for dimensions less than 20000, and its best behaviour might be the case of overfitting similarly with SimLex-999. However, models with dimensions greater than 20000 behave similarly to each other, even though the parameters are different.
 % * <sdyck@ualberta.ca> 2016-11-04T23:13:19.839Z:
 %
 % > of overfitting similarly with SimLex-999
@@ -157,8 +154,7 @@ In general, Max parameter selection is very different than the one based on KS14
 % DM: yes.
 % ^.
 
-Addition behaviour degrades as dimensionality increases, whereas multiplication
-behaviour increases, but becomes unstable for spaces with more than 20000 dimensions. Kronecker depends the least on the dimensionality.
+Addition behaviour degrades as dimensionality increases, whereas multiplication behaviour increases, but becomes unstable for spaces with more than 20000 dimensions. Kronecker depends the least on the dimensionality.
 % * <sdyck@ualberta.ca> 2016-11-04T23:16:35.799Z:
 %
 % > high number of dimensions
@@ -227,8 +223,7 @@ Addition works best with PMI for $D < 20000$ and SCPMI otherwise.
 
 Multiplication is similar to addition in that it prefers PMI in the low dimensional case and SCPMI in the high dimensional case, but the change happens at 5000 dimensions rather than 20000.
 
-Kronecker with less than 5000 dimensions prefers SCPMI and SPMI, which is
-opposite to addition and multiplication.
+Kronecker with less than 5000 dimensions prefers SCPMI and SPMI, which is opposite to addition and multiplication.
 % * <sdyck@ualberta.ca> 2016-11-04T23:30:11.433Z:
 %
 % > rs SCPMI and SPMI otherwise.
@@ -237,8 +232,7 @@ opposite to addition and multiplication.
 % DM: done.
 % ^.
 
-This dataset does not give evidence to support H\ref{hyp:comp-pmi-cpmi} because
-there is almost no difference betwen *PMI and *CPMI.
+This dataset does not give evidence to support H\ref{hyp:comp-pmi-cpmi} because there is almost no difference betwen *PMI and *CPMI.
 
 \subsection{Difference between Max selection and heuristics on GS11}
 
@@ -260,8 +254,7 @@ The overall average normalised difference in results between Max and heuristic-b
 
 Figure~\ref{fig:phraserel-results} shows the performance of the models on the PhraseRel dataset. All operators outperform the non-compositional \texttt{head} baseline. Table~\ref{tab:phraserel-max-selection} shows the models that yield the best result together with model parameters.
 
-Multiplication, in general, outperforms all other operators, and with the
-dimensions of 10000 and 20000, gets the perfect score of 1, giving no support of H\ref{hyp:order}. Model performance weakly depends on the dimensionality for all operators.
+Multiplication, in general, outperforms all other operators, and with the dimensions of 10000 and 20000, gets the perfect score of 1, giving no support of H\ref{hyp:order}. Model performance weakly depends on the dimensionality for all operators.
 % * <sdyck@ualberta.ca> 2016-11-04T23:33:29.327Z:
 %
 % > perfect score
@@ -393,12 +386,7 @@ Figure~\ref{fig:phraserel-transfer} shows that the performance of models based o
 % \todo[noline]{Significance tests}
 Transfer to KS14 yields the average differences of 0.152 for Max and 0.136 for heuristics. Transfer to GS11 yields the average differences of 0.454 for Max and 0.509 for heuristics. Note that the PhraseRel to GS11 transfer is the only case where Max selection ,on average, is better than heuristics.
 
-In general, over all compositional datasets, we see---in contrast to the lexical
-evaluation---that the Max-based selection might be prone to overfitting
-(H\ref{hyp:overfitting}). However, the result difference is far beyond
-H\ref{hyp:10percent}, which might be due to the different nature of the tasks:
-similarity, disambiguation and relevance (compositional) versus similarity and
-relatedness (lexical).
+In general, over all compositional datasets, we see---in contrast to the lexical evaluation---that the Max-based selection might be prone to overfitting (H\ref{hyp:overfitting}). However, the result difference is far beyond H\ref{hyp:10percent}, which might be due to the different nature of the tasks: similarity, disambiguation and relevance (compositional) versus similarity and relatedness (lexical).
 % * <sdyck@ualberta.ca> 2016-11-05T00:23:27.823Z:
 %
 % >  similarity, disambiguation and relevance.
@@ -503,8 +491,7 @@ As Figure~\ref{fig:compositional-cds} shows, global context probability is the p
 
 Correlation is the dominant choice of the similarity measure (Figure~\ref{fig:compositional-similarity}). However, cosine is preferred in the case of \texttt{head}, with $D > 5000$, and inner product is the only choice for composition with Kronecker with $D > 3000$.
 
-There is no distinction between cosine and correlation for all compositional
-operators, which neither supports nor disputes H\ref{hyp:similarity}.
+There is no distinction between cosine and correlation for all compositional operators, which neither supports nor disputes H\ref{hyp:similarity}.
 % * <sdyck@ualberta.ca> 2016-11-05T00:55:26.642Z:
 %
 % > es not contradict H
@@ -598,8 +585,7 @@ Table~\ref{tab:universal-max-selection} shows the performance of the models eval
 \end{align*}
 \normalsize
 
-Parameter selection is much more stable than on all previous Max-based
-selections. The dominant \texttt{freq} choice is $\log n$, cosine is the measure of choice for multiplication and Kronecker (if available). Correlation is the best similarity measure for the additive composition. The optimal choice of a similarity measure does not depend on dimensionality---this observation does not support H\ref{hyp:similarity}.
+Parameter selection is much more stable than on all previous Max-based selections. The dominant \texttt{freq} choice is $\log n$, cosine is the measure of choice for multiplication and Kronecker (if available). Correlation is the best similarity measure for the additive composition. The optimal choice of a similarity measure does not depend on dimensionality---this observation does not support H\ref{hyp:similarity}.
 % * <sdyck@ualberta.ca> 2016-11-05T01:01:20.065Z:
 %
 % > $\log n$ i
@@ -751,9 +737,7 @@ We apply these models with tensor-based operators on phrasal datasets (KS14, GS1
 
 In general, the best results are achieved with 3000-dimensional models (with an exception on GS11 where 1000-dimensional models perform better in 4 out of 6 cases, and copy-subject on KS14). Also, performance increases as dimensionality increases.
 
-Max selection based on Kronecker leads to the highest results. The exceptions are
-Frobenius multiplication and copy-subject on KS14, where the model that is best
-with addition also leads to the highest results among tensor-based composition. On PhraseRel, copy-subject performs best with operator-independently selected space.
+Max selection based on Kronecker leads to the highest results. The exceptions are Frobenius multiplication and copy-subject on KS14, where the model that is best with addition also leads to the highest results among tensor-based composition. On PhraseRel, copy-subject performs best with operator-independently selected space.
 % * <sdyck@ualberta.ca> 2016-11-05T01:12:39.066Z:
 %
 % > Max-add
