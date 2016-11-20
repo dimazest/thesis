@@ -8,16 +8,16 @@
     Parameter & Values \\
     \midrule
     Dimensionality $D$ & 1K, 2K, 3K, 5K, 10K, 20K, 30K, 40K, 50K \\
-    \texttt{discr} & PMI, CPMI, SPMI, SCPMI \\
-    \texttt{freq} & $1$, $n$, $\log n$ \\
-    \texttt{neg} & 0.2, 0.5, 0.7, 1, 1.4, 2, 5, 7 \\
-    \texttt{cds} & \textit{global}, 1, 0.75 \\
+    \texttt{discr} & PMI, CPMI, SPMI, \textbf{SCPMI} \\
+    \texttt{freq} & $1$, $n$, $\boldsymbol{\log n}$ \\
+    \texttt{neg} & \textbf{0.2}, \textbf{0.5}, \textbf{0.7}, 1, 1.4, 2, 5, 7 \\
+    \texttt{cds} & \textbf{\textit{global}}, 1, 0.75 \\
     Similarity & Cosine, Correlation \\
     Window size & 5                                \\
     Corpus & Concatenation of ukWaC and Wackypedia \\
     \bottomrule
   \end{tabular}
-  \caption{Model parameters and their values used in the experiments}
+  \caption{Model parameters and their values used in the experiments. To our knowledge, values are bold have not been used previously.}
 \label{tab:parameters}
 \end{table}
 
