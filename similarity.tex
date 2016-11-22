@@ -327,7 +327,7 @@ The functional applications of semantic terms can be replaced with tensors \cite
 \subsection{Similarity of heads in context}
 \label{sec:similarity-context}
 
-A noun phrase can be similar to a noun, as in \textit{female lion} and \textit{lioness}, and to other noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as well as to words. In this case, similarity is measured in \emph{context}, but is still comparison of the phrases' head words, which meanings are modified by the arguments they appear with \cite{Kintsch2001173,mitchell-lapata:2008:ACLMain,mitchell2010composition,Dinu:2010:MDS:1870658.1870771,Baroni2010nouns,thater-furstenau-pinkal:2011:IJCNLP-2011,Seaghdha:2011:PMS:2145432.2145545}. With verbs, this idea can be applied to compare a transitive and intransitive verb. For example, \textit{cycle} is similar to \textit{ride a bicycle}. Here we see that \textit{a bicycle} disambiguates the verb \textit{ride} making the phrase similar to the verb \textit{cycle}. The connection between measuring similarity of a phrase and disambiguation has been noted in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
+A noun phrase can be similar to a noun, as in \textit{female lion} and \textit{lioness}, and to other noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as well as to words. In this case, similarity is measured in \emph{context}, and most methods of calculating similarity of phrases still rely on comparisons of the phrases' head words, which meanings are modified by the arguments they appear with \cite{Kintsch2001173,mitchell-lapata:2008:ACLMain,mitchell2010composition,Dinu:2010:MDS:1870658.1870771,Baroni2010nouns,thater-furstenau-pinkal:2011:IJCNLP-2011,Seaghdha:2011:PMS:2145432.2145545}. With verbs, this idea can be applied to compare a transitive and intransitive verb. For example, \textit{cycle} is similar to \textit{ride a bicycle}. Here we see that \textit{a bicycle} disambiguates the verb \textit{ride} making the phrase similar to the verb \textit{cycle}. The connection between measuring similarity of a phrase and disambiguation has been noted in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
 
 % TODO: mention \cite{wieting2015paraphrase}
 
@@ -342,7 +342,7 @@ Because it is difficult to measure the performance of a single (similarity) comp
 
 Apart from a pragmatic attempt to alleviate the problems of evaluating
 similarity components, these datasets serve as an empirical test of the
-hypotheses of Firth and Harris, bringing together our understanding of the human mind, language and technology. The following sections introduce the datasets used in this study.
+hypotheses of Firth and Harris, bringing together our understanding of the human mind, language and technology. The following sections introduce the main datasets used in this area.
 
 \subsection{Word similarity}
 \label{sec:lexical-similarity}
@@ -366,7 +366,7 @@ described in \newcite{Grefenstette:2011:ETV:2140490.2140497} consists of ambiguo
 Consider the sentence \textit{system meets specification}. \textit{Meets} is an ambiguous transitive verb, and \textit{system}
 and \textit{specification} are its arguments. Possible landmarks for \emph{meet} are \textit{satisfy} and \textit{visit}. For this sentence, the human judgements show that the disambiguated verb meaning is similar to the landmark \textit{satisfy}, and less similar to \textit{visit}.
 
-The task is to estimate the similarity of the sense of a verb in a context with a given landmark. To estimate similarity, we compose the verb with its arguments, do the same for the landmark and the arguments, and compute the similarity of the two vectors. To evaluate performance, we average the human judgements for the same verb, argument and landmark entries, and use the average values to calculate the correlation.
+The task is to estimate the similarity of the sense of a verb in a context with a given landmark. To estimate similarity, the verb is composed with its arguments, it is done the same for the landmark and the arguments, and the similarity of the two vectors is computed. To evaluate performance, the human judgements are averaged for the same verb, argument and landmark entries, and these average values are used to calculate the correlation.
 
 \subsection{Sentence similarity}
 \label{sec:sentence-similarity}
