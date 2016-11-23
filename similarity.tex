@@ -8,31 +8,22 @@ Similarity is the degree of resemblance between two objects or events \cite{WCS:
 
 Generalisations are extremely powerful in describing a language, as well. The verb \textit{runs} requires its subject to be singular. \textit{Verb}, \textit{subject} and \textit{singular} are categories that are used to describe English grammar. When one encounters an unknown word and is told that it is a verb, one will immediately have an idea about how to use it, assuming that it is used similarly to other English verbs.
 
-From a computational perspective, this motivates and guides the development of similarity components that are embedded into natural language processing systems that deal with tasks such as
-word sense disambiguation \cite{Schutze:1998:AWS:972719.972724},
-information retrieval \cite{Salton:1975:VSM:361219.361220,Milajevs:2015:IMN:2808194.2809448},
-machine translation \cite{Dagan:1993:CWS:981574.981596},
-dependency parsing \cite{hermann-blunsom:2013:ACL2013,andreas-klein:2014:P14-2},
-dialogue act tagging \cite{kalchbrenner-blunsom:2013:CVSC,milajevs-purver:2014:CVSC},
-reasoning over knowledge bases \cite{NIPS2013_5028}
-and language modelling \cite{bengio2006}.
+From a computational perspective, this motivates and guides the development of \emph{semantic similarity} (in the sense that they measure the degree of resemblance of meaning) components that are embedded into natural language processing systems.
 
-Concretely, a parser might benefit from a generalisation about the part of speech tag of a word which did not occur in the training data, based on its occurrence pattern in a large corpus of documents from the web. In contrast, a dialogue act tagging system might require classification of a whole sentence based on its role in a dialogue. To be useful, the similarity component has to be able to measure similarity between \emph{words} and \emph{sentences}.
+In Information Retrieval (IR), queries are expanded with additional terms to retrieve more relevant documents. For example, if a user is looking for information about lakes in Sweden, the system might add related words to the query such as \textit{reservoir}, \textit{river} or even \textit{swim} \cite{Xu:1996:QEU:243199.243202}. % \cite{Salton:1975:VSM:361219.361220}
 
-According to \newcite{WCS:WCS1282}, ``similarity is an essentially psychological notion, based on the way we represent objects, that is, the way they appear to us.'' An important consequence of this observation is that before measuring the similarity of two entities,\footnotemark{} their representation has to be obtained.
+A dependency parser might benefit from a generalisation about the part of speech tag of a word which did not occur in the training data, based on its occurrence pattern in a large corpus of documents from the web \cite{hermann-blunsom:2013:ACL2013,andreas-klein:2014:P14-2}.
 
-\footnotetext{Here and later \emph{entity} is a common term for \textit{events} and \textit{objects}.}
+The information that the word \textit{carpet} is similar in meaning to the word \textit{mat} might be exploited by a language model in estimating the probability of the sentence \textit{the cat set on the carpet}, even if it did not occur in the corpus, but \textit{cat sat on the mat} did \cite{bengio2006}.
 
-% \cite{Huth2016}
+A dialogue act tagging system might require classification of an utterance based on its role in a dialogue, such as a question or an acknowledgement \cite{kalchbrenner-blunsom:2013:CVSC}.
 
-% \todo[inline]{Bring together psychology, linguistics and NLP%
-% Apart from a pragmatic attempt to alleviate the problems of evaluating similarity components, these datasets serve as an empirical test of the hypotheses of Firth and Harris, bringing together our understanding of the human mind, language and technology.
-% }
+The examples show that semantic similarity needs to be measured between words and between sentences as well.
 
-\section{Similarity of words}
+\section{Meaning representation}
 \label{sec:word-meaning}
 
-Section \ref{sec:similarity} established that before measuring similarity, the representation of entities must be agreed upon. One needs to be extremely careful when the representation of lexical items are decided, as it is unavoidably connected to the \emph{meaning of words in isolation}.
+According to \newcite{WCS:WCS1282}, ``similarity is an essentially psychological notion, based on the way we represent objects, that is, the way they appear to us.'' Since it is not yet known how objects are represented in human mind, the computational way of representing meaning to measure semantic similarity has to be agreed upon. However, one needs to be extremely careful when the meaning representation is decided, as it is unavoidably connected to the \emph{meaning of words in isolation}.
 
 % The semantic formalisation of similarity is based on two ideas. The occurrence pattern of a word \emph{defines} its meaning \cite{firth1957lingtheory}, while the difference in occurrence between two words \emph{quantifies} the difference in their meaning \cite{harris1954distributional}.
 
@@ -384,4 +375,5 @@ Chapter~\ref{sec:phraserel} introduces a new dataset that provides relevance jud
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "thesis.tex"
+%%% TeX-engine: xetex
 %%% End:
