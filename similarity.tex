@@ -70,16 +70,13 @@ While such formalism is very powerful for entailment detection between sentences
 \subsection{Distributional semantics}
 \label{sec:distr-repr}
 
-Distributional methods provide a way to approach this problem. By representing words and phrases as vectors in a vector space, we can express similarity in meaning via a suitable distance metric within that space.
+Distributional methods provide a way to measure similarity between symbols. The representations are produced by directly exploiting Harris' \citeyearpar{harris1954distributional} intuition that similar words occur in similar contexts.
 
-One way to produce such representations is to directly exploit Harris' \citeyearpar{harris1954distributional} intuition by counting the contexts a word appears in.
+For example, one can construct a vector space in which the dimensions correspond to contexts, which are usually other words. The word vector components can then be calculated by taking the frequency with which the word co-occurred with the corresponding contexts within a predefined window in a corpus of interest. The similarity in meaning can be expressed via a suitable distance metric within the space.
 
-% that semantically similar words tend to appear in similar contexts.
-
-For example, one can construct a vector space in which the dimensions correspond to contexts, which are usually other words. The word vector components can then be calculated by taking the frequency with which the word co-occurred with the corresponding contexts within a predefined window in a corpus of interest.
-
-\begin{wraptable}[10]{O}{7cm}
+\begin{wraptable}[9]{O}{7cm}
   \centering
+  \vspace{-1em}
   \begin{tabular}{lrrr}
     \toprule
     & philosophy & book & school \\
@@ -97,7 +94,7 @@ For example, one can construct a vector space in which the dimensions correspond
 
 Table~\ref{tab:comparison} shows five three-dimensional vectors for words \textit{Mary}, \textit{John}, \textit{girl}, \textit{boy} and \textit{idea}. The words \textit{philosophy}, \textit{book} and \textit{school} label vector space dimensions.
 
-As the vector for \textit{Mary} is ``closer'' to \textit{girl} than it is to \textit{boy} in the vector space, we can say that \textit{Mary}'s contexts are similar to \textit{girl}'s (and less similar to \textit{boy}'s), therefore \textit{Mary} is semantically more similar to \textit{girl} than to \textit{boy}.
+As the vector for \textit{Mary} is closer to \textit{girl} than it is to \textit{boy} in the vector space, we can say that \textit{Mary}'s contexts are similar to \textit{girl}'s (and less similar to \textit{boy}'s), therefore \textit{Mary} is semantically more similar to \textit{girl} than to \textit{boy}.
 
 Mathematically, the similarity can be expressed using, for instance, the cosine of the angle between two vectors:
 %
@@ -182,9 +179,7 @@ result.
 \section{Similarity of phrases and sentences}
 \label{sec:similarity-compounds}
 
-Both neural and co-occurrence-based approaches have advantages over
-the classical formal approaches in their ability to capture lexical
-semantics and degrees of similarity. However, their success at extending this to the sentence level, and to more complex semantic phenomena, depends on their applicability within compositional models.
+Both neural and co-occurrence-based approaches have advantages over the formal approaches in their ability to capture lexical semantics and degrees of similarity. However, their success at extending this to the sentence level, and to more complex semantic phenomena, depends on their applicability within compositional models.
 
 \subsection{The principle of compositionality}
 \label{sec:formal-semantics}
@@ -323,19 +318,27 @@ $\ov{\mathit{john}} + \ov{\mathit{loves}} + \ov{\mathit{mary}}$.
 
 To capture word order and the syntactic structure of a sentence, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} extend the compositional approach by using non-associative linear algebra operators as proposed in the theoretical work of \newcite{DBLP:journals/corr/abs-1003-4394}.
 
-The functional applications of semantic terms can be replaced with tensors \cite{Bourbaki1998commutative}. Then, a transitive verb is represented by a matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ \cite{Grefenstette:2011:ESC:2145432.2145580}, where $\ov{s_i}$ and $\ov{i_i}$ are the subject-object pairs of the verb. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$.
+The functional applications of semantic terms can be replaced with tensors \cite{Bourbaki1998commutative}. Then, a transitive verb is represented by a matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ \cite{Grefenstette:2011:ESC:2145432.2145580}, where $\ov{s_i}$ and $\ov{i_i}$ are the subject-object pairs of the verb and $\otimes$ is the Kronecker product. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$, where $\odot$ is the element-wise product.
 % * <sdyck@ualberta.ca> 2016-11-03T03:46:50.769Z:
 %
 % > it{loves
 %
 % Should this have a vector symbol above it, rather than a straight line?
-%
+% DM: no, becausue it's a matrix, not a vector.
 % ^.
 
 \subsection{Similarity of heads in context}
 \label{sec:similarity-context}
 
-A noun phrase can be similar to a noun, as in \textit{female lion} and \textit{lioness}, and to other noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as well as to words. In this case, similarity is measured in \emph{context}, and most methods of calculating similarity of phrases still rely on comparisons of the phrases' head words, which meanings are modified by the arguments they appear with \cite{Kintsch2001173,mitchell-lapata:2008:ACLMain,mitchell2010composition,Dinu:2010:MDS:1870658.1870771,Baroni2010nouns,thater-furstenau-pinkal:2011:IJCNLP-2011,Seaghdha:2011:PMS:2145432.2145545}. With verbs, this idea can be applied to compare a transitive and intransitive verb. For example, \textit{cycle} is similar to \textit{ride a bicycle}. Here we see that \textit{a bicycle} disambiguates the verb \textit{ride} making the phrase similar to the verb \textit{cycle}. The connection between measuring similarity of a phrase and disambiguation has been noted in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
+A noun phrase can be similar to a noun, as in \textit{female lion} and \textit{lioness}, and to other noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as well as to words. In this case, similarity is measured in \emph{context}, and most methods of calculating similarity of phrases still rely on comparisons of the phrases' head words, which meanings are modified by the arguments they appear with \cite{Kintsch2001173}.
+
+\newcite{mitchell-lapata:2008:ACLMain,mitchell2010composition} use element-wise addition and multiplication to model argument interaction. \newcite{Baroni2010nouns} represents adjectives as matrices that modify nouns (vectors) using matrix multiplication.
+
+\newcite{Dinu:2010:MDS:1870658.1870771} model word meaning as a distribution over senses; a context feature (other word in the context)  directly modulates word’s sense distribution using conditional probability. \newcite{thater-furstenau-pinkal:2011:IJCNLP-2011} contextualise vectors by assigning higher weight to features that correspond or are distributionally similar to the context words.
+
+% \cite{Seaghdha:2011:PMS:2145432.2145545}.
+
+With verbs, similarity in context can be applied to compare a transitive and intransitive verb. For example, \textit{cycle} is similar to \textit{ride a bicycle}. Here we see that \textit{a bicycle} disambiguates the verb \textit{ride} making the phrase similar to the verb \textit{cycle}. The connection between measuring similarity of a phrase and disambiguation has been noted in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
 
 % TODO: mention \cite{wieting2015paraphrase}
 
@@ -344,9 +347,9 @@ Sentential similarity might be treated as the similarity of the heads in their c
 \section{Evaluation}
 \label{sec:intrinsic-evaluation}
 
-As we have established, the difference in occurrence between two words quantifies the difference in their meaning \cite{harris1954distributional} and there is a machinery to measure the difference in the meanings of two sentences \cite{DBLP:journals/corr/abs-1003-4394}. The final necessary part is the evaluation methodology.
+The difference in occurrence between two words quantifies the difference in their meaning \cite{harris1954distributional} and there is a machinery to measure the difference in the meanings of two sentences \cite{DBLP:journals/corr/abs-1003-4394}. The final necessary part is the evaluation methodology to test this approach.
 
-Because it is difficult to measure the performance of a single (similarity) component in a pipeline of a complete natural language processing system (for example, a dialog system), datasets that focus on similarity are popular among computational linguists.
+Because it is difficult to perform extrinsic evaluation (or evaluation in use) to measure the performance of a similarity component in a pipeline of a complete natural language processing system (for example, a dialog system), intrinsic datasets that focus on similarity are popular among computational linguists.
 
 Apart from a pragmatic attempt to alleviate the problems of evaluating
 similarity components, these datasets serve as an empirical test of the
@@ -388,6 +391,11 @@ The transitive sentence similarity dataset described in \newcite{kartsaklis-sadr
 models of meaning and similarity are applicable to Information Retrieval (IR). Despite the strong assumption that relevant documents are similar, they show that compositional models are essential for semantic IR tasks.
 
 Chapter~\ref{sec:phraserel} introduces a new dataset that provides relevance judgements of subject-verb-object phrases and aims for an evaluation that is closer to the widely used evaluation metrics in IR. Namely, we calculate the percentage of the queries for which there is a relevant document among the top three ranked.
+
+\section{Conclusion}
+\label{sec:conclusion-comp}
+
+
 
 %%% Local Variables:
 %%% mode: latex
