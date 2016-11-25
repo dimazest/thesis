@@ -10,7 +10,7 @@ Generalisations are extremely powerful in describing a language, as well. The ve
 
 From a computational perspective, this motivates and guides the development of \emph{semantic similarity} (in the sense that they measure the degree of resemblance of meaning) components that are embedded into natural language processing systems.
 
-In Information Retrieval (IR), queries are expanded with additional terms to increase the number of retrieved relevant documents. For example, if a user issues the query \textit{lakes in Sweden}, the system might add related words to the query such as \textit{lake}, \textit{reservoir}, \textit{river} or even \textit{swim} so that the documents that do not contain the word \textit{lakes} are retrieved \cite{Xu:1996:QEU:243199.243202}.
+In Information Retrieval (IR), queries are expanded with related terms to increase the number of retrieved relevant documents. For example, if a user issues the query \textit{lakes in Sweden}, the system might add related words to the query such as \textit{lake}, \textit{reservoir}, \textit{river} or even \textit{swim} so that the documents that do not contain the word \textit{lakes} are retrieved \cite{Xu:1996:QEU:243199.243202}.
 % \cite{Salton:1975:VSM:361219.361220}
 
 A dependency parser might benefit from a generalisation about the part of speech tag of a word which did not occur in the training data, based on its occurrence pattern in a large corpus of documents from the web \cite{hermann-blunsom:2013:ACL2013,andreas-klein:2014:P14-2}.
@@ -19,7 +19,7 @@ The information that the word \textit{carpet} is similar in meaning to the word 
 
 A dialogue act tagging system might require classification of an utterance based on its role in a dialogue, such as a question or an acknowledgement \cite{kalchbrenner-blunsom:2013:CVSC}.
 
-The examples show that semantic similarity needs to be measured between words and between sentences as well.
+The examples show that similarity is a broad term that is goal-dependent. An IR system needs to identify semantically similar (\textit{lake}, \textit{river}) and related (\textit{lake}, \textit{swim}) terms. A dependency parser benefits from the similarity of word usage. A language model exploits similarity in word meaning. A dialogue act tagging system relies on the role similarity of the utterances. Also different linguistic entities are compared, the similarity can be measured between pairs of words and pairs of sentences.
 
 \section{Representation for similarity measurement}
 \label{sec:word-meaning}
@@ -349,7 +349,7 @@ Sentential similarity might be treated as the similarity of the heads in their c
 
 The difference in occurrence between two words quantifies the difference in their meaning \cite{harris1954distributional} and there is a machinery to measure the difference in the meanings of two sentences \cite{DBLP:journals/corr/abs-1003-4394}. The final necessary part is the evaluation methodology to test this approach.
 
-Because it is difficult to perform extrinsic evaluation (or evaluation in use) to measure the performance of a similarity component in a pipeline of a complete natural language processing system (for example, a dialog system), intrinsic datasets that focus on similarity are popular among computational linguists.
+Because it is difficult to perform extrinsic evaluation (also called evaluation in use) to measure the performance of a similarity component in a pipeline of a complete natural language processing system (for example, a dialog system), intrinsic datasets that focus on similarity are popular among computational linguists.
 
 Apart from a pragmatic attempt to alleviate the problems of evaluating
 similarity components, these datasets serve as an empirical test of the
