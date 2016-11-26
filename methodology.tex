@@ -340,17 +340,22 @@ For tensor-based operators, a transitive verb is represented by matrix $\overlin
 $$
 \overline{\text{Verb}} = \sum_i\ov{s_i} \otimes \ov{o_i}
 $$
-where $\ov{s_i}$ and $\ov{i_i}$ are the subject-object pairs of the verb found in the source corpus.
+where $\ov{s_i}$ and $\ov{o_i}$ are the subject-object pairs of the verb found in the source corpus.
+
+This encodes into the verb matrix all the contextual information of the subjects and objects of the verb. They way it is constructed (by pairing subjects and objects of the verb) is the same way a verb predicate is built in formal semantics, that is by pairing the subjects and objects. But here, instead of packing the pairs into a set, one develops a vector from them, at the same time, each pair gets a real number value assigned to it. 
 
 Relational compositional operator is defined as:
 \begin{equation*}
   \overline{\text{Verb}} \odot (\overrightarrow{\text{Sbj}} \otimes \overrightarrow{\text{Obj}})
 \end{equation*}
-informally it identifies the interaction of the features of the subject and the object by the Kronecker product $\overrightarrow{\text{Sbj}} \otimes \overrightarrow{\text{Obj}}$ that are later filtered by verb using point-wise multiplication \cite{Grefenstette:2011:ESC:2145432.2145580}. The filtering by verb is needed because the subject and the object can belong to several relations.
 
-The categorical framework of \newcite{DBLP:journals/corr/abs-1003-4394} requires the meaning of the verb to be a tensor of third order (it has to be a cube), but the Relational method of \newcite{Grefenstette:2011:ESC:2145432.2145580} constructs verb meanings as tensors of second order (they are matrices). To apply the categorical framework, \newcite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} embeds the second order verb matrix into a third order space by a map $\sigma: N^2 \to N^3$.
+Informally it identifies the interaction of the features of the subject and the object by the Kronecker product $\overrightarrow{\text{Sbj}} \otimes \overrightarrow{\text{Obj}}$ that are later filtered by verb using point-wise multiplication \cite{Grefenstette:2011:ESC:2145432.2145580}. The filtering by verb is needed because the subject and the object can belong to several relations.
 
-The Frobenius operation $\sigma$ gives some options on how the mapping can be implemented, giving rise to two operators copy-subject and copy-object \cite{kartsaklis-sadrzadeh-pulman:2012:POSTERS}. Copy-object diagonally places the object dimension into a cube, producing a closed form-formula:
+The categorical framework of \newcite{DBLP:journals/corr/abs-1003-4394} requires the meaning of the verb to be a tensor of third order (it has to be a cube), but the Relational method of \newcite{Grefenstette:2011:ESC:2145432.2145580} constructs verb meanings as tensors of second order (they are matrices). To apply the categorical framework, \newcite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} embeds the second order verb matrix into a third order space by a map $\sigma: N^2 \to N^3$. This map is one of the maps of the Frobenius algebra over vector space N.
+
+The Frobenius operation $\sigma$ turns a matrix into a cube by filing the extra dimension of the cube and gives some options on how the mapping can be implemented. The operators copy-subject and copy-object \cite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} implement this idea. The cube is formed using copy-subject (copy-object), then when one applies cube contraction on it with the object (the subject) and then matrix multiplication with the subject (the object).
+
+Copy-object diagonally places the object dimension into a cube, producing a closed form-formula:
 \begin{equation*}
   \overrightarrow{\text{Sbj}} \odot (\overline{\text{Verb}} \times \overrightarrow{\text{Obj}})
 \end{equation*}
@@ -358,11 +363,12 @@ Similarly, copy-subject diagonally places the subject dimension into a cube, pro
 \begin{equation*}
   \overrightarrow{\text{Obj}} \odot (\overline{\text{Verb}}^{\mathsf{T}} \times \overrightarrow{\text{Sbj}})
 \end{equation*}
-note that the closed-form formulas do not include third order tensors.
+
+This series of contraction and multiplication simplifies to these closed forms, due to the special shape of the cube (i.e.~created by copy-subject or copy-object). Note that the closed-form formulas do not include third order tensors.
 
 \newcite{kartsadrqpl2014} observe that copy-object and copy-subject address a partial interaction of the verb with its arguments and propose three more models that combine the interaction using vector addition (Frob.~add.~in Table~\ref{tbl:comp-methods}), element-wise vector multiplication (Frob.~mult.~in Table~\ref{tbl:comp-methods}) and tensor product (Frob.~outer in Table~\ref{tbl:comp-methods}).
 
-As a non-compositional baseline, we take the condition \texttt{head}, which ignores the subject and the object of a phrase, causing the vector of a whole phrase to be equal to the vector of its verb \cite{milajevs-EtAl:2014:EMNLP2014}. 
+As a non-compositional baseline, we take the dummy operator \texttt{head}, which ignores the subject and the object of a phrase, causing the vector of a whole phrase to be equal to the vector of its verb \cite{milajevs-EtAl:2014:EMNLP2014}. 
 
 %%% Local Variables:
 %%% mode: latex
