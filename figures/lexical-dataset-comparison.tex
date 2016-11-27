@@ -1,0 +1,36 @@
+% \begin{wraptable}[12]{O}{0.5\textwidth}
+\begin{table}
+  \centering
+  \begin{tabular}{lccc}
+    \toprule
+    Model                                              & WS353 & MEN   & SimLex-999 \\
+    \midrule
+    \newcite{2002:PSC:503104.503110}                   & 0.55  &       &            \\
+    % \addlinespace
+    \newcite{Bruni:2012:DST:2390524.2390544}           & 0.75  & 0.76  &            \\
+    \newcite{kiela-clark:2014:CVSC}                    & 0.58  & 0.71  &            \\
+    \newcite{baroni-dinu-kruszewski:2014:P14-1}                                     \\
+    \quad Distributional model                         & 0.62  & 0.72  &            \\
+    \quad Neural word embeddings                       & 0.73  & 0.80  &            \\
+    \addlinespace
+    \newcite{hill2014simlex}                                                        \\
+    \quad Distributional model                         & 0.42  & 0.44  & 0.19       \\
+    \quad Neural word embeddings                       & 0.44  & 0.43  & 0.28       \\
+    \newcite{TACL570}                                                               \\
+    \quad Distributional model                   & 0.75, 0.70  & 0.75  & 0.39       \\
+    \quad Neural word embeddings                 & 0.79, 0.69  & 0.77  & 0.44       \\
+    % \addlinespace
+    % \newcite{kiela-hill-clark:2015:EMNLP}              &       & 0.69  & 0.47       \\
+    % \newcite{recski-EtAl:2016:RepL4NLP}                &       &       & 0.76       \\
+    \addlinespace
+    Upper bound                                        &       & 0.84  & 0.78       \\
+    \bottomrule
+  \end{tabular}
+  \caption[]{Model performance on various datasets. For
+    \newcite{Bruni:2012:DST:2390524.2390544} the model with the highest average
+    score is shown (TunedFL, Window20). \newcite{TACL570} report two results on
+    WS353: on the subset that contains similar items (first number) and the
+    subset that contain related items (second number).}
+\label{tab:lexical-dataset-comparison}
+% \end{wraptable}
+\end{table}

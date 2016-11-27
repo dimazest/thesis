@@ -125,7 +125,7 @@ Mathematically, the similarity can be expressed using, for instance, the cosine 
 %
 where $\theta$ is the angle between the vectors of \textit{Mary} and \textit{girl}; and $\phi$ is the angle between the vectors of \textit{Mary} and \textit{boy}.
 
-In the current example of a na{\"\i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers. Refer to \newcite{Turney:2010:FMV:1861751.1861756} and \newcite{TACL570} for the discussion of vector space parameters, and see \newcite{kiela-clark:2014:CVSC}, \newcite{lapesa2014large} and Chapter~\ref{sec:parameters} for the detailed descriptions of vector space parameters.
+In the current example of a na{\"\i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers. The importance of parameters is discussed in details in Section~\ref{sec:parameter-selection-intro}.
 
 \subsection{Neural word embeddings}
 \label{sec:neural-embedding}
@@ -374,7 +374,7 @@ Formally, the overlap $M_x$ over condition $x$ between the word context of words
 %
 where $N(A_xB_x)$ is the number of context words shared between $A$ and $B$ under condition $x$. $N(A_x)$ and $N(B_x)$ are the number of context words under condition $x$ for the words $A$ and $B$ respectively.
 
-They found that the more similar words in meaning are the more context they share for both token and type conditions. Moreover, the relationship is strongest for the highly sinonymous pairs, namely the pairs with similairty greater than 3.0.
+They found that the more similar words in meaning are the more context they share for both token and type conditions. Moreover, the relationship is strongest for the highly synonymous pairs, namely the pairs with similairty greater than 3.0.
 
 \newcite{1986-13502-00119860101} studied the similarity relation from the psychological perspective. They analysed the similarity judgements between the entries by their geometric structure. The geometric approach represents the entries as points in a multidimensional space so that the distance between them reflects the similarity.
 
@@ -384,18 +384,31 @@ They observed that if a category contains a superordinate, similarity judgements
 
 An important consequence is that high centrality values cannot be achieved in a space with dimensionality of two or three,  because the dimensionality sets the upper bound on the number of points that can share the nearest neighbour.
 
-\newcite{2002:PSC:503104.503110} proposed a context oriented information retrieval framework. The idea that the meaning of the word \textit{jaguar} is dependent on the context the search is performed. It might be a car, if the query comes from an automotive website, or it might mean an animal if it comes from a website about nature. To evaluate their semantic component they developed a dataset WS353 that consists of 353 diverse noun pairs along with their relatedness scores. The dataset they proposed is widely used to evaluate algorithms that estimate semantic similarity.
+\input{figures/lexical-dataset-comparison}
 
-\newcite{Bruni:2012:DST:2390524.2390544} introduced the MEN dataset to test a multimodal semantic space (the model used textual and visual features). The new dataset contains the words that appear in labels of the ESP-Game\footnote{\url{http://www.cs.cmu.edu/~biglou/resources/}} and MIRFLICKR-1M\footnote{\url{http://press.liacs.nl/mirflickr/}} image collections. Compared to WS353 it is sufficiently large to be split to development (2000 pairs) and test (1000 pairs) data for evaluation. The dataset contain highly similar items (\textit{cathedral}, \textit{church}, 0.94) and also terms that stand in a broader semantic relationship, such as whole-part (\textit{flower}, \textit{petal}, 0.92).
+\newcite{2002:PSC:503104.503110} proposed a context oriented information retrieval framework. The idea that the meaning of the word \textit{jaguar} is dependent on the context the search is performed. It might be a car, if the query comes from an automotive website, or it might mean an animal if it comes from a website about nature. To evaluate their semantic component they developed a dataset WS353 that consists of 353 diverse noun pairs along with their relatedness scores on a scale from 0 (totally unrelated) to 10 (very much related or identical). The combination of a vector-based method and a WordNet-based method achieved correlation of 0.55. The dataset they proposed is widely used to evaluate algorithms that estimate semantic similarity.
 
-Two datasets, namely MEN \cite{Bruni:2012:DST:2390524.2390544} and SimLex-999 \cite{hill2014simlex}, are currently widely used. They are designed especially for meaning representation evaluation and surpass datasets stemming from psychology \cite{1986-13502-00119860101}, information retrieval \cite{2002:PSC:503104.503110} and computational linguistics \cite{Rubenstein:1965:CCS:365628.365657} in quantity by having more entries and, in the case of SimLex-999, attention to the evaluated relation by distinguishing similarity from relatedness. The datasets provide similarity (relatedness) scores between word pairs.
-% * <sdyck@ualberta.ca> 2016-11-03T03:57:45.676Z:
-%
-% > The datasets provide similarity (relatedness) scores between word pairs.
-%
-% You just stated that one dataset distinguishes similarity from relatedness, so it's a bit contradictory to say here that they are the same thing. Possibly rephrase. 
-%
-% ^.
+\newcite{Bruni:2012:DST:2390524.2390544} introduced the MEN dataset to test a multimodal semantic space (the model used textual and visual features). The new dataset contains the words that appear in labels of the ESP-Game\footnote{\url{http://www.cs.cmu.edu/~biglou/resources/}} and MIRFLICKR-1M\footnote{\url{http://press.liacs.nl/mirflickr/}} image collections. Compared to WS353 it is sufficiently large to be split to the development part (2000 pairs) and to the test part (1000 pairs) for evaluation. The dataset contain highly similar items (\textit{cathedral}, \textit{church}, 0.94) and also terms that stand in a broader semantic relationship, such as whole-part (\textit{flower}, \textit{petal}, 0.92). The scores are relatedness scores on a scale from 0.0 to 1.0.
+
+The Spearman correlation of the judgements given by two authors of the paper for all 3000 pairs is 0.68. The correlation with the average of their scores with the dataset scores is 0.84, which can be taken as the upper bound. The best presented results are 0.75 for WS353 and 0.78 for MEN, note that two different models produce them.
+
+\newcite{hill2014simlex} presented SimLex-999, a gold standard resource for evaluating distributional semantic models. In contrast to WS353 and MEN it focuses on similarity rather than relatedness. The words \textit{coffee} and \textit{cup} are related but not similar. The dataset consists of 666 noun-pairs, 222 verb-pairs and 111 adjective-pairs. 500 residents of the USA were recruited to collect human judgements. The average pairwise Spearman correlation between two participants is 0.67, however the average correlation of a human rater with the average of all the other raters is 0.78.
+
+They tested several models on WS353, MEN and WordSim-999. They showed that existing models achieved lower correlation on SimLex-999 than on WS353 and MEN suggesting that the new dataset required development of similarity-specific models. The best reported results are 0.44 on WS353, 0.48 on MEN and 0.28 on SimLex-999, these are different models, but all of them are trained on 150 million word RCV1 Corpus \cite{lewis2004rcv1}. Neural models trained on a larger corpus (Wikipedia) yield higher results.
+
+Table~\ref{tab:lexical-dataset-comparison} presents the key models and the results they achieved on WS353, MEN and SimLex-999.
+
+\subsection{Parameter selection}
+\label{sec:parameter-selection-intro}
+
+The variance of results on word similarity tasks can be explained by the differences in algorithms or by difference in model parameters, corpus used and other factors. For example, \newcite{baroni-dinu-kruszewski:2014:P14-1} uses a corpus of 2.8 billion tokens and outperforms \newcite{hill2014simlex}, who uses a corpus of 0.15 billion tokens, on MEN by 0.28 points with a distributional model and by 0.37 with neural word embeddings.
+
+\cite{Bullinaria2007} presented a thorough study of the parameters of distributional models. They tested various similarity measures (cosine, Euclidean among others), parameter values
+
+(conditional probability of a target word given a context word, pointwise mutual information, PMI)
+
+% Refer to \newcite{Turney:2010:FMV:1861751.1861756} and \newcite{TACL570} for the discussion of vector space parameters, and see \newcite{kiela-clark:2014:CVSC}, \newcite{lapesa2014large} and Chapter~\ref{sec:parameters} for the detailed descriptions of vector space parameters.
+
 
 \subsection{Disambiguation of verbs in context}
 \label{sec:disamb}
