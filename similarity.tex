@@ -413,6 +413,8 @@ A vector space with vector components computed with positive PMI and cosine simi
 
 They confirmed findings of \newcite{Bullinaria2007} that larger corpora lead to better performance. They suggested using ukWaC (2 billion tokens) over the BNC with a small context window of size less than 5 from each side. Positive PMI was the best performed measure in combination with the \emph{correlation similarity} measure, which is the mean-adjusted cosine similarity. The dimensionality of 50000 appeared to be optimal.
 
+\newcite{baroni-dinu-kruszewski:2014:P14-1} and \newcite{TACL570} performed systematic parameter studies on distributional and neural models. Notably, the work of \newcite{TACL570} evaluated models on all three datasets (WS353, MEN and SimLex-999, see Table~\ref{tab:lexical-dataset-comparison}). Their best distributional model outperformed the distributional models presented in \citet{hill2014simlex}, \citet{kiela-clark:2014:CVSC} and \citet{baroni-dinu-kruszewski:2014:P14-1}.
+
 \subsection{Disambiguation of verbs in context}
 \label{sec:disamb}
 
@@ -428,15 +430,7 @@ The task is to estimate the similarity of the sense of a verb in a context with 
 \subsection{Sentence similarity}
 \label{sec:sentence-similarity}
 
-The transitive sentence similarity dataset described in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013} consists of transitive sentence pairs and human similarity judgements. The task is to estimate similarity between two sentences. The evaluation is the same as in Section~\ref{sec:disamb}.
-
-\subsection{Relevance}
-\label{sec:relevance}
-
-\newcite{Milajevs:2015:IMN:2808194.2809448} investigated whether distributional
-models of meaning and similarity are applicable to Information Retrieval (IR). Despite the strong assumption that relevant documents are similar, they show that compositional models are essential for semantic IR tasks.
-
-Chapter~\ref{sec:phraserel} introduces a new dataset that provides relevance judgements of subject-verb-object phrases and aims for an evaluation that is closer to the widely used evaluation metrics in IR. Namely, we calculate the percentage of the queries for which there is a relevant document among the top three ranked.
+The transitive sentence similarity dataset described in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013} consists of transitive sentence pairs and human similarity judgements. The task is to estimate similarity between two sentences. The evaluation is the same as in the disambiguation task (Section~\ref{sec:disamb}).
 
 \section{Conclusion}
 \label{sec:conclusion-comp}
