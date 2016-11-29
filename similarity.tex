@@ -74,9 +74,9 @@ Distributional methods provide a way to measure similarity between symbols. The 
 
 For example, one can construct a vector space in which the dimensions correspond to contexts, which are usually other words. The word vector components can then be calculated by taking the frequency with which the word co-occurred with the corresponding contexts within a predefined window in a corpus of interest. The similarity in meaning can be expressed via a suitable distance metric within the space.
 
-\begin{wraptable}[9]{O}{7cm}
+\begin{wraptable}[10]{O}{7cm}
   \centering
-  \vspace{-1em}
+  %\vspace{-1em}
   \begin{tabular}{lrrr}
     \toprule
     & philosophy & book & school \\
@@ -92,7 +92,7 @@ For example, one can construct a vector space in which the dimensions correspond
   \label{tab:comparison}
 \end{wraptable}
 
-Table~\ref{tab:comparison} shows five three-dimensional vectors for words \textit{Mary}, \textit{John}, \textit{girl}, \textit{boy} and \textit{idea}. The words \textit{philosophy}, \textit{book} and \textit{school} label vector space dimensions.
+Table~\ref{tab:comparison} shows five three-dimensional vectors for words \textit{Mary}, \textit{John}, \textit{girl}, \textit{boy} and \textit{idea}. These are \textit{target words}.  The words \textit{philosophy}, \textit{book} and \textit{school} label vector space dimensions and are referred to as \emph{context words}.
 
 As the vector for \textit{Mary} is closer to \textit{girl} than it is to \textit{boy} in the vector space, we can say that \textit{Mary}'s contexts are similar to \textit{girl}'s (and less similar to \textit{boy}'s), therefore \textit{Mary} is semantically more similar to \textit{girl} than to \textit{boy}.
 
@@ -403,12 +403,15 @@ Table~\ref{tab:lexical-dataset-comparison} presents the key models and the resul
 
 The variance of results on word similarity tasks can be explained by the differences in algorithms or by difference in model parameters, corpus used and other factors. For example, \newcite{baroni-dinu-kruszewski:2014:P14-1} uses a corpus of 2.8 billion tokens and outperforms \newcite{hill2014simlex}, who uses a corpus of 0.15 billion tokens, on MEN by 0.28 points with a distributional model and by 0.37 with neural word embeddings.
 
-\cite{Bullinaria2007} presented a thorough study of the parameters of distributional models. They tested various similarity measures (cosine, Euclidean among others), parameter values
+\newcite{Bullinaria2007} presented a thorough study of the parameters of distributional models. They tested various vector space parameters and similarity measures.
 
-(conditional probability of a target word given a context word, pointwise mutual information, PMI)
+Instead of raw co-occurrence counts they used the conditional probability of a context word appearing close to a target word $P(c|t)$. In addition to that, they used \emph{point-wise mutual information} $\operatorname{PMI(c,t)} = \log\left(\frac{P(c,t)}{P(c)P(t)}\right)$, positive PMI, which nullifies negative values and probability ratio $\frac{P(c|t)}{P(c)}$. They varied the vector space dimensionality from 1 to 100000 dimensions.  Cosine, Euclidean and City Block geometric measures were used to estimate similarity. They used the 87.9 million word British National Corpus and performed an exhaustive search across the parameter combinations.
 
-% Refer to \newcite{Turney:2010:FMV:1861751.1861756} and \newcite{TACL570} for the discussion of vector space parameters, and see \newcite{kiela-clark:2014:CVSC}, \newcite{lapesa2014large} and Chapter~\ref{sec:parameters} for the detailed descriptions of vector space parameters.
+A vector space with vector components computed with positive PMI and cosine similarity measure performed the best in their experiments. They also showed that the performance depends on the size of the corpus used, the larger the corpus, the better the results. The context window of size one produced the best results. The model performance peaked when 1000 dimensional vector space was used and dropped afterwards.
 
+\newcite{kiela-clark:2014:CVSC} performed a systematic study of distributional models on various datasets including WS353 and MEN.
+
+They confirmed findings of \newcite{Bullinaria2007} that larger corpora lead to better performance. They suggested using ukWaC (2 billion tokens) over the BNC with a small context window of size less than 5 from each side. Positive PMI was the best performed measure in combination with the \emph{correlation similarity} measure, which is the mean-adjusted cosine similarity. The dimensionality of 50000 appeared to be optimal.
 
 \subsection{Disambiguation of verbs in context}
 \label{sec:disamb}
