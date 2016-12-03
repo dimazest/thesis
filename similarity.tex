@@ -19,7 +19,7 @@ The information that the word \textit{carpet} is similar in meaning to the word 
 
 A dialogue act tagging system might require classification of an utterance based on its role in a dialogue, such as a question or an acknowledgement \cite{kalchbrenner-blunsom:2013:CVSC}.
 
-The examples show that similarity is a broad term that is goal-dependent. An IR system needs to identify semantically similar (\textit{lake}, \textit{river}) and related (\textit{lake}, \textit{swim}) terms. A dependency parser benefits from the similarity of word usage. A language model exploits similarity in word meaning. A dialogue act tagging system relies on the role similarity of the utterances. Also different linguistic entities are compared, the similarity can be measured between pairs of words and pairs of sentences.
+The examples show that similarity is a broad term that is task-dependent. An IR system needs to identify semantically similar (\textit{lake}, \textit{river}) and related (\textit{lake}, \textit{swim}) terms. A dependency parser benefits from the similarity of word usage. A language model exploits similarity in word meaning. A dialogue act tagging system relies on the role similarity of the utterances. Also different linguistic entities are compared, the similarity can be measured between pairs of words and pairs of sentences.
 
 \section{Representation for similarity measurement}
 \label{sec:word-meaning}
@@ -43,7 +43,7 @@ It is worth noting here that similarity in isolation is also problematic because
 To make similarity measurement possible, it has to be measured \emph{under a given description} \cite{WCS:WCS1282,medin1993respects,Markman1996}, thus, similarity is always contextualised. In other words, similarity emerges only when the possible properties are weighted. In our example, the tree and the house are similar with respect to the colour: both of them are green (the height properties are assigned zero weight).
 % On the other side, \newcite{Huth2016} were able to comprehensively map individual words across cortex, meaning that there are word representations supporting the idea of \newcite{WCS:WCS1282}.
 
-Frege's principle of contextuality allows us to define the meaning of a word by identifying its contribution to the meaning of a sentence. Firth's \citeyearpar{firth1957lingtheory} famous quote that ``you shall know a word by the company it keeps,'' suggests that the word meaning can be \emph{modelled} as the combination of the meanings of its occurrences in sentences of a corpus. Note that this does not provide the absolute word meaning, but only its meaning relative to the corpus. This assumption is also supported by the hypothesis of \newcite{harris1954distributional} that the differences of occurrences of two words quantify the \emph{difference} in their relative meaning, but do not necessarily \emph{define} the meaning.
+Frege's principle of contextuality allows us to define the meaning of a word by identifying its contribution to the meaning of a sentence. Firth's \citeyearpar{firth1957lingtheory} famous quote that ``you shall know a word by the company it keeps,'' suggests that the word meaning can be \emph{modelled} as the combination of the meanings of its occurrences in sentences of a corpus. Note that this does not provide the absolute word meaning, but only its meaning relative to the corpus. This assumption is also supported by the distributional hypothesis of \newcite{harris1954distributional} that the differences of occurrences of two words quantify the difference in their relative meaning, but do not necessarily define the meaning.
 
 Once the relative word meaning is accepted, compositionality can be used to obtain representations of phrases and sentences \cite{THEO:THEO373,Dowty1980,sep-montague-semantics,DBLP:journals/corr/abs-1003-4394,baroni2014frege}.
 
@@ -190,8 +190,8 @@ function of its parts \cite{Janssen2001}. In compositional type-logical
 approaches, predicate-argument structures representing phrases and sentences are
 built from their constituent parts by general operations such as beta-reduction
 within the lambda calculus \cite{THEO:THEO373}: for example, given a semantic
-representation of \emph{John} as $\mathit{john}'$ and \emph{loves} as
-$\lambda y.\lambda x.\mathit{loves}'(x, y)$, the sentence \emph{John loves Mary}
+representation of \emph{John} as $\mathit{John}'$, \emph{loves} as
+$\lambda y.\lambda x.\mathit{loves}'(x, y)$ and \emph{Mary} as $\mathit{Mary'}$, the sentence \emph{John loves Mary}
 can be constructed as
 $$
 \lambda y.\lambda
@@ -318,7 +318,7 @@ $\ov{\mathit{john}} + \ov{\mathit{loves}} + \ov{\mathit{mary}}$.
 
 To capture word order and the syntactic structure of a sentence, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} extend the compositional approach by using non-associative linear algebra operators as proposed in the theoretical work of \newcite{DBLP:journals/corr/abs-1003-4394}.
 
-The functional applications of semantic terms can be replaced with tensors \cite{Bourbaki1998commutative}. Then, a transitive verb is represented by a matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ \cite{Grefenstette:2011:ESC:2145432.2145580}, where $\ov{s_i}$ and $\ov{i_i}$ are the subject-object pairs of the verb and $\otimes$ is the Kronecker product. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$, where $\odot$ is the element-wise product.
+The functional applications of semantic terms can be replaced with tensors \cite{Bourbaki1998commutative}. Then, a transitive verb is represented by a matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ \cite{Grefenstette:2011:ESC:2145432.2145580}, where $\ov{s_i}$ and $\ov{o_i}$ are the subject-object pairs of the verb and $\otimes$ is the Kronecker product. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$, where $\odot$ is the element-wise product.
 % * <sdyck@ualberta.ca> 2016-11-03T03:46:50.769Z:
 %
 % > it{loves
@@ -432,10 +432,28 @@ The task is to estimate the similarity of the sense of a verb in a context with 
 
 The transitive sentence similarity dataset described in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013} consists of transitive sentence pairs and human similarity judgements. The task is to estimate similarity between two sentences. The evaluation is the same as in the disambiguation task (Section~\ref{sec:disamb}).
 
+In general, there is no systematic study of parameters of compositional models similar to lexical studies discussed in Section~\ref{sec:parameter-selection-intro}.
+
 \section{Conclusion}
 \label{sec:conclusion-comp}
 
+Similarity is an important notion in psychological theories of knowledge and behaviour. It is also useful in explaining language. Many NLP systems benefit from internal similarity components. However the exact definition of similarity is task-dependant: an IR system needs to know whether the words are related (for example, the verb \textit{swim} is related to the noun \textit{lake}), language models benefit from semantic similarity (the noun \textit{lake} is similar to the noun\textit{reservoir}, but not to the verb \textit{swim}), dialog systems need to know the similarity of roles utterances---not individual words---play in a discourse (\textit{Hi!} and \textit{Good morning.} are both greetings).
 
+Representation of words and multi-word units (sentences, utterances, documents) to measure similarity within one framework is theoretically challenging. \newcite{goodman1972problems} argues that the similarity relation does not exist, because everything can be shown to be similar to everything else. \newcite{medin1993respects} and \newcite{Markman1996} response that similarity has to be contextualised to be measured, that is, the features of interest need to be defined before the measurement.
+
+According to \newcite{harris1954distributional}, the word meaning does not need to be obtained to measure similarity, instead, the differences of occurrences of two words quantify the difference in their meaning. In this way the problems with representing meaning in isolation raised by Frege are avoided, because word meaning is not constructed.
+
+The principle of compositionality, that the representations of compounds are built from their parts, is the hallmark of categorical compositional semantics \cite{DBLP:journals/corr/abs-1003-4394}. It extends the composition mechanism from formal semantics by replacing the representation of atoms and relations with tensors of various orders.
+
+In formal semantics, the meaning of a phrase is obtained by applying backward and forward application rules. Consider a phrase \textit{John walks}. In this example, the string \textit{John} is the atom $\mathit{John'}$ of category $\mathtt{np}$ and type $e$, \textit{walks} is the relation $\lambda x.\mathit{walks'}(x)$ of category $\mathtt{np\backslash{}s}$ and type $e \to t$. During the phrase composition, the backward application rule is applied, so the category of the whole string becomes $\mathtt{s}$, its type is $t$ which is either \textit{true} or \textit{false} and the meaning is computed by the evaluation of the formula $\mathit{walks'}(\mathit{John'})$, basically the atom $\mathit{John'}$ is applied to the formula $\lambda x.\mathit{walks'(x)}$.
+
+Categorical compositional semantics replaces atomic symbols in formal semantics with vectors (first-order tensors), and relations with higher-order tensors (so \textit{walks} is represented by a second-order tensor, which is a matrix). To obtain the representation of a compound, tensor contraction is used instead of function application.
+
+Word similarity (in the broad psychological sense) has been studied extensively: many datasets were proposed that focus on relatedness and similarity (in the specific sense that \textit{lake} is similar to \textit{reservoir}, but is not similar to \textit{swim}). Several studies were carried out to identify the best parameter choice for the models of similarity.
+
+Phrase similarity on the other hand, has been studies much less. There are several datasets proposed that focus on different aspects of similarity (for example, its application in word sense disambiguation within a context and similarity measurement of sentences). Several compositional methods are developed. However, the compositional methods were not evaluated in a systematic way to identify the best parameters (for example, the co-occurrence weighting function among the others).
+
+This thesis addresses this gap by carrying out an extensive parameter study of compositional models of similarity.
 
 %%% Local Variables:
 %%% mode: latex
