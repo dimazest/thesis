@@ -413,6 +413,14 @@ A vector space with vector components computed with positive PMI and cosine simi
 
 They confirmed findings of \newcite{Bullinaria2007} that larger corpora lead to better performance. They suggested using ukWaC (2 billion tokens) over the BNC with a small context window of size less than 5 from each side. Positive PMI was the best performed measure in combination with the \emph{correlation similarity} measure, which is the mean-adjusted cosine similarity. The dimensionality of 50000 appeared to be optimal.
 
+The study of \newcite{lapesa2014large} covered a broad range of parameters of distributional models aiming at identification of parameter configurations that achieve good performance across datasets and tasks and are robust to overfitting.
+
+They used linear regression to determine the importance of individual parameters and their combinations. Distributional semantic model parameters, such as the weighting scheme, vector space dimensionality and similarity metric, were considered predictors of model performance: the parameters of distributional models were independent parameters of a linear model and distributional model performance scores was dependant variable.
+
+Analysis of variance was used to determine the most important parameters and their interactions. The combination of the similarity score together with the weighting scheme was quantified as the most important parameter combination, supporting findings of \newcite{Bullinaria2007} and \newcite{kiela-clark:2014:CVSC}, who suggested to use PMI together with cosine similarity.
+
+With their analysis they were also to perform model selection that is robust to overfitting. In most cases, the result of their robust parameter optimisation was close to the highest score. They considered the highest score they achieved to be overfitted because 537600 models were tested and there was a high chance that the best performance happened by chance.
+
 \newcite{baroni-dinu-kruszewski:2014:P14-1} and \newcite{TACL570} performed systematic parameter studies on distributional and neural models. Notably, the work of \newcite{TACL570} evaluated models on all three datasets (WS353, MEN and SimLex-999, see Table~\ref{tab:lexical-dataset-comparison}). Their best distributional model outperformed the distributional models presented in \citet{hill2014simlex}, \citet{kiela-clark:2014:CVSC} and \citet{baroni-dinu-kruszewski:2014:P14-1}.
 
 \subsection{Disambiguation of verbs in context}
