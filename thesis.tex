@@ -20,6 +20,11 @@ ItalicFont=texgyrepagella-italic.otf,
 BoldItalicFont=texgyrepagella-bolditalic.otf]
 {texgyrepagella-regular.otf}
 
+\usepackage{titlesec}
+\usepackage{titling}
+\newfontfamily\headingfont[]{Transport-Heavy.ttf}
+\renewcommand{\maketitlehooka}{\headingfont}
+
 \setsansfont{Transport-Heavy.ttf}
 
 \usepackage[round,sort]{natbib}
