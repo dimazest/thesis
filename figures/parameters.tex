@@ -2,19 +2,20 @@
 \begin{table}
   % \vspace{-2em}
   \centering
-  % \small
-  \begin{tabular}{ll}
+  \small
+  \begin{tabular}{lcl}
     \toprule
-    Parameter & Values \\
+    Parameter           & Abbreviation   & Values \\
     \midrule
-    Dimensionality $D$ & 1K, 2K, 3K, 5K, 10K, 20K, 30K, 40K, 50K \\
-    \texttt{discr} & PMI, CPMI, SPMI, \textbf{SCPMI} \\
-    \texttt{freq} & $1$, $n$, $\boldsymbol{\log n}$ \\
-    \texttt{neg} & \textbf{0.2}, \textbf{0.5}, \textbf{0.7}, 1, 1.4, 2, 5, 7 \\
-    \texttt{cds} & \textbf{\textit{global}}, 1, 0.75 \\
-    Similarity & Cosine, Correlation \\
-    Window size & 5                                \\
-    Corpus & Concatenation of ukWaC and Wackypedia \\
+    Dimensionality      & $D$            & 1K, 2K, 3K, 5K, 10K, 20K, 30K, 40K, 50K \\
+    Discriminativeness  & \texttt{discr} & PMI, CPMI, SPMI, \textbf{SCPMI} \\
+    Frequency weighting & \texttt{freq}  & $1$, $n$, $\boldsymbol{\log n}$ \\
+    Shifting            & \texttt{neg}   & \textbf{0.2}, \textbf{0.5}, \textbf{0.7}, 1, 1.4, 2, 5, 7 \\
+    Context distribution smoothing       & \texttt{cds} & \textbf{\textit{global}}, 1, 0.75 \\
+    Similarity          &                & Cosine, Correlation and Inner product \\
+    \addlinespace
+    Window size         &                & 5 from both sides                     \\
+    Corpus              &                & Concatenation of ukWaC and Wackypedia \\
     \bottomrule
   \end{tabular}
   \caption{Model parameters and their values used in the experiments. To our knowledge, values are bold have not been used previously.}
