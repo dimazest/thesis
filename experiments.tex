@@ -1,45 +1,11 @@
 \chapter{Relationships between words}
 \label{sec:lexical}
 
-This chapter is dedicated to the lexical experiments.\footnote{Much of the work in this chapter has appeared as \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} at the ACL Student Workshop 2016.} The two datasets used are  SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. Some of the hypotheses from Section~\ref{sec:hypotheses} are expanded. The experiment results and selected parameters are reported on the datasets individually. Then, the model selection is performed on a combination of the two datasets. The models are evaluated by computing the Spearman's-$\rho$ (the correlation of ranked model predictions with ranked human judgments), as is usually done \cite{Bruni:2014:MDS:2655713.2655714,hill2014simlex}.\footnotemark{}
+This chapter is dedicated to the lexical experiments.\footnote{Much of the work in this chapter has appeared as \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} at the ACL Student Workshop 2016.} The two datasets used are  SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}.
+%Some of the hypotheses from Section~\ref{sec:hypotheses} are expanded.
+The experiment results and selected parameters are reported on the datasets individually. Then, the model selection is performed on a combination of the two datasets. The models are evaluated by computing the Spearman's-$\rho$ (the correlation of ranked model predictions with ranked human judgments), as is usually done \cite{Bruni:2014:MDS:2655713.2655714,hill2014simlex}.\footnotemark{}
 
 \footnotetext{The results are available at \url{\BASEURL/results_all.csv}.}
-
-\section{Specialised hypotheses}
-\label{sec:elab-hypoth-lexical}
-
-Before reporting the results of the lexical experiments, we would like to expand upon the lexical hypotheses stated in Section~\ref{sec:hypotheses}.
-
-\begin{hyp}[H\ref{hyp:lex-pmi-cpmi}]
-  \label{hyp:lex-pmi-cpmi}
-  In lexical tasks, there should be little difference between PMI and its compressed version CPMI (Section~\ref{sec:pmi-variants}).
-% Shifted PMI variants behave the same (Section~\ref{sec:shifted-pmi}).
-\end{hyp}
-
-The main effect of CPMI is to transform negative values into the positive range of $(0; 1)$. One of the reasons to avoid negative values is that they might be problematic for multiplication during composition, as the sign of the result depends on the number of negative components. However, as there is no composition involved in lexical tasks, the weighting schemes should behave equally.
-
-The next hypotheses are related to PMI's ``Achilles heel'' and are supposed to lower the influence of low co-occurrence counts, therefore, we expect that they are beneficial for highly dimensional spaces as shown in \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
-
-\begin{hyp}[H\ref{hyp:freq}]
-  \label{hyp:freq}
- $N$ or $\log n$ frequency components (Section~\ref{sec:frequency-weighting}) should be beneficial for highly-dimensional spaces.
-\end{hyp}
-
-This is the most direct way of boosting high co-occurrence counts \cite{Evert05}. \NPMI/ is shown to be a good choice in lexical tasks \cite{Bruni:2012:DST:2390524.2390544}.
-
-\begin{hyp}[H\ref{hyp:cds}]
-  \label{hyp:cds}
-  Low-dimensional spaces should not need context distribution smoothing, while high-dimensional spaces should benefit from it (Section~\ref{sec:cont-distr-smooth}).
-\end{hyp}
-
-This is because the estimated probabilities of rare contexts are noisy. This smoothing is shown successfully in high-dimensional count-based models \cite{TACL570} and word2vec \cite{mikolov2013efficient}. However, \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} showed that low-dimensional spaces benefit from global context probabilities.
-
-\begin{hyp}[H\ref{hyp:neg}]
-  \label{hyp:neg}
-  Low-dimensional spaces benefit from being dense, while highly-dimensional spaces benefit from being sparse.
-\end{hyp}
-
-Sparsity is controlled by the shifting parameter $k$ (Section~\ref{sec:shifted-pmi}); lower $k$ values make vectors denser.
 
 \section{Experiments on SimLex-999 dataset}
 \label{sec:simlex-999}
@@ -173,7 +139,7 @@ The average difference between Max selection and heuristics is 0.008, supporting
 %
 % ^.
 
-\section{Transfer of selected models between dataset}
+\section{Transfer of selected models between datasets}
 \label{sec:select-model-transf}
 
 \subsection{The difference between heuristics based on MEN and SimLex-999}
@@ -313,6 +279,10 @@ As expected, we did not see a significant influence of the ``compression'' of th
 We could not find supporting evidence for H\ref{hyp:overfitting}, as Max-selected models performed well on transfer, and both selection methods are within the 10\% difference margin to the highest result (H\ref{hyp:10percent}), suggesting that there indeed might be a universal vector space (H\ref{hyp:universal}).
 
 We observed another regularity: cosine is a good similarity choice for low-dimensional spaces, but correlation is a better choice for highly-dimensional spaces.
+
+\input{figures/lexical-comparison}
+On lexical tasks, the best results among the selected models are 0.384 (SimLex-999) and 0.764 (MEN). On the similarity dataset, scores are 0.009 points behind the PPMI model of \newcite{TACL570}, however, on the relatedness dataset, 0.019 points above. Note the difference in dimensionality, source corpora and window size. Table~\ref{tab:lexical-comparison} shows the results of SVD, SGNS and GloVe-based vector spaces are given for comparison.
+
 
 %%% Local Variables:
 %%% mode: latex

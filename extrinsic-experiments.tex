@@ -5,27 +5,6 @@ This chapter reports the results on the compositional datasets KS14 \cite{kartsa
 
 \footnotetext{Much of the work in this chapter has appeared as \newcite{milajevs-EtAl:2014:EMNLP2014} at EMNLP 2014.}
 
-\section{Specialised hypotheses}
-\label{sec:elab-hypoth-comp}
-
-As for the lexical experiments (Section~\ref{sec:elab-hypoth-lexical}), before reporting the results we refine some of our initial hypotheses (Section~\ref{sec:hypotheses}).
-
-\begin{hyp}[H\ref{hyp:comp-pmi-cpmi}]
-  \label{hyp:comp-pmi-cpmi}
-  Compositional methods that include addition perform best with either PMI or SPMI, while methods that include multiplication should work best with CPMI and SCPMI.
-\end{hyp}
-
-One of the reasons for this is the presence of negative values. For example, in the case of multiplication as a compositional operator, the sign of a vector component depends on the number of the corresponding negative components of the constituents. If the number of negative values is odd, then the resulting value will be negative---this makes the difference between 0.001 and -0.001 significant. In the first case, the value means that the co-occurrence pair is weakly associated, but in the second case, the value means that the co-occurrence is weakly unassociated. This also applies to categorical operators where the signs of the result vector components depends on the number of multiplication operations that leads to them.
-
-We also expect hypotheses related to PMI's Achilles heel (H\ref{hyp:freq}, H\ref{hyp:cds}, H\ref{hyp:neg}) to apply in the compositional case.
-
-\begin{hyp}[H\ref{hyp:similarity}]
-  \label{hyp:similarity}
-  Cosine is an optimal similarity measure for low-dimensional spaces, while correlation is for highly-dimensional spaces.
-\end{hyp}
-
-We observed such behaviour in lexical tasks (Section~\ref{sec:conclusion-lexical}) and expect to see similar behaviour in compositional tasks.
-
 \section{KS14}
 \label{sec:ks14}
 
@@ -711,6 +690,7 @@ The parameter selection shows a clear pattern. Low-dimensional spaces perform be
 \label{sec:heuristics-single}
 
 \input{figures/single-ablation}
+
 The linear model gives $R^2 = 0.898$. The most influential parameters are \texttt{freq}, similarity measure and \texttt{neg}, refer to Table~\ref{tab:single-ablation}.
 
 Heuristics, in general, repeats the parameter choices of Max selection, but the switch between parameter values happens at a higher number of dimensions (at 20000, not at 5000). Refer to Table~\ref{tab:single-heuristics-selection} for the results and Figure~\ref{fig:single-params} for the parameter behaviour.
@@ -761,13 +741,13 @@ This section discusses the results of the experiments in the context of other wo
 
 The earliest of the relevant studies is the work of \newcite{milajevs-EtAl:2014:EMNLP2014}. They evaluate two count-based vector spaces and a space based on the original word2vec vectors obtained from the Google News corpus \cite{mikolov2013distributed} and experiment with the same compositional operators used in this work. Their count-based models are the ones that are considered to be efficient in the compositional tasks and are used in the studies that introduced the evaluation datasets---KS14 \cite{kartsadrqpl2014} and GS11 \cite{Grefenstette:2011:ESC:2145432.2145580}. Thus, the work of \newcite{milajevs-EtAl:2014:EMNLP2014} can be seen as a replication of the experiments in previous papers. They conclude that on small-scale tasks (KS14 and GS11) count-based models are competitive with the neural word vectors.
 
-They achieve the best result of 0.732 with the additive composition on KS14 with an SVD-reduced vector space. Their best tensor-based result is 0.655, achieved with word2vec and copy-object. All our models (Table~\ref{tab:frobenius-results}), with the exception of copy-object, improve over their best scores. Despite being lower, our copy-object (0.628) is close to the score reported in \cite{milajevs-EtAl:2014:EMNLP2014}.
+They achieve the best result of 0.732 with the additive composition on KS14 with an SVD-reduced vector space. Their best tensor-based result is 0.655, achieved with word2vec and copy-object. All our models (Table~\ref{tab:frobenius-results}), with the exception of copy-object, improve over their best scores. Despite being lower, our copy-object (0.628) is close to the score reported in \newcite{milajevs-EtAl:2014:EMNLP2014}.
 
 On the GS11 dataset, our spaces improve over the corresponding operators on all but two of the compositional methods (the exceptions being copy object and Frobenious mult). Only multiplication and Kronecker improve over the best reported score of 0.456 in \newcite{milajevs-EtAl:2014:EMNLP2014}. Kronecker yields the highest score of 0.516.
 
 \newcite{kim2015neural} adopt the evaluation procedure of \newcite{milajevs-EtAl:2014:EMNLP2014} to test an extended word2vec model that is tuned for multiplicative interaction of the vectors, not additive, as the original word2vec. They improve on most of the composition operators on the KS14 and GS11 datasets.
 
-They achieve the best result of 0.770 with addition on KS14. Three of our models (addition, multiplication and Kronecker) outperform that score. Also, our results are better than the results reported  by comparing results by operator (our result are shown in brackets for comparison): multiplication 0.440 (0.771), Kronecker 0.623 (0.798), relational 0.665 (0.768), copy subject 0.454 (0.738), copy object 0.607 (0.628), Frobenius addition 0.610 (0.761), Frobenious multiplication 0.608 (0.747), Frobenious outer 664 (0.765).
+They achieve the best result of 0.770 with addition on KS14. Three of our models (addition, multiplication and Kronecker) outperform that score. Also, our results are better than the results reported  by comparing results by operator (our result are shown in brackets for comparison): multiplication 0.440 (0.771), Kronecker 0.623 (0.798), relational 0.665 (0.768), copy-subject 0.454 (0.738), copy-object 0.607 (0.628), Frobenius addition 0.610 (0.761), Frobenious multiplication 0.608 (0.747), Frobenious outer 664 (0.765).
 % * <sdyck@ualberta.ca> 2016-11-05T01:16:56.439Z:
 %
 % > us mult 
@@ -799,9 +779,6 @@ The SVOPN model with the score of 0.614 outperforms our best (0.516) on GS11. Wh
 
 Overall, we improved over the scores by identifying a better set of model
 parameters rather then developing a more sophisticated model.
-
-\input{figures/lexical-comparison}
-On lexical tasks, the best results among the selected models are 0.384 (SimLex-999) and 0.764 (MEN). On the similarity dataset, scores are 0.009 points behind the PPMI model of \newcite{TACL570}, however, on the relatedness dataset, 0.019 points above. Note the difference in dimensionality, source corpora and window size. Table~\ref{tab:lexical-comparison} shows the results of SVD, SGNS and GloVe-based vector spaces are given for comparison.
 
 \section{Conclusion}
 \label{sec:conclusion-universal}

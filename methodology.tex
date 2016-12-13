@@ -83,6 +83,243 @@ Because parameters influence model performance differently, the parameters are p
 
 This method not only avoids overfitting but also yields evaluation results that are comparable with the best-model reports.
 
+\section{Parameters and experimental setup}
+\label{sec:parameters}
+
+This chapter explains in detail the parameters that are explored in the experiments. The core of the parameters are the parameters that modify the co-occurrence quantification. The other parameters define the dimensionality of the vector space, the similarity measure and compositional operator.
+% * <sdyck@ualberta.ca> 2016-11-03T04:59:10.670Z:
+%
+% > f them
+%
+% core of what? the experiments?
+% DM: parameters.
+% ^.
+
+\subsection{Co-occurrence quantification}
+\label{sec:quantification}
+
+\subsubsection{PMI variants (discr)}
+\label{sec:pmi-variants}
+
+Most co-occurrence weighting schemes%
+\footnote{We abbreviate this parameter as \texttt{discr} because the weighting scheme discriminates the features.
+% TODO: refer to the ir-dataset paper.
+}
+in distributional semantics are based on \emph{point-wise mutual information} (PMI, Equation~\ref{eq:pmi}, \newcite{J90-1003,Turney:2010:FMV:1861751.1861756,NIPS2014_5477}).
+%
+\begin{equation}
+  \label{eq:pmi}
+  \operatorname{PMI}(x, y) = \log\frac{P(x,y)}{P(x)P(y)}
+\end{equation}
+%
+PMI in its raw form is problematic: non-observed co-occurrences lead to infinite PMI values, making it impossible to compute similarity. A common solution to this problem is to replace all infinities with zeros, and we use PMI hereafter to refer to a weighting with this fix. Refer to Section~\ref{sec:quantification-measures} for a discussion.
+
+An alternative solution is to increment the probability ratio by 1; we refer to weighting scheme as \emph{compressed PMI} (CPMI):
+%
+\begin{equation}
+  \label{eq:cpmi}
+  \operatorname{CPMI}(x, y) = \log\left( 1 +  \frac{P(x,y)}{P(x)P(y)} \right)
+\end{equation}
+
+\subsubsection{Shifted PMI (neg)}
+\label{sec:shifted-pmi}
+
+Many approaches use only \emph{positive} PMI values, as  negative PMI values may not positively contribute to model performance \cite{Turney:2010:FMV:1861751.1861756}. This can be generalised to an additional cutoff parameter $k$ (abbreviated as \texttt{neg}) following \newcite{TACL570}, giving our third PMI variant: \emph{shifted PMI} or SPMI for short:
+%
+\begin{equation}
+  \label{eq:ppmi}
+  \operatorname{SPMI_k} = \max (0, \operatorname{PMI}(x, y) - \log k)
+\end{equation}
+%
+We can apply the same idea to CPMI and obtain \emph{shifted compressed PMI} or SCPMI:
+%
+\begin{equation}
+  \label{eq:pcpmi}
+  \operatorname{SCPMI_k} = \max (0, \operatorname{CPMI}(x, y) - \log 2k)
+\end{equation}
+
+\subsubsection{Frequency weighting (freq)}
+\label{sec:frequency-weighting}
+
+Another issue with PMI is its bias toward rare events \cite{TACL570}; one way of solving this issue is to weight the value by the co-occurrence frequency obtaining the \emph{local mutual information} (LMI, \newcite{Evert05}), for clarity we refer to LMI as \NPMI/:
+%
+\begin{equation}
+  \label{eq:lmi}
+  \operatorname{nPMI}(x, y) = n(x, y)\operatorname{PMI}(x, y)
+\end{equation}
+%
+where $n(x, y)$ is the number of times $x$ was seen together with $y$. We refer to $n$-weighted PMIs as \NPMI/, \NSPMI/, etc. When this weighting component is set to 1, it has no effect; we can explicitly label it as \PMI/, \SPMI/, etc. In addition to the extreme $1$ and $n$ weightings, we also experiment with the $\log n$ weighting. We refer to this parameter as \texttt{freq}.
+
+\subsubsection{Context distribution smoothing (cds)}
+\label{sec:cont-distr-smooth}
+
+\newcite{TACL570} show that performance is affected by smoothing the context distribution $P(x)$:
+%
+\begin{equation}
+  \label{eq:cds}
+  P_{\alpha}(x) = \frac{n(x)^{\alpha}}{\sum_{f \in F}n(f)^{\alpha}}
+\end{equation}
+where $n(x)$ is the frequency of the term $x$, F is the set of the features in the co-occurrence matrix and $n(f)$ is the frequency of the feature in the corpus. We experiment with $\alpha=1$ (no smoothing) and $\alpha = 0.75$. We call this estimation method \emph{local context probability}.
+
+We also estimate a \emph{global context probability} based on the size of the corpus $|C|$:
+%
+\begin{equation}
+  \label{eq:cds-nan}
+  P(x) = \frac{n(x)}{|C|}
+\end{equation}
+
+\subsubsection{Quantification measure generalisation}
+\label{sec:quantification-measures}
+
+To systematically study the aforementioned quantification measures, together with other variations, we propose to view all these measures as instances of this general formula:
+%
+\begin{equation}
+  \small
+  \label{eq:association}
+  \operatorname{Quantification}(x,y) = \operatorname{freq}(x, y)
+                                       \operatorname{discr}(x, y)
+\end{equation}
+%
+which consists of two components: $\operatorname{freq}(x, y)$ which quantifies the co-occurrence of two terms---a target term $x$ and a feature term $y$; and $\operatorname{discr}(x, y)$ which quantifies the ``surprise'' or ``informativeness'' of seeing (or not seeing) the two terms together, labeled as discriminativeness.
+
+In this framework, PMI can be seen as a quantification measure where the frequency component is the constant 1 and the discriminativeness is the PMI itself. SPMI, CPMI and SCPMI are seen analogously. For \NPMI/, $\operatorname{freq}(x, y) = n(x, y)$ and $\operatorname{discr}(x, y) = \operatorname{PMI}(x, y)$.
+
+From the probabilistic point of view, under the independence assumption of two words occurring together, \NPMI/ can be interpreted as measuring the logarithm of the ratio of the probabilities of groups of length $n$ (the group that contains only pairs of $(x,y)$s and another one that contains $x$s and $y$s):
+%
+\begin{equation*}
+  n\log\frac{P(x, y)}{P(x)P(y)} = \log\frac{P(x, y)^{n}}{P(x)^{n}P(y)^{n}}
+\end{equation*}
+%
+% When the constant 1 is used as the frequency component, it is equivalent to the subsumption assumption (the probability of a sequence depends only on what elements it contains, rather than how many of them).
+% * <sdyck@ualberta.ca> 2016-11-03T05:38:23.892Z:
+%
+% >  when the probability of a sequence depends only on what elements it contains, rather than how many of them.
+%
+% is this the definition of the subsumption assumption, or is it a condition needed for the frequency component to be equivalent to it?
+% DM: it's the definition. This is actually confusing to everyone I've shown this to, apart from someone who gave me this idea.
+% ^.
+
+From the geometric point of view, the transformation from \PMI/ to \NPMI/ changes the directions of vectors by pulling the vectors toward the dimensions for which $n(x, y)$ is higher. As a side effect, it also stretches the vectors. The importance of these two effects is discussed later in Section~\ref{sec:similarity-measure}.
+
+From the linguistic perspective, \PMI/ captures the tendency for a word to co-occur with another word in general (captured by the direction of a vector), while \NPMI/ captures the expectation of seeing a particular co-occurrence in the source corpus. This is encoded in both the direction and the length of a vector.
+
+The sublinear frequency\footnote{We increment $n$ by one to avoid an infinite logarithm value when $n$ is 0.} $\log n$ stands between the two extreme cases of independence and subsumption. However, it is still a strong assumption as it treats all word pairs equally, but in natural language there are some pairs that are closer to subsumption and others that are closer to independence.
+
+In our case, the constant frequency is the only association measure that is able to distinguish from the case where a co-occurrence event was not observed (and so according to MLE, $P(x, y)= 0$) and the case where the events are independent ($P(x, y) = P(x)P(y)$). For other frequencies, when no co-occurrence is observed, the frequency is 0 and the discriminativeness value does not matter unless it is finite. That is why the backing off strategy already mentioned in Section~\ref{sec:pmi-variants}, ``when $n(x, y) = 0$ assume that $P(x, y) = P(x)P(y)$'' is an appropriate way of avoiding $-\infty$. There are many other smoothing strategies, two examples of which are \newcite{kneser1995improved,bengio2006}.
+
+\subsection{Other model parameters}
+\label{sec:other-model-paramt}
+
+\input{figures/parameters}
+
+The source corpus that we use is the concatenation of ukWaC and Wackypedia \cite{ukwac}.\footnotemark{} A window of 5 neighbour words from each side is used to collect co-occurrences.
+% * <sdyck@ualberta.ca> 2016-11-03T05:48:30.822Z:
+%
+% > A symmetric widow of 5 neighbouring is
+%
+% This could just be my lack of familiarity with the specific subject matter, but this doesn't make sense to me!
+% DM: it's a window not a widow :)
+% ^.
+
+\footnotetext{The ukWaC corpus is available at \url{http://wacky.sslmit.unibo.it}.}
+
+\subsubsection{Vector dimensionality (D)}
+\label{sec:vect-dimens}
+
+As context words we select the 1K, 2K, 3K, 5K, 10K, 20K, 30K, 40K and 50K most frequent lemmatised nouns, verbs, adjectives and adverbs in the source corpus. All context words are part-of-speech tagged, but we do not distinguish between refined word types (e.g.~intransitive vs.~transitive versions of verbs).
+
+\subsubsection{Similarity measure}
+\label{sec:similarity-measure}
+
+To be able to measure the similarity of two words, we need to be able to compare their vectors.\footnotemark{} A very high-level approach is to look at how two words agree on their features. If two word vectors tend to have approximately equal values for most of their components, then this is a good indication of the similarity of the words they represent.
+
+\footnotetext{Even though similarity is not strictly a parameter of a distributional model, it is treated the same as others.}
+
+The cosine of the angle between two vectors is a widely used similarity measure in distributional semantics \cite{Turney:2010:FMV:1861751.1861756,lapesa2014large}.
+%
+\begin{equation*}
+  \label{eq:cos}
+  \cos(\vec{x}, \vec{y}) = \frac{\vec{x} \cdot \vec{y}}
+                                {\|\vec{x}\| \|\vec{y}\|}
+\end{equation*}
+
+However, the inner product $\vec{x} \cdot \vec{y}$ is preferred in information retrieval and current state-of-the-art natural language processing (NLP) systems \cite{mikolov2013distributed,mikolov2013linguistic,TACL570}. The cosine of the angle is the inner product of the normalised vectors (using Euclidean $L_2$ length).
+% * <sdyck@ualberta.ca> 2016-11-04T02:11:45.531Z:
+%
+% > IR and current state-of-the-art NLP
+%
+% I would possibly state was these acronyms stand for (if they are in fact acronyms)
+% DM: in fact, they are.
+% ^.
+
+Normalisation reduces all vectors to unit length leaving their directions to characterise them. Thus, remembering that vector length depends on overall frequency, linguistically we have two measures: the cosine measure that is concerned with similarity, and inner product with no normalisation which in addition to similarity also reflects word frequency and expectation factors.
+% * <sdyck@ualberta.ca> 2016-11-04T02:13:38.667Z:
+%
+% > also
+%
+% so, the inner product is concerned with similarity, just as the cosine is, as well as the word frequency/expectation factors?
+% DM: just as well.
+% ^ <sdyck@ualberta.ca> 2016-11-04T02:15:23.212Z.
+
+An advantage of cosine in a lexical similarity task is that it does not depend on the word frequency. Imagine a situation where the similarity of a frequent and a rare word is calculated. Then the similarity judgment should not depend on the relative frequency of the words; instead, their tendency of agreement on features should take the dominant role.
+
+For example, \NPMI/ makes ``feature selections'' by weighting PMI values with the co-occurrence frequency, as discussed in Section~\ref{sec:quantification-measures}. When cosine is applied, the stretching effect of \NPMI/ is eliminated, but the rotational effect stays. On average, the rotational effect will be much more significant for rare words, while frequent words are more likely to be stretched.
+
+In addition to cosine and inner product, we use correlation \cite{kiela-clark:2014:CVSC} to measure similarity:
+\begin{equation*}
+  \label{eq:correlation}
+  \operatorname{correlation}(\vec{x}, \vec{y}) = \frac{(\vec{x} - \bar{x}) \cdot (\vec{y} - \bar{y})}
+                                {\|(\vec{x} - \bar{x})\| \|(\vec{y}-\bar{y}\|}
+\end{equation*}
+where $\bar{x}$ is the mean of the elements of $\vec{x}$ and $\bar{y}$ is the mean of the elements of $\vec{y}$.
+
+\subsubsection{Compositional operator}
+\label{sec:comp-oper}
+
+\input{figures/comp-methods}
+
+For phrasal tasks, the phrase vectors are obtained via composition of the phrase constituents' vectors using addition, multiplication \cite{mitchell2010composition,mitchell-lapata:2008:ACLMain}, Kronecker \cite{Grefenstette:2011:ESC:2145432.2145580} and tensor-based operators \cite{DBLP:journals/corr/abs-1003-4394,kartsadrqpl2014,kartsaklis-sadrzadeh-pulman:2012:POSTERS,Grefenstette:2011:ESC:2145432.2145580}. Table~\ref{tbl:comp-methods} lists the operators used in this study.
+
+Addition and multiplication are point-wise operations and do not take into account word order. Kronecker and tensor-based operators are sensitive to word ordering. The verb matrix for Kronecker is defined as the Kronecker product of the vector of a verb with itself:
+%
+\begin{equation*}
+  \widetilde{\text{Verb}} = \overrightarrow{\text{Verb}} \otimes \overrightarrow{\text{Verb}}
+\end{equation*}
+
+For tensor-based operators, a transitive verb is represented by matrix $\overline{\text{Verb}}$, which is obtained from a corpus using the formula:
+$$
+\overline{\text{Verb}} = \sum_i\ov{s_i} \otimes \ov{o_i}
+$$
+where $\ov{s_i}$ and $\ov{o_i}$ are the subject-object pairs of the verb found in the source corpus.
+
+This encodes into the verb matrix all the contextual information of the subjects and objects of the verb. They way it is constructed (by pairing subjects and objects of the verb) is the same way a verb predicate is built in formal semantics, that is by pairing the subjects and objects. But here, instead of packing the pairs into a set, one develops a vector from them, at the same time, each pair gets a real number value assigned to it. 
+
+Relational compositional operator is defined as:
+\begin{equation*}
+  \overline{\text{Verb}} \odot (\overrightarrow{\text{Sbj}} \otimes \overrightarrow{\text{Obj}})
+\end{equation*}
+
+Informally it identifies the interaction of the features of the subject and the object by the Kronecker product $\overrightarrow{\text{Sbj}} \otimes \overrightarrow{\text{Obj}}$ that are later filtered by verb using point-wise multiplication \cite{Grefenstette:2011:ESC:2145432.2145580}. The filtering by verb is needed because the subject and the object can belong to several relations.
+
+The categorical framework of \newcite{DBLP:journals/corr/abs-1003-4394} requires the meaning of the verb to be a tensor of third order (it has to be a cube), but the Relational method of \newcite{Grefenstette:2011:ESC:2145432.2145580} constructs verb meanings as tensors of second order (they are matrices). To apply the categorical framework, \newcite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} embeds the second order verb matrix into a third order space by a map $\sigma: N^2 \to N^3$. This map is one of the maps of the Frobenius algebra over vector space N.
+
+The Frobenius operation $\sigma$ turns a matrix into a cube by filing the extra dimension of the cube and gives some options on how the mapping can be implemented. The operators copy-subject and copy-object \cite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} implement this idea. The cube is formed using copy-subject (copy-object), then when one applies cube contraction on it with the object (the subject) and then matrix multiplication with the subject (the object).
+
+Copy-object diagonally places the object dimension into a cube, producing a closed form-formula:
+\begin{equation*}
+  \overrightarrow{\text{Sbj}} \odot (\overline{\text{Verb}} \times \overrightarrow{\text{Obj}})
+\end{equation*}
+Similarly, copy-subject diagonally places the subject dimension into a cube, producing a formula:
+\begin{equation*}
+  \overrightarrow{\text{Obj}} \odot (\overline{\text{Verb}}^{\mathsf{T}} \times \overrightarrow{\text{Sbj}})
+\end{equation*}
+
+This series of contraction and multiplication simplifies to these closed forms, due to the special shape of the cube (i.e.~created by copy-subject or copy-object). Note that the closed-form formulas do not include third order tensors.
+
+\newcite{kartsadrqpl2014} observe that copy-object and copy-subject address a partial interaction of the verb with its arguments and propose three more models that combine the interaction using vector addition (Frob.~add.~in Table~\ref{tbl:comp-methods}), element-wise vector multiplication (Frob.~mult.~in Table~\ref{tbl:comp-methods}) and tensor product (Frob.~outer in Table~\ref{tbl:comp-methods}).
+
+As a non-compositional baseline, we take the dummy operator \texttt{head}, which ignores the subject and the object of a phrase, causing the vector of a whole phrase to be equal to the vector of its verb \cite{milajevs-EtAl:2014:EMNLP2014}. 
+
 \section{Hypotheses}
 \label{sec:hypotheses}
 
@@ -139,242 +376,63 @@ There is a universal model that performs well on a broad range of tasks.
 
 We are interested to see whether there is one parameter choice that performs competitively on all tasks. The results of \citet{lapesa2014large} show that there is a general model whose performance is close to dataset- and task-specific model. We expect this to be the case also for compositional models.
 
-\chapter{Parameters and experimental setup}
-\label{sec:parameters}
+\subsection{Specialised hypotheses (lexical)}
+\label{sec:elab-hypoth-lexical}
 
-This chapter explains in detail the parameters that are explored in the experiments. The core of the parameters are the parameters that modify the co-occurrence quantification. The other parameters define the dimensionality of the vector space, the similarity measure and compositional operator.
-% * <sdyck@ualberta.ca> 2016-11-03T04:59:10.670Z:
-%
-% > f them
-%
-% core of what? the experiments?
-% DM: parameters.
-% ^.
+Before reporting the results of the lexical experiments, we would like to expand upon the lexical hypotheses stated in Section~\ref{sec:hypotheses}.
 
-\section{Co-occurrence quantification}
-\label{sec:quantification}
+\begin{hyp}[H\ref{hyp:lex-pmi-cpmi}]
+  \label{hyp:lex-pmi-cpmi}
+  In lexical tasks, there should be little difference between PMI and its compressed version CPMI (Section~\ref{sec:pmi-variants}).
+% Shifted PMI variants behave the same (Section~\ref{sec:shifted-pmi}).
+\end{hyp}
 
-\subsection{PMI variants (discr)}
-\label{sec:pmi-variants}
+The main effect of CPMI is to transform negative values into the positive range of $(0; 1)$. One of the reasons to avoid negative values is that they might be problematic for multiplication during composition, as the sign of the result depends on the number of negative components. However, as there is no composition involved in lexical tasks, the weighting schemes should behave equally.
 
-Most co-occurrence weighting schemes%
-\footnote{We abbreviate this parameter as \texttt{discr} because the weighting scheme discriminates the features.
-% TODO: refer to the ir-dataset paper.
-}
-in distributional semantics are based on \emph{point-wise mutual information} (PMI, Equation~\ref{eq:pmi}, \newcite{J90-1003,Turney:2010:FMV:1861751.1861756,NIPS2014_5477}).
-%
-\begin{equation}
-  \label{eq:pmi}
-  \operatorname{PMI}(x, y) = \log\frac{P(x,y)}{P(x)P(y)}
-\end{equation}
-%
-PMI in its raw form is problematic: non-observed co-occurrences lead to infinite PMI values, making it impossible to compute similarity. A common solution to this problem is to replace all infinities with zeros, and we use PMI hereafter to refer to a weighting with this fix. Refer to Section~\ref{sec:quantification-measures} for a discussion.
+The next hypotheses are related to PMI's ``Achilles heel'' and are supposed to lower the influence of low co-occurrence counts, therefore, we expect that they are beneficial for highly dimensional spaces as shown in \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
 
-An alternative solution is to increment the probability ratio by 1; we refer to weighting scheme as \emph{compressed PMI} (CPMI):
-%
-\begin{equation}
-  \label{eq:cpmi}
-  \operatorname{CPMI}(x, y) = \log\left( 1 +  \frac{P(x,y)}{P(x)P(y)} \right)
-\end{equation}
+\begin{hyp}[H\ref{hyp:freq}]
+  \label{hyp:freq}
+ $N$ or $\log n$ frequency components (Section~\ref{sec:frequency-weighting}) should be beneficial for highly-dimensional spaces.
+\end{hyp}
 
-\subsection{Shifted PMI (neg)}
-\label{sec:shifted-pmi}
+This is the most direct way of boosting high co-occurrence counts \cite{Evert05}. \NPMI/ is shown to be a good choice in lexical tasks \cite{Bruni:2012:DST:2390524.2390544}.
 
-Many approaches use only \emph{positive} PMI values, as  negative PMI values may not positively contribute to model performance \cite{Turney:2010:FMV:1861751.1861756}. This can be generalised to an additional cutoff parameter $k$ (abbreviated as \texttt{neg}) following \newcite{TACL570}, giving our third PMI variant: \emph{shifted PMI} or SPMI for short:
-%
-\begin{equation}
-  \label{eq:ppmi}
-  \operatorname{SPMI_k} = \max (0, \operatorname{PMI}(x, y) - \log k)
-\end{equation}
-%
-We can apply the same idea to CPMI and obtain \emph{shifted compressed PMI} or SCPMI:
-%
-\begin{equation}
-  \label{eq:pcpmi}
-  \operatorname{SCPMI_k} = \max (0, \operatorname{CPMI}(x, y) - \log 2k)
-\end{equation}
+\begin{hyp}[H\ref{hyp:cds}]
+  \label{hyp:cds}
+  Low-dimensional spaces should not need context distribution smoothing, while high-dimensional spaces should benefit from it (Section~\ref{sec:cont-distr-smooth}).
+\end{hyp}
 
-\subsection{Frequency weighting (freq)}
-\label{sec:frequency-weighting}
+This is because the estimated probabilities of rare contexts are noisy. This smoothing is shown successfully in high-dimensional count-based models \cite{TACL570} and word2vec \cite{mikolov2013efficient}. However, \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} showed that low-dimensional spaces benefit from global context probabilities.
 
-Another issue with PMI is its bias toward rare events \cite{TACL570}; one way of solving this issue is to weight the value by the co-occurrence frequency obtaining the \emph{local mutual information} (LMI, \newcite{Evert05}), for clarity we refer to LMI as \NPMI/:
-%
-\begin{equation}
-  \label{eq:lmi}
-  \operatorname{nPMI}(x, y) = n(x, y)\operatorname{PMI}(x, y)
-\end{equation}
-%
-where $n(x, y)$ is the number of times $x$ was seen together with $y$. We refer to $n$-weighted PMIs as \NPMI/, \NSPMI/, etc. When this weighting component is set to 1, it has no effect; we can explicitly label it as \PMI/, \SPMI/, etc. In addition to the extreme $1$ and $n$ weightings, we also experiment with the $\log n$ weighting. We refer to this parameter as \texttt{freq}.
+\begin{hyp}[H\ref{hyp:neg}]
+  \label{hyp:neg}
+  Low-dimensional spaces benefit from being dense, while highly-dimensional spaces benefit from being sparse.
+\end{hyp}
 
-\subsection{Context distribution smoothing (cds)}
-\label{sec:cont-distr-smooth}
+Sparsity is controlled by the shifting parameter $k$ (Section~\ref{sec:shifted-pmi}); lower $k$ values make vectors denser.
 
-\newcite{TACL570} show that performance is affected by smoothing the context distribution $P(x)$:
-%
-\begin{equation}
-  \label{eq:cds}
-  P_{\alpha}(x) = \frac{n(x)^{\alpha}}{\sum_{f \in F}n(f)^{\alpha}}
-\end{equation}
-where $n(x)$ is the frequency of the term $x$, F is the set of the features in the co-occurrence matrix and $n(f)$ is the frequency of the feature in the corpus. We experiment with $\alpha=1$ (no smoothing) and $\alpha = 0.75$. We call this estimation method \emph{local context probability}.
+\subsection{Specialised hypotheses (compositional)}
+\label{sec:elab-hypoth-comp}
 
-We also estimate a \emph{global context probability} based on the size of the corpus $|C|$:
-%
-\begin{equation}
-  \label{eq:cds-nan}
-  P(x) = \frac{n(x)}{|C|}
-\end{equation}
+ As for the lexical experiments (Section~\ref{sec:elab-hypoth-lexical}), before reporting the results we refine some of our initial hypotheses (Section~\ref{sec:hypotheses}).
 
-\subsection{Quantification measure generalisation}
-\label{sec:quantification-measures}
+\begin{hyp}[H\ref{hyp:comp-pmi-cpmi}]
+  \label{hyp:comp-pmi-cpmi}
+  Compositional methods that include addition perform best with either PMI or SPMI, while methods that include multiplication should work best with CPMI and SCPMI.
+\end{hyp}
 
-To systematically study the aforementioned quantification measures, together with other variations, we propose to view all these measures as instances of this general formula:
-%
-\begin{equation}
-  \small
-  \label{eq:association}
-  \operatorname{Quantification}(x,y) = \operatorname{freq}(x, y)
-                                       \operatorname{discr}(x, y)
-\end{equation}
-%
-which consists of two components: $\operatorname{freq}(x, y)$ which quantifies the co-occurrence of two terms---a target term $x$ and a feature term $y$; and $\operatorname{discr}(x, y)$ which quantifies the ``surprise'' or ``informativeness'' of seeing (or not seeing) the two terms together, labeled as discriminativeness.
+One of the reasons for this is the presence of negative values. For example, in the case of multiplication as a compositional operator, the sign of a vector component depends on the number of the corresponding negative components of the constituents. If the number of negative values is odd, then the resulting value will be negative---this makes the difference between 0.001 and -0.001 significant. In the first case, the value means that the co-occurrence pair is weakly associated, but in the second case, the value means that the co-occurrence is weakly unassociated. This also applies to categorical operators where the signs of the result vector components depends on the number of multiplication operations that leads to them.
 
-In this framework, PMI can be seen as a quantification measure where the frequency component is the constant 1 and the discriminativeness is the PMI itself. SPMI, CPMI and SCPMI are seen analogously. For \NPMI/, $\operatorname{freq}(x, y) = n(x, y)$ and $\operatorname{discr}(x, y) = \operatorname{PMI}(x, y)$.
+We also expect hypotheses related to PMI's Achilles heel (H\ref{hyp:freq}, H\ref{hyp:cds}, H\ref{hyp:neg}) to apply in the compositional case.
 
-From the probabilistic point of view, under the independence assumption of two words occurring together, \NPMI/ can be interpreted as measuring the logarithm of the ratio of the probabilities of groups of length $n$ (the group that contains only pairs of $(x,y)$s and another one that contains $x$s and $y$s):
-%
-\begin{equation*}
-  n\log\frac{P(x, y)}{P(x)P(y)} = \log\frac{P(x, y)^{n}}{P(x)^{n}P(y)^{n}}
-\end{equation*}
-%
-% When the constant 1 is used as the frequency component, it is equivalent to the subsumption assumption (the probability of a sequence depends only on what elements it contains, rather than how many of them).
-% * <sdyck@ualberta.ca> 2016-11-03T05:38:23.892Z:
-%
-% >  when the probability of a sequence depends only on what elements it contains, rather than how many of them.
-%
-% is this the definition of the subsumption assumption, or is it a condition needed for the frequency component to be equivalent to it?
-% DM: it's the definition. This is actually confusing to everyone I've shown this to, apart from someone who gave me this idea.
-% ^.
+\begin{hyp}[H\ref{hyp:similarity}]
+  \label{hyp:similarity}
+  Cosine is an optimal similarity measure for low-dimensional spaces, while correlation is for highly-dimensional spaces.
+\end{hyp}
 
-From the geometric point of view, the transformation from \PMI/ to \NPMI/ changes the directions of vectors by pulling the vectors toward the dimensions for which $n(x, y)$ is higher. As a side effect, it also stretches the vectors. The importance of these two effects is discussed later in Section~\ref{sec:similarity-measure}.
+We observed such behaviour in lexical tasks (Section~\ref{sec:conclusion-lexical}) and expect to see similar behaviour in compositional tasks.
 
-From the linguistic perspective, \PMI/ captures the tendency for a word to co-occur with another word in general (captured by the direction of a vector), while \NPMI/ captures the expectation of seeing a particular co-occurrence in the source corpus. This is encoded in both the direction and the length of a vector.
-
-The sublinear frequency\footnote{We increment $n$ by one to avoid an infinite logarithm value when $n$ is 0.} $\log n$ stands between the two extreme cases of independence and subsumption. However, it is still a strong assumption as it treats all word pairs equally, but in natural language there are some pairs that are closer to subsumption and others that are closer to independence.
-
-In our case, the constant frequency is the only association measure that is able to distinguish from the case where a co-occurrence event was not observed (and so according to MLE, $P(x, y)= 0$) and the case where the events are independent ($P(x, y) = P(x)P(y)$). For other frequencies, when no co-occurrence is observed, the frequency is 0 and the discriminativeness value does not matter unless it is finite. That is why the backing off strategy already mentioned in Section~\ref{sec:pmi-variants}, ``when $n(x, y) = 0$ assume that $P(x, y) = P(x)P(y)$'' is an appropriate way of avoiding $-\infty$. There are many other smoothing strategies, two examples of which are \newcite{kneser1995improved,bengio2006}.
-
-\section{Other model parameters}
-\label{sec:other-model-paramt}
-
-\input{figures/parameters}
-
-The source corpus that we use is the concatenation of ukWaC and Wackypedia \cite{ukwac}.\footnotemark{} A window of 5 neighbour words from each side is used to collect co-occurrences.
-% * <sdyck@ualberta.ca> 2016-11-03T05:48:30.822Z:
-%
-% > A symmetric widow of 5 neighbouring is
-%
-% This could just be my lack of familiarity with the specific subject matter, but this doesn't make sense to me!
-% DM: it's a window not a widow :)
-% ^.
-
-\footnotetext{The ukWaC corpus is available at \url{http://wacky.sslmit.unibo.it}.}
-
-\subsection{Vector dimensionality (D)}
-\label{sec:vect-dimens}
-
-As context words we select the 1K, 2K, 3K, 5K, 10K, 20K, 30K, 40K and 50K most frequent lemmatised nouns, verbs, adjectives and adverbs in the source corpus. All context words are part-of-speech tagged, but we do not distinguish between refined word types (e.g.~intransitive vs.~transitive versions of verbs).
-
-\subsection{Similarity measure}
-\label{sec:similarity-measure}
-
-To be able to measure the similarity of two words, we need to be able to compare their vectors.\footnotemark{} A very high-level approach is to look at how two words agree on their features. If two word vectors tend to have approximately equal values for most of their components, then this is a good indication of the similarity of the words they represent.
-
-\footnotetext{Even though similarity is not strictly a parameter of a distributional model, it is treated the same as others.}
-
-The cosine of the angle between two vectors is a widely used similarity measure in distributional semantics \cite{Turney:2010:FMV:1861751.1861756,lapesa2014large}.
-%
-\begin{equation*}
-  \label{eq:cos}
-  \cos(\vec{x}, \vec{y}) = \frac{\vec{x} \cdot \vec{y}}
-                                {\|\vec{x}\| \|\vec{y}\|}
-\end{equation*}
-
-However, the inner product $\vec{x} \cdot \vec{y}$ is preferred in information retrieval and current state-of-the-art natural language processing (NLP) systems \cite{mikolov2013distributed,mikolov2013linguistic,TACL570}. The cosine of the angle is the inner product of the normalised vectors (using Euclidean $L_2$ length).
-% * <sdyck@ualberta.ca> 2016-11-04T02:11:45.531Z:
-%
-% > IR and current state-of-the-art NLP
-%
-% I would possibly state was these acronyms stand for (if they are in fact acronyms)
-% DM: in fact, they are.
-% ^.
-
-Normalisation reduces all vectors to unit length leaving their directions to characterise them. Thus, remembering that vector length depends on overall frequency, linguistically we have two measures: the cosine measure that is concerned with similarity, and inner product with no normalisation which in addition to similarity also reflects word frequency and expectation factors.
-% * <sdyck@ualberta.ca> 2016-11-04T02:13:38.667Z:
-%
-% > also
-%
-% so, the inner product is concerned with similarity, just as the cosine is, as well as the word frequency/expectation factors?
-% DM: just as well.
-% ^ <sdyck@ualberta.ca> 2016-11-04T02:15:23.212Z.
-
-An advantage of cosine in a lexical similarity task is that it does not depend on the word frequency. Imagine a situation where the similarity of a frequent and a rare word is calculated. Then the similarity judgment should not depend on the relative frequency of the words; instead, their tendency of agreement on features should take the dominant role.
-
-For example, \NPMI/ makes ``feature selections'' by weighting PMI values with the co-occurrence frequency, as discussed in Section~\ref{sec:quantification-measures}. When cosine is applied, the stretching effect of \NPMI/ is eliminated, but the rotational effect stays. On average, the rotational effect will be much more significant for rare words, while frequent words are more likely to be stretched.
-
-In addition to cosine and inner product, we use correlation \cite{kiela-clark:2014:CVSC} to measure similarity:
-\begin{equation*}
-  \label{eq:correlation}
-  \operatorname{correlation}(\vec{x}, \vec{y}) = \frac{(\vec{x} - \bar{x}) \cdot (\vec{y} - \bar{y})}
-                                {\|(\vec{x} - \bar{x})\| \|(\vec{y}-\bar{y}\|}
-\end{equation*}
-where $\bar{x}$ is the mean of the elements of $\vec{x}$ and $\bar{y}$ is the mean of the elements of $\vec{y}$.
-
-\subsection{Compositional operator}
-\label{sec:comp-oper}
-
-\input{figures/comp-methods}
-
-For phrasal tasks, the phrase vectors are obtained via composition of the phrase constituents' vectors using addition, multiplication \cite{mitchell2010composition,mitchell-lapata:2008:ACLMain}, Kronecker \cite{Grefenstette:2011:ESC:2145432.2145580} and tensor-based operators \cite{DBLP:journals/corr/abs-1003-4394,kartsadrqpl2014,kartsaklis-sadrzadeh-pulman:2012:POSTERS,Grefenstette:2011:ESC:2145432.2145580}. Table~\ref{tbl:comp-methods} lists the operators used in this study.
-
-Addition and multiplication are point-wise operations and do not take into account word order. Kronecker and tensor-based operators are sensitive to word ordering. The verb matrix for Kronecker is defined as the Kronecker product of the vector of a verb with itself:
-%
-\begin{equation*}
-  \widetilde{\text{Verb}} = \overrightarrow{\text{Verb}} \otimes \overrightarrow{\text{Verb}}
-\end{equation*}
-
-For tensor-based operators, a transitive verb is represented by matrix $\overline{\text{Verb}}$, which is obtained from a corpus using the formula:
-$$
-\overline{\text{Verb}} = \sum_i\ov{s_i} \otimes \ov{o_i}
-$$
-where $\ov{s_i}$ and $\ov{o_i}$ are the subject-object pairs of the verb found in the source corpus.
-
-This encodes into the verb matrix all the contextual information of the subjects and objects of the verb. They way it is constructed (by pairing subjects and objects of the verb) is the same way a verb predicate is built in formal semantics, that is by pairing the subjects and objects. But here, instead of packing the pairs into a set, one develops a vector from them, at the same time, each pair gets a real number value assigned to it. 
-
-Relational compositional operator is defined as:
-\begin{equation*}
-  \overline{\text{Verb}} \odot (\overrightarrow{\text{Sbj}} \otimes \overrightarrow{\text{Obj}})
-\end{equation*}
-
-Informally it identifies the interaction of the features of the subject and the object by the Kronecker product $\overrightarrow{\text{Sbj}} \otimes \overrightarrow{\text{Obj}}$ that are later filtered by verb using point-wise multiplication \cite{Grefenstette:2011:ESC:2145432.2145580}. The filtering by verb is needed because the subject and the object can belong to several relations.
-
-The categorical framework of \newcite{DBLP:journals/corr/abs-1003-4394} requires the meaning of the verb to be a tensor of third order (it has to be a cube), but the Relational method of \newcite{Grefenstette:2011:ESC:2145432.2145580} constructs verb meanings as tensors of second order (they are matrices). To apply the categorical framework, \newcite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} embeds the second order verb matrix into a third order space by a map $\sigma: N^2 \to N^3$. This map is one of the maps of the Frobenius algebra over vector space N.
-
-The Frobenius operation $\sigma$ turns a matrix into a cube by filing the extra dimension of the cube and gives some options on how the mapping can be implemented. The operators copy-subject and copy-object \cite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} implement this idea. The cube is formed using copy-subject (copy-object), then when one applies cube contraction on it with the object (the subject) and then matrix multiplication with the subject (the object).
-
-Copy-object diagonally places the object dimension into a cube, producing a closed form-formula:
-\begin{equation*}
-  \overrightarrow{\text{Sbj}} \odot (\overline{\text{Verb}} \times \overrightarrow{\text{Obj}})
-\end{equation*}
-Similarly, copy-subject diagonally places the subject dimension into a cube, producing a formula:
-\begin{equation*}
-  \overrightarrow{\text{Obj}} \odot (\overline{\text{Verb}}^{\mathsf{T}} \times \overrightarrow{\text{Sbj}})
-\end{equation*}
-
-This series of contraction and multiplication simplifies to these closed forms, due to the special shape of the cube (i.e.~created by copy-subject or copy-object). Note that the closed-form formulas do not include third order tensors.
-
-\newcite{kartsadrqpl2014} observe that copy-object and copy-subject address a partial interaction of the verb with its arguments and propose three more models that combine the interaction using vector addition (Frob.~add.~in Table~\ref{tbl:comp-methods}), element-wise vector multiplication (Frob.~mult.~in Table~\ref{tbl:comp-methods}) and tensor product (Frob.~outer in Table~\ref{tbl:comp-methods}).
-
-As a non-compositional baseline, we take the dummy operator \texttt{head}, which ignores the subject and the object of a phrase, causing the vector of a whole phrase to be equal to the vector of its verb \cite{milajevs-EtAl:2014:EMNLP2014}. 
 
 %%% Local Variables:
 %%% mode: latex
