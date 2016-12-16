@@ -1,16 +1,16 @@
 \chapter{Relationships between words}
 \label{sec:lexical}
 
-This chapter is dedicated to the lexical experiments.\footnote{Much of the work in this chapter has appeared as \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} at the ACL Student Workshop 2016.} The two datasets used are  SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}.
-%Some of the hypotheses from Section~\ref{sec:hypotheses} are expanded.
+This chapter is dedicated to the lexical experiments.\footnotemark{}
+\footnotetext{Much of the work in this chapter has appeared as \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} at the ACL Student Workshop 2016.}
+The two datasets used are  SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}.
+% Some of the hypotheses from Section~\ref{sec:hypotheses} are expanded.
 The experiment results and selected parameters are reported on the datasets individually. Then, the model selection is performed on a combination of the two datasets. The models are evaluated by computing the Spearman's-$\rho$ (the correlation of ranked model predictions with ranked human judgments), as is usually done \cite{Bruni:2014:MDS:2655713.2655714,hill2014simlex}.\footnotemark{}
 
 \footnotetext{The results are available at \url{\BASEURL/results_all.csv}.}
 
 \section{Experiments on SimLex-999 dataset}
 \label{sec:simlex-999}
-
-\input{figures/SimLex999-max-selection-table}
 
 \subsection{Max selection}
 \label{sec:max-selection-simlex}
@@ -28,6 +28,8 @@ Figure~\ref{fig:SimLex999-results} illustrates the results based on the best mod
 
 In general, model performance increases as the dimensionality increases, however, the best result of 0.389 is achieved with a 2000 dimensional space. Model performance becomes stable for dimensions greater than 20000.
 
+\input{figures/SimLex999-max-selection-table}
+
 As we see later in Section~\ref{sec:simlex-men} the best result is an example of overfitting. The 2000 dimensional model performs very well on SimLex-999 achieving the score of 0.389, but underperforms on MEN achieving the score of 0.660, while the model chosen using heuristics yields the score of 0.724 which is very close to the maximum result for this dimensionality (0.728, Figure~\ref{fig:SimLex999-transfer}).
 
 For spaces with dimensionality less than 5000, \texttt{freq} set to 1 and inner product as the similarity measure yield the best results. Otherwise, cosine with \logNSCPMI/, smoothing $\alpha=0.75$ and shifting $k=0.7$ gives the best results. This supports our hypotheses about optimal frequency (H\ref{hyp:freq}), smoothing (H\ref{hyp:cds}) and sparsity (H\ref{hyp:neg}).
@@ -35,16 +37,17 @@ For spaces with dimensionality less than 5000, \texttt{freq} set to 1 and inner 
 \subsection{Heuristics}
 \label{sec:heuristics-simlex}
 
-\input{figures/SimLex999-heuristics-selection-table}
-
 \input{figures/SimLex999-ablation}
 
 % \input{figures/SimLex999-interaction}
 
-The linear model achieves an adjusted $R^2$ value of 0.867, indicating that the model is able to predict model performance based on parameter selection quite well. Table~\ref{tab:SimLex999-ablation} shows partial $R^2$ scores for parameters. The most influential parameters, in decreasing order, are similarity, \texttt{freq} and \texttt{neg}.
+The linear model achieves an adjusted $R^2$ value of 0.867, indicating that the linear model is able to predict semantic similarity model performance based on parameters quite well. Table~\ref{tab:SimLex999-ablation} shows partial $R^2$ scores for parameters. The most influential parameters, in decreasing order, are similarity, \texttt{freq} and \texttt{neg}.
 
+\input{figures/SimLex999-heuristics-selection-table}
 \input{figures/SimLex999-similarity}
+
 Figure~\ref{fig:SimLex999-similarity} shows the average performance of similarity measures. Correlation outperforms all other measures for all dimensions and peaks at the dimensionality  of 20000 after correlation is chosen as the similarity measure. However, for $D \leq 5000$, the difference between correlation-based and cosine-based similarity measures is less than for $D > 5000$.
+
 
 The influence of \texttt{freq}, the second parameter, is shown in Figure~\ref{fig:SimLex999-freq}. $\log n$ frequency outperforms other choices for all dimensions. After 20000 dimensions, $\log n$'s performance stabilises: variance decreases and the performance stays constant. Taking into account that for $D \leq 5000$ there is little difference between $1$ and $\log n$, H\ref{hyp:freq} is supported in this case as well.
 % * <sdyck@ualberta.ca> 2016-11-04T02:29:12.287Z:
@@ -144,7 +147,7 @@ The average difference between Max selection and heuristics is 0.008, supporting
 
 \subsection{The difference between heuristics based on MEN and SimLex-999}
 
-Heuristics based on MEN agree with ones based on SimLex-999 fpr two parameters: frequency ($\log n$) and similarity (correlation). The methods disagree on \texttt{discr} (SCPMI versus SPMI, respectively, but the difference is negligible, as we expect by H\ref{hyp:lex-pmi-cpmi}), context distribution (smoothed versus global) and shifting parameter, for which higher values for MEN are preferred.
+Heuristics based on MEN agree with ones based on SimLex-999 for two parameters: frequency ($\log n$) and similarity (correlation). The methods disagree on \texttt{discr} (SCPMI versus SPMI, respectively, but the difference is negligible, as we expect by H\ref{hyp:lex-pmi-cpmi}), context distribution (smoothed versus global) and shifting parameter, for which higher values for MEN are preferred.
 
 \subsection{From SimLex-999 to MEN}
 \label{sec:simlex-men}
