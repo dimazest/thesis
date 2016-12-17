@@ -38,7 +38,7 @@ However, according to \emph{the principle of contextuality}, the word meaning in
 Never ask for the meaning of a word in isolation, but only in the context of a sentence.
 \end{displayquote}
 
-It is worth noting here that similarity in isolation is also problematic because the number of features an entity has is infinite, and it is easy to show that two entities will always have an infinite amount of common features \cite{goodman1972problems,hahn1997concepts}. For example, the tree next to my house is similar to my house because both of them are less than one kilometre in height, both of them are less than two kilometre in height, both of them are less than three kilometre in height and so on. 
+It is worth noting here that similarity in isolation is also problematic because the number of features an entity has is infinite, and it is easy to show that two entities will always have an infinite amount of common features \cite{goodman1972problems,hahn1997concepts}. For example, the tree next to my house is similar to my house because both of them are less than one kilometre in height, both of them are less than two kilometre in height, both of them are less than three kilometre in height and so on.
 
 To make similarity measurement possible, it has to be measured \emph{under a given description} \cite{WCS:WCS1282,medin1993respects,Markman1996}, thus, similarity is always contextualised. In other words, similarity emerges only when the possible properties are weighted. In our example, the tree and the house are similar with respect to the colour: both of them are green (the height properties are assigned zero weight).
 % On the other side, \newcite{Huth2016} were able to comprehensively map individual words across cortex, meaning that there are word representations supporting the idea of \newcite{WCS:WCS1282}.
@@ -108,7 +108,7 @@ Mathematically, the similarity can be expressed using, for instance, the cosine 
 %
 % > {(0\times0) + (10\times19) + (22\times93)
 %
-% adding parentheses makes it easier to tell where the numbers came from, but feel free to remove them if you want/disagree. 
+% adding parentheses makes it easier to tell where the numbers came from, but feel free to remove them if you want/disagree.
 %
 % ^.
 {\sqrt{0^2 + 10^2 + 22^2}\sqrt{0^2 + 19^2 + 93^2}} \approx
@@ -155,23 +155,23 @@ lexical similarity.
 They have also been proved to be successful at other tasks \cite{mikolov2013linguistic}. The vectors obtained by this method encode not only attributional similarity (similar words are close to each other), but also relational similarities \cite{Turney:2010:FMV:1861751.1861756}. For example, it is possible to extract the \texttt{singular:plural} relation (\textit{apple}:\textit{apples}, \textit{car}:\textit{cars}) using vector subtraction:
 %
 \begin{align*}
-  \overrightarrow{\mathit{apple}} - \overrightarrow{\mathit{apples}}
+  \ov{\mathit{apple}} - \ov{\mathit{apples}}
   \approx
-  \overrightarrow{\mathit{car}} - \overrightarrow{\mathit{cars}}
+  \ov{\mathit{car}} - \ov{\mathit{cars}}
 \end{align*}
 %
 also, semantic relationships are preserved:
 %
 \begin{align*}
-  \overrightarrow{\mathit{king}} - \overrightarrow{\mathit{man}}
+  \ov{\mathit{king}} - \ov{\mathit{man}}
   \approx
-  \overrightarrow{\mathit{queen}} - \overrightarrow{\mathit{woman}}
+  \ov{\mathit{queen}} - \ov{\mathit{woman}}
 \end{align*}
 %
 allowing the formation of analogy queries similar to
-$\overrightarrow{\mathit{king}} - \overrightarrow{\mathit{man}} +
-\overrightarrow{\mathit{woman}} = \mathtt{?}$, obtaining
-$\overrightarrow{\mathit{queen}}$ as the
+$\ov{\mathit{king}} - \ov{\mathit{man}} +
+\ov{\mathit{woman}} = \mathtt{?}$, obtaining
+$\ov{\mathit{queen}}$ as the
 result.
 
 \newcite{levy2014linguistic} refined the method of retrieving relational similarities by changing the objective function and improved the state-of-the-art results, both for neural embeddings and co-occurrence based vectors. However, recently the evaluation method based on analogies and vector offsets has been criticised---see \newcite{linzen:2016:RepEval}.
@@ -311,21 +311,216 @@ Methods based on the distributional hypothesis have recently been applied to man
 
 \emph{Compositional} distributional semantics goes beyond the word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator associativity, which ignores the argument order, and thus word order. As a result, ``\textit{John loves Mary}'' and ``\textit{Mary loves John}'' get assigned the same meaning.
 
-Concretely, if \textit{John}'s, \textit{Mary}'s and \textit{loves}'s meanings are
-represented as vectors $\ov{\mathit{john}}$, $\ov{\mathit{mary}}$ and
-$\ov{\mathit{loves}}$, the meaning of the sentence \textit{John loves Mary} is
-$\ov{\mathit{john}} + \ov{\mathit{loves}} + \ov{\mathit{mary}}$.
-
-To capture word order and the syntactic structure of a sentence, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} extend the compositional approach by using non-associative linear algebra operators as proposed in the theoretical work of \newcite{DBLP:journals/corr/abs-1003-4394}.
-
-The functional applications of semantic terms can be replaced with tensors \cite{Bourbaki1998commutative}. Then, a transitive verb is represented by a matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ \cite{Grefenstette:2011:ESC:2145432.2145580}, where $\ov{s_i}$ and $\ov{o_i}$ are the subject-object pairs of the verb and $\otimes$ is the Kronecker product. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$, where $\odot$ is the element-wise product.
-% * <sdyck@ualberta.ca> 2016-11-03T03:46:50.769Z:
+Consider that \textit{John}'s, \textit{Mary}'s and \textit{loves}'s meanings are represented as vectors $\ov{\text{\it john}} = [4, 60, 59]$, $\ov{\text{\it mary}} = [0, 10, 22]$ and $\ov{\text{\it loves}} = [10, 100, 20]$, respectively. Then the meaning of the sentence \textit{John loves Mary} obtained using addition is:
 %
-% > it{loves
+\begin{align*}
+  \ov{\text{\it John loves Mary}}_{\text{addition}} &= \vv{\mathit{john}} + \ov{\mathit{loves}} + \ov{\mathit{mary}} \\
+                                  &= [4, 60, 59] + [10, 100, 20] + [0, 10, 22] \\
+                                  &= [14, 170, 101]
+\end{align*}
 %
-% Should this have a vector symbol above it, rather than a straight line?
-% DM: no, becausue it's a matrix, not a vector.
-% ^.
+It is similar for multiplication, where element-wise multiplication is used instead of addition:
+%
+\begin{align*}
+  \ov{\text{\it John loves Mary}}_{\text{multiplication}} &= \ov{\mathit{john}} \odot \ov{\mathit{loves}} \odot \ov{\mathit{mary}} \\
+                                  &= [4, 60, 59] \odot [10, 100, 20] \odot [0, 10, 22] \\
+                                  &= [0, 60\,000, 25\,960]
+\end{align*}
+
+To capture word order and the syntactic structure of a sentence, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} use non-associative linear algebra operators as proposed in the theoretical work of \newcite{DBLP:journals/corr/abs-1003-4394}. There, the functional applications of semantic terms are replaced with tensors \cite{Bourbaki1998commutative}.
+
+Kronecker \cite{Grefenstette:2011:ETV:2140490.2140497} is one of categorical operators. It represents the verb of a phrase as a matrix and the subject and the object as vectors. The verb matrix is defined as the Kronecker product---which gives the name to the compositional operator---of the vector of a verb with itself:
+%
+\begin{equation*}
+  \widetilde{\mathit{Verb}} = \ov{\mathit{Verb}} \otimes \ov{\mathit{Verb}}
+\end{equation*}
+%
+where $\otimes$ is the Kronecker product. The vector of a subject-verb-object phrase is computed as:
+%
+\begin{equation*}
+  \ov{\text{\it Subj Verb Obj}} = \widetilde{\text{\it Verb}} \odot (\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}})
+\end{equation*}
+%
+The derivation of the of the meaning of the phrase \textit{John loves Mary} using Kronecker is:
+\begin{align*}
+  \ov{\text{\it John loves Mary}}_{\text{Kronecker}} &= \widetilde{\text{\it loves}} \odot (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) \\
+                                  &= (\ov{\text{\it loves}} \otimes \ov{\text{\it loves}}) \odot (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) \\
+                                  &=([10, 100, 20] \otimes [10, 100, 20]) \odot ([4, 60, 59] \otimes [0, 10, 22]) \\
+  \displaybreak[0]
+                                  &=\begin{bmatrix}
+                                       100 &  1\,000 &     200 \\
+                                    1\,000 & 10\,000 &  2\,000 \\
+                                       200 &  2\,000 &     400
+                                     \end{bmatrix} %
+                                     \odot %
+                                     \begin{bmatrix} %
+                                         0 &     40 &      88  \\
+                                         0 &    600 &  1\,320  \\
+                                         0 &    590 &  1\,298
+                                       \end{bmatrix} \\
+  \displaybreak[0]
+                                  &= \begin{bmatrix}
+                                         0 &     40\,000 &     17\,600 \\
+                                         0 & 6\,000\,000 & 2\,640\,000 \\
+                                         0 & 1\,180\,000 &    519\,200
+                                    \end{bmatrix}
+\end{align*}
+
+% Then, a transitive verb is represented by a matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ \cite{Grefenstette:2011:ESC:2145432.2145580}, where $\ov{s_i}$ and $\ov{o_i}$ are the subject-object pairs of the verb and $\otimes$ is the Kronecker product. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$, where $\odot$ is the element-wise product.
+
+For other categorical operators, a transitive verb is represented by matrix $\overline{\text{\it Verb}}$, which is obtained from a corpus using the formula \cite{Grefenstette:2011:ESC:2145432.2145580}:
+$$
+\overline{\text{\it Verb}} = \sum_i\ov{s_i} \otimes \ov{o_i}
+$$
+where $\ov{s_i}$ and $\ov{o_i}$ are the subject-object pairs of the verb found in the source corpus.
+
+This encodes into the verb matrix all the contextual information of the subjects and objects of the verb. They way it is constructed (by pairing subjects and objects of the verb) is the same way a verb predicate is built in formal semantics, that is by pairing the subjects and objects. But here, instead of packing the pairs into a set, one develops a vector from them, at the same time, each pair gets a real number value assigned to it.
+
+To continue the example, imagine that the verb \textit{loves} was seen three times in the corpus: \textit{John loves Mary}, \textit{Peter likes coffee} and \textit{Mary likes hiking}. The matrix $\overline{\text{\it loves}}$ is computed as:
+\begin{align*}
+  \overline{\text{\it loves}} &= (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) + %
+                                 (\ov{\text{\it peter}} \otimes \ov{\text{\it coffee}}) + %
+                                 (\ov{\text{\it mary}} \otimes \ov{\text{\it hiking}}) \\
+                              &= \begin{bmatrix}
+                                   120 &  1\,390 &    658 \\
+                                1\,360 & 13\,670 & 2\,874 \\
+                                   390 &  3\,930 &    846
+                              \end{bmatrix}
+\end{align*}
+
+Relational compositional operator is defined as \cite{Grefenstette:2011:ESC:2145432.2145580}:
+\begin{equation*}
+  \overline{\text{\it Verb}} \odot (\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}})
+\end{equation*}
+
+Informally, it identifies the interaction of the features of the subject and the object by the Kronecker product $\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}}$ that are later filtered by verb using point-wise multiplication \cite{Grefenstette:2011:ESC:2145432.2145580}. The filtering by verb is needed because the subject and the object can belong to several relations.
+
+In the example, the meaning is computed similarly to Kronecker, but a different verb matrix is used:
+%
+\begin{align*}
+  \ov{\text{\it John loves Mary}}_{\text{relational}} &= \overline{\text{\it loves}} \odot (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) \\
+  \displaybreak[0]
+                                  &= \begin{bmatrix}
+                                       120 &  1\,390 &    658 \\
+                                    1\,360 & 13\,670 & 2\,874 \\
+                                       390 &  3\,930 &    846
+                                     \end{bmatrix} %
+                                     \odot %
+                                     \begin{bmatrix} %
+                                         0 &     40 &      88  \\
+                                         0 &    600 &  1\,320  \\
+                                         0 &    590 &  1\,298
+                                       \end{bmatrix} \\
+  \displaybreak[0]
+                                  &= \begin{bmatrix}
+                                    0 &     55\,600 &     57\,904 \\
+                                    0 & 8\,202\,000 & 3\,793\,680 \\
+                                    0 & 2\,318\,700 & 1\,098\,108 \\
+                                    \end{bmatrix}
+\end{align*}
+
+The categorical framework of \newcite{DBLP:journals/corr/abs-1003-4394} requires the meaning of the verb to be a tensor of third order (it has to be a cube), but the Relational method of \newcite{Grefenstette:2011:ESC:2145432.2145580} constructs verb meanings as tensors of second order (they are matrices). To apply the categorical framework, \newcite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} embeds the second order verb matrix into a third order space by a map $\sigma: N^2 \to N^3$. This map is one of the maps of the Frobenius algebra over vector space N.
+
+The Frobenius operation $\sigma$ turns a matrix into a cube by filing the extra dimension of the cube and gives some options on how the mapping can be implemented. The operators copy-subject and copy-object \cite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} implement this idea. The cube is formed using copy-subject (copy-object), then when one applies cube contraction on it with the object (the subject) and then matrix multiplication with the subject (the object).
+
+Copy-object diagonally places the object dimension into a cube, producing a closed form-formula:
+%
+\begin{equation*}
+  \ov{\text{\it Sbj}} \odot (\overline{\text{\it Verb}} \times \ov{\text{\it Obj}})
+\end{equation*}
+%
+where $\times$ is matrix multiplication. The vector representation of \textit{John loves Mary} using copy-object is:
+%
+\begin{align*}
+  \ov{\text{\it John loves Mary}}_{\text{copy-object}} &=\ov{\text{\it john}} \odot (\overline{\text{\it loves}} \times \ov{\text{\it mary}}) \\
+                                                       &= [4, 60, 59]%
+                                                         \odot \left(%
+                                                         \begin{bmatrix}
+                                                           120 &  1\,390 &    658 \\
+                                                           1\,360 & 13\,670 & 2\,874 \\
+                                                           390 &  3\,930 &    846
+                                                         \end{bmatrix} %
+                                                         \times%
+                                                         [0, 10, 22]%
+                                                                           \right) \\
+                                                       &= [4, 60, 59] \odot [28\,376, 199\,928,  57\,912] \\
+                                                       &= [113\,504, 11\,995\,680,  3\,416\,808]
+\end{align*}
+
+Similarly, copy-subject diagonally places the subject dimension into a cube, producing a formula:
+\begin{equation*}
+  \ov{\text{\it Obj}} \odot (\ov{\text{\it Verb}}^{\mathsf{T}} \times \ov{\text{\it Sbj}})
+\end{equation*}
+%
+Again, in the example:
+\begin{align*}
+  \ov{\text{\it John loves Mary}}_{\text{copy-subject}} &=\ov{\text{\it mary}} \odot (\overline{\text{\it loves}}^{\mathsf{T}} \times \ov{\text{\it john}}) \\
+                                                        &= [0, 10, 22]%
+                                                          \odot%
+                                                          \left(%
+                                                          \begin{bmatrix}
+                                                               120 &  1\,360 &    390 \\
+                                                            1\,390 & 13\,670 & 3\,930 \\
+                                                               658 &  2\,874 &    846 \\
+                                                          \end{bmatrix} %
+                                                          \times%
+                                                          [4, 60, 59]%
+                                                          \right) \\
+  \displaybreak[0]
+                                                        &= [0, 10, 22] \odot [105\,090, 1\,057\,630,  224\,986] \\
+                                                        &= [0, 10\,576\,300,  4\,949\,692]
+\end{align*}
+%
+The series of contraction and multiplication simplifies to these closed forms, due to the special shape of the cube (that is created by copy-subject or copy-object). Note that the closed-form formulas do not include third order tensors.
+
+\newcite{kartsadrqpl2014} observe that copy-object and copy-subject address a partial interaction of the verb with its arguments and propose a family of three \textit{Frobenius operators} that combine copy-object and copy-subject together.
+
+Frobenius addition used addition to combine the results:
+\begin{equation*}
+  \big(\ov{\text{\it Sbj}} \odot (\overline{\text{\it Verb}} \times \ov{\text{\it Obj}})\big) + %
+  \big(\ov{\text{\it Obj}} \odot (\overline{\text{\it Verb}}^{\mathsf{T}} \times \ov{\text{\it Sbj}})\big)
+\end{equation*}
+%
+So the computation of \textit{John loves Mary} is:
+%
+\begin{align*}
+  \ov{\text{\it John loves Mary}}_{\text{Frobenius add}} &=  \ov{\text{\it John loves Mary}}_{\text{copy-object}} +  \ov{\text{\it John loves Mary}}_{\text{copy-subject}}\\
+                                                         &= [113\,504, 11\,995\,680,  3\,416\,808] + [0, 10\,576\,300,  4\,949\,692] \\
+                                                         &= [113\,504, 22\,571\,980,  8\,366\,500]
+\end{align*}
+
+Element-wise vector multiplication is used by Frobenius multiplication:% (Frob.~mult.~in Table~\ref{tbl:comp-methods})
+\begin{equation*}
+  \big(\ov{\text{\it Sbj}} \odot (\overline{\text{\it Verb}} \times \ov{\text{\it Obj}})\big) \odot %
+  \big(\ov{\text{\it Obj}} \odot (\overline{\text{\it Verb}}^{\mathsf{T}} \times \ov{\text{\it Sbj}})\big)
+\end{equation*}
+%
+Similarly, the computation of \textit{John loves Mary} becomes:
+%
+\begin{align*}
+  \ov{\text{\it John loves Mary}}_{\text{Frobenius mult}} &=  \ov{\text{\it John loves Mary}}_{\text{copy-object}} \odot \ov{\text{\it John loves Mary}}_{\text{copy-subject}}\\
+                                                         &= [113\,504, 11\,995\,680,  3\,416\,808] \odot [0, 10\,576\,300,  4\,949\,692] \\
+                                                         &= [0, 126\,869\,910\,384\,000,  16\,912\,147\,223\,136]
+\end{align*}
+
+Finally, Kronecker product is used in Frobenius outer:% (Frob.~outer in Table~\ref{tbl:comp-methods}).
+\begin{equation*}
+  \big(\ov{\text{\it Sbj}} \odot (\overline{\text{\it Verb}} \times \ov{\text{\it Obj}})\big) \otimes %
+  \big(\ov{\text{\it Obj}} \odot (\overline{\text{\it Verb}}^{\mathsf{T}} \times \ov{\text{\it Sbj}})\big)
+\end{equation*}
+%
+Making the computation of \textit{John loves Mary} look like:
+\begin{align*}
+  \ov{\text{\it John loves Mary}}_{\text{Frobenius outer}} &=  \ov{\text{\it John loves Mary}}_{\text{copy-object}} \otimes \ov{\text{\it John loves Mary}}_{\text{copy-subject}}\\
+                                                         &= [113\,504, 11\,995\,680,  3\,416\,808] \otimes [0, 10\,576\,300,  4\,949\,692] \\
+                                                           &=%
+                                                             \begin{bmatrix}
+0 &   1\,200\,452\,355\,200 &      56\,1809\,840\,768 \\
+0 & 126\,869\,910\,384\,000 &  59\,374\,921\,330\,560 \\
+0 &  36\,137\,186\,450\,400 &  16\,912\,147\,223\,136 \\
+                                                             \end{bmatrix}
+\end{align*}
+
 
 \subsection{Similarity of heads in context}
 \label{sec:similarity-context}
