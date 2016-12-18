@@ -287,6 +287,9 @@ As a non-compositional baseline, we take the dummy operator \texttt{head}, which
 
 To conduct the study, we introduce hypotheses that reflect the current consensus in the field of distributional semantics and facilitate the answering of the research questions.
 
+\subsection{General hypotheses}
+\label{sec:general-hyp}
+
 \begin{hyp}[H\ref{hyp:overfitting}]
 \label{hyp:overfitting}
 Heuristics-based model selection avoids overfitting.
@@ -308,14 +311,70 @@ High-dimensional models are more likely to perform better than their low dimensi
 
 As the vector space dimensionality increases, performance stabilises \cite{kiela-clark:2014:CVSC,BullinariaLevy2012,lapesa2014large}. We speculate that in a high-dimensional case the difference between parameter choices matters less and thus higher results are reported more often for high-dimensional spaces.
 
-\begin{hyp}[H\ref{hyp:dimen}]
-\label{hyp:dimen}
-The optimal parameter choice should depend on dimensionality.
+\begin{hyp}[H\ref{hyp:universal}]
+\label{hyp:universal}
+There is a universal model that performs well on a broad range of tasks.
 \end{hyp}
 
-\newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} showed that the parameter recommendations provided by \newcite{TACL570} are not applicable to the vector spaces with a dimensionality of a few thousand.
+We are interested to see whether there is one parameter choice that performs competitively on all tasks. The results of \citet{lapesa2014large} show that there is a general model whose performance is close to dataset- and task-specific models. We expect this to be the case also for compositional models.
 
-The difference could be because the co-occurrence counts of the most frequent pairs do not contain noise. The counts (and therefore the probability estimates) of less frequent pairs are noisy and require a special treatment to compensate for PMI's Achilles heel when small co-occurrence counts lead to extremely high PMI values \cite{TACL570}.
+\subsection{Parameter dependence on dimensionality}
+\label{sec:hyp-dimen}
+
+\begin{hyp}[H\ref{hyp:dimen}]
+\label{hyp:dimen}
+The optimal parameter choice depends on dimensionality.
+\end{hyp}
+
+% \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} showed that the parameter recommendations provided by \newcite{TACL570} are not applicable to the vector spaces with a dimensionality of a few thousand.
+
+We expect that the co-occurrence counts of the most frequent pairs do not contain noise (note that dimensions are ranked by the frequency of the corresponding features, so by design the low-dimensional vector spaces incorporate the most frequent features). The counts, and therefore the probability estimates, of less frequent pairs are noisy and require a special treatment to compensate for PMI's Achilles heel when small co-occurrence counts lead to extremely high PMI values \cite{TACL570}.
+
+\begin{hyp}[H\ref{hyp:freq}]
+  \label{hyp:freq}
+ $N$ or $\log n$ frequency components (Section~\ref{sec:frequency-weighting}) is beneficial for highly-dimensional spaces.
+\end{hyp}
+
+This is the most direct way of boosting high co-occurrence counts \cite{Evert05}. \NPMI/ is shown to be a good choice in lexical tasks \cite{Bruni:2012:DST:2390524.2390544}.
+
+\begin{hyp}[H\ref{hyp:cds}]
+  \label{hyp:cds}
+  Low-dimensional spaces do not need context distribution smoothing, while high-dimensional spaces benefit from it (Section~\ref{sec:cont-distr-smooth}).
+\end{hyp}
+
+This is because the estimated probabilities of rare contexts are noisy. This smoothing is shown successfully in high-dimensional count-based models \cite{TACL570} and word2vec \cite{mikolov2013efficient}. However, \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} showed that low-dimensional spaces benefit from global context probabilities.
+
+\begin{hyp}[H\ref{hyp:neg}]
+  \label{hyp:neg}
+  Low-dimensional spaces benefit from being dense, while highly-dimensional spaces benefit from being sparse.
+\end{hyp}
+
+Sparsity is controlled by the shifting parameter $k$ (Section~\ref{sec:shifted-pmi}); lower $k$ values make vectors denser.
+
+\begin{hyp}[H\ref{hyp:similarity}]
+  \label{hyp:similarity}
+  Cosine is an optimal similarity measure for low-dimensional spaces, while correlation is for highly-dimensional spaces.
+\end{hyp}
+
+% We observed such behaviour in lexical tasks (Section~\ref{sec:conclusion-lexical}) and expect to see similar behaviour in compositional tasks.
+
+\subsection{Lexical}
+\label{sec:elab-hypoth-lexical}
+
+% Before reporting the results of the lexical experiments, we would like to expand upon the lexical hypotheses stated in Section~\ref{sec:hypotheses}.
+
+\begin{hyp}[H\ref{hyp:lex-pmi-cpmi}]
+  \label{hyp:lex-pmi-cpmi}
+  In lexical tasks, there should be little difference between PMI and its compressed version CPMI (Section~\ref{sec:pmi-variants}).
+% Shifted PMI variants behave the same (Section~\ref{sec:shifted-pmi}).
+\end{hyp}
+
+The main effect of CPMI is to transform negative values into the positive range of $(0; 1)$. One of the reasons to avoid negative values is that they might be problematic for multiplication during composition, as the sign of the result depends on the number of negative components. However, as there is no composition involved in lexical tasks, the weighting schemes should behave equally.
+
+The next hypotheses are related to PMI's ``Achilles heel'' and are supposed to lower the influence of low co-occurrence counts, therefore, we expect that they are beneficial for highly dimensional spaces as shown in \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
+
+\subsection{Composition}
+\label{sec:hyp-composition}
 
 \begin{hyp}[H\ref{hyp:not-lextocomp}]
 \label{hyp:not-lextocomp}
@@ -329,55 +388,7 @@ If this is the case, then iterative tuning of parameters is justified. As an imp
 The best models for compositional tasks should take word order into account.
 \end{hyp}
 
-It has been shown that addition performs very well in compositional tasks \cite{milajevs-EtAl:2014:EMNLP2014}, but that could be because optimal parameters for other operators were not chosen.
-
-\begin{hyp}[H\ref{hyp:universal}]
-\label{hyp:universal}
-There is a universal model that performs well on a broad range of tasks.
-\end{hyp}
-
-We are interested to see whether there is one parameter choice that performs competitively on all tasks. The results of \citet{lapesa2014large} show that there is a general model whose performance is close to dataset- and task-specific model. We expect this to be the case also for compositional models.
-
-\subsection{Specialised hypotheses (lexical)}
-\label{sec:elab-hypoth-lexical}
-
-Before reporting the results of the lexical experiments, we would like to expand upon the lexical hypotheses stated in Section~\ref{sec:hypotheses}.
-
-\begin{hyp}[H\ref{hyp:lex-pmi-cpmi}]
-  \label{hyp:lex-pmi-cpmi}
-  In lexical tasks, there should be little difference between PMI and its compressed version CPMI (Section~\ref{sec:pmi-variants}).
-% Shifted PMI variants behave the same (Section~\ref{sec:shifted-pmi}).
-\end{hyp}
-
-The main effect of CPMI is to transform negative values into the positive range of $(0; 1)$. One of the reasons to avoid negative values is that they might be problematic for multiplication during composition, as the sign of the result depends on the number of negative components. However, as there is no composition involved in lexical tasks, the weighting schemes should behave equally.
-
-The next hypotheses are related to PMI's ``Achilles heel'' and are supposed to lower the influence of low co-occurrence counts, therefore, we expect that they are beneficial for highly dimensional spaces as shown in \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
-
-\begin{hyp}[H\ref{hyp:freq}]
-  \label{hyp:freq}
- $N$ or $\log n$ frequency components (Section~\ref{sec:frequency-weighting}) should be beneficial for highly-dimensional spaces.
-\end{hyp}
-
-This is the most direct way of boosting high co-occurrence counts \cite{Evert05}. \NPMI/ is shown to be a good choice in lexical tasks \cite{Bruni:2012:DST:2390524.2390544}.
-
-\begin{hyp}[H\ref{hyp:cds}]
-  \label{hyp:cds}
-  Low-dimensional spaces should not need context distribution smoothing, while high-dimensional spaces should benefit from it (Section~\ref{sec:cont-distr-smooth}).
-\end{hyp}
-
-This is because the estimated probabilities of rare contexts are noisy. This smoothing is shown successfully in high-dimensional count-based models \cite{TACL570} and word2vec \cite{mikolov2013efficient}. However, \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} showed that low-dimensional spaces benefit from global context probabilities.
-
-\begin{hyp}[H\ref{hyp:neg}]
-  \label{hyp:neg}
-  Low-dimensional spaces benefit from being dense, while highly-dimensional spaces benefit from being sparse.
-\end{hyp}
-
-Sparsity is controlled by the shifting parameter $k$ (Section~\ref{sec:shifted-pmi}); lower $k$ values make vectors denser.
-
-\subsection{Specialised hypotheses (compositional)}
-\label{sec:elab-hypoth-comp}
-
- As for the lexical experiments (Section~\ref{sec:elab-hypoth-lexical}), before reporting the results we refine some of our initial hypotheses (Section~\ref{sec:hypotheses}).
+% It has been shown that addition performs very well in compositional tasks \cite{milajevs-EtAl:2014:EMNLP2014}, but that could be because optimal parameters for other operators were not chosen.
 
 \begin{hyp}[H\ref{hyp:comp-pmi-cpmi}]
   \label{hyp:comp-pmi-cpmi}
@@ -385,16 +396,6 @@ Sparsity is controlled by the shifting parameter $k$ (Section~\ref{sec:shifted-p
 \end{hyp}
 
 One of the reasons for this is the presence of negative values. For example, in the case of multiplication as a compositional operator, the sign of a vector component depends on the number of the corresponding negative components of the constituents. If the number of negative values is odd, then the resulting value will be negative---this makes the difference between 0.001 and -0.001 significant. In the first case, the value means that the co-occurrence pair is weakly associated, but in the second case, the value means that the co-occurrence is weakly unassociated. This also applies to categorical operators where the signs of the result vector components depends on the number of multiplication operations that leads to them.
-
-We also expect hypotheses related to PMI's Achilles heel (H\ref{hyp:freq}, H\ref{hyp:cds}, H\ref{hyp:neg}) to apply in the compositional case.
-
-\begin{hyp}[H\ref{hyp:similarity}]
-  \label{hyp:similarity}
-  Cosine is an optimal similarity measure for low-dimensional spaces, while correlation is for highly-dimensional spaces.
-\end{hyp}
-
-We observed such behaviour in lexical tasks (Section~\ref{sec:conclusion-lexical}) and expect to see similar behaviour in compositional tasks.
-
 
 %%% Local Variables:
 %%% mode: latex
