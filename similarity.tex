@@ -4,27 +4,29 @@
 \section{The notion of similarity}
 \label{sec:similarity}
 
-Similarity is the degree of resemblance between two objects or events \cite{WCS:WCS1282} and plays a crucial role in psychological theories of knowledge and behaviour, where it is used to explain such phenomena as classification and conceptualisation \cite{Tversky1977,1986-13502-00119860101,medin1993respects,Markman1996,hahn1997concepts}. \textit{Fruit} is a \emph{category} because it is a practical generalisation. Fruits are sweet and generally constitute desserts, so when one is presented with an unseen fruit, one can hypothesise that it is served toward the end of a dinner.
+Similarity is the degree of resemblance between two objects or events \cite{WCS:WCS1282}. It plays a crucial role in psychological theories of knowledge and behaviour, where similarity is used to explain such phenomena as classification and conceptualisation \cite{Tversky1977,1986-13502-00119860101,medin1993respects,Markman1996,hahn1997concepts}. \textit{Fruit} is a \emph{category} because it is a practical generalisation. Fruits are sweet and generally constitute desserts, so when one is presented with an unseen fruit, one can hypothesise that it is served toward the end of a dinner.
 
 Generalisations are extremely powerful in describing a language, as well. The verb \textit{runs} requires its subject to be singular. \textit{Verb}, \textit{subject} and \textit{singular} are categories that are used to describe English grammar. When one encounters an unknown word and is told that it is a verb, one will immediately have an idea about how to use it, assuming that it is used similarly to other English verbs.
 
-From a computational perspective, this motivates and guides the development of \emph{semantic similarity} (in the sense that they measure the degree of resemblance of meaning) components that are embedded into natural language processing systems.
+From a computational perspective, this motivates and guides the development of similarity components that are embedded into automatic systems that deal with natural language.
+
+The information that the word \textit{carpet} is similar in meaning to the word \textit{mat} might be exploited by a language model in estimating the probability of the sentence \textit{the cat sat on the carpet}, even if it did not occur in the corpus, but \textit{cat sat on the mat} did \cite{bengio2006}.
 
 In Information Retrieval (IR), queries are expanded with related terms to increase the number of retrieved relevant documents. For example, if a user issues the query \textit{lakes in Sweden}, the system might add related words to the query such as \textit{lake}, \textit{reservoir}, \textit{river} or even \textit{swim} so that the documents that do not contain the word \textit{lakes} are retrieved \cite{Xu:1996:QEU:243199.243202}.
 % \cite{Salton:1975:VSM:361219.361220}
 
 A dependency parser might benefit from a generalisation about the part of speech tag of a word which did not occur in the training data, based on its occurrence pattern in a large corpus of documents from the web \cite{hermann-blunsom:2013:ACL2013,andreas-klein:2014:P14-2}.
 
-The information that the word \textit{carpet} is similar in meaning to the word \textit{mat} might be exploited by a language model in estimating the probability of the sentence \textit{the cat set on the carpet}, even if it did not occur in the corpus, but \textit{cat sat on the mat} did \cite{bengio2006}.
-
 A dialogue act tagging system might require classification of an utterance based on its role in a dialogue, such as a question or an acknowledgement \cite{kalchbrenner-blunsom:2013:CVSC}.
 
-The examples show that similarity is a broad term that is task-dependent. An IR system needs to identify semantically similar (\textit{lake}, \textit{river}) and related (\textit{lake}, \textit{swim}) terms. A dependency parser benefits from the similarity of word usage. A language model exploits similarity in word meaning. A dialogue act tagging system relies on the role similarity of the utterances. Also different linguistic entities are compared, the similarity can be measured between pairs of words and pairs of sentences.
+The examples show that similarity is a broad term that is task-dependent. An IR system needs to identify semantically similar (\textit{lake}, \textit{river}) and related (\textit{lake}, \textit{swim}) terms. A dependency parser benefits from the similarity of word usage. A language model exploits similarity in word meaning. A dialogue act tagging system relies on the similarity of the roles that the utterances play in the discourse.
+
+A computational model that estimates similarity needs not only to take into account the different flavours of the similarity relation, but also to be able to measure similarity between pairs of words, between pairs of phrases or even between whole sentences, utterances or documents.
 
 \section{Representation for similarity measurement}
 \label{sec:word-meaning}
 
-According to \newcite{WCS:WCS1282}, ``similarity is an essentially psychological notion, based on the way we represent objects, that is, the way they appear to us.'' Since it is not yet known how objects are represented in human mind, the computational way of representing meaning to measure semantic similarity has to be agreed upon. However, one needs to be extremely careful when the meaning representation is decided, as it is unavoidably connected to the \emph{meaning of words in isolation}.
+According to \newcite{WCS:WCS1282}, ``similarity is an essentially psychological notion, based on the way we represent objects, that is, the way they appear to us.'' Since it is not yet known how objects are represented in human mind, the computational way of object representation for similarity estimation has to be agreed upon. However, one needs to be extremely careful when the object representation is decided, as it is unavoidably connected to the \emph{meaning of words in isolation}.
 
 % The semantic formalisation of similarity is based on two ideas. The occurrence pattern of a word \emph{defines} its meaning \cite{firth1957lingtheory}, while the difference in occurrence between two words \emph{quantifies} the difference in their meaning \cite{harris1954distributional}.
 
@@ -38,34 +40,33 @@ However, according to \emph{the principle of contextuality}, the word meaning in
 Never ask for the meaning of a word in isolation, but only in the context of a sentence.
 \end{displayquote}
 
-It is worth noting here that similarity in isolation is also problematic because the number of features an entity has is infinite, and it is easy to show that two entities will always have an infinite amount of common features \cite{goodman1972problems,hahn1997concepts}. For example, the tree next to my house is similar to my house because both of them are less than one kilometre in height, both of them are less than two kilometre in height, both of them are less than three kilometre in height and so on.
+It is worth noting here that the measurement of similarity in isolation is also problematic because the number of features an entity has is infinite, and it is easy to show that two entities will always have an infinite amount of common features making the degree of resemblance undefined \cite{goodman1972problems,hahn1997concepts}. For example, the tree next to my house is similar to my house because both of them are less than one kilometre in height, both of them are less than two kilometre in height, both of them are less than three kilometre in height and so on.
 
-To make similarity measurement possible, it has to be measured \emph{under a given description} \cite{WCS:WCS1282,medin1993respects,Markman1996}, thus, similarity is always contextualised. In other words, similarity emerges only when the possible properties are weighted. In our example, the tree and the house are similar with respect to the colour: both of them are green (the height properties are assigned zero weight).
-% On the other side, \newcite{Huth2016} were able to comprehensively map individual words across cortex, meaning that there are word representations supporting the idea of \newcite{WCS:WCS1282}.
+To make similarity measurement possible, it has to be measured \emph{under a given description} \cite{WCS:WCS1282,medin1993respects,Markman1996}. Thus, similarity is always contextualised. In other words, similarity emerges only when the possible properties are weighted. In our example, the tree and the house are similar with respect to the colour: both of them are green. The height properties and other irrelevant properties are assigned zero weight making the number of non-zero feature values finite.
 
 Frege's principle of contextuality allows us to define the meaning of a word by identifying its contribution to the meaning of a sentence. Firth's \citeyearpar{firth1957lingtheory} famous quote that ``you shall know a word by the company it keeps,'' suggests that the word meaning can be \emph{modelled} as the combination of the meanings of its occurrences in sentences of a corpus. Note that this does not provide the absolute word meaning, but only its meaning relative to the corpus. This assumption is also supported by the distributional hypothesis of \newcite{harris1954distributional} that the differences of occurrences of two words quantify the difference in their relative meaning, but do not necessarily define the meaning.
 
 Once the relative word meaning is accepted, compositionality can be used to obtain representations of phrases and sentences \cite{THEO:THEO373,Dowty1980,sep-montague-semantics,DBLP:journals/corr/abs-1003-4394,baroni2014frege}.
 
-\section{Word meaning}
+We continue with an overview of the main ideas behind the word and phrase representations for similarity measurement. It is later followed by the discussion of the common empirical evaluation procedures and the strategies of obtaining reliable evaluation results.
+
+\section{Representation of words}
 \label{sec:distr-hypoth}
 
-% In principle, we would like to capture the intuition that while \textit{John} and \textit{Mary} are distinct entities, they are rather similar to each other (both of them are humans) and are dissimilar to \textit{dog}, \textit{pavement} or \textit{idea}. However, we start with the word meaning representation that captures the fact that entities are distinct, but does not provide the means to measure similarity.
+In principle, we would like to capture the intuition that while \textit{John} and \textit{Mary} are distinct entities, they are rather similar to each other---because both of them are humans---and are dissimilar to \textit{dog}, \textit{pavement} or \textit{idea}. However, we start with the word meaning representation that captures the fact that entities are distinct, but does not provide the means to measure similarity.
 
-% The same applies at the phrase and sentence level: \textit{dogs chase cats} is similar in meaning to \textit{hounds pursue kittens}, but less so to \textit{cats chase dogs} (despite the lexical overlap).
-
-\subsection{Formal semantics}
+\subsection{Representation for inference}
 \label{sec:classical-approaches}
 
 Formal semantics provides the means to infer some piece of information from another. The main studied relation is the entailment of sentences, for example, \textit{John swims in Åresjön} entails \textit{John swims in a Swedish lake}. To evaluate entailment, the sentences are converted to formulas. The words correspond to symbols in formal logic.
 
 The individual \textit{Åresjön} corresponds to the symbol \textit{Åresjön'}, which is mapped to the actual lake by the interpretation function $\mathcal{I}$.
 
-One-place properties are seen as sets of individuals, so $\mathcal{I}(\mathit{Swedish'})$ is a set that contains $\mathcal{I}(\mathit{Åresjön'})$ and $\mathcal{I}(\mathit{Väsman'})$ among many other entities.
+One-place properties are seen as sets of individuals, so $\mathcal{I}(\mathit{Swedish'})$ is a set that contains $\mathcal{I}(\mathit{Åresjön'})$ and $\mathcal{I}(\mathit{Väsman'})$ among many other Swedish entities.
 
 \textit{Swim'} is a two-place predicate that is represented as a set that contains the pairs between which the relation holds, so if John actually swims in Åresjön, then $\mathcal{I}(\mathit{swim'})$ will contain the pair $(\mathcal{I}(\mathit{John'}), \mathcal{I}(\mathit{Åresjön'}))$.
 
-While such formalism is very powerful for entailment detection between sentences, similarity measurement is problematic, because there is no relation between atomic symbols: we only know that \textit{Åresjön} and \textit{Väsman} correspond to different entities in the universe, but know nothing about their properties.
+While such formalism is very powerful for entailment detection between sentences, similarity measurement is problematic, because there is no relation between atomic symbols: we only know that \textit{Åresjön} and \textit{Väsman} correspond to different entities in the universe, but know nothing about the resemblance between their properties.
 
 \subsection{Distributional semantics}
 \label{sec:distr-repr}
@@ -74,9 +75,9 @@ Distributional methods provide a way to measure similarity between symbols. The 
 
 For example, one can construct a vector space in which the dimensions correspond to contexts, which are usually other words. The word vector components can then be calculated by taking the frequency with which the word co-occurred with the corresponding contexts within a predefined window in a corpus of interest. The similarity in meaning can be expressed via a suitable distance metric within the space.
 
-\begin{wraptable}[10]{O}{7cm}
+\begin{wraptable}[9]{O}{7cm}
   \centering
-  %\vspace{-1em}
+  \vspace{-1em}
   \begin{tabular}{lrrr}
     \toprule
     & philosophy & book & school \\
@@ -94,7 +95,7 @@ For example, one can construct a vector space in which the dimensions correspond
 
 Table~\ref{tab:comparison} shows five three-dimensional vectors for words \textit{Mary}, \textit{John}, \textit{girl}, \textit{boy} and \textit{idea}. These are \textit{target words}.  The words \textit{philosophy}, \textit{book} and \textit{school} label vector space dimensions and are referred to as \emph{context words}.
 
-As the vector for \textit{Mary} is closer to \textit{girl} than it is to \textit{boy} in the vector space, we can say that \textit{Mary}'s contexts are similar to \textit{girl}'s (and less similar to \textit{boy}'s), therefore \textit{Mary} is semantically more similar to \textit{girl} than to \textit{boy}.
+As the vector for \textit{Mary} is closer to \textit{girl} than it is to \textit{boy} in the vector space, we can say that \textit{Mary} shares more features with \textit{girl} (and less  with \textit{boy}), therefore \textit{Mary} is semantically more similar to \textit{girl} than to \textit{boy}.
 
 Mathematically, the similarity can be expressed using, for instance, the cosine of the angle between two vectors:
 %
@@ -125,12 +126,12 @@ Mathematically, the similarity can be expressed using, for instance, the cosine 
 %
 where $\theta$ is the angle between the vectors of \textit{Mary} and \textit{girl}; and $\phi$ is the angle between the vectors of \textit{Mary} and \textit{boy}.
 
-In the current example of a na{\"\i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers. The importance of parameters is discussed in details in Section~\ref{sec:parameter-selection-intro}.
+In the current example of a na{\"\i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers. The importance of choosing good parameters is discussed in details in Section~\ref{sec:parameter-selection-intro}.
 
 \subsection{Neural word embeddings}
 \label{sec:neural-embedding}
 
-Deep learning techniques use the distributional hypothesis differently. Instead of relying on observed co-occurrence frequencies, a neural model is trained to maximise some objective function related to, for example, the probability of observing the surrounding words in some context \cite{mikolov2013distributed}:
+Deep learning techniques use the distributional hypothesis differently \cite{Goldberg2016}. Instead of relying on observed co-occurrence frequencies, a neural model is trained to maximise some objective function related to, for example, the probability of observing the surrounding words in some context \cite{mikolov2013distributed}:
 % * <sdyck@ualberta.ca> 2016-11-03T02:27:02.618Z:
 %
 % > differently
@@ -176,7 +177,7 @@ result.
 
 \newcite{levy2014linguistic} refined the method of retrieving relational similarities by changing the objective function and improved the state-of-the-art results, both for neural embeddings and co-occurrence based vectors. However, recently the evaluation method based on analogies and vector offsets has been criticised---see \newcite{linzen:2016:RepEval}.
 
-\section{Similarity of phrases and sentences}
+\section{Representation of phrases and sentences}
 \label{sec:similarity-compounds}
 
 Both neural and co-occurrence-based approaches have advantages over the formal approaches in their ability to capture lexical semantics and degrees of similarity. However, their success at extending this to the sentence level, and to more complex semantic phenomena, depends on their applicability within compositional models.
