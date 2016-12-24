@@ -1,7 +1,7 @@
 \chapter{A methodology for robust parameter selection}
 \label{sec:methodology}
 
-Experiments with distributional vector space models can be divided into two classes: one that aims to achieve the highest score on a task, and another that studies the behaviour of certain model parameters. The difference between the two classes can be expressed in the following questions:
+Experiments with distributional vector space models can be divided into two classes: one class that aims to achieve the highest score on a task, and another class that studies the behaviour of certain model parameters. The difference between the two classes can be expressed in the following questions:
 
 \begin{compactitem}
 \item What parameter combination gives the highest result? \newcite{baroni-dinu-kruszewski:2014:P14-1} is a representative study of this kind.
@@ -10,11 +10,11 @@ Experiments with distributional vector space models can be divided into two clas
   study of \newcite{lapesa-evert:2013:CMCL}, which contrasts ranked-based semantic priming estimation with distance-based.
 \end{compactitem}
 
-The first question is applicable in a situation when conceptually different methods are compared, for example, the ``count'' and  ``predict'' methods in \newcite{baroni-dinu-kruszewski:2014:P14-1} or when the best performance score is required.. The second question is applicable to a study of the difference in performance of parameters within a conceptual method, for instance, the comparison of neighbour rank and distance measure in predicting semantic priming of \newcite{lapesa-evert:2013:CMCL}, where the goal is not to identify the best model, but to contrast parameter instances.
+The first question is applicable in a situation when conceptually different methods are compared, for example, the ``count'' and  ``predict'' methods in \newcite{baroni-dinu-kruszewski:2014:P14-1} or when the best performance score is required. The second question is applicable to a study of the difference in performance of parameters within a conceptual method, for instance, the comparison of neighbour rank and distance measure in predicting semantic priming of \newcite{lapesa-evert:2013:CMCL}, where the goal is not to identify the best model, but to contrast parameter instances.
 
-The co-occurrence information can be used in different ways to build distributional models of meaning \cite{Turney:2010:FMV:1861751.1861756}. This has led to a series of  systematic parameter studies \cite{Bullinaria2007,BullinariaLevy2012,kiela-clark:2014:CVSC,lapesa2014large,TACL570}. All of them explore numerous parameter combinations to report the best scores and derive recommendations for the optimal parameter choice.
+The co-occurrence information can be used in different ways to build distributional models of meaning \cite{Turney:2010:FMV:1861751.1861756}. This has led to a series of  systematic parameter studies \cite{Bullinaria2007,BullinariaLevy2012,kiela-clark:2014:CVSC,lapesa2014large,TACL570,baroni-dinu-kruszewski:2014:P14-1}. All of them explore numerous parameter combinations to report the best scores and derive recommendations for the optimal parameter choice.
 
-\newcite{lapesa2014large} make one step further in studying parameter behaviour by identifying the most influential parameters and their two-way interactions with a linear model, which is fitted so that parameters of a vector space model predict the performance of the vector space model on a task. It avoids iterative parameter tuning, by testing all possible parameter combinations, so that unknown parameter interactions are captured. They avoid overfitting\footnotemark{} and noise in the data by using a linear data.
+\newcite{lapesa2014large} make one step further in studying parameter behaviour by identifying the most influential parameters and their two-way interactions with a linear model, which is fitted so that parameters of a vector space model predict the performance of the vector space model on a task. It avoids iterative parameter tuning, by testing all possible parameter combinations, so that unknown parameter interactions are captured. They avoid overfitting\footnotemark{} and noise in the data by using a linear regression model.
 
 \footnotetext{``Overfitting occurs when classifiers make decisions based on accidental properties of the training set that will lead to errors on the test set (or any new data)'' \newcite{9780262133609}.}
 
@@ -43,7 +43,7 @@ The three phrasal  datasets that are employed in this study are KS14 \cite{karts
 
 We test the models on the lexical datasets simultaneously to see whether there are models that perform well on both lexical datasets and thus avoid individual dataset characteristics that are independent to the phenomena of interest (similarity, relatedness or relevance). Similarly, we test the models on the phrasal datasets.
 
-The scores on lexical and phrasal datasets are combined to identify a model that is universally good in both lexical and compositional tasks. The model selection procedure is performed in two ways. First, we take the compositional operator into account, so we are able to recommend models that perform well on lexical and phrasal datasets with addition, multiplication and Kronecker (see Section~\ref{sec:comp-oper} for the description of compositional operators). Finally, we abstract over the compositional operator and seek a model that achieves competitive results in both lexical and phrasal tasks with all operators.
+The scores on lexical and phrasal datasets are combined to identify a model that is universally good in both lexical and compositional tasks. The model selection procedure is performed in two ways. First, we take the compositional operator into account, so we are able to recommend models that perform well on lexical and phrasal datasets with addition, multiplication and Kronecker (see Section~\ref{sec:composition} for the description of compositional operators). Finally, we abstract over the compositional operator and seek a model that achieves competitive results in both lexical and phrasal tasks with all operators.
 % * <sdyck@ualberta.ca> 2016-11-03T04:23:43.069Z:
 %
 % > universally good
@@ -58,7 +58,9 @@ In the sections to follow, we discuss three parameter selection methods that we 
 
 \subsection{Best model}
 
-This parameter selection technique chooses the parameters that yield the best result. This method is widely adopted \cite{mitchell-lapata:2008:ACLMain,Grefenstette:2011:ESC:2145432.2145580}, but, as previously discussed, might be prone to overfitting.
+This parameter selection technique chooses the parameters that yield the best result. This method is widely adopted.
+%\cite{mitchell-lapata:2008:ACLMain,Grefenstette:2011:ESC:2145432.2145580}
+However, as previously discussed, it might be prone to overfitting.
 % * <sdyck@ualberta.ca> 2016-11-03T04:27:58.404Z:
 %
 % > overfitting
@@ -69,7 +71,7 @@ This parameter selection technique chooses the parameters that yield the best re
 
 \subsection{Cross-validation}
 
-Cross-validation \cite{Ney1997} is a widely used model selection method where parameter selection is based on the average performance of the training splits over several evaluation runs. Leaving-one-out cross validation splits the dasets to $N$ parts. Then $N$ runs are performed where each part is used as a testing split and the rest is used as a training split such that the $n$th run will use the $n$th part as a testing split. The average performance over the N testing splits is reported.
+Cross-validation \cite{Ney1997} is a widely used model selection method where parameter selection is based on the average performance of the training splits over several evaluation runs. Leaving-one-out cross validation splits the dasets to $N$ parts. Then $N$ runs are performed where each part is used as a testing split and the rest is used as a training split such that the $n$th run will use the $n$th part as a testing split. Training splits are used to tune parameters. The average performance over the N testing splits is reported. Note that different model parameters might be used on testing splits.
 
 Even though cross-validation avoids overfitting, its performance results are not comparable with the best model selection because they are based on averages over the testing splits. Moreover, existing datasets are not made with such an evaluation in mind \cite{W16-2506}, and there is no common agreement on how the datasets should be split to the training and testing parts.
 
@@ -83,10 +85,10 @@ Because parameters influence model performance differently, the parameters are p
 
 This method not only avoids overfitting but also yields evaluation results that are comparable with the best-model reports.
 
-\section{Parameters and experimental setup}
+\section{Parameters}
 \label{sec:parameters}
 
-This chapter explains in detail the parameters that are explored in the experiments. The core of the parameters are the parameters that modify the co-occurrence quantification. The other parameters define the dimensionality of the vector space, the similarity measure and compositional operator.
+This section explains in detail the parameters that are explored in the experiments. The core of the parameters are the parameters that modify the co-occurrence quantification. The other parameters define the dimensionality of the vector space, the similarity measure and compositional operator.
 % * <sdyck@ualberta.ca> 2016-11-03T04:59:10.670Z:
 %
 % > f them
@@ -121,6 +123,8 @@ An alternative solution is to increment the probability ratio by 1; we refer to 
   \operatorname{CPMI}(x, y) = \log\left( 1 +  \frac{P(x,y)}{P(x)P(y)} \right)
 \end{equation}
 
+Another issue with PMI is its bias towards rare events. Consider a context $c_r$  with very low probability (it could be a rare context word, a tokenization error or a misspelled word). The probability $P(c_r)$ will be much lower than for other context, at the same time the PMI values for that feature will be higher. It is the same for rare target words. We refer to this issue as PMI'a \textit{Achilles heel}.
+
 \subsubsection{Shifted PMI (neg)}
 \label{sec:shifted-pmi}
 
@@ -141,7 +145,8 @@ We can apply the same idea to CPMI and obtain \emph{shifted compressed PMI} or S
 \subsubsection{Frequency weighting (freq)}
 \label{sec:frequency-weighting}
 
-Another issue with PMI is its bias toward rare events \cite{TACL570}; one way of solving this issue is to weight the value by the co-occurrence frequency obtaining the \emph{local mutual information} (LMI, \newcite{Evert05}), for clarity we refer to LMI as \NPMI/:
+%Another issue with PMI is its bias toward rare events \cite{TACL570};
+One way of solving PMI's bias toward rare events is to weight the value by the co-occurrence frequency obtaining the \emph{local mutual information} (LMI, \newcite{Evert05}), for clarity we refer to LMI as \NPMI/:
 %
 \begin{equation}
   \label{eq:lmi}
@@ -342,7 +347,7 @@ This is the most direct way of boosting high co-occurrence counts \cite{Evert05}
   Low-dimensional spaces do not need context distribution smoothing, while high-dimensional spaces benefit from it (Section~\ref{sec:cont-distr-smooth}).
 \end{hyp}
 
-This is because the estimated probabilities of rare contexts are noisy. This smoothing is shown successfully in high-dimensional count-based models \cite{TACL570} and word2vec \cite{mikolov2013efficient}. However, \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} showed that low-dimensional spaces benefit from global context probabilities.
+This is because the estimated probabilities of rare contexts are noisy. This smoothing is shown successfully in high-dimensional count-based models \cite{TACL570} and word2vec \cite{mikolov2013efficient}. However, these recommendations were not tested on low-dimensional vector spaces, that are widely used by compositional models. 
 
 \begin{hyp}[H\ref{hyp:neg}]
   \label{hyp:neg}
@@ -356,7 +361,7 @@ Sparsity is controlled by the shifting parameter $k$ (Section~\ref{sec:shifted-p
   Cosine is an optimal similarity measure for low-dimensional spaces, while correlation is for highly-dimensional spaces.
 \end{hyp}
 
-% We observed such behaviour in lexical tasks (Section~\ref{sec:conclusion-lexical}) and expect to see similar behaviour in compositional tasks.
+Correlation is shown to be the best choice by \citet{kiela-clark:2014:CVSC} while cosine is generally perceived as the best similarity metric. It might be the case that the standardisation of vector values by subtracting the mean is effective for highly-dimensional spaces.
 
 \subsection{Lexical}
 \label{sec:elab-hypoth-lexical}
@@ -370,8 +375,6 @@ Sparsity is controlled by the shifting parameter $k$ (Section~\ref{sec:shifted-p
 \end{hyp}
 
 The main effect of CPMI is to transform negative values into the positive range of $(0; 1)$. One of the reasons to avoid negative values is that they might be problematic for multiplication during composition, as the sign of the result depends on the number of negative components. However, as there is no composition involved in lexical tasks, the weighting schemes should behave equally.
-
-The next hypotheses are related to PMI's ``Achilles heel'' and are supposed to lower the influence of low co-occurrence counts, therefore, we expect that they are beneficial for highly dimensional spaces as shown in \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
 
 \subsection{Compositional}
 \label{sec:hyp-composition}
