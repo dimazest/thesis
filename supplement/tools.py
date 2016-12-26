@@ -192,6 +192,9 @@ def plot_parameter_selection_comparison(
         **kwargs,
     )
 
+    if ax:
+        ax.set(ylabel=other_dataset)
+
     if col:
         return g
     # g.fig.savefig('figures/{}-parameter_selection_comparison.pdf'.format(dataset))
