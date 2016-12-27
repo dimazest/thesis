@@ -252,12 +252,12 @@ SPMI is the preferred discriminativeness component for the low-dimensional space
 
 Regarding shifting, \texttt{head} prefers sparse spaces $k > 1$, but as dimensionality increases, the optimal $k$ values decrease. Addition does not show a consistent behaviour with regard to this parameter. Multiplication, in general, benefits from dense, unshifted spaces. Kronecker works best with sparse spaces with increasing sparsity as the dimensionality increases, supporting H\ref{hyp:neg}.
 
+\input{figures/phraserel-ablation}
+
 \texttt{Head} benefits from the correlation as the similarity measure, as does multiplication. Addition works best with correlation with spaces $D < 10\,000$, and with the inner product for more dimensional spaces. Multiplication works best with correlation. Kronecker, for spaces with less than 5\,000 dimensions, works best with correlation and with the inner product, otherwise.
 
 \subsection{Heuristics}
 \label{sec:heuristics-phraserel}
-
-\input{figures/phraserel-ablation}
 
 \input{figures/phraserel-neg}
 The linear model achieves an $R^2$ of 0.822. The partial $R^2$ scores are shown in Table~\ref{tab:phraserel-ablation}. The most influential parameters are \texttt{neg}, operator and \texttt{cds}, but the first two have partial $R^2$ scores much higher than the other parameters. Table~\ref{tab:phraserel-heuristics-selection} shows the performance of the chosen models.
@@ -277,8 +277,6 @@ The best choice of \texttt{head} deponds on dimensionality: spaces with less tha
 \subsubsection{Frequency}
 \label{sec:frequency-phraserel}
 
-\input{figures/phraserel-freq}
-
 \texttt{Head} works best with linear frequency, but the difference between other options is small (Figure~\ref{fig:phraserel-freq}).
 
 Addition benefits from linear frequency, but sublinear frequency is very close.
@@ -288,6 +286,8 @@ Multiplication works best with sublinear frequency, but linear is very close to 
 Finally, Kronecker works best with $\log n$ with spaces with dimensionality less than 5\,000, and with linear frequency with more dimensional spaces.
 
 In general, H\ref{hyp:freq} holds, because there is no difference between 1 and $\log n$ choices in model performance.
+
+\input{figures/phraserel-freq}
 
 \subsubsection{Similarity}
 \label{sec:similarity-phraserel}
@@ -422,12 +422,12 @@ ronecker, H\ref{hyp:cds} for multiplication and H\ref{hyp:neg} for Kronecker.
 \subsection{Heuristics}
 \label{sec:heuristics-compositional}
 
+\input{figures/compositional-ablation}
+
 The linear model achieves  $R^2 = 0.769$. Table~\ref{tab:compositional-ablation} shows the partial $R^2$ values for the parameters. The most influential parameters are \texttt{neg}, \texttt{freq} and compositional operator.
 
 \subsubsection{Neg}
 \label{sec:neg-compositional}
-
-\input{figures/compositional-ablation}
 
 \input{figures/compositional-neg}
 
@@ -505,8 +505,7 @@ The model selection procedures improve from the combination of datasets. One nee
 \label{sec:conclusion-comp}
 
 Phrasal experiments support most of the hypotheses stated in
-Sections~\ref{sec:hypotheses}, \ref{sec:elab-hypoth-lexical} and
-\ref{sec:elab-hypoth-comp}.
+Section~\ref{sec:hypotheses}.
 
 The confirmation of hypotheses on optimal parameter dependence on dimensionality (in particular H\ref{hyp:freq} and H\ref{hyp:neg}, that are supported by all datasets) confirms H\ref{hyp:dimen}. It is worth noting that even though an optimal choice of \texttt{cds} does not depend on dimensionality on KS14 and GS11, in the combined case the dependence holds.
 
