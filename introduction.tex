@@ -27,62 +27,30 @@ Text summarisation, machine translation, information extraction and information 
 
 While it is not completely known how meaning is represented in the human mind, it is argued that similarity between two events or objects is based on the way humans represent them \cite{WCS:WCS1282}. Similarity judgements are easy to collect. Many similarity datasets exist that serve as proxies for the evaluation of computational models of meaning.
 
-The distributional hypothesis of \citet{harris1954distributional}---that semantically similar words tend to appear in similar contexts---stands behind the distributional models of meaning. In Figure~\ref{fig:en}, the side-street occurs with the words as though, noise, hustle and smells. Such a company of words starkly contrasts with the words used to describe the woman: she is young, attractive and active.
+The distributional hypothesis of \citet{harris1954distributional}---that semantically similar words tend to appear in similar contexts---stands behind the distributional models of meaning. In Figure~\ref{fig:en}, the side-street occurs with the words as \textit{slot}, \textit{noise}, \textit{hustle} and \textit{smells}. Such a company of words starkly contrasts with the words used to describe the woman: she is young, attractive and active.
 
-Moreover, the descriptive terms of the side-street bring images of other similar things that are though and smell. At the same time, the descriptive terms of the woman fire in the mind attractive and active associations making the difference between the street and the woman even stronger!
+Moreover, the descriptive terms of the side-street bring images of other things similar to it that are noisy and smell. At the same time, the descriptive terms of the woman fire in the mind attractive and active associations making the difference between the street and the woman even stronger!
 
-Distributional models of meaning are based on the co-occurrence statistics of words in a large collection of texts \cite{Turney:2010:FMV:1861751.1861756,mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}. The models are well studied and their estimates of the similarity between word pairs are very close to the human judgements \cite{TACL570,baroni-dinu-kruszewski:2014:P14-1,Halawi:2012:LLW:2339530.2339751}.
+Distributional models of word meaning are based on the co-occurrence statistics of words in a large collection of texts \cite{Turney:2010:FMV:1861751.1861756,mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}. The main challenge is to use the co-occurrence statistics efficiently. Because, even though the word \textit{and} appears in the neighbourhood of the word \textit{side-street} in the poem, it is much less descriptive of the properties of the street than the word \textit{slot}. Nowadays, the lexical models are well studied and their estimates of the similarity between word pairs are very close to the human judgements \cite{TACL570,baroni-dinu-kruszewski:2014:P14-1,Halawi:2012:LLW:2339530.2339751}.
 
-% At the same time, developments in compositional distributional semantics \cite{mitchell2010composition,maillard-clark-grefenstette:2014:TTNLS,Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP} showed that Frege's principle of compositionality \cite{Janssen2001} is useful in obtaining representations of phrases and sentences.
-% % * <sdyck@ualberta.ca> 2016-11-03T00:28:29.470Z:
-% %
-% % > word2vec
-% %
-% % I would briefly explain what this is, otherwise the second point in this paragraph about Frege's principle doesn't have much context. 
-% %
-% % ^.
+The estimation of the similarity of multi-word expressions is currently an active research topic. In comparison to the lexical models, the main challenge is the data sparsity. There are infinitely many multi-word expressions and most of them appear only once in a corpus. Even if we take all the books on Earth and write down all the utterances that were said, the most of the sentences appear only once.
 
-% % The creativity of natural languages---the fact that humans are able to produce
-% % and understand sentences they have never come across---complicates modelling of
-% % text meaning. Even if we had a way to map each word to its meaning, it is
-% % impractical to apply the same procedure to sentences because as we process a
-% % piece of text, most of the sentences in it will be seen for the fist time.
-% % Therefore, we need to be able to build the meaning of a sentence from its
-% % constituent parts, rather than a sentence in its entirety.
+The dominant solution to the data sparsity problem is to build a representation of a multi-word expression the same way the Lego pieces are assembled into vehicles, buildings and many other types of objects. One advantage of such an approach is that the methods for obtaining the word representation can be reused. The bricks are there, the question is how to assemble them together.
 
-% % Syntax is the study of the structure of a sentence. Grammar defines the rules
-% % that describe what a sentence that belongs to a language should look like. For
-% % example, in an English sentence, a subject is written before a verb and an
-% % object is after. Having the constituent meaning representations, the meaning of
-% % a sentence is built by following its syntactic structure.
+The composition comes in many flavors. \citet{mitchell2010composition} propose a method that ignores the word order and any grammatical structure of an expression. \citet{DBLP:journals/corr/abs-1003-4394,baroni2014frege} investigate how the grammatical structure can be taken into account. Several implementations of \citet{DBLP:journals/corr/abs-1003-4394}'s theoretical proposal exist, see the work of \citet{Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP}.
 
-% % To be able to deal with the meaning of a text in a natural language, one needs to have meaning representation of constituents, the syntactic structure and a compositional procedure that outputs the meaning representation.
+The main focus of the evaluation of compositional similarity models up to now is the compositional operators. The fact that there might be a dependency between the word representations and the compositional methods is mostly overlooked. It is assumed, that the findings based on the lexical models also applies to the compositional models.
 
-% % Even though the new generation of meaning representation models is shown to be superior in compositional tasks \cite{milajevs-EtAl:2014:EMNLP2014}, it has been criticised---most notably by \newcite{TACL570}. However, it is not yet known whether the critique of word2vec also applies to the compositional setting.
-% % % * <sdyck@ualberta.ca> 2016-11-03T00:31:07.929Z:
-% % %
-% % % > compositional 
-% % %
-% % % should this be lexical?
-% % %
-% % % ^.
+The goal of this thesis is to study the link between the lexical representations and the methods of composition for estimating similarity. Once the optimal lexical parameters are identified for all compositional operators, the operators can be compared in the most fair way.
 
-% This work adopts the recommendations of \newcite{TACL570} for model parameter tuning and performs a large-scale model selection study on lexical and compositional tasks.
-% % * <sdyck@ualberta.ca> 2016-11-03T00:37:45.835Z:
-% %
-% % > This work adopts the recommendations of \newcite{TACL570} for model parameter tuning and performs a large-scale model selection study on lexical and compositional tasks.
-% %
-% % ^.
+We express the goal in two research questions:
+\begin{itemize}
+\item What is the performance limit of the distributional models of meaning?
+\item How are compositional operators affected by the lexical representations?
+\end{itemize}
 
-% This work shows that after a careful selection of  vector space model
-% parameters, the selected models are comparable with the current state-of-the-art results and on some datasets, outperform them.
-% % * <sdyck@ualberta.ca> 2016-11-03T00:32:14.807Z:
-% %
-% % > The experiments show that after a careful selection of  vector space model parameters, the selected models are competitive with the current state-of-the-art results and on some datasets outperform it.
-% %
-% % This sentence could use a bit of clarification. What kind of results are you talking about? Maybe use the word model(s) rather than results.
-% %
-% % ^.
+To answer these questions, we perform a large-scale study of similarity models over several parameters. We find that indeed, there is a link between the compositional operators and lexical representation. By taking this dependency into account we improve the best evaluation scores on several compositional datasets.
+
 
 %%% Local Variables:
 %%% mode: latex
