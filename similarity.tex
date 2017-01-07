@@ -40,9 +40,9 @@ However, according to \emph{the principle of contextuality}, the word meaning in
 Never ask for the meaning of a word in isolation, but only in the context of a sentence.
 \end{displayquote}
 
-It is worth noting here that the measurement of similarity in isolation is also problematic because the number of features an entity has is infinite, and it is easy to show that two entities will always have an infinite amount of common features making the degree of resemblance undefined \cite{goodman1972problems,hahn1997concepts}. For example, the tree next to my house is similar to my house because both of them are less than one kilometre in height, both of them are less than two kilometre in height, both of them are less than three kilometre in height and so on.
+It is worth noting here that the measurement of similarity in isolation is also problematic because the number of features an entity has is infinite, and it is easy to show that two entities will always have an infinite amount of common features making the degree of resemblance undefined \cite{goodman1972problems,hahn1997concepts}. For example, the tree next to my house is similar to my house because both of them are less than one kilometre in height. Both of them are less than two kilometre in height. Both of them are less than three kilometre in height and so on.
 
-To make similarity measurement possible, it has to be measured \emph{under a given description} \cite{WCS:WCS1282,medin1993respects,Markman1996}. Thus, similarity is always contextualised. In other words, similarity emerges only when the possible properties are weighted. In our example, the tree and the house are similar with respect to the colour: both of them are green. The height properties and other irrelevant properties are assigned zero weight making the number of non-zero feature values finite.
+To make similarity measurements possible, it has to be measured \emph{under a given description} \cite{WCS:WCS1282,medin1993respects,Markman1996}. Thus, similarity is always contextualised. In other words, similarity emerges only when the possible properties are weighted. In our example, the tree and the house are similar with respect to the colour: both of them are green. The height properties and other irrelevant properties are assigned zero weight making the number of non-zero feature values finite.
 
 Frege's principle of contextuality allows us to define the meaning of a word by identifying its contribution to the meaning of a sentence. Firth's \citeyearpar{firth1957lingtheory} famous quote that ``you shall know a word by the company it keeps,'' suggests that the word meaning can be \emph{modelled} as the combination of the meanings of its occurrences in sentences of a corpus. Note that this does not provide the absolute word meaning, but only its meaning relative to the corpus. This assumption is also supported by the distributional hypothesis of \newcite{harris1954distributional} that the differences of occurrences of two words quantify the difference in their relative meaning, but do not necessarily define the meaning.
 
@@ -55,7 +55,7 @@ We continue with an overview of the main ideas behind the word and phrase repres
 
 In principle, we would like to capture the intuition that while \textit{John} and \textit{Mary} are distinct entities, they are rather similar to each other---because both of them are humans---and are dissimilar to \textit{dog}, \textit{pavement} or \textit{idea}. However, we start with the word meaning representation that captures the fact that entities are distinct, but does not provide the means to measure similarity.
 
-\subsection{Representation for inference}
+\subsection{Logical representations for inference}
 \label{sec:classical-approaches}
 
 Formal semantics provides the means to infer some piece of information from another. The main studied relation is the entailment of sentences, for example, \textit{John swims in Åresjön} entails \textit{John swims in a Swedish lake}. To evaluate entailment, the sentences are converted to formulas. The words correspond to symbols in formal logic.
@@ -68,16 +68,17 @@ One-place properties are seen as sets of individuals, so $\mathcal{I}(\mathit{Sw
 
 While such formalism is very powerful for entailment detection between sentences, similarity measurement is problematic, because there is no relation between atomic symbols: we only know that \textit{Åresjön} and \textit{Väsman} correspond to different entities in the universe, but know nothing about the resemblance between their properties.
 
-\subsection{Distributional semantics}
+\subsection{Distributional representations for similarity}
+\label{sec:distributional-representations}
+
+Distributional methods provide a way to measure similarity between words. The representations are produced by exploiting Harris' \citeyearpar{harris1954distributional} intuition that similar words occur in similar contexts.
+
+\subsection{Distributional semantics: global representations}
 \label{sec:distr-repr}
 
-Distributional methods provide a way to measure similarity between symbols. The representations are produced by directly exploiting Harris' \citeyearpar{harris1954distributional} intuition that similar words occur in similar contexts.
-
-For example, one can construct a vector space in which the dimensions correspond to contexts, which are usually other words. The word vector components can then be calculated by taking the frequency with which the word co-occurred with the corresponding contexts within a predefined window in a corpus of interest. The similarity in meaning can be expressed via a suitable distance metric within the space.
-
-\begin{wraptable}[9]{O}{7cm}
+\begin{wraptable}[10]{O}{7cm}
   \centering
-  \vspace{-1em}
+  %\vspace{-1em}
   \begin{tabular}{lrrr}
     \toprule
     & philosophy & book & school \\
@@ -93,7 +94,9 @@ For example, one can construct a vector space in which the dimensions correspond
   \label{tab:comparison}
 \end{wraptable}
 
-Table~\ref{tab:comparison} shows five three-dimensional vectors for words \textit{Mary}, \textit{John}, \textit{girl}, \textit{boy} and \textit{idea}. These are \textit{target words}.  The words \textit{philosophy}, \textit{book} and \textit{school} label vector space dimensions and are referred to as \emph{context words}.
+A common approach is to construct a vector space in which the dimensions correspond to contexts, which are usually other words \cite{Turney:2010:FMV:1861751.1861756}. The components of the vector of a word can be calculated by taking the frequency with which the word co-occurred with the corresponding contexts within a predefined window in a corpus of interest. The similarity in meaning can be expressed via a suitable distance metric within the space.
+
+Table~\ref{tab:comparison} shows five three-dimensional vectors for words \textit{Mary}, \textit{John}, \textit{girl}, \textit{boy} and \textit{idea}. These are \textit{target words}.  The words \textit{philosophy}, \textit{book} and \textit{school} label vector space dimensions and are referred to as \emph{context words}. Table~\ref{tab:comparison} represents the global co-occurrence statistics, giving the name to the representations.
 
 As the vector for \textit{Mary} is closer to \textit{girl} than it is to \textit{boy} in the vector space, we can say that \textit{Mary} shares more features with \textit{girl} (and less  with \textit{boy}), therefore \textit{Mary} is semantically more similar to \textit{girl} than to \textit{boy}.
 
@@ -105,13 +108,6 @@ Mathematically, the similarity can be expressed using, for instance, the cosine 
 {||\ov{\mathit{Mary}}||||\ov{\mathit{girl}}||} =
 %
 \frac{(0\times0) + (10\times19) + (22\times93)}
-% * <sdyck@ualberta.ca> 2016-11-03T02:13:08.483Z:
-%
-% > {(0\times0) + (10\times19) + (22\times93)
-%
-% adding parentheses makes it easier to tell where the numbers came from, but feel free to remove them if you want/disagree.
-%
-% ^.
 {\sqrt{0^2 + 10^2 + 22^2}\sqrt{0^2 + 19^2 + 93^2}} \approx
 \frac{2236}{2294} \approx 0.975
  \\
@@ -126,60 +122,33 @@ Mathematically, the similarity can be expressed using, for instance, the cosine 
 %
 where $\theta$ is the angle between the vectors of \textit{Mary} and \textit{girl}; and $\phi$ is the angle between the vectors of \textit{Mary} and \textit{boy}.
 
-In the current example of a na{\"\i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers. The importance of choosing good parameters is discussed in details in Section~\ref{sec:parameter-selection-intro}.
+In the current example of a na{\"\i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers.% The importance of choosing good parameters is discussed in details in Section~\ref{sec:parameter-selection-intro}.
 
-\subsection{Neural word embeddings}
+\subsection{Word embeddings: local representations}
 \label{sec:neural-embedding}
 
-Deep learning techniques use the distributional hypothesis differently than the distributional methods described above \cite{Goldberg2016}. Instead of relying on the co-occurrence matrix, it iterates directly over the target-context pairs. The training is done by maximising an objective function based on the following \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013distributed}:
+Deep learning\footnotemark{} techniques use the distributional hypothesis differently than the distributional methods described above \cite{Goldberg2016}. Instead of relying on the co-occurrence matrix, the training process iterates directly over the target-context pairs. At any given moment during the training process it has access only to local co-occurrence information, the global table of co-occurrences is not used, thus the name of the method. The training is done by maximising an objective function based on the following \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}:
+\footnotetext{
+  Even though the model of \newcite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} is not a deep neural network, its efficient implementation uses methods developed for deep models. For example, hierarchical softmax and noise contrastive estimation.
+}
 %
 \begin{equation}
  \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{t+j}|w_t)
   \label{eq:objective-func}
 \end{equation}
 %
-Maximising this function in practice produces vectors which maximise the conditional probability of observing words in a context around the target word $w_t$, where $c$ is the size of the training context, and $w_1 w_2, \ldots, w_T$ is a sequence of training words. Therefore, they capture the distributional intuition and can express degrees of lexical similarity. The probability of a context word $w_c$ given a target word $w_t$ is defined using softmax:
+In practice, maximising this function produces vectors which maximise the conditional probability of observing words in a context around the target word $w_t$. $C$ is the size of the training context, and $w_1 w_2, \ldots, w_T$ is a sequence of training words. Empirically, they capture the distributional intuition and express degrees of lexical similarity. The probability of a context word $w_c$ given a target word $w_t$ is defined using softmax:
 %
 \begin{equation*}
   P(w_c|w_{t}) = \frac{e^{\vv{w_c} \cdot \vv{w_t}}}{\sum_{c'}e^{\vv{w_{c'}} \cdot \vv{w_t}}}
 \end{equation*}
 %
-The word vectors are dense of dimensionality of few hundreds. Because the objective in \eqref{eq:objective-func} is expensive to compute, negative sampling is used in practice, however its description is out of the scope of this work.
-
-% , negative sampling is used. It does not iterate over all context words that do not occur with the target words, instead it samples a small portion of them:
-% % \begin{equation}
-% %  \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{t+j}|w_t)
-%   \label{eq:objective-func}
-% \end{equation}
-
-% They have also been proved to be successful at other tasks \cite{mikolov2013linguistic}. The vectors obtained by this method encode not only attributional similarity (similar words are close to each other), but also relational similarities \cite{Turney:2010:FMV:1861751.1861756}. For example, it is possible to extract the \texttt{singular:plural} relation (\textit{apple}:\textit{apples}, \textit{car}:\textit{cars}) using vector subtraction:
-% %
-% \begin{align*}
-%   \ov{\mathit{apple}} - \ov{\mathit{apples}}
-%   \approx
-%   \ov{\mathit{car}} - \ov{\mathit{cars}}
-% \end{align*}
-% %
-% also, semantic relationships are preserved:
-% %
-% \begin{align*}
-%   \ov{\mathit{king}} - \ov{\mathit{man}}
-%   \approx
-%   \ov{\mathit{queen}} - \ov{\mathit{woman}}
-% \end{align*}
-% %
-% allowing the formation of analogy queries similar to
-% $\ov{\mathit{king}} - \ov{\mathit{man}} +
-% \ov{\mathit{woman}} = \mathtt{?}$, obtaining
-% $\ov{\mathit{queen}}$ as the
-% result.
-
-% \newcite{levy2014linguistic} refined the method of retrieving relational similarities by changing the objective function and improved the state-of-the-art results, both for neural embeddings and co-occurrence based vectors. However, recently the evaluation method based on analogies and vector offsets has been criticised---see \newcite{linzen:2016:RepEval}.
+The word vectors are dense (their dimensionality is few hundreds). Because the objective in \eqref{eq:objective-func} is expensive to compute, negative sampling is used in practice, however its description is out of the scope of this work.
 
 \section{Representation of phrases and sentences}
 \label{sec:similarity-compounds}
 
-Both neural and co-occurrence-based approaches have advantages over the formal approaches in their ability to capture lexical semantics and degrees of similarity. However, their success at extending this to the sentence level, and to more complex semantic phenomena, depends on their applicability within compositional models.
+Both local and global distributional approaches have advantages over the formal approach in their ability to capture lexical semantics and degrees of similarity. However, their success at extending this to the sentence level, and to more complex semantic phenomena, depends on their applicability within compositional models.
 
 \subsection{The principle of compositionality}
 \label{sec:formal-semantics}
