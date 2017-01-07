@@ -20,7 +20,9 @@
 \renewcommand{\chaptermark}[1]{%
    \markboth{\headingfont \ #1}{\headingfont \@chapapp\ \thechapter}
  }
- \renewcommand{\sectionmark}{\chaptermark}
+ \renewcommand{\sectionmark}[1]{%
+   \markboth{\headingfont \ #1}{\headingfont\ Section \thesection}
+ }
 
 \fancypagestyle{plain}{%
   \fancyhf{}
