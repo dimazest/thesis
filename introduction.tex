@@ -36,7 +36,7 @@ The estimation of the similarity of multi-word expressions currently is an activ
 
 The dominant solution to the data sparsity problem is to build a representation of a multi-word expression compositionally: that is, the same way the Lego pieces are assembled into vehicles, buildings and many other types of objects. One advantage of such an approach is that the methods for obtaining the word representations can be reused. The bricks are there, the question is how to assemble them together.
 
-The compositional models come in many flavors. \citet{mitchell2010composition} propose a method that ignores the word order and any grammatical structure of an expression. \citet{DBLP:journals/corr/abs-1003-4394,baroni2014frege} investigate how the grammatical structure can be taken into account. Several implementations of \citet{DBLP:journals/corr/abs-1003-4394}'s theoretical proposal exist, see the work of \citet{Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP}.
+The compositional models come in many flavors. \citet{mitchell2010composition} propose a method that ignores the word order and any grammatical structure of an expression. \citet{DBLP:journals/corr/abs-1003-4394,baroni2014frege} investigate how the grammatical structure can be taken into account. Several implementations of \citet{DBLP:journals/corr/abs-1003-4394}'s theoretical proposal exist, see the work of \citet{Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP}. Chapter~\ref{cha:background} gives an overview of lexical representations, the methods of composition and evaluation.
 
 The main focus of the evaluation of compositional similarity models up to now is the compositional operators. The word representations are usually taken such that they are good in lexical tasks. The fact that there might be a dependency between the word representations and the compositional methods is mostly overlooked. It is assumed, that the findings based on the lexical models also applies to the compositional models.
 
@@ -48,7 +48,13 @@ The goal is expressed in two research questions:
 \item How are compositional operators affected by the lexical representations?
 \end{itemize}
 
-To answer these questions, we perform a large-scale study of similarity models over several parameters. We find that indeed, there is a link between the compositional operators and lexical representation. By taking this dependency into account we improve the best evaluation scores on several compositional datasets.
+To answer these questions, we perform a large-scale study of similarity models over several parameters. The parameters are split into three kinds: the similarity measure, the weighting scheme and the amount of information associated with every item. 
+
+The similarity measure defines how similarity is computed given two representations. The weighting scheme serves two roles. First of all, it distinguishes informative co-occurrence information from uninformative. Second, the weighting scheme minimises the effect of noise in the co-occurrence data. The amount of information for distributional modes is how many distinct words are considered to be valid neighbouring words. This usually varies from few thousand most frequent words to the whole vocabulary.  The description of model parameters is given in Chapter~\ref{sec:methodology}.
+
+We extensively test composition based on point-wise addition and multiplication of the weighted co-occurrence counts to identify the best lexical representations for composition (Chapters~\ref{sec:sentential} and \ref{sec:universal-param-selection}). We find that indeed, there is a link between the compositional operators and lexical representations.
+
+By taking into account the dependency between the compositional operator and the lexical representation,  we achieve the state of the art results with additive and multiplicative composition. By reusing the best lexical representations with categorical compositional operators \cite{DBLP:journals/corr/abs-1003-4394}, we improve their performance. Moreover, we show that the optimal parameters to measure the similarity between words (Chapter~\ref{sec:lexical}) are different from the optimal parameters to measure similarity between phrases.
 
 \section{Structure of this thesis}
 \label{sec:structure}
