@@ -30,6 +30,13 @@
   \renewcommand{\headrulewidth}{0pt}
   \renewcommand{\footrulewidth}{0pt}
 }
+\fancypagestyle{bibliography}{%
+  \fancyhf{}
+  \fancyhead[R]{\headingfont Bibliography}
+  \rfoot{\thepage}
+  %\renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
 
 \usepackage{fontspec}
 \defaultfontfeatures{Ligatures=TeX}
@@ -254,11 +261,15 @@ While categorical compositional methods are built on solid theoretical grounds \
 
 % Come back to the research questions.
 
-\cleardoublepage
-\addcontentsline{toc}{chapter}{Bibliography}
-\phantomsection
-\bibliographystyle{plainnat}
-\bibliography{references,dmilajevs_publications}
+{
+  \pagestyle{bibliography}
+  \cleardoublepage
+  \addcontentsline{toc}{chapter}{Bibliography}
+  \phantomsection
+  \bibliographystyle{plainnat}
+  \bibliography{references,dmilajevs_publications}
+  \thispagestyle{bibliography}
+}
 
 \cleardoublepage
 \appendix
