@@ -73,7 +73,7 @@ While such formalism is very powerful for entailment detection between sentences
 
 Distributional methods provide a way to measure similarity between words. The representations are produced by exploiting Harris' \citeyearpar{harris1954distributional} intuition that similar words occur in similar contexts.
 
-\subsection{Distributional semantics: global representations}
+\subsubsection{Distributional semantics: global representations}
 \label{sec:distr-repr}
 
 \begin{wraptable}[10]{O}{7cm}
@@ -124,7 +124,7 @@ where $\theta$ is the angle between the vectors of \textit{Mary} and \textit{gir
 
 In the current example of a na{\"\i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers.% The importance of choosing good parameters is discussed in details in Section~\ref{sec:parameter-selection-intro}.
 
-\subsection{Word embeddings: local representations}
+\subsubsection{Word embeddings: local representations}
 \label{sec:neural-embedding}
 
 Deep learning\footnotemark{} techniques use the distributional hypothesis differently than the distributional methods described above \cite{Goldberg2016}. Instead of relying on the co-occurrence matrix, the training process iterates directly over the target-context pairs. At any given moment during the training process it has access only to local co-occurrence information, the global table of co-occurrences is not used, thus the name of the method. The training is done by maximising an objective function based on the following \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}:
