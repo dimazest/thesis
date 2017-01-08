@@ -153,12 +153,7 @@ Both local and global distributional approaches have advantages over the formal 
 \subsection{The principle of compositionality}
 \label{sec:formal-semantics}
 
-Formal approaches to the semantics of natural language have built upon the
-classical idea of compositionality which states that the meaning of a sentence is a
-function of its parts \cite{Janssen2001}. Syntactic rules define how constituents are combined
-to form other constituents and until the whole sentence is covered. Translation rules define
-how semantic representations of the constituents are combined to get a semantic
-representation of the whole.
+Formal approaches to the semantics of natural language have built upon the classical idea of compositionality which states that the meaning of a sentence is a function of its parts \cite{Janssen2001}. Syntactic rules define how constituents are recursively combined to form other constituents until the whole sentence is covered. Translation rules define how semantic representations of the constituents are combined to get a semantic representation of the whole.
 
 In compositional type-logical approaches, predicate-argument structures representing phrases and sentences are built from their constituent parts by general operations such as beta-reduction within the lambda calculus \cite{THEO:THEO373}: for example, given a semantic representation of \emph{John}
 as $\mathit{John}'$, \emph{loves} as $\lambda y.\lambda x.\mathit{loves}'(x, y)$ and \emph{Mary} as $\mathit{Mary'}$, the sentence \emph{John loves Mary} can be constructed as
@@ -169,7 +164,7 @@ x.\mathit{loves}'(x, y)(\mathit{mary}')(\mathit{john}') =
 \mathit{loves}'(\mathit{john}', \mathit{mary}')
 \end{equation*}
 %
-Categorical grammars are widely used to obtain the syntactic structure of a sentence. Given a set of basic categories $\texttt{ATOM}$, for example $\{\mathit{n}, \mathit{s}, \mathit{np}\}$, complex categories $\mathtt{CAT} \backslash \mathtt{CAT}$ and $\mathtt{CAT}/\mathtt{CAT}$ can be constructed, where $\mathtt{CAT}$ is either an element of $\texttt{ATOM}$ or a complex category. So the category of a transitive verb is $\mathtt{np}\backslash\mathtt{s}/\mathtt{np}$. Intuitively, we want to express that to obtain a sentence with a transitive verb there must be noun phrases before and after the verb.
+Categorical grammars are widely used to obtain the syntactic structure of a sentence. Given a set of basic categories $\texttt{ATOM}$, for example $\{\mathit{n}, \mathit{s}, \mathit{np}\}$, complex categories $\mathtt{CAT} \backslash \mathtt{CAT}$ and $\mathtt{CAT}/\mathtt{CAT}$ can be constructed, where $\mathtt{CAT}$ is either an element of $\texttt{ATOM}$ or a complex category. So the category of a transitive verb is $\mathtt{np}\backslash\mathtt{s}/\mathtt{np}$. Intuitively, we want to express that to obtain a sentence with a transitive verb there must be two noun phrases, one before and another after the verb.
 
 Parsing is done by composing categories together according to two rules:
 %
@@ -227,7 +222,7 @@ categories and semantic types is defined as a function $\mathit{type}$:
 Syntactic backward and forward application corresponds to functional
 application. Figure~\ref{fig:syn} shows the final parse tree.
 
-\begin{figure}
+\begin{figure}[b]
   \centering
   \Tree [
     .$s$~:~$\mathit{loves}'(\mathit{john}',\mathit{mary}')$
@@ -258,9 +253,9 @@ Given a suitable pairing between a syntactic grammar, semantic representations a
 
 Methods based on the distributional hypothesis have recently been applied to many tasks, but mostly at the word level, for instance, word sense disambiguation \cite{ZhitomirskyGeffet2009} and lexical substitution \cite{Thater:2010:CSR:1858681.1858778}. They exploit the notion of similarity which correlates with the angle between word vectors \cite{Turney:2010:FMV:1861751.1861756}.
 
-\emph{Compositional} distributional semantics goes beyond the word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator associativity, which ignores the argument order, and thus word order. As a result, ``\textit{John loves Mary}'' and ``\textit{Mary loves John}'' get the same representations.
+\emph{Compositional} distributional semantics goes beyond word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator associativity, which ignores the argument order, and thus the word order. As a result, \textit{John loves Mary} and \textit{Mary loves John} get identical representations.
 
-Consider that \textit{John}'s, \textit{Mary}'s and \textit{loves}'s meanings are represented as vectors $\ov{\text{\it john}} = [4, 60, 59]$, $\ov{\text{\it mary}} = [0, 10, 22]$ and $\ov{\text{\it loves}} = [10, 100, 20]$, respectively. Then the vector of the sentence \textit{John loves Mary} using addition is:
+Consider that \textit{John}, \textit{Mary} and \textit{loves} are represented as vectors $\ov{\text{\it john}} = [4, 60, 59]$, $\ov{\text{\it mary}} = [0, 10, 22]$ and $\ov{\text{\it loves}} = [10, 100, 20]$, respectively. Then the vector of the sentence \textit{John loves Mary} using addition is:
 %
 \begin{align*}
   \ov{\text{\it John loves Mary}}_{\text{addition}} &= \vv{\mathit{john}} + \ov{\mathit{loves}} + \ov{\mathit{mary}} \\
@@ -287,7 +282,7 @@ Kronecker \cite{Grefenstette:2011:ETV:2140490.2140497} is a non-associative oper
 where $\otimes$ is the Kronecker product. The vector of a subject-verb-object phrase is computed as:
 %
 \begin{equation*}
-  \ov{\text{\it Subj Verb Obj}} = \widetilde{\text{\it Verb}} \odot (\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}})
+  \ov{\text{\it Sbj Verb Obj}} = \widetilde{\text{\it Verb}} \odot (\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}})
 \end{equation*}
 %
 The derivation of the representation of \textit{John loves Mary} using Kronecker is:
@@ -315,15 +310,13 @@ The derivation of the representation of \textit{John loves Mary} using Kronecker
                                     \end{bmatrix}
 \end{align*}
 
-% Then, a transitive verb is represented by a matrix, which can be obtained from a corpus using the formula $\sum_i\ov{s_i} \otimes \ov{o_i}$ \cite{Grefenstette:2011:ESC:2145432.2145580}, where $\ov{s_i}$ and $\ov{o_i}$ are the subject-object pairs of the verb and $\otimes$ is the Kronecker product. The vector of the whole sentence is $\overline{\mathit{loves}} \odot(\ov{\mathit{john}} \otimes \ov{\mathit{mary}})$, where $\odot$ is the element-wise product.
-
 For other non-associative operators, a transitive verb is represented by the matrix $\overline{\text{\it Verb}}$, which is obtained from a corpus using the formula \cite{Grefenstette:2011:ESC:2145432.2145580}:
 $$
 \overline{\text{\it Verb}} = \sum_i\ov{s_i} \otimes \ov{o_i}
 $$
 where $\ov{s_i}$ and $\ov{o_i}$ are the subject-object pairs of the verb found in the source corpus.
 
-This encodes into the verb matrix all the contextual information of the subjects and objects of the verb. They way it is constructed (by pairing subjects and objects of the verb) is the same way a verb predicate is built in formal semantics, that is by pairing the subjects and objects. But here, instead of packing the pairs into a set, one develops a matrix from them, at the same time, each pair gets a real number value assigned to it.
+This encodes into the verb matrix all the contextual information of the subjects and objects of the verb. The way it is constructed (by pairing subjects and objects of the verb) is the same way a verb predicate is built in formal semantics, that is by pairing the subjects and objects. But here, instead of packing the pairs into a set, one develops a matrix from them, at the same time, each pair gets a real number value assigned to it.
 
 To continue the example, imagine that the verb \textit{loves} was seen three times in the corpus: \textit{John loves Mary}, \textit{Peter likes coffee} and \textit{Mary likes hiking}. The matrix $\overline{\text{\it loves}}$ is computed as:
 \begin{align*}
@@ -474,9 +467,13 @@ Making the computation of \textit{John loves Mary} look like:
 \subsection{Similarity of heads in context}
 \label{sec:similarity-context}
 
-A noun phrase can be similar to a noun, as in \textit{female lion} and \textit{lioness}, and to other noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as well as to words. In this case, similarity is measured in \emph{context}, and most methods of calculating similarity of phrases still rely on comparisons of the phrases' head words, which meanings are modified by the arguments they appear with \cite{Kintsch2001173}.
+A noun phrase can be similar to a noun, as in \textit{female lion} and \textit{lioness}, and to other noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as well as to words. In this case, similarity is measured in \emph{context}\footnotemark{}, and most methods of calculating similarity of phrases still rely on comparisons of the phrases' head words, which meanings are modified by the arguments they appear with \cite{Kintsch2001173}.
 
-\newcite{mitchell-lapata:2008:ACLMain,mitchell2010composition} use element-wise addition and multiplication to model argument interaction. \newcite{Baroni2010nouns} represents adjectives as matrices that modify nouns (vectors) using matrix multiplication.
+\footnotetext{
+  The similarity between the head words in the context of their phrases should not be confused with contextualised similarity. The similarity between heads specifies what is being compared. Contextualised similarity is a requirement on the similarity relation.
+}
+
+\newcite{mitchell-lapata:2008:ACLMain,mitchell2010composition} use element-wise addition and multiplication to model argument interaction. \newcite{Baroni2010nouns} represent adjectives as matrices that modify nouns (vectors) using matrix multiplication.
 
 \newcite{Dinu:2010:MDS:1870658.1870771} model word meaning as a distribution over senses; a context feature (other word in the context)  directly modulates word’s sense distribution using conditional probability. \newcite{thater-furstenau-pinkal:2011:IJCNLP-2011} contextualise vectors by assigning higher weight to features that correspond or are distributionally similar to the context words.
 
@@ -497,7 +494,7 @@ Because it is difficult to perform extrinsic evaluation (also called evaluation 
 
 Apart from a pragmatic attempt to alleviate the problems of evaluating
 similarity components, these datasets serve as an empirical test of the
-hypotheses of Firth and Harris, bringing together our understanding of the human mind, language and technology. The following sections introduce the main datasets used in this area.
+hypotheses of Firth and Harris. They bring together our understanding of the human mind, language and technology. The following sections introduce the main datasets used.
 
 \subsection{Word similarity}
 \label{sec:lexical-similarity}
@@ -522,7 +519,7 @@ They found that the more similar words in meaning are the more context they shar
 
 \newcite{1986-13502-00119860101} studied the similarity relation from the psychological perspective. They analysed the similarity judgements between the entries by their geometric structure. The geometric approach represents the entries as points in a multidimensional space so that the distance between them reflects the similarity.
 
-They examined 100 datasets to identify common geometric patterns in human similarity judgements. The datasets contained entries that belonged to a single category such as \textit{verbs of judging} \cite{FILLENBAUM197454} or \textit{animal terms} \cite{HENLEY1969176}. The reason for category oriented similarity studies was that ``stimuli can only be compared in so far as they have already been categorised as identical, alike, or equivalent at some higher level of abstraction'' \cite{turner1987rediscovering}.
+They examined 100 datasets to identify common geometric patterns in human similarity judgements. The datasets contained entries that belonged to a single category such as \textit{verbs of judging} \cite{FILLENBAUM197454} or \textit{animal terms} \cite{HENLEY1969176}. The reason for category oriented similarity studies is that ``stimuli can only be compared in so far as they have already been categorised as identical, alike, or equivalent at some higher level of abstraction'' \cite{turner1987rediscovering}.
 
 They observed that if a category contains a superordinate, similarity judgements arrange category members around it. For example, similarity judgements given by humans arrange fruit names around the word \textit{fruit} in such a way that it is their nearest neighbour, making \textit{fruit} the \emph{focal point} of the category of \textit{fruits}.
 
@@ -536,9 +533,9 @@ An important consequence is that high centrality values cannot be achieved in a 
 
 The Spearman correlation of the judgements given by two authors of the paper for all 3\,000 pairs is 0.68. The correlation with the average of their scores with the dataset scores is 0.84, which can be taken as the upper bound. The best presented results are 0.75 for WS353 and 0.78 for MEN, note that two different models produce them.
 
-\newcite{hill2014simlex} presented SimLex-999, a gold standard resource for evaluating distributional semantic models. In contrast to WS353 and MEN it focuses on similarity rather than relatedness. The words \textit{coffee} and \textit{cup} are related but not similar. The dataset consists of 666 noun-pairs, 222 verb-pairs and 111 adjective-pairs. 500 residents of the USA were recruited to collect human judgements. The average pairwise Spearman correlation between two participants is 0.67, however the average correlation of a human rater with the average of all the other raters is 0.78.
+\newcite{hill2014simlex} presented SimLex-999, a gold standard resource for evaluating distributional semantic models. In contrast to WS353 and MEN it focuses on similarity rather than relatedness. The words \textit{coffee} and \textit{cup} are related but not similar. The dataset consists of 666 noun-pairs, 222 verb-pairs and 111 adjective-pairs. 500 residents of the USA were recruited to collect human judgements. The average pairwise Spearman correlation between two participants is 0.67, however the average correlation of a human rater with the average of all other raters is 0.78.
 
-They tested several models on WS353, MEN and WordSim-999. They showed that existing models achieved lower correlation on SimLex-999 than on WS353 and MEN suggesting that the new dataset required development of methods that are strictly focused on similarity. The best reported results are 0.44 on WS353, 0.48 on MEN and 0.28 on SimLex-999, these are different models, but all of them are trained on 150 million word RCV1 Corpus \cite{lewis2004rcv1}. Neural models trained on a larger corpus (Wikipedia) yield higher results as shown by \newcite{TACL570} and \newcite{baroni-dinu-kruszewski:2014:P14-1}.
+They tested several models on WS353, MEN and WordSim-999. They showed that existing models achieved lower correlation on SimLex-999 than on WS353 and MEN suggesting that the new dataset required development of methods that are strictly focused on similarity. The best reported results are 0.44 on WS353, 0.48 on MEN and 0.28 on SimLex-999, these are different models, but all of them are trained on the 150 million word RCV1 Corpus \cite{lewis2004rcv1}. Neural models trained on a larger corpus (Wikipedia) yield higher results as shown by \newcite{TACL570} and \newcite{baroni-dinu-kruszewski:2014:P14-1}.
 
 Table~\ref{tab:lexical-dataset-comparison} presents the key models and the results they achieved on WS353, MEN and SimLex-999.
 
@@ -549,9 +546,9 @@ The variance of results on word similarity tasks can be explained by the differe
 
 \newcite{Bullinaria2007} presented a thorough study of the parameters of distributional models. They tested various vector space parameters and similarity measures.
 
-Instead of raw co-occurrence counts they used the conditional probability of a context word appearing close to a target word $P(c|t)$. In addition to that, they used \emph{point-wise mutual information} $\operatorname{PMI(c,t)} = \log\left(\frac{P(c,t)}{P(c)P(t)}\right)$ and positive PMI, which nullifies negative values and probability ratio $\frac{P(c|t)}{P(c)}$. They varied the vector space dimensionality from 1 to 10\,0000 dimensions.  Cosine, Euclidean and City Block geometric measures were used to estimate similarity. They used the 87.9 million word British National Corpus (BNC) and performed an exhaustive search across the parameter combinations.
+Instead of raw co-occurrence counts they used the conditional probability of a context word appearing close to a target word $P(c|t)$. In addition to that, they used \emph{point-wise mutual information} $\operatorname{PMI(c,t)} = \log\left(\frac{P(c,t)}{P(c)P(t)}\right)$ and positive PMI, which nullifies negative values, and probability ratio $\frac{P(c|t)}{P(c)}$. They varied the vector space dimensionality from 1 to 10\,0000 dimensions.  Cosine, Euclidean and City Block geometric measures were used to estimate similarity. They used the 87.9 million word British National Corpus (BNC) and performed an exhaustive search across the parameter combinations.
 
-A vector space with vector components computed with positive PMI and cosine similarity measure performed the best in their experiments. They also showed that the performance depends on the size of the corpus used: the larger the corpus, the better the results. The context window of size one produced the best results. The model performance peaked when 1\,000 dimensional vector space was used and dropped afterwards.
+A vector space with vector components computed with positive PMI and cosine similarity measure performed best in their experiments. They also showed that the performance depends on the size of the corpus used: the larger the corpus, the better the results. The context window of size one produced the best results. The model performance peaked when 1\,000 dimensional vector space was used and dropped afterwards.
 
 \newcite{kiela-clark:2014:CVSC} performed a systematic study of distributional models on various datasets including WS353 and MEN. They confirmed findings of \newcite{Bullinaria2007} that larger corpora lead to better performance. They suggested using ukWaC (2 billion tokens) over the BNC with a small context window of size less than 5 from each side. Positive PMI was the best performed measure in combination with the \emph{correlation similarity} measure, which is the mean-adjusted cosine similarity. The dimensionality of 50\,000 appeared to be optimal.
 
@@ -579,14 +576,14 @@ described in \citet{Grefenstette:2011:ETV:2140490.2140497,Grefenstette:2011:ESC:
 Consider the sentence \textit{system meets specification}. \textit{Meets} is an ambiguous transitive verb, and \textit{system}
 and \textit{specification} are its arguments. Possible landmarks for \emph{meet} are \textit{satisfy} and \textit{visit}. For this sentence, the human judgements show that the disambiguated verb meaning is similar to the landmark \textit{satisfy}, and less similar to \textit{visit}.
 
-The task is to estimate the similarity of the sense of a verb in a context with a given landmark. To estimate similarity, the verb is composed with its arguments, it is done the same for the landmark and the arguments, and the similarity of the two vectors is computed. To evaluate performance, the human judgements are averaged for the same verb, argument and landmark entries, and these average values are used to calculate the correlation.
+The task is to estimate the similarity of the sense of a verb in a context with a given landmark. To estimate similarity, the verb is composed with its arguments, it is done the same for the landmark and the arguments, and the similarity of the two phrase vectors is computed. To evaluate performance, the human judgements are averaged for the same verb, argument and landmark entries, and these average values are used to calculate the correlation. \citet{Grefenstette:2011:ETV:2140490.2140497} achieves the correlation of 0.28 with the composition based on Kronecker.
 
 \subsection{Sentence similarity}
 \label{sec:sentence-similarity}
 
-The transitive sentence similarity dataset described in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013} consists of transitive sentence pairs and human similarity judgements. The task is to estimate similarity between two sentences. The evaluation is the same as in the disambiguation task (Section~\ref{sec:disamb}).
+The transitive sentence similarity dataset described in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013} consists of transitive sentence pairs and human similarity judgements. The task is to estimate similarity between two sentences. The evaluation is the same as in the disambiguation task (Section~\ref{sec:disamb}). They achieve the correlation of 0.41 with additive composition.
 
-In general, there is no systematic study of parameters of compositional models similar to lexical studies discussed in Section~\ref{sec:parameter-selection-intro}.
+In general, there is no systematic study of parameters of compositional models similar to lexical studies discussed in Section~\ref{sec:parameter-selection-intro}. Because parameters were selected iteratively, the fact that one operator outperformed other could be due to the specificity of the lexical representations.
 
 \section{Conclusion}
 \label{sec:conclusion-comp}
@@ -607,9 +604,9 @@ Word similarity (in the broad psychological sense) has been studied extensively:
 
 Iterative parameter tuning is widely used to find the best model parameters. However, it does not take into account the interaction between the parameters of a similarity model. While some influential interactions are well known (for example, the weighting scheme interacts with the similarity score) and specific parameter choice is recommended (Positive PMI with cosine similarity), studies that introduce new parameters should not rely on existing recommendations, because an effective parameter combination might not be tested.
 
-Phrase similarity has been studies much less than word similarity. Several datasets  are proposed that focus on different aspects of similarity (for example, its application in word sense disambiguation within a context). Several compositional methods are developed. However, the compositional methods were not evaluated in a systematic way to identify the best parameters (for example, the co-occurrence weighting function among the others) and rely on iterative tuning by taking as a starting point parameters that work best with words.
+Phrase similarity has been studies much less than word similarity. Several datasets  are proposed that focus on different aspects of similarity (for example, its application in word sense disambiguation within a context). Several compositional methods are developed. However, the compositional methods were not evaluated in a systematic way to identify the best parameters (for example, the co-occurrence weighting function among the others) and rely on iterative tuning by taking as a starting point parameters that work best with words. This might lead to biased evaluation.
 
-This thesis addresses the gap between the evaluation methodology of lexical and phrasal similarity models. It is a systematic study of both words and phrasal similarity models. It covers a broad selection of parameter combinations that has not been tested before, especially on the phrase similarity tasks. It uses several datasets and employs a model selection methodology that is robust to overfitting.
+This thesis addresses the gap between the evaluation methodology of lexical and compositional similarity models. It is a systematic study of both words and phrasal similarity models. It covers a broad selection of parameter combinations that has not been tested before, especially on the phrase similarity tasks. It uses several datasets and employs a model selection methodology that is robust to overfitting.
 
 %%% Local Variables:
 %%% mode: latex
