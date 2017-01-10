@@ -8,12 +8,11 @@
 
 {\headingfont Abstract}
 
-Categorical compositional methods \cite{DBLP:journals/corr/abs-1003-4394} cover a large number of grammatical phenomena such as the composition of a verb with its arguments, an adjective with a noun and a relative clause with a main clause. The advances in the field of lexical semantics \cite{mikolov2013efficient,baroni-dinu-kruszewski:2014:P14-1,TACL570} are successfully applied in compositional tasks \cite{milajevs-EtAl:2014:EMNLP2014}, however, it is not known whether there are word representations that perform well in both lexical and compositional tasks.
-%
-This work systematically tests a large number of distributional word representations while varying the parameters of the co-occurrence weighting functions.
-The goal of this work is to find the best behaving parameters taking overfitting \cite{lapesa2014large} into account.
-%
-Here, we show that careful model selection leads to improvements in several lexical and compositional tasks in comparison to the current state-of-the-art methods and avoids overfitting.
+Representation of sentences that capture semantics is an essential part of the natural language processing systems, such as information retrieval or machine translation. The representation of a sentence is commonly built by combining together the representations of words that the sentence consists of. Similarity between words is used as a proxy to evaluate semantic representations. The word similarity models are well studied and correlate with human judgements.
+
+Current evaluation of models of sentential similarity builds on the results obtained in lexical experiments. The main focus is how the lexical representations are used, rather than what they should be. It is often assumed that the optimal representations for word similarity are also optimal for sentence similarity.
+
+This work drops this assumption and systematically looks for lexical representations that are optimal for similarity measurement. We find that the best representations for words similarity are not always the best for sentence similarity and vice versa. However, there are representations that are a good in both tasks. The systematic study of the parameters of similarity models reveals that the more information lexical representations contain, the more attention should be paid to noise.
 
 \vfill
 
