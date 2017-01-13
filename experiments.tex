@@ -24,7 +24,7 @@ In general, model performance increases as the dimensionality increases. However
 
 As we see later in Section~\ref{sec:simlex-men} the best result is an example of overfitting. The 2\,000 dimensional model performs very well on SimLex-999 achieving the score of 0.389, but underperforms on MEN achieving the score of 0.660, while the model chosen using heuristics yields the score of 0.724 which is very close to the maximum result for this dimensionality (0.728, Figure~\ref{fig:SimLex999-transfer}).
 
-For spaces with dimensionality less than 5\,000, \texttt{freq} set to 1 and inner product as the similarity measure yield the best results. Otherwise, cosine with \logNSCPMI/, smoothing $\alpha=0.75$ and shifting $k=0.7$ gives the best results. This supports our hypotheses that high dimensional spaces benefit from non-constant frequency (H\ref{hyp:freq}), smoothing of context distribution (H\ref{hyp:cds}) and the sparsity of vectors (H\ref{hyp:neg}).
+For spaces with dimensionality less than 5\,000, \texttt{freq} set to 1 and inner product as the similarity measure yield the best results. Otherwise, cosine with \logNSCPMI/, smoothing $\alpha=0.75$ and shifting $k=0.7$ gives the best results. This supports our hypotheses that high-dimensional spaces benefit from non-constant frequency (H\ref{hyp:freq}), smoothing of context distribution (H\ref{hyp:cds}) and the sparsity of vectors (H\ref{hyp:neg}).
 
 \subsection{Heuristics}
 \label{sec:heuristics-simlex}
@@ -41,7 +41,7 @@ The linear model achieves an adjusted $R^2$ value of 0.867, indicating that the 
 
 Then we fit six ``restricted'' linear models, each of them exclude a parameter $\bar p$:
 \begin{equation*}
-  \text{\it score} \sim \sum_{p \in P \setminus \{\bar p\} }p + \sum_{p, p' \in (P \setminus \{\bar p\}) \times (P \setminus \{\bar p\})}p \cdot p'  
+  \text{\it score} \sim \sum_{p \in P \setminus \{\bar p\} }p + \sum_{p, p' \in (P \setminus \{\bar p\}) \times (P \setminus \{\bar p\})}p \cdot p'
 \end{equation*}
 
 \input{figures/SimLex999-heuristics-selection-table}
