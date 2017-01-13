@@ -1,9 +1,9 @@
 \chapter{Relationships between sentences}
 \label{sec:sentential}
 
-This chapter reports the results on the compositional datasets KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ETV:2140490.2140497} and PhraseRel (Section~\ref{sec:phraserel}).\footnotemark{} The evaluation is done similarly to the lexical evaluation (Section~\ref{sec:lexical}), however if several human judgements are provided for a sentence pair, the judgements are averaged before computing the correlation.
+This chapter reports the results on the compositional datasets KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ETV:2140490.2140497} and PhraseRel (Chapter~\ref{sec:phraserel}).\footnotemark{} The evaluation is done similarly to the lexical evaluation (Chapter~\ref{sec:lexical}). If a dataset provides several human judgements for a sentence pair, the judgements are averaged before computing the correlation.
 
-\footnotetext{Much of the work in this chapter has appeared as \newcite{milajevs-EtAl:2014:EMNLP2014} at EMNLP 2014.}
+\footnotetext{This chapter includes the results presented in \newcite{milajevs-EtAl:2014:EMNLP2014} at EMNLP 2014.}
 
 \section{KS14}
 \label{sec:ks14}
@@ -11,12 +11,12 @@ This chapter reports the results on the compositional datasets KS14 \cite{kartsa
 \subsection{Max selection}
 \label{sec:max-selection-ks14}
 
-\input{figures/ks14-results}
-
 Figure~\ref{fig:ks14-results} shows the performance of compositional models on the sentence similarity dataset KS14 \cite{kartsadrqpl2014}. All operators outperform the non-compositional \texttt{head} operator. Table~\ref{tab:ks14-max-selection} shows the performance of models selected by Max selection together with the selected parameters.
 
 % \todo[noline]{Significance test}
 Kronecker with a few thousand dimensions and correlation as the similarity measure gives the highest scores, supporting H\ref{hyp:order}. As the dimensionality increases, Kronecker performance stays constant. Addition is slightly better than multiplication, but the performance of both peaks at 2\,000 dimensions and decreases as the dimensionality increases.
+
+\input{figures/ks14-results}
 
 \texttt{Head} parameters are similar to the lexical Max selection (Table~\ref{tab:lexical-max-selection}), with an exception of \texttt{neg}, where values similar to MEN (Table~\ref{tab:men-max-selection}) are chosen.
 
@@ -25,13 +25,6 @@ All compositional operators agree in the choice of \texttt{freq} ($\log n$), \te
 Compositional operators perform best with constant \texttt{freq} of 1, in contrast to the lexical setting, where $\log n$ is more beneficial. This might be because during composition the $\log n$ term dominates over the PMI value and minimises its effect.
 
 Local context probabilities perform better in compositional tasks then in lexical tasks. Multiplication benefits from the unsmoothed distribution probability, while highly dimensional models perform best with smoothing ($\alpha = 0.75$), supporting H\ref{hyp:cds}. The only exceptions are additive models with $D < 5\,000$, where global probabilities perform best.
-% * <sdyck@ualberta.ca> 2016-11-04T13:52:45.324Z:
-%
-% > compositional tasks
-%
-% than in lexical tasks?
-% DM: yeap.
-% ^.
 
 For low dimensional spaces, addition performs best with sparse spaces ($k > 1$, $D < 5\,000$), but for high dimensional spaces, addition performs best  with dense spaces ($k = 0,7$, $D \geq 5\,000$), supporting H\ref{hyp:neg}.
 
@@ -55,9 +48,9 @@ For addition, spaces with $D < 20\,000$ should be used with $k = 1.4$, and with 
 
 For multiplication, there are three most beneficial choices: for $D < 10\,000$ $k = 0.5$, for $10\,000 \leq D < 30\,000$ $k = 0.7$ and, finally, for $D > 30\,000$ $k = 1$.
 
-Kronecker shows a behaviour  similar to multiplication for $k$ as dimensionality increases, but prefers sparser spaces: for $D < 3\,000$ $k = 0.5$, for $3\,000 \leq D < 20\,000$ and $D \geq 20\,000$ $k = 1$.
+Kronecker shows a behaviour  similar to multiplication for $k$ as dimensionality increases, but prefers sparser spaces. For $D < 3\,000$: $k = 0.5$, for $3\,000 \leq D < 20\,000$: $k = 0.7$ and for $20\,000 \leq D$: $k = 1$.
 
-All operators behave in accordance to H\ref{hyp:neg}.
+All operators behave in accordance to H\ref{hyp:neg} that low-dimensional spaces benefit from being dense, while high-dimensional spaces benefit being sparse.
 
 \subsubsection{Frequency}
 The best option of \texttt{freq} for \texttt{head} is $\log n$ (Figure~\ref{fig:ks14-freq}). The constant frequency 1 is very close to $\log n$, but its performance declines for spaces with $D > 20\,000$.
@@ -65,28 +58,22 @@ The best option of \texttt{freq} for \texttt{head} is $\log n$ (Figure~\ref{fig:
 For addition, frequency should be set to 1 for spaces with $D < 5\,000$ and to $\log n$ otherwise.
 
 There is one choice of frequency for multiplication: 1. However, $\log n$ behaves similarly to it when $D \geq 3\,000$.
-% * <sdyck@ualberta.ca> 2016-11-04T13:59:08.049Z:
-% 
-% >  large values of $D$.
-% How large? Since D goes to very high values, and sometimes high is only considered a few thousand, it seems. behaviour is
-% DM: done.
-% ^.
 
 Kronecker follows addition with regard to \texttt{freq}, but the split point is $D = 10\,000$: low dimensional spaces should be used with constant frequency 1, and high dimensional spaces with $\log n$.
 
-Therefore, H\ref{hyp:freq} is supported by this dataset.
+Generally, H\ref{hyp:freq}---that non-constant frequency is beneficial for high-dimensional spaces---is supported by all operators in this dataset.
 
 \subsubsection{Context distribution smoothing}
 
 \input{figures/ks14-cds}
-\texttt{Head} with spaces with dimensionality less than 20\,000 should be used with global probabilities, and more dimensional models should be used with smoothed local probabilities: $\alpha = 0.75$ (Figure~\ref{fig:ks14-cds}).
+\texttt{Head} composition with spaces with dimensionality less than 20\,000 should be used with global probabilities, and more dimensional models should be used with smoothed local probabilities: $\alpha = 0.75$ (Figure~\ref{fig:ks14-cds}).
 
-All other operators perform best with global context probability. Even though local context probability with $\alpha = 1$ is close to global, H\ref{hyp:cds} is not supported by this dataset.
+All other operators perform best with global context probability. Even though local context probability with $\alpha = 1$ is close to global, H\ref{hyp:cds} is not supported by this dataset, context distribution smoothing does not affect high-dimensional spaces.
 
 \subsubsection{Similarity}
-\texttt{Head} on spaces with $D < 20\,000$ performs best with cosine similarity, while more dimensional models prefer correlation as the similarity measure (Figure~\ref{fig:ks14-similarity}).
+\texttt{Head} on spaces with $D < 20\,000$ performs best with cosine similarity, while more dimensional models prefer correlation as the similarity measure (Figure~\ref{fig:ks14-similarity}), strictly according to H\ref{hyp:similarity}.
 
-Other operators work best with correlation. Only addition supports H\ref{hyp:similarity}. In the case of multiplication, correlation dominates over cosine, even for small values of $D$. There is little to say about Kronecker, as it is tested only with the inner product for spaces with $D > 3\,000$, due to its computational complexity ($\mathcal{O}(n^2)$ with respect to the number of vector components).
+Other operators work best with correlation. Addition and multiplication also support H\ref{hyp:similarity}. In the case of multiplication, correlation dominates over cosine, even for small values of $D$. There is little to say about Kronecker, as it is tested only with the inner product for spaces with $D > 3\,000$, due to its computational complexity ($\mathcal{O}(n^2)$ with respect to the number of vector components).
 
 \subsubsection{Discriminativeness}
 
@@ -115,36 +102,15 @@ The average difference between Max and heuristic-based selections is 0.022. Per 
 
 Figure~\ref{fig:gs14-results} shows performance of the compositional models on the transitive verb disambiguation task \cite{Grefenstette:2011:ESC:2145432.2145580}. Table~\ref{tab:gs11-max-selection} shows the selected model performance together with chosen parameters.
 
-Multiplication with 20\,000 dimensions gives the highest result of 0.532. Kronecker gets close with a score of 0.516 with $D = 50\,000$, giving no support to H\ref{hyp:order}. Addition does not outperform the \texttt{head} operator: addition scores 0.338, while \texttt{head}'s best performance is 0.432.
+Multiplication with 20\,000 dimensions gives the highest result of 0.532. Kronecker gets close with a score of 0.516 with $D = 50\,000$, giving no support to H\ref{hyp:order} that word order is important for similarity measurement. Addition does not outperform the \texttt{head} operator: addition scores 0.338, while \texttt{head}'s best performance is 0.432.
 
-\texttt{Head}'s behaviour is unstable for dimensions less than 20\,000, and its best behaviour might be the case of overfitting similarly with SimLex-999. However, models with dimensions greater than 20\,000 behave similarly to each other, even though the parameters are different.
-% * <sdyck@ualberta.ca> 2016-11-04T23:13:19.839Z:
-%
-% > of overfitting similarly with SimLex-999
-%
-% This point is a bit unclear. 
-%
-% ^.
+\texttt{Head}'s behaviour is unstable for dimensions less than 20\,000, and its best behaviour might be the case of overfitting similarly with SimLex-999. However, models with dimensions greater than 20\,000 yield similar scores, even though the parameters are different.
 
 In general, Max parameter selection is very different than the one based on KS14 (Table~\ref{tab:ks14-max-selection}). Compositional operators behave best with $\log n$ frequency, especially Kronecker. PMI often outperforms other discriminativeness components in the case of \texttt{head} and addition. Global context probability estimation behaves better than local and correlation is not always the best similarity measure.
-% * <sdyck@ualberta.ca> 2016-11-04T23:14:08.921Z:
-%
-% >  is very different 
-%
-% reiterate what you are comparing. Max selection and KS14?
-% DM: yes.
-% ^.
 
-Addition behaviour degrades as dimensionality increases, whereas multiplication behaviour increases, but becomes unstable for spaces with more than 20\,000 dimensions. Kronecker depends the least on the dimensionality.
-% * <sdyck@ualberta.ca> 2016-11-04T23:16:35.799Z:
-%
-% > high number of dimensions
-%
-% how high?
-% DM: > 20\,000.
-% ^.
+Addition's behaviour degrades as dimensionality increases, whereas multiplication behaviour increases, but becomes unstable for spaces with more than 20\,000 dimensions. Kronecker depends the least on the dimensionality.
 
-Addition works best with dense models. Multiplication and Kronecker prefer dense, low dimensional spaces and sparse, high dimensional spaces, supporting H\ref{hyp:neg}.
+Addition works best with dense models. Multiplication and Kronecker prefer dense, low dimensional spaces and sparse, high dimensional spaces, supporting H\ref{hyp:neg} that a frequency component is required for high-dimensional spaces.
 
 \subsection{Heuristics}
 \label{sec:heuristics-gs11}
@@ -182,7 +148,7 @@ Kronecker prefers shifting. For spaces with dimensionality less then 20\,000 $k 
 
 \texttt{Head} and multiplication work best with cosine similarity, addition with correlation and Kronecker with inner product (Figure~\ref{fig:gs11-similarity}).
 
-Addition strictly supports H\ref{hyp:similarity}, while multiplication supports it by behaving similarly to cosine and correlation.
+Addition strictly supports H\ref{hyp:similarity} that cosine is optimal for high-dimensional spaces, while multiplication supports it by behaving similarly to cosine and correlation.
 
 \subsubsection{Context distribution smoothing}
 
@@ -198,20 +164,11 @@ There is no support of H\ref{hyp:cds} because global context probabilities outpe
 
 \input{figures/gs11-discr}
 
-\texttt{Head} works best with SPMI, but SCPMI is very close (Figure~\ref{fig:gs11-discr}).
-
-Addition works best with PMI for $D < 20\,000$ and SCPMI otherwise.
+\texttt{Head} works best with SPMI, but SCPMI is very close (Figure~\ref{fig:gs11-discr}). Addition works best with PMI for $D < 20\,000$ and SCPMI otherwise.
 
 Multiplication is similar to addition in that it prefers PMI in the low dimensional case and SCPMI in the high dimensional case, but the change happens at 5\,000 dimensions rather than 20\,000.
 
 Kronecker with less than 5\,000 dimensions prefers SCPMI and SPMI, which is opposite to addition and multiplication.
-% * <sdyck@ualberta.ca> 2016-11-04T23:30:11.433Z:
-%
-% > rs SCPMI and SPMI otherwise.
-%
-% I would not that this is the opposite of multiplication and addition
-% DM: done.
-% ^.
 
 This dataset does not give evidence to support H\ref{hyp:comp-pmi-cpmi} because there is almost no difference betwen *PMI and *CPMI.
 
@@ -223,7 +180,7 @@ Kronecker and most of multiplication's discriminativeness choices agree, while f
 
 Similarity choice is the same for Kronecker and addition, but \texttt{head} and multiplication---according to heuristics---should be used with cosine similarity, while there is no single metric that leads to maximum performance.
 
-The overall average normalised difference in results between Max and heuristic-based selections is 0.054. Per operator, the differences are: 0.090 \texttt{head}, 0.077 addition, 0.043 multiplication and 0.006 Kronecker. All the values are within the 10\% boundary set by (H\ref{hyp:10percent}).
+The overall average normalised difference in results between Max and heuristic-based selections is 0.054. Per operator, the differences are: 0.090 \texttt{head}, 0.077 addition, 0.043 multiplication and 0.006 Kronecker. All the values are within the 10\% boundary set by H\ref{hyp:10percent}.
 
 \section{PhraseRel}
 \label{sec:phraserel-experiment}
@@ -235,20 +192,13 @@ The overall average normalised difference in results between Max and heuristic-b
 
 Figure~\ref{fig:phraserel-results} shows the performance of the models on the PhraseRel dataset. All operators outperform the non-compositional \texttt{head} baseline. Table~\ref{tab:phraserel-max-selection} shows the models that yield the best result together with model parameters.
 
-Multiplication, in general, outperforms all other operators, and with the dimensions of 10\,000 and 20\,000, gets the perfect score of 1, giving no support of H\ref{hyp:order}. Model performance weakly depends on the dimensionality for all operators.
-% * <sdyck@ualberta.ca> 2016-11-04T23:33:29.327Z:
-%
-% > perfect score
-%
-% What is a perfect score? 1.000?
-% DM: Yes.
-% ^.
+Multiplication, in general, outperforms all other operators, and with the dimensions of 10\,000 and 20\,000, gets the perfect score of 1. The fact that Kronecker (a word order sensitive operator) is outperformed by multiplication (a word order insensitive operator) gives no support of H\ref{hyp:order}. Model performance weakly depends on the dimensionality for all operators.
 
 Addition and Kronecker achieve the best score with constant frequency, \texttt{head} works best with linear and multiplication with sublinear ($\log n$) frequency.
 
 SPMI is the preferred discriminativeness component for the low-dimensional spaces ($D < 10\,000$) for \texttt{head}, otherwise, SCPMI is the best behaving \texttt{discr}. For addition and the spaces with $D > 1\,000$, SPMI is the best, while for the spaces with the same dimensionality, multiplication prefers CPMI, which is in line with H\ref{hyp:comp-pmi-cpmi}. Kronecker, most of the time, prefers SCPMI.
 
-\texttt{Head} with dimensions less than 20\,000 works best with local smoothed context probabilities, however, for more dimensional spaces, global context probabilities are more competitive. On the contrary, addition prefers smoothed local context probabilities for spaces with dimensions more than 5\,000. Multiplication exhibits different pattern: when a model contains few dimensions, it prefers local, smoothed context probabilities, and for highly-dimensional spaces it prefers local, but unsmoothed context probabilities, which goes against H\ref{hyp:cds}. Kronecker is inconsistent with regards to the choice of \texttt{cds}, but for models with $D \geq 30\,000$ , global context probabilities perform the best.
+\texttt{Head} with dimensions less than 20\,000 works best with local smoothed context probabilities, however, for more dimensional spaces, global context probabilities are more competitive. On the contrary, addition prefers smoothed local context probabilities for spaces with dimensions more than 5\,000. Multiplication exhibits different pattern: when a model contains few dimensions, it prefers local, smoothed context probabilities, and for highly-dimensional spaces it prefers local, but unsmoothed context probabilities, which goes against H\ref{hyp:cds}. Kronecker is inconsistent with regards to the choice of \texttt{cds}, but for models with $D \geq 30\,000$, global context probabilities perform the best.
 
 Regarding shifting, \texttt{head} prefers sparse spaces $k > 1$, but as dimensionality increases, the optimal $k$ values decrease. Addition does not show a consistent behaviour with regard to this parameter. Multiplication, in general, benefits from dense, unshifted spaces. Kronecker works best with sparse spaces with increasing sparsity as the dimensionality increases, supporting H\ref{hyp:neg}.
 
@@ -267,7 +217,7 @@ The linear model achieves an $R^2$ of 0.822. The partial $R^2$ scores are shown 
 
 \texttt{Head} should be used with $k = 1.4$, addition should be used with $k = 2$ and multiplication should be used with $k = 0.5$ (Figure~\ref{fig:phraserel-neg}).
 
-Kronecker has three optimal values of $k$ that are proportional to dimensionality. For models with dimensionality less than 5\,000, $k = 0.5$ is preferred; for $5\,000 \geq D < 20\,000$, the most beneficial choice of \texttt{neg} is $k = 1$; finally, for spaces with more than 20\,000 dimensions, $k$ should be set to 1.4, which supports H\ref{hyp:neg}.
+Kronecker has three optimal values of $k$ that are proportional to dimensionality. For models with dimensionality less than 5\,000, $k = 0.5$ is preferred; for $5\,000 \leq D < 20\,000$, the most beneficial choice of \texttt{neg} is $k = 1$; finally, for spaces with more than 20\,000 dimensions, $k$ should be set to 1.4, which supports H\ref{hyp:neg}.
 
 \subsubsection{Context distribution smoothing}
 \label{sec:cont-distr-smooth-phraserel}
@@ -277,13 +227,7 @@ The best choice of \texttt{head} deponds on dimensionality: spaces with less tha
 \subsubsection{Frequency}
 \label{sec:frequency-phraserel}
 
-\texttt{Head} works best with linear frequency, but the difference between other options is small (Figure~\ref{fig:phraserel-freq}).
-
-Addition benefits from linear frequency, but sublinear frequency is very close.
-
-Multiplication works best with sublinear frequency, but linear is very close to it.
-
-Finally, Kronecker works best with $\log n$ with spaces with dimensionality less than 5\,000, and with linear frequency with more dimensional spaces.
+\texttt{Head} works best with linear frequency, but the difference between other options is small (Figure~\ref{fig:phraserel-freq}). Addition benefits from linear frequency, but sublinear frequency is very close. Multiplication works best with sublinear frequency, but linear is very close to it. Finally, Kronecker works best with $\log n$ with spaces with dimensionality less than 5\,000, and with linear frequency with more dimensional spaces.
 
 In general, H\ref{hyp:freq} holds, because there is no difference between 1 and $\log n$ choices in model performance.
 
@@ -318,29 +262,22 @@ Manual heuristics do not pick the best result of 1 (Table~\ref{tab:phraserel-max
 
 The average relative difference between the Max selection and the selection based on heuristics is 0.022 for \texttt{head}, 0.072 for addition, 0.041 for multiplication and 0.061 for Kronecker.
 
-Over all compositional methods, the difference is 0.049, which is within the limit set by H\ref{hyp:10percent}.
-% * <sdyck@ualberta.ca> 2016-11-05T00:16:21.074Z:
-%
-% > Overall, the
-%
-% Overall as in overall average?
-% DM: fixed.
-% ^.
+Over all compositional methods, the difference is 0.049, which is within the 10\% limit set by H\ref{hyp:10percent}.
 
 \section{Selected model transfer across the datasets}
 \label{sec:select-model-transf-comp}
+
+\input{figures/ks14-transfer}
 
 \subsection{Difference between heuristics}
 \label{sec:diff-betw-heur-comp}
 
 There is little agreement on parameter selection based on heuristics among the 3 compositional datasets. The only consistent choice is global context probability (\texttt{cds}) and SCPMI discriminativeness for multiplicative models.
 
-There is more pairwise agreement, for example, similarity based on correlation for additive models on KS14 and GS11 and $\log n$ frequency for multiplicative models between GS11 and PhraseRel. The pairwise agreement might be a sign of overfitting, because there is no clear pattern. On the other side, the difference in performance between parameter choices might be negligible, as some parameters consistently show low $R^2$ scores, for example \texttt{discr}. Consequently, there is inconsistency in the hypotheses supported.
+There is more pairwise agreement, for example, similarity based on correlation for additive models on KS14 and GS11 and $\log n$ frequency for multiplicative models between GS11 and PhraseRel. The pairwise agreement might be a sign of overfitting, because there is no clear pattern. On the other side, the difference in performance between parameter choices might be negligible, as some parameters consistently show low $R^2$ scores, for example \texttt{discr}. Consequently, there is inconsistency in the supported hypotheses.
 
 \subsection{From KS14}
 \label{sec:from-ks14}
-
-\input{figures/ks14-transfer}
 
 Figure~\ref{fig:ks14-transfer} shows the behaviour of models selected on the KS14 when they are transferred to GS11 and PhraseRel. During the transfer, there is little difference in performance between the selection methods, except in multiplicative models where heuristics show better performance and 5\,000-dimensional Kronecker where heuristics give lower results than the Max-based selection.
 
@@ -380,15 +317,8 @@ In general, over all compositional datasets, we see---in contrast to the lexical
 \label{sec:robust-param-comp-selecion}
 
 Figure~\ref{fig:compositional-results} shows the performance of the models based on the combined selection over the KS14, GS11 and PhraseRel datasets. The combined score is calculated the following way:
-% * <sdyck@ualberta.ca> 2016-11-05T00:24:26.811Z:
-%
-% >  is calculated the following way:
-% > %
-%
-% it would look better if this equation fit all on one line. I would suggest shortening model to m and operator to o, for all instances, and below the equation, put in "where m is model"...etc
-% DM: done.
-% ^.
-%
+
+{
 \scriptsize
 \begin{align*}
 \operatorname{score}_\mathit{compositional}&(\mathit{m}, \mathit{o}) =
@@ -404,7 +334,8 @@ Figure~\ref{fig:compositional-results} shows the performance of the models based
 \frac{\operatorname{score}_\mathit{PhraseRel}(\mathit{m, \mathit{o}})}%
 {\max_m\operatorname{score}_\mathit{PhraseRel}(m, \mathit{o})}%
 \end{align*}
-\normalsize
+%\normalsize
+}
 where $m$ is a model and $o$ is an operator.
 
 The performance of selected models together with the selected parameters is shown in Table~\ref{tab:compositional-max-selection} (Max selection) and Table~\ref{tab:compositional-heuristics-selection} (selection based on heuristics).
@@ -416,8 +347,7 @@ The performance of selected models together with the selected parameters is show
 
 Models with many dimensions do not always perform better than their low-dimensional counterparts. Particularly, only \texttt{head} and multiplication benefit from the high number of dimensions. Addition and Kronecker are closer to the upper bound with dimensionality of a few thousand.
 
-Regarding the hypotheses, there is support of H\ref{hyp:freq} for addition, multiplication and K
-ronecker, H\ref{hyp:cds} for multiplication and H\ref{hyp:neg} for Kronecker.
+Regarding the hypotheses, there is support of H\ref{hyp:freq} (non-constant frequency should be used with high-dimensional spaces) for addition, multiplication and Kronecker, H\ref{hyp:cds} (context distribution smoothing is optimal for high-dimensional spaces) for multiplication and H\ref{hyp:neg} (low-dimensional spaces should be dense, high-dimensional---sparse) for Kronecker.
 
 \subsection{Heuristics}
 \label{sec:heuristics-compositional}
@@ -488,7 +418,7 @@ There is no distinction between cosine and correlation for all compositional ope
 
 SPMI is the choice of \texttt{discr} that leads to the best average performance in most cases (Figure~\ref{fig:compositional-discr}). However, the difference between SPMI and SCPMI is very small.
 
-The exceptions are Multiplicative composition with $D \geq 10\,000$ and Kronecker with $D \leq 5\,000$ where SCPMI outperforms SPMI, as expected by H\ref{hyp:comp-pmi-cpmi}.
+The exceptions are Multiplicative composition with $D \geq 10\,000$ and Kronecker with $D \leq 5\,000$ where SCPMI outperforms SPMI, as expected by H\ref{hyp:comp-pmi-cpmi} that PMI values compression is needed for composition.
 
 \subsection{Comparison with the single dataset based selections}
 \label{sec:comp-with-single-comp}
@@ -507,7 +437,7 @@ The model selection procedures improve from the combination of datasets. One nee
 Phrasal experiments support most of the hypotheses stated in
 Section~\ref{sec:hypotheses}.
 
-The confirmation of hypotheses on optimal parameter dependence on dimensionality (in particular H\ref{hyp:freq} and H\ref{hyp:neg}, that are supported by all datasets) confirms H\ref{hyp:dimen}. It is worth noting that even though an optimal choice of \texttt{cds} does not depend on dimensionality on KS14 and GS11, in the combined case the dependence holds.
+The confirmation of hypotheses on optimal parameter dependence on dimensionality (in particular H\ref{hyp:freq} (\texttt{freq}) and H\ref{hyp:neg} (\texttt{neg}), that are supported by all datasets) confirms H\ref{hyp:dimen}. It is worth noting that even though an optimal choice of \texttt{cds} does not depend on dimensionality on KS14 and GS11, in the combined case the dependence holds.
 
 Models that are selected on the experiments on a single dataset are prone to overfitting. Neither manual selection of parameters prevents it and the average normalised difference is above 10\% on model transfer. This confirms H\ref{hyp:overfitting} and rejects H\ref{hyp:10percent}.
 
