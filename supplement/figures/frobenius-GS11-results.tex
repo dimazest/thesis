@@ -1,28 +1,33 @@
 \begin{tabular}{lllllllrrrrrr}
 \toprule
-       & {} &      &   &      &     &   &  copy-object &  copy-subject &  frobenious-add &  frobenious-mult &  frobenious-outer &  relational \\
-selection & selection\_operator & dimensionality & freq & discr & neg & cds &              &               &                 &                  &                   &             \\
+selection & selection operator & dimensionality & freq & discr & neg & cds & copy-object &  copy-subject &  frobenious-add &  frobenious-mult &  frobenious-outer &  relational \\
 \midrule
-single & {} & 1\,000 & 1 & scpmi & 0.7 & global &        0.157 &         0.318 &           0.283 &            0.230 &             0.289 &       0.305 \\
-       & {} & 2\,000 &   &      &     &   &        0.180 &         0.271 &           0.247 &            0.211 &             0.259 &       0.275 \\
-       & {} & 3\,000 &   &      &     &   &        0.192 &         0.259 &           0.249 &            0.223 &             0.261 &       0.282 \\
-universal\_max & add & 1\,000 &   &      & 1.0 &   &        0.209 &         0.380 &           0.360 &            0.251 &             0.365 &       0.372 \\
-       & {} & 2\,000 &   & cpmi & N/A & 1 &        0.132 &         0.238 &           0.205 &            0.158 &             0.218 &       0.238 \\
-       & {} & 3\,000 & logn &      &     &   &        0.145 &         0.237 &           0.211 &            0.178 &             0.230 &       0.249 \\
-       & mult & 1\,000 &   & spmi & 0.7 & global &        0.169 &         0.377 &           0.333 &            0.245 &             0.341 &       0.353 \\
-       & {} & 2\,000 &   &      & 0.2 & 1 &        0.181 &         0.315 &           0.278 &            0.225 &             0.287 &       0.302 \\
-       & {} & 3\,000 &   &      & 0.7 & global &        0.201 &         0.323 &           0.298 &            0.247 &             0.312 &       0.331 \\
-       & kron & 1\,000 &   &      & 1.0 &   &        0.199 &         0.402 &           0.374 &            0.267 &             0.385 &       0.393 \\
-       & {} & 2\,000 &   & scpmi &     &   &        0.239 &         0.360 &           0.335 &            0.268 &             0.362 &       0.376 \\
-       & {} & 3\,000 & 1 &      &     &   &        0.278 &         0.344 &           0.338 &            0.295 &             0.363 &       0.375 \\
-universal\_heuristics & add & 1\,000 &   &      & 0.7 &   &        0.154 &         0.317 &           0.284 &            0.231 &             0.292 &       0.310 \\
-       & {} & 2\,000 &   &      &     &   &        0.173 &         0.279 &           0.250 &            0.217 &             0.261 &       0.278 \\
-       & {} & 3\,000 &   &      &     &   &        0.180 &         0.270 &           0.251 &            0.225 &             0.261 &       0.282 \\
-       & mult & 1\,000 &   & spmi & 0.5 &   &        0.140 &         0.321 &           0.270 &            0.240 &             0.274 &       0.289 \\
-       & {} & 2\,000 &   &      &     &   &        0.158 &         0.281 &           0.244 &            0.204 &             0.257 &       0.269 \\
-       & {} & 3\,000 &   &      &     &   &        0.166 &         0.273 &           0.245 &            0.219 &             0.261 &       0.276 \\
-       & kron & 1\,000 &   &      & 0.7 &   &        0.175 &         0.348 &           0.310 &            0.232 &             0.325 &       0.334 \\
-       & {} & 2\,000 &   &      &     &   &        0.203 &         0.304 &           0.267 &            0.221 &             0.296 &       0.312 \\
-       & {} & 3\,000 &   &      &     &   &        0.204 &         0.303 &           0.276 &            0.250 &             0.303 &       0.321 \\
+single                 & {}   & 1\,000 & 1    & scpmi  & 0.7 & global &        0.157 &         0.318 &           0.283 &            0.230 &             0.289 &       0.305 \\
+                       & {}   & 2\,000 & 1    & scpmi  & 0.7 & global &        0.180 &         0.271 &           0.247 &            0.211 &             0.259 &       0.275 \\
+                       & {}   & 3\,000 & 1    & scpmi  & 0.7 & global &        0.192 &         0.259 &           0.249 &            0.223 &             0.261 &       0.282 \\
+\addlinespace
+universal (max)        & add  & 1\,000 & 1    & scpmi  & 1.0 & global &        0.209 &         0.380 &           0.360 &            0.251 &             0.365 &       0.372 \\
+universal (max)        & add  & 2\,000 & 1    & cpmi   & N/A & 1      &        0.132 &         0.238 &           0.205 &            0.158 &             0.218 &       0.238 \\
+universal (max)        & add  & 3\,000 & logn & cpmi   & N/A & 1      &        0.145 &         0.237 &           0.211 &            0.178 &             0.230 &       0.249 \\
+\addlinespace
+universal (max)        & mult & 1\,000 & logn  & spmi  & 0.7 & global &        0.169 &         0.377 &           0.333 &            0.245 &             0.341 &       0.353 \\
+universal (max)        & mult & 2\,000 & logn  & spmi  & 0.2 & 1      &        0.181 &         0.315 &           0.278 &            0.225 &             0.287 &       0.302 \\
+universal (max)        & mult & 3\,000 & logn  & spmi  & 0.7 & global &        0.201 &         0.323 &           0.298 &            0.247 &             0.312 &       0.331 \\
+\addlinespace
+universal (max)        & kron & 1\,000 & logn  & spmi  & 1.0 & global &        0.199 &         \textbf{0.402} &           \textbf{0.374} &            0.267 &             \textbf{0.385} &       \textbf{0.393} \\
+universal (max)        & kron & 2\,000 & logn  & scpmi & 1.0 & global &        0.239 &         0.360 &           0.335 &            0.268 &             0.362 &       0.376 \\
+universal (max)        & kron & 3\,000 & 1     & scpmi & 1.0 & global &        \textbf{0.278} &         0.344 &           0.338 &            \textbf{0.295} &             0.363 &       0.375 \\
+\addlinespace
+universal (heuristics) & add  & 1\,000 & 1     & scpmi & 0.7 & global &        0.154 &         0.317 &           0.284 &            0.231 &             0.292 &       0.310 \\
+universal (heuristics) & add  & 2\,000 & 1     & scpmi & 0.7 & global &        0.173 &         0.279 &           0.250 &            0.217 &             0.261 &       0.278 \\
+universal (heuristics) & add  & 3\,000 & 1     & scpmi & 0.7 & global &        0.180 &         0.270 &           0.251 &            0.225 &             0.261 &       0.282 \\
+\addlinespace
+universal (heuristics) & mult & 1\,000 & 1     & spmi  & 0.5 & global &        0.140 &         0.321 &           0.270 &            0.240 &             0.274 &       0.289 \\
+universal (heuristics) & mult & 2\,000 & 1     & spmi  & 0.5 & global &        0.158 &         0.281 &           0.244 &            0.204 &             0.257 &       0.269 \\
+universal (heuristics) & mult & 3\,000 & 1     & spmi  & 0.5 & global &        0.166 &         0.273 &           0.245 &            0.219 &             0.261 &       0.276 \\
+\addlinespace
+universal (heuristics) & kron & 1\,000 & 1     & spmi  & 0.7 & global &        0.175 &         0.348 &           0.310 &            0.232 &             0.325 &       0.334 \\
+universal (heuristics) & kron & 2\,000 & 1     & spmi  & 0.7 & global &        0.203 &         0.304 &           0.267 &            0.221 &             0.296 &       0.312 \\
+universal (heuristics) & kron & 3\,000 & 1     & spmi  & 0.7 & global &        0.204 &         0.303 &           0.276 &            0.250 &             0.303 &       0.321 \\
 \bottomrule
 \end{tabular}
