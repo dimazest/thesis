@@ -5,9 +5,7 @@ Experiments with distributional vector space models can be divided into two clas
 
 \begin{compactitem}
 \item What parameter combination gives the highest result? \newcite{baroni-dinu-kruszewski:2014:P14-1} is a representative study of this kind.
-% \item What is the difference between two parameter instances? 
-\item Does a newly proposed technique outperform existing methods? For example, the
-  study of \newcite{lapesa-evert:2013:CMCL}, which contrasts ranked-based semantic priming estimation with distance-based.
+\item Does a newly proposed technique outperform existing methods? For example, the study of \newcite{lapesa-evert:2013:CMCL}, which contrasts ranked-based semantic priming estimation with distance-based.
 \end{compactitem}
 
 The first question is applicable in a situation when conceptually different methods are compared, for example, the ``count'' and  ``predict'' methods in \newcite{baroni-dinu-kruszewski:2014:P14-1} or when the best performance score is required. The second question is applicable to a study of the difference in performance of parameters within a conceptual method, for instance, the comparison of neighbour rank and distance measure in predicting semantic priming of \newcite{lapesa-evert:2013:CMCL}, where the goal is not to identify the best model, but to contrast parameter instances.
@@ -21,7 +19,7 @@ The co-occurrence information can be used in different ways to build distributio
 The first goal of this work is to provide the representative performance measures of count-based distributional models of meaning---so that they could be compared to other semantic models. The second and the main goal is to study the general behaviour of vector space parameters and compositional operators---so that the compositional operators could be fairly compared. The study is performed systematically using recently developed evaluation datasets for lexical and phrasal similarity. We express the goal in two research questions that are related to the categories of studies stated above.
 \begin{compactitem}
 \item What is the performance limit of distributional models of meaning?
-\item How are compositional operators affected by lexical representations?
+\item How do compositional operators and lexical representations affect one another?
 \end{compactitem}
 
 \section{Strategies for avoiding overfitting}
@@ -32,23 +30,12 @@ This work adopts the strategy of \newcite{lapesa2014large} to avoid overfitting 
 To be able to identify models that perform well on several datasets, we also test the models on all datasets simultaneously by aggregating model performance scores. We do not aggregate dataset entries by, for example, taking a union of all of the entries in them because the judgements are on different scales and the participants were given different instruction.
 
 The models are tested on two word similarity datasets: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. These two datasets are chosen because they are larger than other previously used datasets. \citet{W16-2502} argue that the score variance is strongly dependent on the size of the evaluation dataset: the larger the dataset the more reliable experiment results are. SimLex-999 consists of 999 word pairs and MEN consists of 3\,000 word pairs, making them the largest lexical datasets available to us. Other alike datasets are much smaller in size: 353 word pairs \cite{2002:PSC:503104.503110} and 65 word pairs \cite{Rubenstein:1965:CCS:365628.365657} for example.
-% * <sdyck@ualberta.ca> 2016-11-03T04:18:49.491Z:
-% 
-% > score variance is strongly dependent
-% dependent in what way? are results more accurate with larger datasets vs smaller?
-% DM: they are more reliable.
-% ^.
 
 The three phrasal  datasets that are employed in this study are KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ESC:2145432.2145580} and PhraseRel (Section~\ref{sec:phraserel}). They consist of phrases with controlled syntax (all of them are subject-verb-object phrases) and cover two relationships between phrases: similarity and relevance.
 
 We test the models on the lexical datasets simultaneously to see whether there are models that perform well on both lexical datasets and thus avoid individual dataset characteristics that are independent to the phenomena of interest (similarity, relatedness or relevance). Similarly, we test the models on the phrasal datasets.
 
 The scores on lexical and phrasal datasets are combined to identify a model that is universally good in lexical and compositional tasks. The model selection procedure is performed in two ways. First, we take the compositional operator into account, so we are able to recommend models that perform well on lexical and phrasal datasets with addition, multiplication and Kronecker (see Section~\ref{sec:composition} for the description of compositional operators). Finally, we abstract over the compositional operator and seek a model that achieves competitive results in both lexical and phrasal tasks with all operators.
-% * <sdyck@ualberta.ca> 2016-11-03T04:23:43.069Z:
-%
-% > universally good
-% DM: it achieves competitive results in both types of tasks.
-% ^.
 
 We test the models on several datasets, transfer selected models to the unseen datasets and perform model selection on their combinations to avoid overfitting and obtain reliable model performance measurements.
 
