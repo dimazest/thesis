@@ -320,7 +320,7 @@ We expect that the co-occurrence counts of the most frequent pairs do not contai
 
 \begin{hyp}[H\ref{hyp:freq}]
   \label{hyp:freq}
- $N$ or $\log n$ frequency components is beneficial for highly-dimensional spaces.
+ $N$ and $\log n$ frequency components are beneficial for high-dimensional spaces.
 \end{hyp}
 
 This is the most direct way of boosting high co-occurrence counts \cite{Evert05}. \NPMI/ is shown to be a good choice in lexical tasks \cite{Bruni:2012:DST:2390524.2390544}.
@@ -334,17 +334,17 @@ This is because the estimated probabilities of rare contexts are noisy. This smo
 
 \begin{hyp}[H\ref{hyp:neg}]
   \label{hyp:neg}
-  Low-dimensional spaces benefit from being dense, while highly-dimensional spaces benefit from being sparse.
+  Low-dimensional spaces benefit from being dense, while high-dimensional spaces benefit from being sparse.
 \end{hyp}
 
 Sparsity is controlled by the shifting parameter $k$; lower $k$ values make vectors denser.
 
 \begin{hyp}[H\ref{hyp:similarity}]
   \label{hyp:similarity}
-  Cosine is an optimal similarity measure for low-dimensional spaces, while correlation is for highly-dimensional spaces.
+  Cosine is an optimal similarity measure for low-dimensional spaces, while correlation is for high-dimensional spaces.
 \end{hyp}
 
-Correlation is shown to be the best choice by \citet{kiela-clark:2014:CVSC} while cosine is generally perceived as the best similarity metric. It might be the case that the standardisation of vector values by subtracting the mean is effective for highly-dimensional spaces.
+Correlation is shown to be the best choice by \citet{kiela-clark:2014:CVSC} while cosine is generally perceived as the best similarity metric. It might be the case that the standardisation of vector values by subtracting the mean is effective for high-dimensional spaces.
 
 \subsection{Lexical}
 \label{sec:elab-hypoth-lexical}

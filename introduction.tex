@@ -30,11 +30,11 @@ The distributional hypothesis of \citet{harris1954distributional}---that semanti
 
 Moreover, the descriptive neighbouring words of the side-street bring images of other things similar to it that are noisy and smell. At the same time, the descriptive terms of the woman fire in the mind attractive and active associations making the difference between the street and the woman even stronger!
 
-Distributional models of word meaning (also known as lexical models of meaning) are based on the co-occurrence statistics of words in a large collection of texts \cite{Turney:2010:FMV:1861751.1861756,mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}. The main challenge is to use the co-occurrence statistics efficiently. Because, even though the word \textit{and} appears in the neighbourhood of the word \textit{side-street} in the poem, it is much less descriptive of the properties of the street than the word \textit{slot}. Nowadays, the lexical models are well studied and their estimates of the similarity between word pairs are very close to the human judgements \cite{TACL570,baroni-dinu-kruszewski:2014:P14-1,Halawi:2012:LLW:2339530.2339751}.
+Distributional models of word meaning (also known as lexical models of meaning) are based on the co-occurrence statistics of words in a large collection of texts \cite{Turney:2010:FMV:1861751.1861756,mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}. The main challenge is to use the co-occurrence statistics efficiently. Because, even though the word \textit{and} appears in the neighbourhood of the word \textit{side-street} in the poem, it is much less descriptive of the properties of the street than the word \textit{slot}. Nowadays, lexical models are well studied and their estimates of the similarity between word pairs are very close to the human judgements \cite{TACL570,baroni-dinu-kruszewski:2014:P14-1,Halawi:2012:LLW:2339530.2339751}.
 
 The estimation of the similarity of multi-word expressions currently is an active research topic. In comparison to the lexical models, the main challenge is the data sparsity. There are infinitely many multi-word expressions and most of them appear only once in a corpus. Even if we take all the books on Earth and write down all the utterances that were said, the most of the sentences appear only once.
 
-The dominant solution to the data sparsity problem is to build a representation of a multi-word expression compositionally: that is, the same way the Lego pieces are assembled into vehicles, buildings and many other types of objects. One advantage of such an approach is that the methods for obtaining the word representations can be reused. The bricks are there, the question is how to assemble them together.
+The dominant solution to the data sparsity problem is to build a representation of a multi-word expression compositionally: that is, the same way Lego pieces are assembled into vehicles, buildings and many other types of objects. One advantage of such an approach is that the methods for obtaining the word representations can be reused. The bricks are there, the question is how to assemble them together.
 
 The compositional models come in many flavors. \citet{mitchell2010composition} propose a method that ignores the word order and any grammatical structure of an expression. \citet{DBLP:journals/corr/abs-1003-4394,baroni2014frege} investigate how the grammatical structure can be taken into account. Several implementations of \citet{DBLP:journals/corr/abs-1003-4394}'s theoretical proposal exist, see the work of \citet{Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP}. Chapter~\ref{cha:background} gives an overview of lexical representations, the methods of composition and evaluation.
 
@@ -63,7 +63,7 @@ By taking into account the dependency between the compositional operator and the
 
 \textbf{Chapter~\ref{sec:methodology}} The methodology for robust selection of similarity models. The description of used model parameters. The list of hypotheses.
 
-\textbf{Chapter~\ref{sec:lexical}} Experiments of the lexical datasets: SimLex-999 and MEN.
+\textbf{Chapter~\ref{sec:lexical}} Experiments on the lexical datasets: SimLex-999 and MEN.
 
 \textbf{Chapter~\ref{sec:phraserel}} Description of PhraseRel, a new phrase relevance dataset.
 
