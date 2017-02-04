@@ -139,9 +139,9 @@ Deep learning\footnotemark{} techniques use the distributional hypothesis differ
 %
 In practice, maximising this function produces vectors which maximise the conditional probability of observing words in a context around the target word $w_t$. $C$ is the size of the training context, and $w_1 w_2, \ldots, w_T$ is a sequence of training words. Empirically, they capture the distributional intuition and express degrees of lexical similarity. The probability of a context word $w_c$ given a target word $w_t$ is defined using softmax:
 %
-\begin{equation*}
+\begin{equation}
   P(w_c|w_{t}) = \frac{e^{\vv{w_c} \cdot \vv{w_t}}}{\sum_{c'}e^{\vv{w_{c'}} \cdot \vv{w_t}}}
-\end{equation*}
+\end{equation}
 %
 The word vectors are dense (their dimensionality is few hundreds). Because the objective in \eqref{eq:objective-func} is expensive to compute, negative sampling is used in practice, however its description is out of the scope of this work.
 
@@ -282,15 +282,15 @@ To capture word order and the syntactic structure of a sentence, various approac
 
 Kronecker \cite{Grefenstette:2011:ETV:2140490.2140497} is a non-associative operator. It represents the verb of a phrase as a matrix and the subject and the object as vectors. The verb matrix is defined as the Kronecker product---which gives the name to the compositional operator---of the vector of a verb with itself:
 %
-\begin{equation*}
+\begin{equation}
   \widetilde{\mathit{Verb}} = \ov{\mathit{Verb}} \otimes \ov{\mathit{Verb}}
-\end{equation*}
+\end{equation}
 %
 where $\otimes$ is the Kronecker product. The vector of a subject-verb-object phrase is computed as:
 %
-\begin{equation*}
+\begin{equation}
   \ov{\text{\it Sbj Verb Obj}} = \widetilde{\text{\it Verb}} \odot (\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}})
-\end{equation*}
+\end{equation}
 %
 The derivation of the representation of \textit{John loves Mary} using Kronecker is:
 \begin{align*}
@@ -338,9 +338,9 @@ To continue the example, imagine that the verb \textit{loves} was seen three tim
 \end{align*}
 
 Relational compositional operator is defined as \cite{Grefenstette:2011:ESC:2145432.2145580}:
-\begin{equation*}
+\begin{equation}
   \overline{\text{\it Verb}} \odot (\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}})
-\end{equation*}
+\end{equation}
 
 Informally, it identifies the interaction of the features of the subject and the object by the Kronecker product $\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}}$ that are later filtered by verb using point-wise multiplication \cite{Grefenstette:2011:ESC:2145432.2145580}. The filtering by verb is needed because the subject and the object can belong to several relations.
 
@@ -374,9 +374,9 @@ The Frobenius operation $\sigma$ turns a matrix into a cube by filling the extra
 
 Copy-object diagonally places the object dimension into a cube, producing a closed form-formula:
 %
-\begin{equation*}
+\begin{equation}
   \ov{\text{\it Sbj}} \odot (\overline{\text{\it Verb}} \times \ov{\text{\it Obj}})
-\end{equation*}
+\end{equation}
 %
 where $\times$ is matrix multiplication. The vector representation of \textit{John loves Mary} using copy-object is:
 %
@@ -397,9 +397,9 @@ where $\times$ is matrix multiplication. The vector representation of \textit{Jo
 \end{align*}
 
 Similarly, copy-subject diagonally places the subject dimension into a cube, producing a formula:
-\begin{equation*}
+\begin{equation}
   \ov{\text{\it Obj}} \odot (\ov{\text{\it Verb}}^{\mathsf{T}} \times \ov{\text{\it Sbj}})
-\end{equation*}
+\end{equation}
 %
 Again, in the example:
 \begin{align*}
@@ -425,10 +425,10 @@ The series of contraction and multiplication simplifies to these closed forms, d
 \newcite{kartsadrqpl2014} observe that copy-object and copy-subject address a partial interaction of the verb with its arguments and propose a family of three \textit{Frobenius operators} that combine copy-object and copy-subject together.
 
 Frobenius addition uses addition to combine the results:
-\begin{equation*}
+\begin{equation}
   \big(\ov{\text{\it Sbj}} \odot (\overline{\text{\it Verb}} \times \ov{\text{\it Obj}})\big) + %
   \big(\ov{\text{\it Obj}} \odot (\overline{\text{\it Verb}}^{\mathsf{T}} \times \ov{\text{\it Sbj}})\big)
-\end{equation*}
+\end{equation}
 %
 So the computation of \textit{John loves Mary} is:
 %
@@ -439,10 +439,10 @@ So the computation of \textit{John loves Mary} is:
 \end{align*}
 
 Element-wise vector multiplication is used by Frobenius multiplication:% (Frob.~mult.~in Table~\ref{tbl:comp-methods})
-\begin{equation*}
+\begin{equation}
   \big(\ov{\text{\it Sbj}} \odot (\overline{\text{\it Verb}} \times \ov{\text{\it Obj}})\big) \odot %
   \big(\ov{\text{\it Obj}} \odot (\overline{\text{\it Verb}}^{\mathsf{T}} \times \ov{\text{\it Sbj}})\big)
-\end{equation*}
+\end{equation}
 %
 Similarly, the computation of \textit{John loves Mary} becomes:
 %
@@ -453,10 +453,10 @@ Similarly, the computation of \textit{John loves Mary} becomes:
 \end{align*}
 
 Finally, Kronecker product is used in Frobenius outer:% (Frob.~outer in Table~\ref{tbl:comp-methods}).
-\begin{equation*}
+\begin{equation}
   \big(\ov{\text{\it Sbj}} \odot (\overline{\text{\it Verb}} \times \ov{\text{\it Obj}})\big) \otimes %
   \big(\ov{\text{\it Obj}} \odot (\overline{\text{\it Verb}}^{\mathsf{T}} \times \ov{\text{\it Sbj}})\big)
-\end{equation*}
+\end{equation}
 %
 Making the computation of \textit{John loves Mary} look like:
 \begin{align*}

@@ -32,17 +32,17 @@ For spaces with dimensionality less than 5\,000, \texttt{freq} set to 1 and inne
 % \input{figures/SimLex999-interaction}
 
 Analysis of variance is used to obtain parameter influence. First, we fit a linear regression model that takes into account all model parameters. The similarity score is a dependent variable, while the parameters of a similarity model are independent variables. In addition to individual parameter influence, we also consider their two-way interactions. The full linear model is defined as:
-\begin{equation*}
+\begin{equation}
   \text{\it score} \sim \sum_{p \in P}p + \sum_{p, p' \in P \times P}p \cdot p'
-\end{equation*}
+\end{equation}
 where $P$ is the set of parameters, in our case $P = \{\text{\it freq}, \text{\it discr}, \text{\it cds}, \text{\it neg}, \text{\it similarity} \}$.
 
 The linear model achieves an adjusted $R^2$ value of 0.867, indicating that the linear model is able to predict semantic similarity model performance based on parameters quite well.
 
 Then we fit six ``restricted'' linear models, each of them exclude a parameter $\bar p$:
-\begin{equation*}
+\begin{equation}
   \text{\it score} \sim \sum_{p \in P \setminus \{\bar p\} }p + \sum_{p, p' \in (P \setminus \{\bar p\}) \times (P \setminus \{\bar p\})}p \cdot p'
-\end{equation*}
+\end{equation}
 
 \input{figures/SimLex999-heuristics-selection-table}
 
@@ -150,7 +150,7 @@ Max-based selection leads to better performance than the heuristics for MEN, mak
 \input{figures/lexical-results}
 
 Figure~\ref{fig:lexical-results} shows performance of the models based on the average of the normalised scores over SimLex-999 and MEN:
-$$
+\begin{equation}
 \operatorname{score}_\mathit{lexical}(\mathit{model}) =%
 \frac{1}{2}\times%
 \frac{\operatorname{score}_\mathit{SimLex-999}(\mathit{model})}%
@@ -159,7 +159,7 @@ $$
 \frac{1}{2}\times%
 \frac{\operatorname{score}_\mathit{MEN}(\mathit{model})}%
 {\max_m\operatorname{score}_\mathit{MEN}(m)}%
-$$
+\end{equation}
 
 The performance of the selected models on both datasets and the normalised average is shown in Table~\ref{tab:lexical-max-selection} (Max selection) and Table~\ref{tab:lexical-heuristics-selection} (selection based on heuristics).
 

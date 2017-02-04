@@ -163,9 +163,9 @@ In this framework, PMI can be seen as a quantification measure where the frequen
 
 From the probabilistic point of view, under the independence assumption of two words occurring together, \NPMI/ can be interpreted as measuring the logarithm of the ratio of the probabilities of groups of length $n$ (the group that contains only pairs of $(x,y)$s and another one that contains $x$s and $y$s):
 %
-\begin{equation*}
+\begin{equation}
   n\log\frac{P(x, y)}{P(x)P(y)} = \log\frac{P(x, y)^{n}}{P(x)^{n}P(y)^{n}}
-\end{equation*}
+\end{equation}
 %
 % When the constant 1 is used as the frequency component, it is equivalent to the subsumption assumption (the probability of a sequence depends only on what elements it contains, rather than how many of them).
 % * <sdyck@ualberta.ca> 2016-11-03T05:38:23.892Z:
@@ -214,11 +214,11 @@ To be able to measure the similarity of two words, we need to be able to compare
 
 The cosine of the angle between two vectors is a widely used similarity measure in distributional semantics \cite{Turney:2010:FMV:1861751.1861756,lapesa2014large}.
 %
-\begin{equation*}
+\begin{equation}
   \label{eq:cos}
   \cos(\vec{x}, \vec{y}) = \frac{\vec{x} \cdot \vec{y}}
                                 {\|\vec{x}\| \|\vec{y}\|}
-\end{equation*}
+\end{equation}
 
 However, the inner product $\vec{x} \cdot \vec{y}$ is preferred in information retrieval and current state-of-the-art natural language processing systems \cite{mikolov2013distributed,mikolov2013linguistic,TACL570}. The cosine of the angle is the inner product of the normalised vectors (using Euclidean $L_2$ length).
 % * <sdyck@ualberta.ca> 2016-11-04T02:11:45.531Z:
@@ -243,11 +243,11 @@ An advantage of cosine in a lexical similarity task is that it does not depend o
 For example, \NPMI/ makes ``feature selections'' by weighting PMI values with the co-occurrence frequency, as discussed in Section~\ref{sec:quantification-measures}. When cosine is applied, the stretching effect of \NPMI/ is eliminated, but the rotational effect stays. On average, the rotational effect will be much more significant for rare words, while frequent words are more likely to be stretched.
 
 In addition to cosine and inner product, we use correlation \cite{kiela-clark:2014:CVSC} to measure similarity:
-\begin{equation*}
+\begin{equation}
   \label{eq:correlation}
   \operatorname{correlation}(\vec{x}, \vec{y}) = \frac{(\vec{x} - \bar{x}) \cdot (\vec{y} - \bar{y})}
                                 {\|(\vec{x} - \bar{x})\| \|(\vec{y}-\bar{y}\|}
-\end{equation*}
+\end{equation}
 where $\bar{x}$ is the mean of the elements of $\vec{x}$ and $\bar{y}$ is the mean of the elements of $\vec{y}$.
 
 \subsubsection{Compositional operator}

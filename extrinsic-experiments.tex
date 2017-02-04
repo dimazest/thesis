@@ -320,7 +320,7 @@ Figure~\ref{fig:compositional-results} shows the performance of the models based
 
 {
 \scriptsize
-\begin{align*}
+\begin{align}
 \operatorname{score}_\mathit{compositional}&(\mathit{m}, \mathit{o}) =
 &\frac{1}{3}\times%
 \frac{\operatorname{score}_\mathit{KS14}(\mathit{m}, \mathit{o})}%
@@ -333,7 +333,7 @@ Figure~\ref{fig:compositional-results} shows the performance of the models based
 \frac{1}{3}\times%
 \frac{\operatorname{score}_\mathit{PhraseRel}(\mathit{m, \mathit{o}})}%
 {\max_m\operatorname{score}_\mathit{PhraseRel}(m, \mathit{o})}%
-\end{align*}
+\end{align}
 %\normalsize
 }
 where $m$ is a model and $o$ is an operator.
@@ -466,7 +466,7 @@ Table~\ref{tab:universal-max-selection} shows the performance of the models eval
 % ^.
 %
 \scriptsize
-\begin{align*}
+\begin{align}
 \operatorname{score}_\mathit{universal}(\mathit{m}, \mathit{o}) = & %
 \frac{1}{2}\times\left(
 \frac{1}{2}\times%
@@ -491,7 +491,7 @@ Table~\ref{tab:universal-max-selection} shows the performance of the models eval
 \frac{\operatorname{score}_\mathit{PhraseRel}(\mathit{m, \mathit{o}})}%
 {\max_m\operatorname{score}_\mathit{PhraseRel}(m, \mathit{o})}%
 \right)
-\end{align*}
+\end{align}
 \normalsize
 
 Parameter selection is much more stable than on all previous Max-based selections. The dominant \texttt{freq} choice is $\log n$, cosine is the measure of choice for multiplication and Kronecker (if available). Correlation is the best similarity measure for the additive composition. The optimal choice of a similarity measure does not depend on dimensionality---this observation does not support H\ref{hyp:similarity}.
@@ -565,7 +565,7 @@ The aggregated score of a model is computed as:
 % DM: done.
 % ^.
 \scriptsize
-\begin{align*}
+\begin{align}
 \operatorname{score}_\mathit{universal}(\mathit{m}) = &%
 \frac{1}{2}\left(
 \frac{1}{2}%
@@ -604,7 +604,7 @@ The aggregated score of a model is computed as:
 \frac{\operatorname{score}_\mathit{PhraseRel}(\mathit{m, \mathit{mult}})}%
 {\max_m\operatorname{score}_\mathit{PhraseRel}(m, \mathit{mult})}
 \Bigg)
-\end{align*}
+\end{align}
 \normalsize
 where $\mathit{add}$ stands for addition and $\mathit{mult}$ stands for multiplication.
 \subsection{Max selection}
