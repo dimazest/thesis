@@ -1,4 +1,4 @@
-\chapter{Similarity between words and phrases}
+\chapter{Background: Similarity between words and phrases}
 \label{cha:background}
 
 \section{The notion of similarity}
@@ -144,6 +144,13 @@ In practice, maximising this function produces vectors which maximise the condit
 \end{equation*}
 %
 The word vectors are dense (their dimensionality is few hundreds). Because the objective in \eqref{eq:objective-func} is expensive to compute, negative sampling is used in practice, however its description is out of the scope of this work.
+
+The objective function in \eqref{eq:objective-func} is used by the skip-gram model: for every target-context pair, the objective function is based on predicting context words given a target word. The prediction can be reversed, that is, given the context words the target word of a context is predicted. Formally this objective is expressed as \cite{mikolov2013efficient} giving rise to the continuous bag-of-words model (CBOW):
+\begin{equation}
+ \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{tj}|w_{t+j})
+  \label{eq:objective-func-cbow}
+\end{equation}
+Here, the representation of the context is obtained by projecting several vectors of context words into one vector using addition.
 
 \section{Representation of phrases and sentences}
 \label{sec:similarity-compounds}
@@ -467,7 +474,7 @@ Making the computation of \textit{John loves Mary} look like:
 \subsection{Similarity of heads in context}
 \label{sec:similarity-context}
 
-A noun phrase can be similar to a noun, as in \textit{female lion} and \textit{lioness}, and to other noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as well as to words. In this case, similarity is measured in \emph{context}\footnotemark{}, and most methods of calculating similarity of phrases still rely on comparisons of the phrases' head words, which meanings are modified by the arguments they appear with \cite{Kintsch2001173}.
+A noun phrase can be similar to a noun, as in \textit{female lion} and \textit{lioness}, and to other noun phrases as in \textit{yellow car} and \textit{cheap taxi}. The same similarity principle can be applied to phrases as well as to words. In this case, similarity is measured in \emph{context},\footnotemark{} and most methods of calculating similarity of phrases still rely on comparisons of the phrases' head words, which meanings are modified by the arguments they appear with \cite{Kintsch2001173}.
 
 \footnotetext{
   The similarity between the head words in the context of their phrases should not be confused with contextualised similarity. The similarity between heads specifies what is being compared. Contextualised similarity is a requirement on the similarity relation.
@@ -479,7 +486,7 @@ A noun phrase can be similar to a noun, as in \textit{female lion} and \textit{l
 
 % \cite{Seaghdha:2011:PMS:2145432.2145545}.
 
-With verbs, similarity in context can be applied to compare a transitive and intransitive verb. For example, \textit{cycle} is similar to \textit{ride a bicycle}. Here we see that \textit{a bicycle} disambiguates the verb \textit{ride} making the phrase similar to the verb \textit{cycle}. The connection between measuring similarity of a phrase and disambiguation has been noted in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
+With verbs, similarity in context can be applied to compare a transitive and intransitive verb. For example, \textit{cycle} is similar to \textit{ride a bicycle}. Here, we see that \textit{a bicycle} disambiguates the verb \textit{ride} making the phrase similar to the verb \textit{cycle}. The connection between measuring similarity of a phrase and disambiguation has been noted in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
 
 % TODO: mention \cite{wieting2015paraphrase}
 
@@ -539,7 +546,7 @@ They tested several models on WS353, MEN and WordSim-999. They showed that exist
 
 Table~\ref{tab:lexical-dataset-comparison} presents the key models and the results they achieved on WS353, MEN and SimLex-999.
 
-\subsection{Parameter selection}
+\subsection{Parameter selection for lexical models}
 \label{sec:parameter-selection-intro}
 
 The variance of results on word similarity tasks can be explained by the differences in algorithms or by difference in model parameters, corpus used and other factors. For example, \newcite{baroni-dinu-kruszewski:2014:P14-1} uses a corpus of 2.8 billion tokens and outperforms \newcite{hill2014simlex}, who uses a corpus of 0.15 billion tokens, on MEN by 0.28 points with a distributional model and by 0.37 with neural word embeddings.
@@ -576,15 +583,34 @@ described in \citet{Grefenstette:2011:ETV:2140490.2140497,Grefenstette:2011:ESC:
 Consider the sentence \textit{system meets specification}. \textit{Meets} is an ambiguous transitive verb, and \textit{system}
 and \textit{specification} are its arguments. Possible landmarks for \emph{meet} are \textit{satisfy} and \textit{visit}. For this sentence, the human judgements show that the disambiguated verb meaning is similar to the landmark \textit{satisfy}, and less similar to \textit{visit}.
 
-The task is to estimate the similarity of the sense of a verb in a context with a given landmark. To estimate similarity, the verb is composed with its arguments, it is done the same for the landmark and the arguments, and the similarity of the two phrase vectors is computed. To evaluate performance, the human judgements are averaged for the same verb, argument and landmark entries, and these average values are used to calculate the correlation. \citet{Grefenstette:2011:ETV:2140490.2140497} achieves the correlation of 0.28 with the composition based on Kronecker.
+The task is to estimate the similarity of the sense of a verb in a context with a given landmark. To estimate similarity, the verb is composed with its arguments, it is done the same for the landmark and the arguments, and the similarity of the two phrase vectors is computed. To evaluate performance, the human judgements are averaged for the same verb, argument and landmark entries, and these average values are used to calculate the correlation. \citet{Grefenstette:2011:ETV:2140490.2140497} achieve the correlation of 0.28 with the composition based on Kronecker.
 
 \subsection{Sentence similarity}
 \label{sec:sentence-similarity}
 
 The transitive sentence similarity dataset described in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013} consists of transitive sentence pairs and human similarity judgements. The task is to estimate similarity between two sentences. The evaluation is the same as in the disambiguation task (Section~\ref{sec:disamb}). They achieve the correlation of 0.41 with additive composition.
 
-In general, there is no systematic study of parameters of compositional models similar to lexical studies discussed in Section~\ref{sec:parameter-selection-intro}. Because parameters were selected iteratively, the fact that one operator outperformed other could be due to the specificity of lexical representations.
+\subsection{Parameter selection for compositional models}
+\label{sec:comp-parameter-selection}
 
+In general, there is no systematic study of parameters of compositional models similar to lexical studies discussed in Section~\ref{sec:parameter-selection-intro}. First of all, composition brings another type of parameters, so not only lexical representations have to be optimised, but also an optimal way of composition has to be found.
+
+Early compositional studies focused on the compositional operators, using lexical representations that are good in lexical tasks. Because parameters were selected iteratively, the fact that one operator outperformed other could be due to the specificity of lexical representations. Nevertheless, experiments based on iterative parameter selection gave positive results, see, for example the papers that introduced the compositional datasets described above \citet{Grefenstette:2011:ETV:2140490.2140497,kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
+
+\citet{milajevs-EtAl:2014:EMNLP2014}, the work that set the ground for this thesis, is---to the best of our knowledge---the first paper that, apart from identifying the best compositional operator, also  explicitly contrasted two kinds of lexical representations (global and local representations, see Section~\ref{sec:distributional-representations}) in compositional setting. Local representations, or word embeddings, showed robust performance, yielded better results on a number of tasks and were recommended for usage in compositional experiments.
+
+In the literature, the contrast between local and global models is also expressed as count-based models and prediction-based models, after a paper with a flashy title ``Don’t count, predict!~A systematic comparison of context-counting vs.~context-predicting semantic vectors'' by \citet{baroni-dinu-kruszewski:2014:P14-1}.
+
+The work consecutive to \citet{milajevs-EtAl:2014:EMNLP2014} (consequently or coincidentally) focused on predictive lexical representations.
+
+The CBOW model of local lexical representations (Section~\ref{sec:distributional-representations}) implicitly assumes additive interaction between context words to predict the target word. However, categorical compositional operators (Section~\ref{sec:composition}) make use of multiplication as a part of composition. This inconsistency was noticed in \citet{kim2015neural}. They changed the objective function \eqref{eq:objective-func-cbow} to include multiplication:
+%
+\begin{equation}
+ \frac{1}{T}\sum^{T}_{t=1}\prod_{-c \leq j \leq c, j\neq0} \log P(w_{tj}|w_{t+j})
+  \label{eq:objective-func-cbow-mult}
+\end{equation}
+%
+This change improved results of categorical composition methods on the sentence similarity dataset (Section~\ref{sec:sentence-similarity}), but not on the verb disambiguation task (Section~\ref{sec:disamb}).
 \section{Conclusion}
 \label{sec:conclusion-comp}
 
