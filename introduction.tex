@@ -26,7 +26,7 @@ Text summarisation, machine translation, information extraction and information 
 
 While it is not completely known how meaning is represented in the human mind, it is argued that similarity between two events or objects is based on the way humans represent them \cite{WCS:WCS1282}. Similarity judgements are easy to collect. Many similarity datasets exist that serve as proxies for evaluation of computational models of meaning.
 
-The distributional hypothesis of \citet{harris1954distributional}---that semantically similar words tend to appear in similar contexts---stands behind the distributional models of meaning. In Figure~\ref{fig:en}, the side-street occurs with the words as \textit{slot}, \textit{noise}, \textit{hustle} and \textit{smells}. Such a company of words starkly contrasts with the words used to describe the woman: she is young, attractive and active.
+The distributional hypothesis of \citet{harris1954distributional}---that semantically similar words tend to appear in similar contexts---stands behind distributional models of meaning. In Figure~\ref{fig:en}, the side-street occurs with the words as \textit{slot}, \textit{noise}, \textit{hustle} and \textit{smells}. Such a company of words starkly contrasts with the words used to describe the woman: she is young, attractive and active.
 
 Moreover, the descriptive neighbouring words of the side-street bring images of other things similar to it that are noisy and smell. At the same time, the descriptive terms of the woman fire in the mind attractive and active associations making the difference between the street and the woman even stronger!
 
@@ -44,11 +44,11 @@ The goal of this thesis is to study the link between the lexical representations
 
 The goal is expressed in two research questions:
 \begin{itemize}
-\item What is the performance limit of the distributional models of meaning?
-\item How are compositional operators affected by the lexical representations?
+\item What is the performance limit of distributional models of meaning?
+\item How do compositional operators and lexical representations affect one another?
 \end{itemize}
 
-To answer these questions, we perform a large-scale study of similarity models over several parameters. The parameters are split into three kinds: the similarity measure, the weighting scheme and the amount of information associated with every item. 
+To answer these questions, we perform a large-scale study of similarity models over several parameters. The parameters are split into three kinds: the similarity measure, the weighting scheme and the amount of information associated with every item.
 
 The similarity measure defines how similarity is computed given two representations. The weighting scheme serves two roles. First of all, it distinguishes informative co-occurrence information from uninformative. Second, the weighting scheme minimises the effect of noise in the co-occurrence data. The amount of information for distributional modes is how many distinct words are considered to be valid neighbouring words. This usually varies from few thousand most frequent words to the whole vocabulary.  The description of model parameters is given in Chapter~\ref{sec:methodology}.
 

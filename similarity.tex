@@ -127,7 +127,7 @@ In the current example of a na{\"\i}ve vector space, \textit{John} is also close
 \subsubsection{Word embeddings: local representations}
 \label{sec:neural-embedding}
 
-Deep learning\footnotemark{} techniques use the distributional hypothesis differently than the distributional methods described above \cite{Goldberg2016}. Instead of relying on the co-occurrence matrix, the training process iterates directly over the target-context pairs. At any given moment during the training process it has access only to local co-occurrence information, the global table of co-occurrences is not used, thus the name of the method. The training is done by maximising an objective function based on the following \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}:
+Deep learning\footnotemark{} techniques use the distributional hypothesis differently than the distributional methods described above \cite{Goldberg2016}. Instead of relying on the co-occurrence matrix, the training process of the word2vec framework \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} iterates directly over the target-context pairs. At any given moment during the training process it has access only to local co-occurrence information, the global table of co-occurrences is not used, thus the name of the method. The training is done by maximising an objective function based on the following:
 \footnotetext{
   Even though the model of \newcite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} is not a deep neural network, its efficient implementation uses methods developed for deep models. For example, hierarchical softmax and noise contrastive estimation.
 }
@@ -223,13 +223,13 @@ categories and semantic types is defined as a function $\mathit{type}$:
   &\mathit{type}(np) = e \\
   &\mathit{type}(s) = t \\
   &\mathit{type}(A/B) = (\mathit{type}(B) \to \mathit{type}(A)) \\
-  &\mathit{type}(B\backslash{}A) = (\mathit{type}(B) \to \mathit{type}(A)) \\
+  &\mathit{type}(B\backslash{}A) = (\mathit{type}(B) \to \mathit{type}(A))
 \end{align*}
 
 Syntactic backward and forward application corresponds to functional
 application. Figure~\ref{fig:syn} shows the final parse tree.
 
-\begin{figure}[b]
+\begin{figure}
   \centering
   \Tree [
     .$s$~:~$\mathit{loves}'(\mathit{john}',\mathit{mary}')$
@@ -277,7 +277,7 @@ It is similar for multiplication, where element-wise multiplication is used inst
                                   &= [4, 60, 59] \odot [10, 100, 20] \odot [0, 10, 22] \\
                                   &= [0, 60\,000, 25\,960]
 \end{align*}
-
+%
 To capture word order and the syntactic structure of a sentence, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} use non-associative linear algebra operators as proposed in the theoretical work of \newcite{DBLP:journals/corr/abs-1003-4394}. There, the functional applications of semantic terms are replaced with tensors \cite{Bourbaki1998commutative}.
 
 Kronecker \cite{Grefenstette:2011:ETV:2140490.2140497} is a non-associative operator. It represents the verb of a phrase as a matrix and the subject and the object as vectors. The verb matrix is defined as the Kronecker product---which gives the name to the compositional operator---of the vector of a verb with itself:
@@ -318,9 +318,10 @@ The derivation of the representation of \textit{John loves Mary} using Kronecker
 \end{align*}
 
 For other non-associative operators, a transitive verb is represented by the matrix $\overline{\text{\it Verb}}$, which is obtained from a corpus using the formula \cite{Grefenstette:2011:ESC:2145432.2145580}:
-$$
-\overline{\text{\it Verb}} = \sum_i\ov{s_i} \otimes \ov{o_i}
-$$
+\begin{equation}
+  \overline{\text{\it Verb}} = \sum_i\ov{s_i} \otimes \ov{o_i}
+  \label{eq:verb-matrix}
+\end{equation}
 where $\ov{s_i}$ and $\ov{o_i}$ are the subject-object pairs of the verb found in the source corpus.
 
 This encodes into the verb matrix all the contextual information of the subjects and objects of the verb. The way it is constructed (by pairing subjects and objects of the verb) is the same way a verb predicate is built in formal semantics, that is by pairing the subjects and objects. But here, instead of packing the pairs into a set, one develops a matrix from them, at the same time, each pair gets a real number value assigned to it.
@@ -597,11 +598,11 @@ In general, there is no systematic study of parameters of compositional models s
 
 Early compositional studies focused on the compositional operators, using lexical representations that are good in lexical tasks. Because parameters were selected iteratively, the fact that one operator outperformed other could be due to the specificity of lexical representations. Nevertheless, experiments based on iterative parameter selection gave positive results, see, for example the papers that introduced the compositional datasets described above \citet{Grefenstette:2011:ETV:2140490.2140497,kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
 
-\citet{milajevs-EtAl:2014:EMNLP2014}, the work that set the ground for this thesis, is---to the best of our knowledge---the first paper that, apart from identifying the best compositional operator, also  explicitly contrasted two kinds of lexical representations (global and local representations, see Section~\ref{sec:distributional-representations}) in compositional setting. Local representations, or word embeddings, showed robust performance, yielded better results on a number of tasks and were recommended for usage in compositional experiments.
+\citet{blacoe2012comparison} is---to the best of our knowledge---the first paper that, apart from identifying the best compositional operator, also  explicitly contrasted two kinds of lexical representations: shallow that are based on the co-occurrence of words and embeddings that are learned by a neural language model \cite{bengio2006,Collobert:2008:UAN:1390156.1390177}. They concluded that the shallow approaches are as good as their computationally more intensive counterparts based on language models in phrase similarity and paraphrase detection tasks. They also identified the importance of the combination of lexical representation and the compositional method.
 
-In the literature, the contrast between local and global models is also expressed as count-based models and prediction-based models, after a paper with a flashy title ``Don’t count, predict!~A systematic comparison of context-counting vs.~context-predicting semantic vectors'' by \citet{baroni-dinu-kruszewski:2014:P14-1}.
+\citet{milajevs-EtAl:2014:EMNLP2014}, the work that set the ground for this thesis, also contrasts global and local representations (Section~\ref{sec:distributional-representations}) in compositional setting. However, in contrast to \citet{blacoe2012comparison}, local representations showed robust performance yielding better results on a number of tasks and were recommended for usage in compositional experiments.
 
-The work consecutive to \citet{milajevs-EtAl:2014:EMNLP2014} (consequently or coincidentally) focused on predictive lexical representations.
+In the literature, the contrast between local and global models is also expressed as count-based models and prediction-based models, after a paper with a flashy title ``Don’t count, predict!~A systematic comparison of context-counting vs.~context-predicting semantic vectors'' by \citet{baroni-dinu-kruszewski:2014:P14-1}. The work consecutive to \citet{milajevs-EtAl:2014:EMNLP2014} (consequently or coincidentally) focused on predictive lexical representations.
 
 The CBOW model of local lexical representations (Section~\ref{sec:distributional-representations}) implicitly assumes additive interaction between context words to predict the target word. However, categorical compositional operators (Section~\ref{sec:composition}) make use of multiplication as a part of composition. This inconsistency was noticed in \citet{kim2015neural}. They changed the objective function \eqref{eq:objective-func-cbow} to include multiplication:
 %
@@ -611,6 +612,9 @@ The CBOW model of local lexical representations (Section~\ref{sec:distributional
 \end{equation}
 %
 This change improved results of categorical composition methods on the sentence similarity dataset (Section~\ref{sec:sentence-similarity}), but not on the verb disambiguation task (Section~\ref{sec:disamb}).
+
+In the categorical framework, the result of composition depends on how the tensors for transitive verbs are constructed. The most straightforward approach is to represent transitive verbs as matrices (saving a dimension) as it is shown in (\ref{eq:verb-matrix}) on page~\pageref{eq:verb-matrix}. However, the number of elements in these matrices is still high and equal to the square of the number of elements in vectors for nouns. To cope with this problem various solutions were tried: linear-regression of the full tensors \cite{grefenstette-et-al:2013:IWCS2013}, the combination of regression with a plausibility space \cite{polajnar-clark:2014:EACL} and low-rank tensor approximation \cite{fried-polajnar-clark:2015:ACL-IJCNLP}. While these methods not necessarily lead to the highest results, they considerably reduce the amount of data associated with lexical entries. 
+
 \section{Conclusion}
 \label{sec:conclusion-comp}
 
