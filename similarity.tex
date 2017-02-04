@@ -147,7 +147,7 @@ The word vectors are dense (their dimensionality is few hundreds). Because the o
 
 The objective function in \eqref{eq:objective-func} is used by the skip-gram model: for every target-context pair, the objective function is based on predicting context words given a target word. The prediction can be reversed, that is, given the context words the target word of a context is predicted. Formally this objective is expressed as \cite{mikolov2013efficient} giving rise to the continuous bag-of-words model (CBOW):
 \begin{equation}
- \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{tj}|w_{t+j})
+ \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{t}|w_{t+j})
   \label{eq:objective-func-cbow}
 \end{equation}
 Here, the representation of the context is obtained by projecting several vectors of context words into one vector using addition.
@@ -607,7 +607,7 @@ In the literature, the contrast between local and global models is also expresse
 The CBOW model of local lexical representations (Section~\ref{sec:distributional-representations}) implicitly assumes additive interaction between context words to predict the target word. However, categorical compositional operators (Section~\ref{sec:composition}) make use of multiplication as a part of composition. This inconsistency was noticed in \citet{kim2015neural}. They changed the objective function \eqref{eq:objective-func-cbow} to include multiplication:
 %
 \begin{equation}
- \frac{1}{T}\sum^{T}_{t=1}\prod_{-c \leq j \leq c, j\neq0} \log P(w_{tj}|w_{t+j})
+ \frac{1}{T}\sum^{T}_{t=1}\prod_{-c \leq j \leq c, j\neq0} \log P(w_{t}|w_{t+j})
   \label{eq:objective-func-cbow-mult}
 \end{equation}
 %
