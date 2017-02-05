@@ -447,7 +447,9 @@ This also suggests that there is a unique parameter choice that is universally a
 \chapter[Universal models]{Universal models for both lexical and compositional tasks}
 \label{sec:universal-param-selection}
 
-This chapter investigates how well a single model can perform on all tasks in contrast to the task (or dataset) tailored models of previous chapters. This is achieved by performing the evaluation on a combined score over the previous two lexical and three phrasal datasets.
+This chapter investigates how well a single model can perform on all tasks in contrast to the task (or dataset) tailored models of previous chapters. This is achieved by performing the evaluation on a combined score over the previous two lexical and three phrasal datasets. We not only combine the datasets together, but later in the chapter look for parameters that are good across all the datasets with all the compositional operators. Once the optimal lexical parameters are identified, they are tested on categorical compositional methods.
+
+Even though the identified parameters have to compromise over different tasks (lexical and compositional) and compositional methods we achieve the new state-of-the-art results with Kronecker on KS14 and GS11. Moreover, the selected lexical representations improve over the results of the categorical compositional methods reported in the literature.
 
 \section{Operator-dependent universal models}
 \label{sec:model-selection}
@@ -456,14 +458,10 @@ This chapter investigates how well a single model can perform on all tasks in co
 \label{sec:max-selection-universal}
 
 Table~\ref{tab:universal-max-selection} shows the performance of the models evaluated with a combined score of the lexical and compositional datasets. The combined score for a model and an operator is computed as:
-% * <sdyck@ualberta.ca> 2016-11-05T01:00:48.673Z:
-%
-% > or is computed as:
-%
-% ^.
-%
-\scriptsize
-\begin{align}
+
+{\scriptsize
+  \begin{align}
+    \begin{split}
 \operatorname{score}_\mathit{universal}(\mathit{m}, \mathit{o}) = & %
 \frac{1}{2}\times\left(
 \frac{1}{2}\times%
@@ -488,17 +486,12 @@ Table~\ref{tab:universal-max-selection} shows the performance of the models eval
 \frac{\operatorname{score}_\mathit{PhraseRel}(\mathit{m, \mathit{o}})}%
 {\max_m\operatorname{score}_\mathit{PhraseRel}(m, \mathit{o})}%
 \right)
+\end{split}
 \end{align}
-\normalsize
+% \normalsize
+}
 
 Parameter selection is much more stable than on all previous Max-based selections. The dominant \texttt{freq} choice is $\log n$, cosine is the measure of choice for multiplication and Kronecker (if available). Correlation is the best similarity measure for the additive composition. The optimal choice of a similarity measure does not depend on dimensionality---this observation does not support H\ref{hyp:similarity}.
-% * <sdyck@ualberta.ca> 2016-11-05T01:01:20.065Z:
-%
-% > $\log n$ i
-%
-% try not to start sentence with lowercase
-% DM: thanks.
-% ^.
 
 Interestingly, when shifting is applied, dense spaces perform better: 1 and 0.7 are the optimal \texttt{neg} values. Multiplication  supports H\ref{hyp:neg}.
 
@@ -551,18 +544,11 @@ It worth noting that on compositional tasks dimensionality does not contribute a
 \section{An operator-independent universal model}
 \label{sec:single}
 
-In the previous section we have seen that even though parameter selection varies between operators, there are parameter choices that are shared, for example, correlation is the best similarity measure for addition, multiplication and Kronecker (if $D \le 3\,000$). Given this and the fact that the difference between some of the choices is marginal, we try to look for a truly universal parameter combination.
+In the previous section we have seen that even though parameter selection varies between operators, there are parameter choices that are shared, for example, correlation is the best similarity measure for addition, multiplication and Kronecker (if $D \le 3\,000$). Given this and the fact that the difference between some of the choices is marginal, we try to look for a truly universal parameter combination. The aggregated score of a model is computed as:
 
-The aggregated score of a model is computed as:
-% * <sdyck@ualberta.ca> 2016-11-05T01:07:46.858Z:
-%
-% > model is computed 
-%
-% see previous comment about fitting equation on one line. Also be sure to define "add" and "mult". Although it is intuitive that they are short for addition and multiplication, it should still be defined. 
-% DM: done.
-% ^.
-\scriptsize
+{\scriptsize
 \begin{align}
+  \begin{split}
 \operatorname{score}_\mathit{universal}(\mathit{m}) = &%
 \frac{1}{2}\left(
 \frac{1}{2}%
@@ -601,20 +587,22 @@ The aggregated score of a model is computed as:
 \frac{\operatorname{score}_\mathit{PhraseRel}(\mathit{m, \mathit{mult}})}%
 {\max_m\operatorname{score}_\mathit{PhraseRel}(m, \mathit{mult})}
 \Bigg)
+\end{split}
 \end{align}
 \normalsize
+}
 where $\mathit{add}$ stands for addition and $\mathit{mult}$ stands for multiplication.
 \subsection{Max selection}
 \label{sec:max-selection-single}
 
 Table~\ref{tab:single-max-selection} shows the combined scores for all datasets abstracting over a compositional operator.
 
-\input{figures/single-ablation}
-
 The parameter selection shows a clear pattern. Low-dimensional spaces perform best with 1 as the frequency choice, while high-dimensional models perform better with $\log n$, confirming to H\ref{hyp:freq}. Cosine is a better suited similarity measure for models with few dimensions and correlation is suited to those with many, which is in line with H\ref{hyp:similarity}. Finally, global context probabilities are the best in a low-dimensional case, while local context probabilities perform best with many dimensions, supporting H\ref{hyp:cds}.
 
 \subsection{Heuristics}
 \label{sec:heuristics-single}
+
+\input{figures/single-ablation}
 
 The linear model gives $R^2 = 0.898$. The most influential parameters are \texttt{freq}, similarity measure and \texttt{neg}, refer to Table~\ref{tab:single-ablation}.
 
