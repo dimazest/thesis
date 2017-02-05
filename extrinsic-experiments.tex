@@ -1,9 +1,13 @@
 \chapter{Relationships between sentences}
 \label{sec:sentential}
 
-This chapter reports the results on the compositional datasets KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ETV:2140490.2140497} and PhraseRel (Chapter~\ref{sec:phraserel}).\footnotemark{} The evaluation is done similarly to the lexical evaluation (Chapter~\ref{sec:lexical}). If a dataset provides several human judgements for a sentence pair, the judgements are averaged before computing the correlation.
+This chapter studies the relationship between the lexical representations and various methods of composition and looks for optimal lexical representation for additive, multiplicative and Kronecker-based compositional methods.\footnotemark{}
 
 \footnotetext{This chapter includes the results presented in \newcite{milajevs-EtAl:2014:EMNLP2014} at EMNLP 2014.}
+
+Here we report the results on the compositional datasets KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ETV:2140490.2140497} and PhraseRel (Chapter~\ref{sec:phraserel}). The evaluation is done similarly to the lexical evaluation (Chapter~\ref{sec:lexical}). If a dataset provides several human judgements for a sentence pair, the judgements are averaged before computing the correlation.
+
+We show that the optimal choice of lexical parameters depends on the method of composition, so, for example, with addition the vectors that are used with addition should be sparser then the vectors that are used with multiplication and Kronecker. We also show that the parameter choice optimal in lexical tasks is sub-optimal in compositional tasks especially for multiplication and Kronecker. 
 
 \section{KS14}
 \label{sec:ks14}
@@ -115,22 +119,14 @@ Addition works best with dense models. Multiplication and Kronecker prefer dense
 \subsection{Heuristics}
 \label{sec:heuristics-gs11}
 
-\input{figures/gs11-ablation}
-
 The linear model achieves an $R^2$ of 0.753. The partial $R^2$ scores are shown in Table~\ref{tab:gs11-ablation}. The most influential parameters are a compositional operator, \texttt{freq} and \texttt{neg}. This is the same as in the case of KS14, but in reverse order (Table~\ref{tab:ks14-ablation}).
-
 
 \subsubsection{Frequency}
 
 \input{figures/gs11-freq}
 
+\input{figures/gs11-ablation}
 On average, $\log n$ behaves best for all operators (Figure~\ref{fig:gs11-freq}). For $D \leq 5\,000$, 1 is also a good frequency choice, supporting H\ref{hyp:freq}.
-% * <sdyck@ualberta.ca> 2016-11-04T23:19:00.558Z:
-% 
-% > $\log n$ o
-% rephrase so that first letter is a capital
-%  DM: done.
-% ^.
 
 \subsubsection{Shifting}
 
@@ -202,18 +198,19 @@ SPMI is the preferred discriminativeness component for the low-dimensional space
 
 Regarding shifting, \texttt{head} prefers sparse spaces $k > 1$, but as dimensionality increases, the optimal $k$ values decrease. Addition does not show a consistent behaviour with regard to this parameter. Multiplication, in general, benefits from dense, unshifted spaces. Kronecker works best with sparse spaces with increasing sparsity as the dimensionality increases, supporting H\ref{hyp:neg}.
 
-\input{figures/phraserel-ablation}
-
 \texttt{Head} benefits from the correlation as the similarity measure, as does multiplication. Addition works best with correlation with spaces $D < 10\,000$, and with the inner product for more dimensional spaces. Multiplication works best with correlation. Kronecker, for spaces with less than 5\,000 dimensions, works best with correlation and with the inner product, otherwise.
 
 \subsection{Heuristics}
 \label{sec:heuristics-phraserel}
 
 \input{figures/phraserel-neg}
+
 The linear model achieves an $R^2$ of 0.822. The partial $R^2$ scores are shown in Table~\ref{tab:phraserel-ablation}. The most influential parameters are \texttt{neg}, operator and \texttt{cds}, but the first two have partial $R^2$ scores much higher than the other parameters. Table~\ref{tab:phraserel-heuristics-selection} shows the performance of the chosen models.
 
 \subsubsection{Shifting}
 \label{sec:shifting-phraserel}
+
+\input{figures/phraserel-ablation}
 
 \texttt{Head} should be used with $k = 1.4$, addition should be used with $k = 2$ and multiplication should be used with $k = 0.5$ (Figure~\ref{fig:phraserel-neg}).
 
