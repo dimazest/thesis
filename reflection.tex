@@ -19,16 +19,18 @@ Naturally, the idea of capturing lexical relationships was extended to phrases a
 
 We extend the possibility of evaluating compositional distributional models by proposing a task and a corresponding dataset  with controlled syntax. The task focuses on \emph{relevance}, a notion from Information Retrieval (IR).  Further, this task will assist with the understanding of how compositional distributional  models  can be used in IR, without limiting the choice of compositional methods. Much of the original research in distributional semantics has stemmed from vector models of IR, but the IR-NLP connection has been less apparent in  the newer compositional distributional models; our work attempts to bring them back together.
 
-\newcite{Milajevs:2015:IMN:2808194.2809448} got promising results when testing distributional methods in an IR-inspired setting, improving over an IR baseline. However, that work was based on a \emph{similarity} rather than relevance gold standard with a tweaked evaluation method.
+In a preliminary experiment \cite{Milajevs:2015:IMN:2808194.2809448} we evaluated distributional methods in an IR-inspired setting. We based the experiment on the sentence similarity dataset KS14. In that dataset, each sentence is paired with three other sentences: a highly similar sentence, a medium similar sentence and a not similar sentence, see below for more details. In that experiment, distributional models improved over an IR baseline.
 
-To overcome that flaw, we introduce a dataset that measures relevance. To develop the dataset, we took the  dataset of \newcite{kartsaklis-sadrzadeh:2013:EMNLP,kartsadrqpl2014} as the base, extensively extended it with query-document phrase pairs and re-annotated it using Amazon Mechanical Turk, asking for relevance judgements.
+In that work, we assumed that in the retrieval scenario similarity scores can be converted to retrieval score rankings, in other words, for each query phrase its most similar counterpart is the most relevant document, the somewhat similar counterpart is the second relevant document, and, finally, the dissimilar sentence is the least relevant document.
+
+To drop the assumption that similarity corresponds to relevance, we introduce a dataset that measures relevance. To develop the dataset, we took the KS14 dataset as the base, extensively extended it with query-document phrase pairs and re-annotated it using Amazon Mechanical Turk, asking for relevance judgements.
 
 Due to the novelty of the method used in the creation of the dataset (which makes it to measure relevance rather than similarity), the effort dedicated to it and since is yet unpublished, we devote a separate chapter to explain it.
 
 \section{Preparation of candidate entries for the dataset}
 \label{sec:design}
 
-As the base, we took the 72 unique sentences from the dataset of \newcite{kartsaklis-sadrzadeh:2013:EMNLP,kartsadrqpl2014}, which is later referred to as \emnlp/.\footnotemark{} These sentences formed the candidate \emph{query sentences}. We paired each query sentence with 23 \emph{document sentences} obtained by four conceptually different methods. Note that even though similarity is different from relevance, it has been used in the IR setting---see for example \newcite{2016arXiv160801972K}.
+As the base, we took the 72 unique sentences from the KS14 dataset of \newcite{kartsaklis-sadrzadeh:2013:EMNLP,kartsadrqpl2014}.\footnotemark{} These sentences formed the candidate \emph{query sentences}. We paired each query sentence with 23 \emph{document sentences} obtained by four conceptually different methods. Note that even though similarity is different from relevance, it has been used in the IR setting---see for example \newcite{2016arXiv160801972K}.
 %
 \footnotetext{\url{http://compling.eecs.qmul.ac.uk/wp-content/uploads/2015/07/KS2014.txt}}
 
