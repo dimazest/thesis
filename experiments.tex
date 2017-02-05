@@ -1,12 +1,13 @@
 \chapter{Relationships between words}
 \label{sec:lexical}
 
-This chapter is dedicated to the lexical experiments.\footnotemark{}
-\footnotetext{Much of the work in this chapter has appeared as \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} at the ACL Student Workshop 2016.}
-Simlex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714} are the two datasets that are used for evaluation. The datasets provide the averaged values of human similarity judgements between the pairs of words. The models are evaluated by computing the Spearman's-$\rho$ (the correlation of ranked model predictions with ranked human judgements).\footnotemark{}
+This chapter describes experiments to discover the optimal parameters for lexical similarity, and the behavioural patterns of the parameters.\footnotemark{}
+\footnotetext{Much of the work in this chapter has appeared as \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW} at the ACL Student Workshop 2016.} Simlex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714} are the two datasets that are used for evaluation. The datasets provide the averaged values of human similarity judgements between the pairs of words. The models are evaluated by computing the Spearman's-$\rho$ (the correlation of ranked model predictions with ranked human judgements).\footnotemark{}
 \footnotetext{The results are available at \url{\BASEURL/results_all.csv}.}
 
 The experiment results and selected parameters are reported on the datasets individually. Then, the model selection is performed on a combination of the two datasets. The results are selected using three methods: max selection, where the best score is selected, cross-validation, which separates model selection and score computation, and a selection based on heuristics, here parameters are chosen by their influence.
+
+The experiments show that while the best parameter selection depends on the dataset, there is a global optimal parameter selection that is good on all datasets. In general, we find that non-constant frequency component, context distribution smoothing and shifting should be used for high-dimensional spaces to compensate for the noise that is introduced by a large number of context features.
 
 \section{Experiments on SimLex-999 dataset}
 \label{sec:simlex-999}
@@ -225,6 +226,7 @@ We could not find supporting evidence for H\ref{hyp:overfitting}, as Max-selecte
 \input{figures/lexical-comparison}
 On lexical tasks, the best results among the selected models are 0.384 (SimLex-999) and 0.764 (MEN). On the similarity dataset, scores are 0.009 points behind the PPMI model of \newcite{TACL570}, however, on the relatedness dataset, 0.019 points above. Note the difference in dimensionality, source corpora and window size. Table~\ref{tab:lexical-comparison} shows the results of SVD, SGNS and GloVe-based vector spaces are given for comparison.
 
+The next step is to test compositional models. Before experiments are presented in Chapter~\ref{sec:sentential}, a new dataset that provides relevance judgements of pairs of sentences is presented in Chapter~\ref{sec:phraserel}.
 
 %%% Local Variables:
 %%% mode: latex
