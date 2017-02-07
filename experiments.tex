@@ -12,6 +12,8 @@ The experiments show that while the best parameter selection depends on the data
 \section{Experiments on SimLex-999 dataset}
 \label{sec:simlex-999}
 
+SimLex-999 is a dataset to evaluate lexical semantic models. It tests how well a model captures similarity between word pairs. The dataset implicitly distinguishes similarity and relatedness, so related pairs such that \textit{coffee}, \textit{cup} are not considered to be similar in this dataset. It consists of 666 noun-noun pairs, 222 verb-verb pairs and 111 adjective-adjective pairs.
+
 \subsection{Max selection}
 \label{sec:max-selection-simlex}
 
@@ -19,11 +21,11 @@ The experiments show that while the best parameter selection depends on the data
 
 Figure~\ref{fig:SimLex999-results} illustrates the results based on the best model selection and Table~\ref{tab:Simlex999-max-selection} shows the results together with chosen parameters. Note that the maximum selection is identical with cross-validation: they pick the same models.
 
-In general, model performance increases as the dimensionality increases. However, the best result of 0.389 is achieved with a 2\,000 dimensional space. Model performance becomes stable for dimensions greater than 20\,000.
+In general, model performance increases as the dimensionality increases. However, the best result of 0.389 is achieved with a 2\,000 dimensional space. Model performance becomes stable for dimensions greater than 20\,000, which suggests that rare context features contribute very little to similarity estimation.
 
 \input{figures/SimLex999-max-selection-table}
 
-As we see later in Section~\ref{sec:simlex-men} the best result is an example of overfitting. The 2\,000 dimensional model performs very well on SimLex-999 achieving the score of 0.389, but underperforms on MEN achieving the score of 0.660, while the model chosen using heuristics yields the score of 0.724 which is very close to the maximum result for this dimensionality (0.728, Figure~\ref{fig:SimLex999-transfer}).
+As we see later in Section~\ref{sec:simlex-men} the best result is an example of overfitting. The 2\,000 dimensional model performs very well on SimLex-999 achieving the score of 0.389, but underperforms on MEN achieving the score of 0.660, while the model chosen using heuristics yields the score of 0.724 on MEN which is very close to the maximum result for this dimensionality (0.728, Figure~\ref{fig:SimLex999-transfer}).
 
 For spaces with dimensionality less than 5\,000, \texttt{freq} set to 1 and inner product as the similarity measure yield the best results. Otherwise, cosine with \logNSCPMI/, smoothing $\alpha=0.75$ and shifting $k=0.7$ gives the best results. This supports our hypotheses that high-dimensional spaces benefit from non-constant frequency (H\ref{hyp:freq}), smoothing of context distribution (H\ref{hyp:cds}) and the sparsity of vectors (H\ref{hyp:neg}).
 
