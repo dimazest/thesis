@@ -1,7 +1,7 @@
 \chapter{Relationships between sentences}
 \label{sec:sentential}
 
-This chapter studies the relationship between the lexical representations and various methods of composition and looks for optimal lexical representation for additive, multiplicative and Kronecker-based compositional methods.\footnotemark{}
+\lettrine[lines=5,loversize=0.25]{T}{his} chapter studies the relationship between the lexical representations and various methods of composition and looks for optimal lexical representation for additive, multiplicative and Kronecker-based compositional methods.\footnotemark{}
 
 \footnotetext{This chapter includes the results presented in \newcite{milajevs-EtAl:2014:EMNLP2014} at EMNLP 2014.}
 
@@ -9,7 +9,7 @@ Here we report the results on the compositional datasets KS14 \cite{kartsadrqpl2
 
 We show that the optimal choice of lexical parameters depends on the method of composition, so, for example, with addition the vectors that are used with addition should be sparser then the vectors that are used with multiplication and Kronecker. We also show that the parameter choice optimal in lexical tasks is sub-optimal in compositional tasks especially for multiplication and Kronecker. 
 
-\section{KS14}
+\section{Experiments on KS14 dataset}
 \label{sec:ks14}
 
 \subsection{Max selection}
@@ -96,7 +96,7 @@ Multiplication agrees on the majority of parameters, except \texttt{cds} and \te
 
 The average difference between Max and heuristic-based selections is 0.022. Per operator, the differences are: 0.028 \texttt{head}, 0.012 addition, 0.018 multiplication and 0.028 Kronecker. All values are within the 10\% set by H\ref{hyp:10percent}.
 
-\section{GS11}
+\section{Experiments on GS11 dataset}
 \label{sec:gs11}
 
 \subsection{Max selection}
@@ -178,7 +178,7 @@ Similarity choice is the same for Kronecker and addition, but \texttt{head} and 
 
 The overall average normalised difference in results between Max and heuristic-based selections is 0.054. Per operator, the differences are: 0.090 \texttt{head}, 0.077 addition, 0.043 multiplication and 0.006 Kronecker. All the values are within the 10\% boundary set by H\ref{hyp:10percent}.
 
-\section{PhraseRel}
+\section{Experiments on PhraseRel dataset}
 \label{sec:phraserel-experiment}
 
 \subsection{Max selection}
@@ -447,7 +447,9 @@ This also suggests that there is a unique parameter choice that is universally a
 \chapter[Universal models]{Universal models for both lexical and compositional tasks}
 \label{sec:universal-param-selection}
 
-This chapter investigates how well a single model can perform on all tasks in contrast to the task (or dataset) tailored models of previous chapters. This is achieved by performing the evaluation on a combined score over the previous two lexical and three phrasal datasets. We not only combine the datasets together, but later in the chapter look for parameters that are good across all the datasets with all the compositional operators. Once the optimal lexical parameters are identified, they are tested on categorical compositional methods.
+\lettrine[lines=5,loversize=0.25]{T}{his} chapter investigates how well one model can perform on all tasks in contrast to the task-tailored models of previous chapters.
+% This is achieved by performing the evaluation on a combined score over the previous two lexical and three phrasal datasets.
+We not only combine the datasets together, but also look for parameters that are good across all datasets with all compositional operators. Once optimal parameters are identified, they are tested on categorical compositional methods.
 
 Even though the identified parameters have to compromise over different tasks (lexical and compositional) and compositional methods we achieve the new state-of-the-art results with Kronecker on KS14 and GS11. Moreover, the selected lexical representations improve over the results of the categorical compositional methods reported in the literature.
 

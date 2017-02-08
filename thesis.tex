@@ -51,6 +51,7 @@ BoldItalicFont=GenBasBI.ttf,
 ]
 {GentiumPlus-R.ttf}
 \setmonofont[Scale=MatchLowercase]{FiraCode-Regular.otf}
+\usepackage{lettrine}
 
 \usepackage{esvect}
 %\usepackage{mathtools}
@@ -240,7 +241,11 @@ BoldItalicFont=GenBasBI.ttf,
 \chapter{Conclusion}
 \label{cha:conclusion}
 
-This work is a systematic study of vector space models for similarity estimation, based on the distributional hypothesis \cite{harris1954distributional} and Frege's principle of compositionality \cite{Janssen2001,DBLP:journals/corr/abs-1003-4394}. The goal of this work is to provide the performance numbers of distributional models that are robust to overfitting and are representative of this kind of method in comparison to other meaning models, for example, predictive models \cite{mikolov2013efficient}. The other goal of the current study is to compare the parameters within the distributional approach and identify parameter combinations that lead to high performance of the corresponding models.
+\lettrine[lines=5,loversize=0.25]{T}{his} work is a systematic study of vector space models for similarity estimation, based on the distributional hypothesis \cite{harris1954distributional} and Frege's principle of compositionality \cite{Janssen2001,DBLP:journals/corr/abs-1003-4394}. The goal of this work is to provide performance numbers of distributional models that are robust to overfitting and are representative of this kind of method.
+
+% in comparison to other meaning models, for example, predictive models \cite{mikolov2013efficient}.
+
+The other goal of the current study is to compare the parameters within the distributional approach and identify parameter combinations that lead to high performance of the corresponding models.
 
 The experiments in the study are performed on two lexical tasks---SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}---and three phrasal tasks---KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ETV:2140490.2140497} and PhraseRel (Section~\ref{sec:phraserel}). In addition to individual dataset evaluation, the models' performance scores are combined to identify models that perform well on the collections of tasks, namely lexical (Section~\ref{sec:universal-lexical-param-selection}), compositional (Section~\ref{sec:robust-param-comp-selecion}) and universal (Chapter~\ref{sec:universal-param-selection}).
 
