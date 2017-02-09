@@ -312,7 +312,7 @@ In general, over all compositional datasets, we see---in contrast to the lexical
 \section{Universal parameter selection for compositional datasets}
 \label{sec:robust-param-comp-selecion}
 
-Figure~\ref{fig:compositional-results} shows the performance of the models based on the combined selection over the KS14, GS11 and PhraseRel datasets. The combined score is calculated the following way:
+To find parameters that are good on all three tasks, we combine their scores. As with lexical tasks, we normalise the scores on each dataset and report the average performance.The combined score is calculated the following way:
 
 {
 \scriptsize
@@ -334,9 +334,9 @@ Figure~\ref{fig:compositional-results} shows the performance of the models based
 }
 where $m$ is a model and $o$ is an operator.
 
-The performance of selected models together with the selected parameters is shown in Table~\ref{tab:compositional-max-selection} (Max selection) and Table~\ref{tab:compositional-heuristics-selection} (selection based on heuristics).
+Figure~\ref{fig:compositional-results} shows the performance of the models based on the combined selection over the KS14, GS11 and PhraseRel datasets. 
 
-\input{figures/compositional-results}
+The performance of selected models together with the selected parameters is shown in Table~\ref{tab:compositional-max-selection} (Max selection) and Table~\ref{tab:compositional-heuristics-selection} (selection based on heuristics).
 
 \subsection{Max selection}
 \label{sec:max-selection-compositional}
@@ -355,60 +355,39 @@ The linear model achieves  $R^2 = 0.769$. Table~\ref{tab:compositional-ablation}
 \subsubsection{Neg}
 \label{sec:neg-compositional}
 
-\input{figures/compositional-neg}
+For the baseline operator \texttt{head} and models with $D < 10\,000$, the \texttt{neg} should be set to 1, otherwise, it should be 1.4 (Figure~\ref{fig:compositional-neg}).
 
-For \texttt{head} and models with $D < 10\,000$, the \texttt{neg} should be set to 1, otherwise, it should be 1.4 (Figure~\ref{fig:compositional-neg}).
-
-For addition, 1 is the best choice of \texttt{neg}, but the performance of $k$ values follows H\ref{hyp:neg}.
+For addition, 1 is the best choice of \texttt{neg}, but the performance of $k$ values follows H\ref{hyp:neg}: the more dimensions a model has, the sparser it should be.
 
 Multiplication benefits from denser spaces. If the dimensionality is less than 10\,000, then \texttt{neg} should be set to 0.5, otherwise 0.7 is a good choice, confirming H\ref{hyp:neg}.
 
-Kronecker benefits from the \texttt{neg} of 0.7 if $D < 10\,000$ and from 1 for the more dimensional cases, supporting H\ref{hyp:neg}. This is similar to multiplication, but Kronecker prefers less dense vectors.
+Kronecker benefits from the \texttt{neg} of 0.7 if $D < 10\,000$ and from 1 for the more dimensional cases, also supporting H\ref{hyp:neg}. This is similar to multiplication, but Kronecker prefers less dense vectors.
+
+\input{figures/compositional-neg}
 
 \subsubsection{Freq}
 \label{sec:freq-compositional}
 
 The frequency value of choice of all operators is $\log n$ with an exception of multiplication, where the constant frequency is preferred (Figure~\ref{fig:compositional-freq}).
-% * <sdyck@ualberta.ca> 2016-11-05T00:53:40.350Z:
-%
-% > $\log n$ is
-%
-% rearrange so the sentence doesn't start with a lowercase
-% DM: done.
-% ^.
 
-For low-dimensional vector spaces ($D \leq 5\,000$), 1 behaves good giving support of H\ref{hyp:freq}.
-% * <sdyck@ualberta.ca> 2016-11-05T00:54:01.016Z:
-%
-% > 1 behav
-%
-% rearrange so that sentence doesn't start with a number
-% DM: done.
-% ^.
+For low-dimensional vector spaces ($D \leq 5\,000$), 1 behaves good giving support of H\ref{hyp:freq} that non-constant frequency is needed only with high-dimensional spaces.
 
 \subsubsection{Context distribution smoothing}
 \label{sec:cont-distr-smooth-compositional}
 
-\input{figures/compositional-cds}
-
-As Figure~\ref{fig:compositional-cds} shows, global context probability is the preferred choice of context probability in all cases, with an exception of Kronecker with $D > 3\,000$, where smoothed local probabilities are better ($\alpha = 0.75$), supporting H\ref{hyp:cds}.
+As Figure~\ref{fig:compositional-cds} shows, global context probability is the preferred choice of context probability in all cases, with an exception of Kronecker with $D > 3\,000$, where smoothed local probabilities are better ($\alpha = 0.75$), supporting H\ref{hyp:cds} that context distribution smoothing should be used with high-dimensional spaces.
 
 \subsubsection{Similarity}
 \label{sec:similarity-compositional}
 
 Correlation is the dominant choice of the similarity measure (Figure~\ref{fig:compositional-similarity}). However, cosine is preferred in the case of \texttt{head}, with $D > 5\,000$, and inner product is the only choice for composition with Kronecker with $D > 3\,000$.
 
-There is no distinction between cosine and correlation for all compositional operators, which neither supports nor disputes H\ref{hyp:similarity}.
-% * <sdyck@ualberta.ca> 2016-11-05T00:55:26.642Z:
-%
-% > es not contradict H
-%
-% does not contradict is not necessarily the same as support. So are you saying it neither supports nor disputes H13?
-% DM: yes.
-% ^.
+There is no distinction between cosine and correlation for all compositional operators, which neither supports nor disputes H\ref{hyp:similarity} that expects correlation to outperform cosine with high-dimensional spaces.
 
 \subsubsection{Discr}
 \label{sec:discr-compositional}
+
+\input{figures/compositional-cds}
 
 \input{figures/compositional-discr}
 
@@ -423,7 +402,7 @@ Manual selection based on a combination of the compositional datasets is more st
 
 The average difference with the upper bound is 0.040 and 0.041 for Max and heuristics, respectively, when applied to KS14. For GS11, the difference is 0.045 (Max) and 0.127 (Heuristics). For PhraseRel, the difference is 0.055 (Max) and 0.084 (Heuristics).
 
-The numbers are much lower than the transfer of spaces selected on the basis of one dataset (Section~\ref{sec:select-model-transf-comp}). The average normalised difference is within the 10\% limit (H\ref{hyp:10percent}), with an exception of heuristics on GS11. This is evidence that there might be one universal model that fits various tasks (H\ref{hyp:universal}). The fact that the average normalised difference is smaller for Max-based selection is against H\ref{hyp:overfitting}. A combination of datasets that covers several phenomena (in our case, similarity, disambiguation and relatedness) might be more effective than manual heuristic-based selection.
+The numbers are much lower than the transfer of spaces selected on the basis of one dataset (Section~\ref{sec:select-model-transf-comp}). The average normalised difference is within the 10\% limit (H\ref{hyp:10percent}), with an exception of heuristics on GS11. This is evidence that there might be one universal model that fits various tasks (H\ref{hyp:universal}). The fact that the average normalised difference is smaller for Max-based selection is against H\ref{hyp:overfitting} that expects Max selection to overfit. A combination of datasets that covers several phenomena (in our case, similarity, disambiguation and relatedness) might be more effective than manual heuristic-based selection.
 
 The model selection procedures improve from the combination of datasets. One needs to keep in mind that in this case we test model performance on the same dataset as we do parameter selection.
 
@@ -433,15 +412,15 @@ The model selection procedures improve from the combination of datasets. One nee
 Phrasal experiments support most of the hypotheses stated in
 Section~\ref{sec:hypotheses}.
 
-The confirmation of hypotheses on optimal parameter dependence on dimensionality (in particular H\ref{hyp:freq} (\texttt{freq}) and H\ref{hyp:neg} (\texttt{neg}), that are supported by all datasets) confirms H\ref{hyp:dimen}. It is worth noting that even though an optimal choice of \texttt{cds} does not depend on dimensionality on KS14 and GS11, in the combined case the dependence holds.
+We see the confirmation of hypotheses on optimal parameter dependence on dimensionality (H\ref{hyp:dimen}). In particular: H\ref{hyp:freq} (non-constant frequency is beneficial with high-dimensional spaces) and H\ref{hyp:neg} (high-dimensional spaces should be sparser). They are supported by all datasets and confirm H\ref{hyp:dimen}. It is worth noting that even though an optimal choice of context distribution smoothing does not depend on dimensionality on KS14 and GS11, in the combined case the dependence holds.
 
-Models that are selected on the experiments on a single dataset are prone to overfitting. Neither manual selection of parameters prevents it and the average normalised difference is above 10\% on model transfer. This confirms H\ref{hyp:overfitting} and rejects H\ref{hyp:10percent}.
+Models that are selected on the experiments on a single dataset are prone to overfitting. Neither manual selection of parameters prevents it and the average normalised difference is above 10\% on model transfer. This confirms H\ref{hyp:overfitting} that Max selection overfits and rejects H\ref{hyp:10percent} that the relative gap in performance of the best model and a manually selected model is within 10\%.
 
 Model selection based on the combination of datasets performs much better on each dataset (contrary to a single-dataset selected models). Both selection methods are within 10\%, supporting H\ref{hyp:10percent}.
 
 Max selection models outperform heuristic selection models, suggesting that there is no overfitting in this case and H\ref{hyp:overfitting} is not valid. In this case, the dataset combination covered three phenomena (similarity, disambiguation and relevance) and the precaution of overfitting by heuristics might be redundant.
 
-This also suggests that there is a unique parameter choice that is universally applicable to compositional tasks H\ref{hyp:universal}. The universal spaces are studied in Chapter~\ref{sec:universal-param-selection}.
+This also suggests that there is a unique parameter choice that is universally applicable to compositional tasks (H\ref{hyp:universal}). The universal spaces are studied in Chapter~\ref{sec:universal-param-selection}.
 
 \chapter[Universal models]{Universal models for both lexical and compositional tasks}
 \label{sec:universal-param-selection}
