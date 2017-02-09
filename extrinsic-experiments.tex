@@ -102,16 +102,18 @@ The average difference between Max and heuristic-based selections is 0.022. Per 
 \section{Experiments on GS11 dataset}
 \label{sec:gs11}
 
+GS11 is a dataset of transitive sentences \cite{Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497}. It consists of ambiguous transitive verbs together with their arguments and two landmark verbs that each disambiguate a particulate sense of the ambiguous verb. Human judgements provide pairwise similarity scores between the sentence with the ambiguous verb and the two sentences with the landmark verbs.
+
 \subsection{Max selection}
 \label{sec:max-selection-gs11}
 
 \input{figures/gs11-results}
 
-Figure~\ref{fig:gs14-results} shows performance of the compositional models on the transitive verb disambiguation task \cite{Grefenstette:2011:ESC:2145432.2145580}. Table~\ref{tab:gs11-max-selection} shows the selected model performance together with chosen parameters.
+Figure~\ref{fig:gs14-results} shows performance of the compositional models on the verb disambiguation task. Table~\ref{tab:gs11-max-selection} shows the selected model performance together with chosen parameters.
 
-Multiplication with 20\,000 dimensions gives the highest result of 0.532. Kronecker gets close with a score of 0.516 with $D = 50\,000$, giving no support to H\ref{hyp:order} that word order is important for similarity measurement. Addition does not outperform the \texttt{head} operator: addition scores 0.338, while \texttt{head}'s best performance is 0.432.
+Multiplication with 20\,000 dimensions gives the highest result of 0.532. Kronecker gets close with a score of 0.516 with $D = 50\,000$, giving no support to H\ref{hyp:order} that word order is important for similarity measurement. Addition does not outperform the baseline \texttt{head} operator: addition scores 0.338, while \texttt{head}'s best performance is 0.432.
 
-\texttt{Head}'s behaviour is unstable for dimensions less than 20\,000, and its best behaviour might be the case of overfitting similarly with SimLex-999. However, models with dimensions greater than 20\,000 yield similar scores, even though the parameters are different.
+The behaviour of the baseline operator \texttt{head} is unstable for dimensions less than 20\,000, and its best behaviour might be the case of overfitting similarly with SimLex-999. However, models with dimensions greater than 20\,000 yield similar scores, even though the parameters are different.
 
 In general, Max parameter selection is very different than the one based on KS14 (Table~\ref{tab:ks14-max-selection}). Compositional operators behave best with $\log n$ frequency, especially Kronecker. PMI often outperforms other discriminativeness components in the case of \texttt{head} and addition. Global context probability estimation behaves better than local and correlation is not always the best similarity measure.
 
@@ -126,50 +128,50 @@ The linear model achieves an $R^2$ of 0.753. The partial $R^2$ scores are shown 
 
 \subsubsection{Frequency}
 
-\input{figures/gs11-freq}
-
 \input{figures/gs11-ablation}
-On average, $\log n$ behaves best for all operators (Figure~\ref{fig:gs11-freq}). For $D \leq 5\,000$, 1 is also a good frequency choice, supporting H\ref{hyp:freq}.
+On average, $\log n$ behaves best for all operators (Figure~\ref{fig:gs11-freq}). For $D \leq 5\,000$, 1 is also a good frequency choice, supporting H\ref{hyp:freq} that non-constant frequency component is required for high-dimensional spaces.
 
 \subsubsection{Shifting}
 
-\texttt{Head} on average works best with shifted models. For models with dimensionality less than 3\,000, $k = 0.5$ is best, otherwise $k = 0.7$ is more beneficial (Figure~\ref{fig:gs11-neg}).
+The baseline operator \texttt{head} on average works best with shifted models. For models with dimensionality less than 3\,000, $k = 0.5$ is best, otherwise $k = 0.7$ is more beneficial (Figure~\ref{fig:gs11-neg}).
 
-For addition, models without shifting behave best for $D < 20\,000$, however, for more dimensional spaces, $k = 0.2$ should be preferred. This is a weak support of H\ref{hyp:neg}, because unshifted spaces can be seen as shifted with a very small $\alpha$ value.
+For addition, models without shifting behave best for $D < 20\,000$, however, for more dimensional spaces, $k = 0.2$ should be preferred. This is a weak support of H\ref{hyp:neg} (high-dimensional vectors should be sparse), because unshifted spaces can be seen as shifted with a very small $\alpha$ value.
 
 Multiplication also works best with unshifted low-dimensional spaces ($D < 5\,000$) and with $k = 0.7$ for high-dimensional spaces, supporting H\ref{hyp:neg}.
 
-Kronecker prefers shifting. For spaces with dimensionality less then 20\,000 $k = 0.7$ and $k = 1$ otherwise. This supports H\ref{hyp:neg}.
+Kronecker prefers shifting. For spaces with dimensionality less then 20\,000 $k = 0.7$ and $k = 1$ otherwise. This is inline with H\ref{hyp:neg}.
+
+\input{figures/gs11-freq}
 
 \subsubsection{Similarity}
 
-\input{figures/gs11-similarity}
-
-\texttt{Head} and multiplication work best with cosine similarity, addition with correlation and Kronecker with inner product (Figure~\ref{fig:gs11-similarity}).
+The baseline operator \texttt{head} and multiplication work best with cosine similarity, addition with correlation and Kronecker with inner product (Figure~\ref{fig:gs11-similarity}).
 
 Addition strictly supports H\ref{hyp:similarity} that cosine is optimal for high-dimensional spaces, while multiplication supports it by behaving similarly to cosine and correlation.
 
 \subsubsection{Context distribution smoothing}
 
-\texttt{Head} with $D < 10\,000$ works best with global context probabilities. For more dimensional spaces, local context probabilities $\alpha = 1$ should be preferred (Figure~\ref{fig:gs11-cds}).
+The baseline operator \texttt{head} with $D < 10\,000$ works best with global context probabilities. For more dimensional spaces, local context probabilities $\alpha = 1$ should be preferred (Figure~\ref{fig:gs11-cds}).
 
 Addition works best with local probabilities. In the low-dimensional case, when $D < 20\,000$, unsmoothed estimation ($\alpha = 1$) is preferred and $\alpha = 0.75$ should be chosen otherwise.
 
 Multiplication works best with global context probabilities and Kronecker with smoothed local ($\alpha = 0.75$).
 
-There is no support of H\ref{hyp:cds} because global context probabilities outperform other choices for multiplication, addition behaves the same with all options and Kronecker works best with $\alpha = 0.75$.
+There is no support of H\ref{hyp:cds} (context distribution smoothing leads to optimal results with high-dimensional models) because global context probabilities outperform other choices for multiplication, addition behaves the same with all options and Kronecker works best with $\alpha = 0.75$.
+
+\input{figures/gs11-similarity}
 
 \subsubsection{Discriminativeness}
 
 \input{figures/gs11-discr}
 
-\texttt{Head} works best with SPMI, but SCPMI is very close (Figure~\ref{fig:gs11-discr}). Addition works best with PMI for $D < 20\,000$ and SCPMI otherwise.
+The baseline operator \texttt{head} works best with SPMI, but SCPMI is very close (Figure~\ref{fig:gs11-discr}). Addition works best with PMI for $D < 20\,000$ and SCPMI otherwise.
 
 Multiplication is similar to addition in that it prefers PMI in the low-dimensional case and SCPMI in the high-dimensional case, but the change happens at 5\,000 dimensions rather than 20\,000.
 
 Kronecker with less than 5\,000 dimensions prefers SCPMI and SPMI, which is opposite to addition and multiplication.
 
-This dataset does not give evidence to support H\ref{hyp:comp-pmi-cpmi} because there is almost no difference betwen *PMI and *CPMI.
+This dataset does not give evidence to support H\ref{hyp:comp-pmi-cpmi}---PMI values should be compressed when used in compositional setting---because there is almost no difference betwen *PMI and *CPMI.
 
 \subsection{Difference between Max selection and heuristics on GS11}
 
