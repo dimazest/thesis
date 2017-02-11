@@ -1,6 +1,7 @@
 \documentclass[11pt,a4paper,english,oneside]{book}
 \usepackage{url}
 \usepackage{latexsym}
+\usepackage{metalogo}
 
 \usepackage{babel}
 
@@ -50,7 +51,8 @@ ItalicFont=GentiumPlus-I.ttf,
 BoldItalicFont=GenBasBI.ttf,
 ]
 {GentiumPlus-R.ttf}
-\setmonofont[Scale=MatchLowercase]{FiraCode-Regular.otf}
+% \setmonofont[Scale=MatchLowercase]{FiraCode-Regular.otf}
+\setmonofont[Scale=MatchLowercase]{FiraMono-Regular.otf}
 \usepackage{lettrine}
 
 \usepackage{esvect}
@@ -315,6 +317,20 @@ While categorical compositional methods are built on solid theoretical grounds \
 \input{figures/frobenius-PhraseRel-results}
 
 \input{figures/frobenius-plot}
+
+\chapter*{Colophon}
+
+\lettrine[lines=5,loversize=0.25]{T}{his} thesis was typeset with {\rm \XeLaTeX}, a \TeX{} typesetting engine that uses Unicode and supports modern font technologies.
+%
+The main font is Gentium Basic, which is a serif typeface. It supports a wide range of Latin- and Cyrillic-based alphabets.
+%
+The font is distributed under the \href{http://scripts.sil.org/ofl}{SIL Open Font License} and available at \url{http://software.sil.org/gentium/}.
+
+To ease the navigation, the headings are in sans serif typeface {\sffamily \scriptsize Transport Heavy}, a font designed for British road signs. Transport Heavy is subject to Crown Copyright, and this font contains public sector information licensed under the \href{http://www.nationalarchives.gov.uk/doc/open-government-licence/version/1/}{Open Government Licence v1.0}. It was downloaded from \url{http://www.cbrd.co.uk/fonts/}.
+
+The monospace font is \texttt{Fira Mono}, a typeface designed by \href{https://www.mozilla.org/}{Mozilla}. It is available under the \href{http://scripts.sil.org/OFL}{SIL Open Font License, Version 1.1}. The typeface is available at  \url{http://mozilla.github.io/Fira/}.
+
+The plots are produced with \href{http://seaborn.pydata.org/}{seaborn}, a \href{https://www.python.org/}{Python} visualization library based on \href{http://matplotlib.org/}{matplotlib}. It provides a high-level interface for drawing attractive statistical graphics.
 
 \end{document}
 
