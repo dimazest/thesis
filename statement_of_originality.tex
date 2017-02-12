@@ -30,6 +30,15 @@ Content from the following publications appears in this thesis, which has been w
 \item \citet*{milajevs-griffiths:2016:repeval}. Main author. A Proposal for Linguistic Similarity Datasets Based on Commonality Lists. \textit{In Proceedings of the 1st Workshop on Evaluating Vector-Space Representations for NLP}.
 \end{enumerate}
 
+\chapter*{Software}
+
+The following software was developed as a part of this thesis.
+\begin{itemize}
+\item \href{http://fowlercorpora.readthedocs.io/en/latest/}{Fowler.corpora} is an implementation of distributional lexical and sentential similarity models.
+\item \href{https://pypi.python.org/pypi/google-ngram-downloader}{Google-ngram-downloader} is an on-the-fly reader of the \href{http://storage.googleapis.com/books/ngrams/books/datasetsv2.html}{Google Books ngram dataset}.
+\item \href{http://www.nltk.org/}{NLTK} was extended in several ways. The \href{https://github.com/nltk/nltk/blob/develop/nltk/corpus/reader/bnc.py}{BNC reader} was extended to support the full BNC edition. \href{https://github.com/nltk/nltk/blob/develop/nltk/wsd.py}{Lesk's word sense disambiguation algorithm} was extended to support part of speech tags. The \href{https://github.com/nltk/nltk/blob/develop/nltk/parse/dependencygraph.py}{Dependency Graph} datastructure was refactored to support custom dependency graph construction. An \href{https://github.com/nltk/nltk/pull/1249}{interface} to the \href{http://stanfordnlp.github.io/CoreNLP/}{Stanford CoreNLP} web API was proposed.
+\end{itemize}
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "thesis"
