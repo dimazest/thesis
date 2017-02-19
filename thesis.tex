@@ -249,7 +249,7 @@ Another goal of the current study is to compare the parameters within the distri
 
 The experiments in the study are performed on two lexical tasks---SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}---and three phrasal tasks---KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ETV:2140490.2140497} and PhraseRel (Section~\ref{sec:phraserel}). In addition to individual dataset evaluation, the models' performance scores are combined to identify models that perform well on the collections of tasks, namely lexical (Section~\ref{sec:universal-lexical-param-selection}), compositional (Section~\ref{sec:robust-param-comp-selecion}) and universal (Chapter~\ref{sec:universal-param-selection}).
 
-The vector component values are based on the PMI quantification of the co-occurrence counts. To minimise the effect of noise in the co-occurrence data, the PMI score itself is modified by weighting, shifting, compressing and others---see Section~\ref{sec:quantification} for more details. We identify an optimal parameter choice based on dimensionality of the underlying vector space. In compositional tasks, we experiment with point-wise operators (addition and multiplication) and with categorical operators (Section~\ref{sec:frob-comp-oper}, \newcite{DBLP:journals/corr/abs-1003-4394}).
+The vector component values are based on the PMI quantification of the co-occurrence counts. To minimise the effect of noise in the co-occurrence data, the PMI score itself is modified by weighting, shifting, compression and others---see Section~\ref{sec:quantification} for more details. We identify an optimal parameter choice based on dimensionality of the underlying vector space. In compositional tasks, we experiment with point-wise operators (addition and multiplication) and with categorical operators (Section~\ref{sec:frob-comp-oper}, \newcite{DBLP:journals/corr/abs-1003-4394}).
 
 \paragraph{Representative performance of count-based distributional methods}
 
@@ -273,7 +273,7 @@ The fact that addition-based optional parameters follow the parameters that are 
 
 \paragraph{Parameter selection procedure}
 
-Two model selection procedures were tested to avoid overfitting. One selects the parameters that lead to the highest performance, while the other performs selection based on the average performance of the parameter values. We see that if a single dataset is used for model selection, that the best model is overfit and suggest using a more elaborated. However, when the selection is based on a combination of datasets, then the Max-based selection picks models that are less likely to overfit.
+Two model selection procedures were tested to avoid overfitting. One selects the parameters that lead to the highest performance, while the other performs selection based on the average performance of the parameter values. We see that if a single dataset is used for model selection, that the best model is overfit and suggest using a more elaborated parameter selection technique. However, when the selection is based on a combination of datasets, then the Max-based selection picks models that are less likely to overfit.
 
 \paragraph{Future work}
 

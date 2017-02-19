@@ -7,7 +7,7 @@
 
 Here we report the results on the compositional datasets KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ETV:2140490.2140497} and PhraseRel (Chapter~\ref{sec:phraserel}). For the first two datasets, the evaluation is done similarly to the lexical evaluation (Chapter~\ref{sec:lexical}) by computing Sperman-$\rho$ rank correlation between human judgements and model estimation. If a dataset provides several human judgements for a sentence pair, the judgements are averaged before computing the correlation. For PhraseRel, we report relevant@3, the measure that is the proportion of sentences for which the top-3 most similar neighbours contain at least one sentence that was judged relevant with respect to the source sentence.
 
-We show that the optimal choice of lexical parameters depends on the method of composition, so, for example, with addition the vectors that are used with addition should be sparser then the vectors that are used with multiplication and Kronecker. We also show that the parameter choice optimal in lexical tasks is sub-optimal in compositional tasks especially for multiplication and Kronecker. 
+We show that the optimal choice of lexical parameters depends on the method of composition, so, for example, with addition the vectors should be sparser then the vectors that are used with multiplication and Kronecker. We also show that the parameter choice that is optimal in lexical tasks is sub-optimal in compositional tasks especially for multiplication and Kronecker. 
 
 \section{Experiments on KS14 dataset}
 \label{sec:ks14}
@@ -80,7 +80,7 @@ All other operators perform best with global context probability. Even though lo
 \subsubsection{Similarity}
 The baseline operator \texttt{head} on spaces with $D < 20\,000$ performs best with cosine similarity, while more dimensional models prefer correlation as the similarity measure (Figure~\ref{fig:ks14-similarity}), strictly according to H\ref{hyp:similarity}: the adjustment by the mean value that is performed by correlation is need by high-dimensional models.
 
-Other operators work best with correlation. Addition and multiplication also support H\ref{hyp:similarity}. In the case of multiplication, correlation dominates over cosine, even for small values of $D$. There is little to say about Kronecker, as it is tested only with the inner product for spaces with $D > 3\,000$, due to its computational complexity ($\mathcal{O}(n^2)$ with respect to the number of vector components).
+Other operators work best with correlation. Addition and multiplication also support H\ref{hyp:similarity} that correlation is beneficial in high-dimensional spaces. In the case of multiplication, correlation dominates over cosine, even for small values of $D$. There is little to say about Kronecker, as it is tested only with the inner product for spaces with $D > 3\,000$, due to its computational complexity ($\mathcal{O}(n^2)$ with respect to the number of vector components).
 
 \subsubsection{Discriminativeness}
 
@@ -197,7 +197,7 @@ Figure~\ref{fig:phraserel-results} shows the performance of the models on the Ph
 
 Multiplication, in general, outperforms all other operators, and with the dimensions of 10\,000 and 20\,000, gets the perfect score of 1. The fact that Kronecker (a word order sensitive operator) is outperformed by multiplication (a word order insensitive operator) gives no support of H\ref{hyp:order} that word order matters. Model performance weakly depends on the dimensionality for all operators. Multiplication and Kronecker show strong performance similarly to the preliminary study, where similarity was assumed to correspond to relevance \cite{Milajevs:2015:IMN:2808194.2809448}.
 
-Addition and Kronecker achieve the best score with constant frequency, \texttt{head} works best with linear and multiplication with sublinear ($\log n$) frequency.
+Addition and Kronecker achieve the best score with constant frequency, \texttt{head} works best with linear frequency and multiplication with sublinear ($\log n$) frequency.
 
 SPMI is the preferred discriminativeness component for the low-dimensional spaces ($D < 10\,000$) for the baseline \texttt{head}, otherwise, SCPMI is the best behaving \texttt{discr}. For addition and the spaces with $D > 1\,000$, SPMI is the best, while for the spaces with the same dimensionality, multiplication prefers CPMI, which is in line with H\ref{hyp:comp-pmi-cpmi}: PMI values should be compressed when used in compositional tasks. Kronecker, most of the time, prefers SCPMI.
 
@@ -226,7 +226,7 @@ Kronecker has three optimal values of $k$ that are proportional to dimensionalit
 \subsubsection{Context distribution smoothing}
 \label{sec:cont-distr-smooth-phraserel}
 
-The best choice for the baseline operator \texttt{head} deponds on dimensionality: spaces with less than 10\,000 dimensions benefit from smoothed local context probabilities ($\alpha = 0.75$) (Figure~\ref{fig:phraserel-cds}). Addition and multiplication work best with global context probabilities, while Kronecker prefers unsmoothed local probabilities ($\alpha = 1$).
+The best choice for the baseline operator \texttt{head} deponds on dimensionality: spaces with less than 10\,000 dimensions benefit from smoothed local context probabilities ($\alpha = 0.75$, Figure~\ref{fig:phraserel-cds}). Addition and multiplication work best with global context probabilities, while Kronecker prefers unsmoothed local probabilities ($\alpha = 1$).
 
 \subsubsection{Frequency}
 \label{sec:frequency-phraserel}
@@ -260,7 +260,7 @@ Addition and Kronecker benefit from SPMI, and multiplication from SCPMI, apart f
 \subsection{Difference between Max selection and heuristics on PhraseRel}
 \label{sec:diff-phraserel}
 
-Manual parameter selection is more stable than the one based on the maximum values. However, in cases where different parameters are picked, there is little or no difference between these parameter choices. For example studied similarity measures yield similar average performance for addition, see Figure~\ref{fig:phraserel-freq}.
+Manual parameter selection is more stable than the one based on maximum values. However, in cases where different parameters are picked, there is little or no difference between these parameter choices. For example, studied similarity measures yield similar average performance for addition, see Figure~\ref{fig:phraserel-freq}.
 
 Manual heuristics do not pick the best result of 1 (Table~\ref{tab:phraserel-max-selection}), but are close with a multiplicative model with 20\,000 and 30\,000 dimensions, yielding a score of 0.964 (Table~\ref{tab:phraserel-heuristics-selection}).
 
@@ -295,7 +295,7 @@ Heuristic-based selection, on average, is closer to the upper bound than Max-bas
 Figure~\ref{fig:gs11-transfer} shows that there is little difference between Max and heuristic-based selections. In case of \texttt{head} composition, heuristics lead to higher performance, while for low-dimensional multiplicative models heuristics fall behind the Max selection on the KS14 dataset.
 
 % \todo[noline]{Significance tests}
-When GS11 models are transferred to KS14, the average difference with the upper bound is 0.119 and 0.106 for Max and heuristics respectively. For the transfer to PhraseRel, the differences are 0.133 for Max and 0.188 for heuristics. Again, the heuristic-based selection outperforms the Max based. This supports H\ref{hyp:overfitting} that Max selection overfits, but the results are beyond the limit of H\ref{hyp:10percent}.
+When GS11 models are transferred to KS14, the average difference with the upper bound is 0.119 and 0.106 for Max and heuristics respectively. For the transfer to PhraseRel, the differences are 0.133 for Max and 0.188 for heuristics. Again, the heuristic-based selection outperforms the Max based. This supports H\ref{hyp:overfitting} that Max selection overfits, but the results are beyond the 10\% limit of H\ref{hyp:10percent}.
 
 \subsection{Model transfer from PhraseRel}
 \label{sec:from-phraserel}
@@ -305,7 +305,7 @@ When GS11 models are transferred to KS14, the average difference with the upper 
 Figure~\ref{fig:phraserel-transfer} shows that the performance of models based on PhraseRel is less stable, especially for selection by maximum performance.
 
 % \todo[noline]{Significance tests}
-Transfer to KS14 yields the average differences of 0.152 for Max and 0.136 for heuristics. Transfer to GS11 yields the average differences of 0.454 for Max and 0.509 for heuristics. Note that the PhraseRel to GS11 transfer is the only case where Max selection, on average, is better than heuristics.
+Transfer to KS14 yields the average differences of 0.152 for Max and 0.136 for heuristics. Transfer to GS11 yields the average differences of 0.454 for Max and 0.509 for heuristics. Note that the transfer from PhraseRel to GS11 is the only case where Max selection, on average, is better than heuristics.
 
 In general, over all compositional datasets, we see---in contrast to the lexical evaluation---that the Max-based selection might be prone to overfitting (H\ref{hyp:overfitting}). However, the result difference is far beyond the 10\% limit set by H\ref{hyp:10percent}, which might be due to the different nature of the tasks: similarity, disambiguation and relevance (compositional) versus similarity and relatedness (lexical).
 

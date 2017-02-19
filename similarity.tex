@@ -12,7 +12,7 @@ Generalisations are extremely powerful in describing a language, as well. The ve
 
 From a computational perspective, this motivates and guides the development of similarity components that are embedded into automatic systems that deal with natural language.
 
-The information that the word \textit{carpet} is similar in meaning to the word \textit{mat} might be exploited by a language model in estimating the probability of the sentence \textit{the cat sat on the carpet}, even if it did not occur in the corpus, but \textit{cat sat on the mat} did \cite{bengio2006}.
+The information that the word \textit{carpet} is similar in meaning to the word \textit{mat} might be exploited by a language model in estimating the probability of the sentence \textit{the cat sat on the carpet}, even if it did not occur in the corpus, but \textit{the cat sat on the mat} did \cite{bengio2006}.
 
 In Information Retrieval (IR), queries are expanded with related terms to increase the number of retrieved relevant documents. For example, if a user issues the query \textit{lakes in Sweden}, the system might add related words to the query such as \textit{lake}, \textit{reservoir}, \textit{river} or even \textit{swim} so that the documents that do not contain the word \textit{lakes} are retrieved \cite{Xu:1996:QEU:243199.243202}.
 % \cite{Salton:1975:VSM:361219.361220}
@@ -21,7 +21,7 @@ A dependency parser might benefit from a generalisation about the part of speech
 
 A dialogue act tagging system might require classification of an utterance based on its role in a dialogue, such as a question or an acknowledgement \cite{kalchbrenner-blunsom:2013:CVSC}.
 
-The examples show that similarity is a broad term that is task-dependent. An IR system needs to identify semantically similar (\textit{lake}, \textit{river}) and related (\textit{lake}, \textit{swim}) terms. A dependency parser benefits from the similarity of word usage. A language model exploits similarity in word meaning. A dialogue act tagging system relies on the similarity of the roles that the utterances play in the discourse.
+The examples show that similarity is a broad term that is task-dependent. An IR system needs to identify semantically similar (\textit{lake}, \textit{river}) and related (\textit{lake}, \textit{swim}) terms. A dependency parser benefits from the similarity of word usage. A language model exploits similarity in word meaning. A dialogue act tagging system relies on the similarity of the roles that the utterances play in discourse.
 
 A computational model that estimates similarity needs not only to take into account the different flavours of the similarity relation, but also to be able to measure similarity between pairs of words, between pairs of phrases or even between whole sentences, utterances or documents.
 
@@ -147,7 +147,7 @@ In practice, maximising this function produces vectors which maximise the condit
 %
 The word vectors are dense (their dimensionality is few hundreds). Because the objective in \eqref{eq:objective-func} is expensive to compute, negative sampling is used in practice, however its description is out of the scope of this work.
 
-The objective function in \eqref{eq:objective-func} is used by the skip-gram model: for every target-context pair, the objective function is based on predicting context words given a target word. The prediction can be reversed, that is, given the context words the target word of a context is predicted. Formally this objective is expressed as \cite{mikolov2013efficient} giving rise to the continuous bag-of-words model (CBOW):
+The objective function in \eqref{eq:objective-func} is used by the skip-gram model: for every target-context pair, the objective function is based on predicting context words given a target word. The prediction can be reversed, that is, given the context words the target word of a context is predicted. Formally this objective is expressed in \citet{mikolov2013efficient} giving rise to the continuous bag-of-words model (CBOW):
 \begin{equation}
  \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{t}|w_{t+j})
   \label{eq:objective-func-cbow}
@@ -165,7 +165,7 @@ Both local and global distributional approaches have advantages over the formal 
 Formal approaches to the semantics of natural language have built upon the classical idea of compositionality which states that the meaning of a sentence is a function of its parts \cite{Janssen2001}. Syntactic rules define how constituents are recursively combined to form other constituents until the whole sentence is covered. Translation rules define how semantic representations of the constituents are combined to get a semantic representation of the whole.
 
 In compositional type-logical approaches, predicate-argument structures representing phrases and sentences are built from their constituent parts by general operations such as beta-reduction within the lambda calculus \cite{THEO:THEO373}: for example, given a semantic representation of \emph{John}
-as $\mathit{John}'$, \emph{loves} as $\lambda y.\lambda x.\mathit{loves}'(x, y)$ and \emph{Mary} as $\mathit{Mary'}$, the sentence \emph{John loves Mary} can be constructed as
+as $\mathit{John}'$, \emph{loves} as $\lambda y.\lambda x.\mathit{loves}'(x, y)$ and \emph{Mary} as $\mathit{Mary'}$, the semantic representation of the sentence \emph{John loves Mary} can be constructed as
 %
 \begin{equation*}
 \lambda y.\lambda
@@ -227,11 +227,11 @@ categories and semantic types is defined as a function $\mathit{type}$:
   &\mathit{type}(A/B) = (\mathit{type}(B) \to \mathit{type}(A)) \\
   &\mathit{type}(B\backslash{}A) = (\mathit{type}(B) \to \mathit{type}(A))
 \end{align*}
-
+%
 Syntactic backward and forward application corresponds to functional
 application. Figure~\ref{fig:syn} shows the final parse tree.
 
-\begin{figure}
+\begin{figure}[b]
   \centering
   \Tree [
     .$s$~:~$\mathit{loves}'(\mathit{john}',\mathit{mary}')$
@@ -260,7 +260,7 @@ Given a suitable pairing between a syntactic grammar, semantic representations a
 \subsection{Compositional distributional semantics}
 \label{sec:composition}
 
-Methods based on the distributional hypothesis have recently been applied to many tasks, but mostly at the word level, for instance, word sense disambiguation \cite{ZhitomirskyGeffet2009} and lexical substitution \cite{Thater:2010:CSR:1858681.1858778}. They exploit the notion of similarity which correlates with the angle between word vectors \cite{Turney:2010:FMV:1861751.1861756}.
+Methods based on the distributional hypothesis have been recently applied to many tasks, but mostly at the word level, for instance, word sense disambiguation \cite{ZhitomirskyGeffet2009} and lexical substitution \cite{Thater:2010:CSR:1858681.1858778}. They exploit the notion of similarity which correlates with the angle between word vectors \cite{Turney:2010:FMV:1861751.1861756}.
 
 \emph{Compositional} distributional semantics goes beyond word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator associativity, which ignores the argument order, and thus the word order. As a result, \textit{John loves Mary} and \textit{Mary loves John} get identical representations.
 
@@ -371,7 +371,7 @@ In the example, the meaning is computed similarly to Kronecker, but a different 
                                     \end{bmatrix}
 \end{align*}
 
-The categorical framework of \newcite{DBLP:journals/corr/abs-1003-4394} requires the meaning of the verb to be a tensor of third order (it has to be a cube), but the Relational method of \newcite{Grefenstette:2011:ESC:2145432.2145580} constructs verb meanings as tensors of second order (they are matrices). To apply the categorical framework, \newcite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} embed the second order verb matrix into a third order space by a map $\sigma: N^2 \to N^3$. This map is one of the maps of the Frobenius algebra over vector space N.
+The categorical framework of \newcite{DBLP:journals/corr/abs-1003-4394} requires the meaning of a transitive verb to be a tensor of third order (it has to be a cube), but the Relational method of \newcite{Grefenstette:2011:ESC:2145432.2145580} constructs verb meanings as tensors of second order (they are matrices). To apply the categorical framework, \newcite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} embed the second order verb matrix into a third order space by a map $\sigma: N^2 \to N^3$. This map is one of the maps of the Frobenius algebra over vector space N.
 
 The Frobenius operation $\sigma$ turns a matrix into a cube by filling the extra dimension of the cube and gives some options on how the mapping can be implemented. The operators copy-subject and copy-object \cite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} implement this idea. The cube is formed using copy-subject (copy-object), then when one applies cube contraction on it with the object (the subject) and then matrix multiplication with the subject (the object).
 
@@ -489,7 +489,7 @@ A noun phrase can be similar to a noun, as in \textit{female lion} and \textit{l
 
 % \cite{Seaghdha:2011:PMS:2145432.2145545}.
 
-With verbs, similarity in context can be applied to compare a transitive and intransitive verb. For example, \textit{cycle} is similar to \textit{ride a bicycle}. Here, we see that \textit{a bicycle} disambiguates the verb \textit{ride} making the phrase similar to the verb \textit{cycle}. The connection between measuring similarity of a phrase and disambiguation has been noted in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
+With verbs, similarity in context can be applied to compare a transitive verb with an intransitive verb. For example, \textit{cycle} is similar to \textit{ride a bicycle}. Here, we see that \textit{a bicycle} disambiguates the verb \textit{ride} making the phrase similar to the verb \textit{cycle}. The connection between measuring similarity of a phrase and disambiguation has been noted in \newcite{kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
 
 % TODO: mention \cite{wieting2015paraphrase}
 
@@ -511,11 +511,11 @@ hypotheses of Firth and Harris. They bring together our understanding of the hum
 
 \newcite{Rubenstein:1965:CCS:365628.365657} performed an empirical study on the relationship between the similarity in word meaning and similarity of contexts they appear in. They build a list of 65 word pairs that range from highly synonymous to semantically unrelated.
 
-To obtain the similarity judgements, the human subjects were given a shuffled deck of cards. Each card contained a word pair from the list. They were asked to sort the cards by similarity, so that the most similar items appeared in the top of the deck. In addition to ranking, human subjects were asked to give similarity scores ranging from 4.0 to 0.0, where the higher value indicates the higher similarity level.
+To obtain the gold standard similarity judgements, the human subjects were given a shuffled deck of cards. Each card contained a word pair from the list. They were asked to sort the cards by similarity, so that the most similar items appeared in the top of the deck. In addition to ranking, human subjects were asked to give similarity scores ranging from 4.0 to 0.0, where the higher value indicates the higher similarity level.
 
-100 sentences for each distinct word in the list were written by 50 participants who did not provide similarity judgements to be used as the contexts. The words from the list had to be used as nouns and the sentences had to be at least 10 words long.
+To test the Distributional hypothesis, 100 sentences for each distinct word in the list were written by 50 participants who did not provide similarity judgements to be used as the contexts. The words from the list had to be used as nouns and the sentences had to be at least 10 words long.
 
-To measure similarity, the overlap was calculated over tokens and types. The token condition takes into account the appearance frequencies of context words, while the type condition only considers the word types. So if the word \textit{table} appeared 10 times as a context of a word of interest, in the case of the token condition all 10 occurrences are considered, in the case of the type condition only the fact that it appeared as a context is recorded.
+To estimate similarity, the overlap was calculated over tokens and types. The token condition takes into account the appearance frequencies of context words, while the type condition only considers the word types. So if the word \textit{table} appeared 10 times as a context of a word of interest, in the case of the token condition all 10 occurrences are considered, in the case of the type condition only the fact that it appeared as a context is recorded.
 
 Formally, the overlap $M_x$ over condition $x$ between the word context of words $A$ and $B$ was calculated as:
 %
@@ -527,7 +527,7 @@ where $N(A_xB_x)$ is the number of context words shared between $A$ and $B$ unde
 
 They found that the more similar words in meaning are the more context they share for both token and type conditions. Moreover, the relationship is strongest for the highly synonymous pairs, namely the pairs with similairty greater than 3.0.
 
-\newcite{1986-13502-00119860101} studied the similarity relation from the psychological perspective. They analysed the similarity judgements between the entries by their geometric structure. The geometric approach represents the entries as points in a multidimensional space so that the distance between them reflects the similarity.
+\newcite{1986-13502-00119860101} studied the similarity relation from the psychological perspective. They analysed the similarity judgements between the entries by their geometric structure. The geometric approach represents the entries as points in a multidimensional space so that the distance between them reflects similarity.
 
 They examined 100 datasets to identify common geometric patterns in human similarity judgements. The datasets contained entries that belonged to a single category such as \textit{verbs of judging} \cite{FILLENBAUM197454} or \textit{animal terms} \cite{HENLEY1969176}. The reason for category oriented similarity studies is that ``stimuli can only be compared in so far as they have already been categorised as identical, alike, or equivalent at some higher level of abstraction'' \cite{turner1987rediscovering}.
 
@@ -543,9 +543,9 @@ An important consequence is that high centrality values cannot be achieved in a 
 
 The Spearman correlation of the judgements given by two authors of the paper for all 3\,000 pairs is 0.68. The correlation with the average of their scores with the dataset scores is 0.84, which can be taken as the upper bound. The best presented results are 0.75 for WS353 and 0.78 for MEN, note that two different models produce them.
 
-\newcite{hill2014simlex} presented SimLex-999, a gold standard resource for evaluating distributional semantic models. In contrast to WS353 and MEN it focuses on similarity rather than relatedness. The words \textit{coffee} and \textit{cup} are related but not similar. The dataset consists of 666 noun-pairs, 222 verb-pairs and 111 adjective-pairs. 500 residents of the USA were recruited to collect human judgements. The average pairwise Spearman correlation between two participants is 0.67, however the average correlation of a human rater with the average of all other raters is 0.78.
+\newcite{hill2014simlex} presented SimLex-999, a gold standard resource for evaluating distributional semantic models. In contrast to WS353 and MEN, it focuses on similarity rather than relatedness. The words \textit{coffee} and \textit{cup} are related but not similar. The dataset consists of 666 noun-pairs, 222 verb-pairs and 111 adjective-pairs. 500 residents of the USA were recruited to collect human judgements. The average pairwise Spearman correlation between two participants is 0.67, however the average correlation of a human rater with the average of all other raters is 0.78.
 
-They tested several models on WS353, MEN and WordSim-999. They showed that existing models achieved lower correlation on SimLex-999 than on WS353 and MEN suggesting that the new dataset required development of methods that are strictly focused on similarity. The best reported results are 0.44 on WS353, 0.48 on MEN and 0.28 on SimLex-999, these are different models, but all of them are trained on the 150 million word RCV1 Corpus \cite{lewis2004rcv1}. Neural models trained on a larger corpus (Wikipedia) yield higher results as shown by \newcite{TACL570} and \newcite{baroni-dinu-kruszewski:2014:P14-1}.
+They tested several models on WS353, MEN and WordSim-999. They showed that existing models achieved lower correlation on SimLex-999 than on WS353 and MEN suggesting that the new dataset required development of methods that are strictly focused on similarity. The best reported results in that study are 0.44 on WS353, 0.48 on MEN and 0.28 on SimLex-999, these are different models, but all of them are trained on the 150 million word RCV1 Corpus \cite{lewis2004rcv1}. Neural models trained on a larger corpus (Wikipedia) yield higher results as shown by \newcite{TACL570} and \newcite{baroni-dinu-kruszewski:2014:P14-1}.
 
 Table~\ref{tab:lexical-dataset-comparison} presents the key models and the results they achieved on WS353, MEN and SimLex-999.
 
@@ -554,11 +554,11 @@ Table~\ref{tab:lexical-dataset-comparison} presents the key models and the resul
 
 The variance of results on word similarity tasks can be explained by the differences in algorithms or by difference in model parameters, corpus used and other factors. For example, \newcite{baroni-dinu-kruszewski:2014:P14-1} uses a corpus of 2.8 billion tokens and outperforms \newcite{hill2014simlex}, who uses a corpus of 0.15 billion tokens, on MEN by 0.28 points with a distributional model and by 0.37 with neural word embeddings.
 
-\newcite{Bullinaria2007} presented a thorough study of the parameters of distributional models. They tested various vector space parameters and similarity measures.
+\newcite{Bullinaria2007} presented a thorough study of parameters of distributional models. They tested various vector space parameters and similarity measures.
 
-Instead of raw co-occurrence counts they used the conditional probability of a context word appearing close to a target word $P(c|t)$. In addition to that, they used \emph{point-wise mutual information} $\operatorname{PMI(c,t)} = \log\left(\frac{P(c,t)}{P(c)P(t)}\right)$ and positive PMI, which nullifies negative values, and probability ratio $\frac{P(c|t)}{P(c)}$. They varied the vector space dimensionality from 1 to 10\,0000 dimensions.  Cosine, Euclidean and City Block geometric measures were used to estimate similarity. They used the 87.9 million word British National Corpus (BNC) and performed an exhaustive search across the parameter combinations.
+Instead of raw co-occurrence counts they used the conditional probability of a context word appearing close to a target word $P(c|t)$. In addition to that, they used \emph{point-wise mutual information} $\operatorname{PMI(c,t)} = \log\left(\frac{P(c,t)}{P(c)P(t)}\right)$ and positive PMI, which nullifies negative values, and probability ratio $\frac{P(c|t)}{P(c)}$. They varied the vector space dimensionality from 1 to 100\,000 dimensions.  Cosine, Euclidean and City Block geometric measures were used to estimate similarity. They used the 87.9 million word British National Corpus (BNC) and performed an exhaustive search across the parameter combinations.
 
-A vector space with vector components computed with positive PMI and cosine similarity measure performed best in their experiments. They also showed that the performance depends on the size of the corpus used: the larger the corpus, the better the results. The context window of size one produced the best results. The model performance peaked when 1\,000 dimensional vector space was used and dropped afterwards.
+A vector space with vector components computed with positive PMI and cosine similarity measure performed best in their experiments. They also showed that performance depends on the size of the corpus used: the larger the corpus, the better the results. The context window of size one produced the best results. The model performance peaked when 1\,000 dimensional vector space was used and dropped as dimensionality increased  afterwards.
 
 \newcite{kiela-clark:2014:CVSC} performed a systematic study of distributional models on various datasets including WS353 and MEN. They confirmed findings of \newcite{Bullinaria2007} that larger corpora lead to better performance. They suggested using ukWaC (2 billion tokens) over the BNC with a small context window of size less than 5 from each side. Positive PMI was the best performed measure in combination with the \emph{correlation similarity} measure, which is the mean-adjusted cosine similarity. The dimensionality of 50\,000 appeared to be optimal.
 
@@ -568,7 +568,7 @@ A vector space with vector components computed with positive PMI and cosine simi
 
 They used a linear regression model to determine the importance of individual parameters and their combinations. The parameters of a distributional model---such as the weighting scheme, vector space dimensionality and similarity metric---were considered predictors of its performance: the parameters of a distributional model were independent parameters of a linear model and the performance of the distributional model was a dependent variable. Analysis of variance was used to determine the most important parameters and their interactions.
 
-They showed that a statistical association measures---such as t-score or z-score \cite{Evert05}---with the combination of ranked-based prediction yielded better results over cosine similarities yielded the best results. Would they performed only iterative tuning, they would test ranked-based prediction only with the PMI weighting, which underperformed in their experiments.
+They showed that a statistical association measures---such as t-score or z-score \cite{Evert05}---with the combination of ranked-based prediction yielded better results over cosine similarity. Would they performed only iterative tuning, they would test ranked-based prediction only with the PMI weighting, which underperformed in their experiments.
 
 In a successive study that included word similarity, \citet{lapesa2014large} showed that the combination of the similarity score together with the weighting scheme was the most important parameter combination, supporting the findings of \newcite{Bullinaria2007} and \newcite{kiela-clark:2014:CVSC}, who suggested to use PMI together with cosine similarity.
 
@@ -600,11 +600,11 @@ In general, there is no systematic study of parameters of compositional models s
 
 Early compositional studies focused on the compositional operators, using lexical representations that are good in lexical tasks. Because parameters were selected iteratively, the fact that one operator outperformed other could be due to the specificity of lexical representations. Nevertheless, experiments based on iterative parameter selection gave positive results, see, for example the papers that introduced the compositional datasets described above \citet{Grefenstette:2011:ETV:2140490.2140497,kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
 
-\citet{blacoe2012comparison} is---to the best of our knowledge---the first paper that, apart from identifying the best compositional operator, also  explicitly contrasted two kinds of lexical representations: shallow that are based on the co-occurrence of words and embeddings that are learned by a neural language model \cite{bengio2006,Collobert:2008:UAN:1390156.1390177}. They concluded that the shallow approaches are as good as their computationally more intensive counterparts based on language models in phrase similarity and paraphrase detection tasks. They also identified the importance of the combination of lexical representation and the compositional method.
+\citet{blacoe2012comparison} is---to the best of our knowledge---the first paper that, apart from identifying the best compositional operator, also  explicitly contrasted two kinds of lexical representations: shallow that are based on the co-occurrence of words and embeddings that are learned by a neural language model \cite{bengio2006,Collobert:2008:UAN:1390156.1390177}. They concluded that shallow approaches are as good as their computationally more intensive counterparts based on language models in phrase similarity and paraphrase detection tasks. They also identified the importance of the combination of lexical representation and the compositional method.
 
-\citet{milajevs-EtAl:2014:EMNLP2014}, the work that set the ground for this thesis, also contrasts global and local representations (Section~\ref{sec:distributional-representations}) in compositional setting. However, in contrast to \citet{blacoe2012comparison}, local representations showed robust performance yielding better results on a number of tasks and were recommended for usage in compositional experiments.
+\citet{milajevs-EtAl:2014:EMNLP2014}, the work that set the ground for this thesis, also contrasts global and local representations (Section~\ref{sec:distributional-representations}) in compositional setting. However, differently to \citet{blacoe2012comparison} experiments, local representations showed robust performance yielding better results on a number of tasks and were recommended for usage in compositional experiments.
 
-In the literature, the contrast between local and global models is also expressed as count-based models and prediction-based models, after a paper with a flashy title ``Don’t count, predict!~A systematic comparison of context-counting vs.~context-predicting semantic vectors'' by \citet{baroni-dinu-kruszewski:2014:P14-1}. The work consecutive to \citet{milajevs-EtAl:2014:EMNLP2014} (consequently or coincidentally) focused on predictive lexical representations.
+In the literature, local and global models are also referred as count-based models and prediction-based models respectively, after a paper with a flashy title ``Don’t count, predict!~A systematic comparison of context-counting vs.~context-predicting semantic vectors'' by \citet{baroni-dinu-kruszewski:2014:P14-1}. The work consecutive to \citet{milajevs-EtAl:2014:EMNLP2014} (consequently or coincidentally) focuses on predictive lexical representations.
 
 The CBOW model of local lexical representations (Section~\ref{sec:distributional-representations}) implicitly assumes additive interaction between context words to predict the target word. However, categorical compositional operators (Section~\ref{sec:composition}) make use of multiplication as a part of composition. This inconsistency was noticed in \citet{kim2015neural}. They changed the objective function \eqref{eq:objective-func-cbow} to include multiplication:
 %
@@ -613,7 +613,7 @@ The CBOW model of local lexical representations (Section~\ref{sec:distributional
   \label{eq:objective-func-cbow-mult}
 \end{equation}
 %
-This change improved results of categorical composition methods on the sentence similarity dataset (Section~\ref{sec:sentence-similarity}), but not on the verb disambiguation task (Section~\ref{sec:disamb}).
+This change improved results of categorical compositional methods on the sentence similarity dataset (Section~\ref{sec:sentence-similarity}), but not on the verb disambiguation task (Section~\ref{sec:disamb}).
 
 In the categorical framework, the result of composition depends on how the tensors for transitive verbs are constructed. The most straightforward approach is to represent transitive verbs as matrices (saving a dimension) as it is shown in (\ref{eq:verb-matrix}) on page~\pageref{eq:verb-matrix}. However, the number of elements in these matrices is still high and equal to the square of the number of elements in vectors for nouns. To cope with this problem various solutions were tried: linear-regression of the full tensors \cite{grefenstette-et-al:2013:IWCS2013}, the combination of regression with a plausibility space \cite{polajnar-clark:2014:EACL} and low-rank tensor approximation \cite{fried-polajnar-clark:2015:ACL-IJCNLP}. While these methods not necessarily lead to the highest results, they considerably reduce the amount of data associated with lexical entries.
 
@@ -628,7 +628,7 @@ Similarity measurement of words and multi-word units is theoretically challengin
 
 According to \newcite{harris1954distributional}, the word meaning does not need to be obtained to measure similarity, instead, the differences of occurrences of two words quantify the difference in their meaning. In this way the problems with representing meaning in isolation raised by Frege are avoided, because word meaning is not constructed.
 
-The principle of compositionality, that the representations of compounds are built from their parts, is the hallmark of categorical compositional semantics \cite{DBLP:journals/corr/abs-1003-4394}. It extends the composition mechanism from formal semantics by replacing the representation of atoms and relations with tensors of various orders.
+The principle of compositionality, that the representations of compounds are built from their parts, is the hallmark of categorical compositional semantics \cite{DBLP:journals/corr/abs-1003-4394}. It extends the composition mechanism from formal semantics by replacing the symbolic representation of atoms and relations with tensors of various orders.
 
 In categorical grammars, the meaning of a phrase is obtained by applying backward and forward application rules. Consider a phrase \textit{John walks}. In this example, the string \textit{John} is the atom $\mathit{John'}$ of category $\mathtt{np}$ and type $e$, \textit{walks} is the relation $\lambda x.\mathit{walks'}(x)$ of category $\mathtt{np\backslash{}s}$ and type $(e \to t)$. During the phrase composition, the backward application rule is applied, so the category of the whole string becomes $\mathtt{s}$, its type is $t$ which is either \textit{true} or \textit{false} and the meaning is computed by the evaluation of the formula $\mathit{walks'}(\mathit{John'})$, basically the atom $\mathit{John'}$ is applied to the formula $\lambda x.\mathit{walks'(x)}$.
 
