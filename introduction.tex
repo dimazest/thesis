@@ -1,13 +1,7 @@
 \chapter{Introduction}
 \label{ch:introduction}
 
-\lettrine[lines=5,loversize=0.25]{C}{omputers} require specially designed programming languages to be controlled, despite the fact that they play a crucial role in our lives. Ideally, the interaction with a computer should not be different from the interaction with a human. Computational linguistics is one of the fields that addresses this problem.
-% * <sdyck@ualberta.ca> 2017-03-01T02:04:22.400Z:
-% 
-% > require specially designed programming languages to be controlled, despite the fact that they play a crucial role in our lives
-% This sentence doesn't really make sense. What do the programming languages have to do with the crucial role in our lives? Consider rewording.
-% 
-% ^.
+\lettrine[lines=5,loversize=0.25]{C}{omputers} require specially designed programming languages to be controlled, despite the fact that computers play a crucial role in our lives. Ideally, the interaction with a computer should not be different from the interaction with a human. Computational linguistics is one of the fields that addresses this problem.
 
 Computers need to understand human language in order to be controlled by people in a casual manner. However, different tasks require various levels of language understanding. For instance, even if one does not recognise or know the language of a piece of text in Figure~\ref{fig:lv}, one can tell that there are 39 words and that there is only one sentence. One can even argue that this is a piece of poetry and the first line is its title, basing the argument on the shape of the text.
 
@@ -46,13 +40,7 @@ The compositional models come in many flavours. \citet{mitchell2010composition} 
 
 Until now, the main focus of the evaluation of compositional similarity models was the compositional operators. The word representations are usually taken such that they are good in lexical tasks. The fact that there might be a dependency between the word representations and the compositional methods is mostly overlooked. It is assumed that the findings based on the lexical experiments also apply to the compositional models.
 
-The goal of this thesis is to study the link between the lexical representations and the methods of composition for similarity estimation. Once the optimal lexical parameters are identified for all compositional operators, the operators can be compared in the most fair way.
-% * <sdyck@ualberta.ca> 2017-03-01T02:24:09.857Z:
-% 
-% > fair
-% I would consider using another word here, it just sounds a bit awkward. Maybe something like: " the operators can be compared in most accurate way." ?
-% 
-% ^.
+The goal of this thesis is to study the link between the lexical representations and the methods of composition for similarity estimation. Once the optimal lexical parameters are identified for all compositional operators, the operators can be compared in the most accurate way.
 
 The goal is expressed in two research questions:
 \begin{itemize}
@@ -66,13 +54,7 @@ The similarity measure defines how similarity is computed given two representati
 
 Regarding the first research question, our systematic study of parameters reveals that the performances of count-based distributional models are competitive with the current state-of-the-art lexical similarity estimation methods and even outperform some of them in the compositional setting. Notably, we show an improvement over the predictive methods \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}.
 
-To answer the second research question, we extensively test composition-based on point-wise addition and multiplication of the weighted co-occurrence counts to identify the best lexical representations for composition (Chapters~\ref{sec:sentential} and \ref{sec:universal-param-selection}). We find that, indeed, there is a link between compositional operators and lexical representations.
-% * <sdyck@ualberta.ca> 2017-03-01T02:29:50.892Z:
-% 
-% > composition-based 
-% composition-based what? models? settings?
-% 
-% ^.
+To answer the second research question, we extensively test compositional models to identify the best lexical representations for composition (Chapters~\ref{sec:sentential} and \ref{sec:universal-param-selection}). We find that, indeed, there is a link between compositional operators and lexical representations.
 
 By taking into account the dependency between compositional operators and lexical representations,  we achieve state-of-the-art results with additive and multiplicative composition. By reusing the best lexical representations with categorical compositional operators \cite{DBLP:journals/corr/abs-1003-4394}, we improve their performance. Moreover, we show that the optimal parameters to measure the similarity between words (Chapter~\ref{sec:lexical}) are different from the optimal parameters to measure similarity between phrases.
 
