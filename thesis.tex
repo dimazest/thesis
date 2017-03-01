@@ -260,7 +260,7 @@ The model parameters we have identified are competitive with other meaning model
 
 \paragraph{Optimal parameter choice}
 
-The experiments (Chapters~\ref{sec:lexical}, \ref{sec:sentential} and \ref{sec:universal-param-selection}) show that the optimal parameter choice depends on dimensionality. While there are more optimal choices for particular datasets, we suggest using SCPMI with $\log n$ frequency, global context probabilities, shifted $k=0.7$ values and correlation as the similarity measure with at least 20\,000 dimensional space. For categorical tasks, we suggest 3\,000 dimensions and cosine as the similarity measure, keeping other parameters the same.
+The experiments (Chapters~\ref{sec:lexical}, \ref{sec:sentential} and \ref{sec:universal-param-selection}) show that the optimal parameter choice depends on dimensionality. While there are more optimal choices for particular datasets, we suggest using SCPMI with $\log n$ frequency, global context probabilities, shifted $k=0.7$ values and correlation as the similarity measure with at least 20\,000 dimensional space. For compositional tasks, we suggest 3\,000 dimensions and cosine as the similarity measure, keeping other parameters the same.
 
 High-dimensional models contain more noise signal because by design they include co-occurrence counts of lower frequencies. The $\log n$ frequency component, context distribution smoothing and PMI value shifting minimise the influence of noise that presents in the co-occurrence data. In contrast to high-dimensional models, low-dimensional models are based on less noisy data, making noise handling unnecessary.
 
