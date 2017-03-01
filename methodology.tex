@@ -10,7 +10,7 @@
 
 The first question is applicable in a situation when conceptually different methods are compared, for example, the ``count'' and  ``predict'' methods in \newcite{baroni-dinu-kruszewski:2014:P14-1} or when the best performance score is required. The second question is applicable to a study of the difference in performance of parameters within a conceptual method, for instance, the comparison of neighbour rank and distance measure in predicting semantic priming of \newcite{lapesa-evert:2013:CMCL}, where the goal is not to identify the best model, but to contrast parameter instances.
 
-The co-occurrence information can be used in different ways to build distributional models of meaning \cite{Turney:2010:FMV:1861751.1861756}. This has led to a series of  systematic parameter studies \cite{Bullinaria2007,BullinariaLevy2012,kiela-clark:2014:CVSC,lapesa2014large,TACL570,baroni-dinu-kruszewski:2014:P14-1}. All of them explore numerous parameter combinations to report the best scores and derive recommendations for the optimal parameter choice.
+The co-occurrence information can be used in different ways to build distributional models of meaning \cite{Turney:2010:FMV:1861751.1861756}. This has led to a series of systematic parameter studies \cite{Bullinaria2007,BullinariaLevy2012,kiela-clark:2014:CVSC,lapesa2014large,TACL570,baroni-dinu-kruszewski:2014:P14-1}. All of them explore numerous parameter combinations to report the best scores and derive recommendations for the optimal parameter choice.
 
 \newcite{lapesa2014large} make one step further in studying parameter behaviour by identifying the most influential parameters and their two-way interactions with a linear model, which is fitted so that parameters of a vector space model predict the performance of the vector space model on a task. It avoids iterative parameter tuning by testing all possible parameter combinations, so that unknown parameter interactions are captured. They avoid overfitting\footnotemark{} and noise in the data by using a linear regression model.
 
@@ -25,11 +25,11 @@ The first goal of this work is to provide the representative performance measure
 \section{Strategies for avoiding overfitting}
 \label{sec:avoiding-overfitting}
 
-This work adopts the strategy of \newcite{lapesa2014large} to avoid overfitting and reduce noise in parameter selection. Following them, we use several evaluation datasets one by one. In this case we are able to identify situations when a model behaves particularly well on one dataset, but poorly on another, which is an example of overfitting.
+This work adopts the strategy of \newcite{lapesa2014large} to avoid overfitting and reduce noise in parameter selection. Following them, we use several evaluation datasets one by one. In this case, we are able to identify situations when a model behaves particularly well on one dataset, but poorly on another, which is an example of overfitting.
 
 To be able to identify models that perform well on several datasets, we also test the models on all datasets simultaneously by aggregating model performance scores. We do not aggregate dataset entries by, for example, taking a union of all of the entries in them because the judgements are on different scales and the participants were given different instructions.
 
-The models are tested on two word similarity datasets: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. These two datasets are chosen because they are larger than other previously used datasets. \citet{W16-2502} argue that the score variance is strongly dependent on the size of the evaluation dataset: the larger the dataset the more reliable experiment results are. SimLex-999 consists of 999 word pairs and MEN consists of 3\,000 word pairs, making them the largest lexical datasets available to us. Other alike datasets are much smaller in size: 353 word pairs \cite{2002:PSC:503104.503110} and 65 word pairs \cite{Rubenstein:1965:CCS:365628.365657} for example.
+The models are tested on two-word similarity datasets: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. These two datasets are chosen because they are larger than other previously used datasets. \citet{W16-2502} argue that the score variance is strongly dependent on the size of the evaluation dataset: the larger the dataset the more reliable experiment results are. SimLex-999 consists of 999 word pairs and MEN consists of 3\,000 word pairs, making them the largest lexical datasets available to us. Other alike datasets are much smaller in size: 353 word pairs \cite{2002:PSC:503104.503110} and 65 word pairs \cite{Rubenstein:1965:CCS:365628.365657} for example.
 
 The three phrasal  datasets that are employed in this study are KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ESC:2145432.2145580} and PhraseRel (Section~\ref{sec:phraserel}). They consist of phrases with controlled syntax (all of them are subject-verb-object phrases) and cover two relationships between phrases: similarity and relevance.
 
@@ -50,7 +50,7 @@ However, as previously discussed, it might be prone to overfitting.
 
 \subsection{Cross-validation}
 
-Cross-validation \cite{Ney1997} is a widely used model selection method where parameter selection is based on the average performance of the training splits over several evaluation runs. Cross validation splits the dasets to $N$ parts. Then $N$ runs are performed where each part is used as a testing split and the rest is used as a training split such that the $n$th run will use the $n$th part as a testing split. Training splits are used to tune parameters. The average performance over the $N$ testing splits is reported. Note that different model parameters might be used accross testing splits.
+Cross-validation \cite{Ney1997} is a widely used model selection method where parameter selection is based on the average performance of the training splits over several evaluation runs. Cross-validation splits the datasets to $N$ parts. Then $N$ runs are performed where each part is used as a testing split and the rest is used as a training split such that the $n$th run will use the $n$th part as a testing split. Training splits are used to tune parameters. The average performance over the $N$ testing splits is reported. Note that different model parameters might be used across testing splits.
 
 Even though cross-validation avoids overfitting, its performance results are not comparable with the best model selection because they are based on averages over the testing splits. Moreover, existing datasets are not made with such an evaluation in mind \cite{W16-2506}, and there is no common agreement on how the datasets should be split to the training and testing parts.
 
@@ -95,7 +95,7 @@ An alternative solution is to increment the probability ratio by 1, which also m
   \operatorname{CPMI}(x, y) = \log\left( 1 +  \frac{P(x,y)}{P(x)P(y)} \right)
 \end{equation}
 
-Another issue with PMI is its bias towards rare events. Consider a context $c_r$  with very low probability (it could be a rare context word, a tokenization error or a misspelled word). The probability $P(c_r)$ will be much lower than for other context, at the same time the PMI values for that feature will be higher. It is the same for rare target words. We refer to this issue as PMI's \textit{Achilles heel}.
+Another issue with PMI is its bias towards rare events. Consider a context $c_r$  with very low probability (it could be a rare context word, a tokenization error or a misspelled word). The probability $P(c_r)$ will be much lower than for other contexts, and at the same time the PMI values for that feature will be higher. It is the same for rare target words. We refer to this issue as PMI's \textit{Achilles heel}.
 
 \subsubsection{Shifted PMI (neg)}
 \label{sec:shifted-pmi}
@@ -208,7 +208,7 @@ As context words we select the 1K, 2K, 3K, 5K, 10K, 20K, 30K, 40K and 50K most f
 \subsubsection{Similarity measure}
 \label{sec:similarity-measure}
 
-To be able to measure the similarity of two words, we need to be able to compare their vectors.\footnotemark{} A very high-level approach is to look at how two words agree on their features. If two word vectors tend to have approximately equal values for most of their components, then this is a good indication of the similarity of the words they represent.
+To be able to measure the similarity of two words, we need to be able to compare their vectors.\footnotemark{} A very high-level approach is to look at how two words agree on their features. If two-word vectors tend to have approximately equal values for most of their components, then this is a good indication of the similarity of the words they represent.
 
 \footnotetext{Even though similarity is not strictly a parameter of a distributional model, it is treated the same as a model parameter.}
 
@@ -366,7 +366,7 @@ We expect that the word order sensitive models outperform the models that ignore
   Compositional methods that include addition perform best with either PMI or SPMI, while methods that include multiplication should work best with CPMI or SCPMI.
 \end{hyp}
 
-One of the reasons for this is the presence of negative values. For example, in the case of multiplication as a compositional operator, the sign of a vector component depends on the number of the corresponding negative components of the constituents. If the number of negative values is odd, then the resulting value will be negative---this makes the difference between 0.001 and -0.001 significant. In the first case, the value means that the co-occurrence pair is weakly associated. But in the second case, the value means that the co-occurrence is weakly unassociated. This also applies to categorical operators where the signs of the result vector components depends on the number of multiplication operations that leads to them.
+One of the reasons for this is the presence of negative values. For example, in the case of multiplication as a compositional operator, the sign of a vector component depends on the number of the corresponding negative components of the constituents. If the number of negative values is odd, then the resulting value will be negative---this makes the difference between 0.001 and -0.001 significant. In the first case, the value means that the co-occurrence pair is weakly associated. But in the second case, the value means that the co-occurrence is weakly unassociated. This also applies to categorical operators where the signs of the result vector components depend on the number of multiplication operations that leads to them.
 
 %%% Local Variables:
 %%% mode: latex

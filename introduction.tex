@@ -2,14 +2,20 @@
 \label{ch:introduction}
 
 \lettrine[lines=5,loversize=0.25]{C}{omputers} require specially designed programming languages to be controlled, despite the fact that they play a crucial role in our lives. Ideally, the interaction with a computer should not be different from the interaction with a human. Computational linguistics is one of the fields that addresses this problem.
+% * <sdyck@ualberta.ca> 2017-03-01T02:04:22.400Z:
+% 
+% > require specially designed programming languages to be controlled, despite the fact that they play a crucial role in our lives
+% This sentence doesn't really make sense. What do the programming languages have to do with the crucial role in our lives? Consider rewording.
+% 
+% ^.
 
-Computers need to understand human language in order to be controlled by people in a casual manner. However, different tasks require various levels of language understanding. For instance, even if one does not recognise or know the language of a piece of text in Figure~\ref{fig:lv}, one can tell that there are 39 words and that there is only one sentence. One can even argue that this is a piece of poetry and the first line is its title basing the argument on the shape of the text.
+Computers need to understand human language in order to be controlled by people in a casual manner. However, different tasks require various levels of language understanding. For instance, even if one does not recognise or know the language of a piece of text in Figure~\ref{fig:lv}, one can tell that there are 39 words and that there is only one sentence. One can even argue that this is a piece of poetry and the first line is its title, basing the argument on the shape of the text.
 
-The conclusions above require neither the complete understanding of the language nor the meaning of the text. The knowledge that texts---at least in some languages---consist of words separated by a space and how poems are written is enough. Moreover, knowing the letter distribution across all human languages or having a list of words in them, one would conclude that the text is in Latvian. This information can be provided without knowing what the text is about and are currently successfully done by computers.
+The conclusions above require neither the complete understanding of the language nor the meaning of the text. The knowledge of the format that poems are written in and that texts---at least in some languages---consist of words separated by a space is enough. Moreover, knowing the letter distribution across all human languages, or having a list of words in them, one would conclude that the text is in Latvian. These conclusions can be gathered without knowing what the text is about and are currently successfully implemented by computers.
 
 \input{poem.tex}
 
-On the other hand, a task that asks for a list of associations, an essay or a painting inspired by a piece of text demands a much better understanding of the text that requires a deeper knowledge of the language and greater familiarity with the culture. Luckily, nowadays these kinds of tasks are not expected to be completed by computers in day-to-day life because people enjoy doing these things themselves.
+On the other hand, a task that asks for a list of associations---an essay or a painting inspired by a piece of text---demands a much better understanding of the text that requires a deeper knowledge of the language and greater familiarity with the culture. Luckily, nowadays these kinds of tasks are not expected to be completed by computers in day-to-day life because people generally enjoy doing these things themselves.
 
 However, it is reasonable to ask a computer the following questions regarding the text:
 \begin{inparaenum}[a)]
@@ -26,21 +32,27 @@ Text summarisation, machine translation, information extraction and information 
 
 While it is not completely known how meaning is represented in the human mind, it is argued that similarity between two events or objects is based on the way humans represent them \cite{WCS:WCS1282}. Similarity judgements are easy to collect. Many similarity datasets exist that serve as proxies for evaluation of computational models of meaning.
 
-The distributional hypothesis of \citet{harris1954distributional}---that semantically similar words tend to appear in similar contexts---stands behind distributional models of meaning. In Figure~\ref{fig:en}, the side-street occurs with the words as \textit{slot}, \textit{noise}, \textit{hustle} and \textit{smells}. Such a company of words starkly contrasts with the words used to describe the woman: she is young, attractive and active.
+The distributional hypothesis of \citet{harris1954distributional}---that semantically similar words tend to appear in similar contexts---stands behind distributional models of meaning. In Figure~\ref{fig:en}, the side-street occurs with the words \textit{slot}, \textit{noise}, \textit{hustle} and \textit{smells}. Such a company of words starkly contrasts with the words used to describe the woman: she is \textit{young}, \textit{attractive} and \textit{active}.
 
-Moreover, the descriptive neighbouring words of the side-street bring images of other things similar to it that are noisy and smell. At the same time, the descriptive terms of the woman fire in the mind attractive and active associations making the difference between the street and the woman even stronger!
+Moreover, the descriptive, neighbouring words of the side-street bring images of other things similar to it that are noisy and smell. At the same time, the descriptive terms of the woman fire in the mind attractive and active associations, making the difference between the side-street and the woman even stronger.
 
-Distributional models of word meaning (also known as lexical models of meaning) are based on the co-occurrence statistics of words in a large collection of texts \cite{Turney:2010:FMV:1861751.1861756,mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}. The main challenge is to use the co-occurrence statistics efficiently. Because, even though the word \textit{and} appears in the neighbourhood of the word \textit{side-street} in the poem, it is much less descriptive of the properties of the street than the word \textit{slot}. Nowadays, lexical models are well studied and their estimates of the similarity between word pairs are very close to the human judgements \cite{TACL570,baroni-dinu-kruszewski:2014:P14-1,Halawi:2012:LLW:2339530.2339751}.
+Distributional models of word meaning (also known as lexical models of meaning) are based on the co-occurrence statistics of words in a large collection of texts \cite{Turney:2010:FMV:1861751.1861756,mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}. The main challenge is to use the co-occurrence statistics efficiently. Because, even though the word \textit{and} appears in the neighbourhood of the word \textit{side-street} in the poem, it is much less descriptive of the properties of the street than the word \textit{slot}. Nowadays, lexical models are well-studied, and their estimates of the similarity between word pairs are very close to human judgements  for the same task\cite{TACL570,baroni-dinu-kruszewski:2014:P14-1,Halawi:2012:LLW:2339530.2339751}.
 
-The estimation of the similarity of multi-word expressions currently is an active research topic. In comparison to the lexical models, the main challenge is the data sparsity. There are infinitely many multi-word expressions and most of them appear only once in a corpus. Even if we take all the books on Earth and write down all the utterances that were said, the most of the sentences appear only once.
+The estimation of the similarity of multi-word expressions is currently an active research topic. In comparison to the lexical models, where data are plentiful, the main challenge is data sparsity. There are infinitely many multi-word expressions, and most of them appear only once in a corpus. Even if we take all the books on Earth and write down all the utterances that were said, most of the sentences encountered would appear only once.
 
-The dominant solution to the data sparsity problem is to build a representation of a multi-word expression compositionally: that is, the same way Lego pieces are assembled into vehicles, buildings and many other types of objects. One advantage of such an approach is that the methods for obtaining the word representations can be reused. The bricks are there, the question is how to assemble them together.
+The dominant solution to the data sparsity problem is to build a compositional representation of a multi-word expression; that is, the same way in which Lego pieces are assembled into vehicles, buildings and many other types of objects. One advantage of such an approach is that the methods for obtaining word representations can be reused. The bricks are there, the question is how to assemble them together.
 
-The compositional models come in many flavors. \citet{mitchell2010composition} propose a method that ignores the word order and any grammatical structure of an expression. \citet{DBLP:journals/corr/abs-1003-4394,baroni2014frege} investigate how the grammatical structure can be taken into account. Several implementations of \citet{DBLP:journals/corr/abs-1003-4394}'s theoretical proposal exist, see the work of \citet{Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP}. Chapter~\ref{cha:background} gives an overview of lexical representations, the methods of composition and evaluation.
+The compositional models come in many flavours. \citet{mitchell2010composition} propose a method that ignores the word order and any grammatical structure of an expression. \citet{DBLP:journals/corr/abs-1003-4394,baroni2014frege} investigate how the grammatical structure can be taken into account. Several implementations of \citet{DBLP:journals/corr/abs-1003-4394}'s theoretical proposal exist---see the work of \citet{Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP}. Chapter~\ref{cha:background} gives an overview of lexical representations, the methods of composition and evaluation.
 
-The main focus of the evaluation of compositional similarity models up to now is the compositional operators. The word representations are usually taken such that they are good in lexical tasks. The fact that there might be a dependency between the word representations and the compositional methods is mostly overlooked. It is assumed, that the findings based on the lexical experiments also apply to the compositional models.
+Until now, the main focus of the evaluation of compositional similarity models was the compositional operators. The word representations are usually taken such that they are good in lexical tasks. The fact that there might be a dependency between the word representations and the compositional methods is mostly overlooked. It is assumed that the findings based on the lexical experiments also apply to the compositional models.
 
 The goal of this thesis is to study the link between the lexical representations and the methods of composition for similarity estimation. Once the optimal lexical parameters are identified for all compositional operators, the operators can be compared in the most fair way.
+% * <sdyck@ualberta.ca> 2017-03-01T02:24:09.857Z:
+% 
+% > fair
+% I would consider using another word here, it just sounds a bit awkward. Maybe something like: " the operators can be compared in most accurate way." ?
+% 
+% ^.
 
 The goal is expressed in two research questions:
 \begin{itemize}
@@ -50,20 +62,26 @@ The goal is expressed in two research questions:
 
 To answer these questions, we perform a large-scale study of similarity models over several parameters. The parameters are split into three kinds: the similarity measure, the weighting scheme and the amount of information associated with every item.
 
-The similarity measure defines how similarity is computed given two representations. The weighting scheme serves two roles. First of all, it distinguishes informative co-occurrence information from uninformative. Second, the weighting scheme minimises the effect of noise in the co-occurrence data. The amount of information for distributional modes is how many distinct words are considered to be valid neighbouring words. This usually varies from few thousand most frequent words to the whole vocabulary.  The description of model parameters is given in Chapter~\ref{sec:methodology}.
+The similarity measure defines how similarity is computed given two representations. The weighting scheme serves two roles. First, it distinguishes informative co-occurrence information from uninformative. Second, the weighting scheme minimises the effect of noise in the co-occurrence data. The amount of information for distributional modes is how many distinct words are considered to be valid, neighbouring words. This usually varies from a few thousand most frequent words to the whole vocabulary.  The description of model parameters is given in Chapter~\ref{sec:methodology}.
 
-Regarding the first research question, our systematic study of parameters reveals that the performance of count-based distributional models is competitive with the current state-of-the-art lexical similarity estimation methods and even outperform some of them in compositional setting. Especially, we show and improvement over the predictive methods \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}.
+Regarding the first research question, our systematic study of parameters reveals that the performances of count-based distributional models are competitive with the current state-of-the-art lexical similarity estimation methods and even outperform some of them in the compositional setting. Notably, we show an improvement over the predictive methods \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}.
 
-To answer the second research question, we extensively test composition based on point-wise addition and multiplication of the weighted co-occurrence counts to identify the best lexical representations for composition (Chapters~\ref{sec:sentential} and \ref{sec:universal-param-selection}). We find that indeed, there is a link between compositional operators and lexical representations.
+To answer the second research question, we extensively test composition-based on point-wise addition and multiplication of the weighted co-occurrence counts to identify the best lexical representations for composition (Chapters~\ref{sec:sentential} and \ref{sec:universal-param-selection}). We find that, indeed, there is a link between compositional operators and lexical representations.
+% * <sdyck@ualberta.ca> 2017-03-01T02:29:50.892Z:
+% 
+% > composition-based 
+% composition-based what? models? settings?
+% 
+% ^.
 
-By taking into account the dependency between compositional operators and lexical representations,  we achieve the state of the art results with additive and multiplicative composition. By reusing the best lexical representations with categorical compositional operators \cite{DBLP:journals/corr/abs-1003-4394}, we improve their performance. Moreover, we show that the optimal parameters to measure the similarity between words (Chapter~\ref{sec:lexical}) are different from the optimal parameters to measure similarity between phrases.
+By taking into account the dependency between compositional operators and lexical representations,  we achieve state-of-the-art results with additive and multiplicative composition. By reusing the best lexical representations with categorical compositional operators \cite{DBLP:journals/corr/abs-1003-4394}, we improve their performance. Moreover, we show that the optimal parameters to measure the similarity between words (Chapter~\ref{sec:lexical}) are different from the optimal parameters to measure similarity between phrases.
 
 \section{Structure of this thesis}
 \label{sec:structure}
 
-\textbf{Chapter~\ref{cha:background}} A review of logical and distributional models of meaning. Description of the current similarity datasets and an overview of the current state of the art models.
+\textbf{Chapter~\ref{cha:background}} A review of logical and distributional models of meaning, description of the current similarity datasets and an overview of the current state-of-the-art models.
 
-\textbf{Chapter~\ref{sec:methodology}} The methodology for robust selection of similarity models. The description of used model parameters. The list of hypotheses.
+\textbf{Chapter~\ref{sec:methodology}} The methodology for robust selection of similarity models, description of used model parameters and list of hypotheses.
 
 \textbf{Chapter~\ref{sec:lexical}} Experiments on the lexical datasets: SimLex-999 and MEN.
 
@@ -71,7 +89,7 @@ By taking into account the dependency between compositional operators and lexica
 
 \textbf{Chapter~\ref{sec:sentential}} Experiments on three phrasal datasets: GS11, KS14 and PhraseRel.
 
-\textbf{Chapter~\ref{sec:universal-param-selection}} selection of the models based on all datasets. Experiments with tensor-based compositional methods.
+\textbf{Chapter~\ref{sec:universal-param-selection}} Selection of the models based on all datasets and experiments with tensor-based compositional methods.
 
 \textbf{Chapter~\ref{cha:conclusion}} Conclusion of the thesis.
 

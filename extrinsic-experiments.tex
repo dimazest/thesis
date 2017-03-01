@@ -7,7 +7,7 @@
 
 Here we report the results on the compositional datasets KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ETV:2140490.2140497} and PhraseRel (Chapter~\ref{sec:phraserel}). For the first two datasets, the evaluation is done similarly to the lexical evaluation (Chapter~\ref{sec:lexical}) by computing Sperman-$\rho$ rank correlation between human judgements and model estimation. If a dataset provides several human judgements for a sentence pair, the judgements are averaged before computing the correlation. For PhraseRel, we report relevant@3, the measure that is the proportion of sentences for which the top-3 most similar neighbours contain at least one sentence that was judged relevant with respect to the source sentence.
 
-We show that the optimal choice of lexical parameters depends on the method of composition, so, for example, with addition the vectors should be sparser then the vectors that are used with multiplication and Kronecker. We also show that the parameter choice that is optimal in lexical tasks is sub-optimal in compositional tasks especially for multiplication and Kronecker. 
+We show that the optimal choice of lexical parameters depends on the method of composition, so, for example, with addition the vectors should be sparser than the vectors that are used with multiplication and Kronecker. We also show that the parameter choice that is optimal for lexical tasks is sub-optimal for compositional tasks especially for multiplication and Kronecker. 
 
 \section{Experiments on KS14 dataset}
 \label{sec:ks14}
@@ -30,7 +30,7 @@ All compositional operators agree in the choice of \texttt{freq} ($\log n$), \te
 
 Compositional operators perform best with constant \texttt{freq} of 1, in contrast to the lexical setting, where $\log n$ is more beneficial. This might be because during composition the $\log n$ term dominates over the PMI value and minimises its effect.
 
-Local context probabilities perform better in compositional tasks then in lexical tasks. Multiplication benefits from the unsmoothed distribution probability, while high-dimensional models perform best with smoothing ($\alpha = 0.75$), supporting H\ref{hyp:cds} that context smoothing is needed only for high-dimensional models. The only exceptions are additive models with $D < 5\,000$, where global probabilities perform best.
+Local context probabilities perform better in compositional tasks than in lexical tasks. Multiplication benefits from the unsmoothed distribution probability, while high-dimensional models perform best with smoothing ($\alpha = 0.75$), supporting H\ref{hyp:cds} that context smoothing is needed only for high-dimensional models. The only exceptions are additive models with $D < 5\,000$, where global probabilities perform best.
 
 For low-dimensional spaces, addition performs best with sparse spaces ($k > 1$, $D < 5\,000$), but for high-dimensional spaces, addition performs best  with dense spaces ($k = 0,7$, $D \geq 5\,000$). This is against H\ref{hyp:neg} that states the opposite.
 
@@ -73,7 +73,7 @@ Generally, H\ref{hyp:freq}---that non-constant frequency is beneficial for high-
 \subsubsection{Context distribution smoothing}
 
 \input{figures/ks14-cds}
-The baseline operator \texttt{head} with spaces with dimensionality less than 20\,000 should be used with global probabilities, and more dimensional models should be used with smoothed local probabilities: $\alpha = 0.75$ (Figure~\ref{fig:ks14-cds}).
+The baseline operator \texttt{head} with spaces with dimensionality less than 20\,000 should be used with global probabilities, and more dimensional models should be used with smoothed, local probabilities: $\alpha = 0.75$ (Figure~\ref{fig:ks14-cds}).
 
 All other operators perform best with global context probability. Even though local context probability with $\alpha = 1$ is close to global, H\ref{hyp:cds} is not supported by this dataset: context distribution smoothing does not affect high-dimensional spaces.
 
@@ -87,7 +87,7 @@ Other operators work best with correlation. Addition and multiplication also sup
 \input{figures/ks14-discr}
 The baseline operator \texttt{head} with $D < 20\,000$ prefers SCPMI as the discriminativeness weighting. SPMI is preferred otherwise (Figure~\ref{fig:ks14-discr}).
 
-For addition, SPMI is the better choice. For multiplication, SCPMI is more beneficial, as expected by H\ref{hyp:comp-pmi-cpmi}: the compression of PMI values improves performance of compositional models.
+For addition, SPMI is the better choice. For multiplication, SCPMI is more beneficial, as expected by H\ref{hyp:comp-pmi-cpmi}: the compression of PMI values improves the performance of compositional models.
 
 For Kronecker, the two choices are very close to each other. For spaces with dimensionality less than 20\,000, SPMI is slightly better; for spaces with greater dimensionality---SCPMI.
 
@@ -117,7 +117,7 @@ The behaviour of the baseline operator \texttt{head} is unstable for dimensions 
 
 In general, Max parameter selection is very different than the one based on KS14 (Table~\ref{tab:ks14-max-selection}). Compositional operators behave best with $\log n$ frequency, especially Kronecker. PMI often outperforms other discriminativeness components in the case of \texttt{head} and addition. Global context probability estimation behaves better than local and correlation is not always the best similarity measure.
 
-Addition's behaviour degrades as dimensionality increases, whereas multiplication behaviour increases, but becomes unstable for spaces with more than 20\,000 dimensions. Kronecker depends the least on the dimensionality.
+Addition's behaviour degrades as dimensionality increases, whereas multiplication's behaviour increases, but becomes unstable for spaces with more than 20\,000 dimensions. Kronecker depends on the dimensionality the least.
 
 Addition works best with dense models. Multiplication and Kronecker prefer dense, low-dimensional spaces and sparse, high-dimensional spaces, supporting H\ref{hyp:neg} that a frequency component is required for high-dimensional spaces.
 
@@ -135,11 +135,11 @@ On average, $\log n$ behaves best for all operators (Figure~\ref{fig:gs11-freq})
 
 The baseline operator \texttt{head} on average works best with shifted models. For models with dimensionality less than 3\,000, $k = 0.5$ is best, otherwise $k = 0.7$ is more beneficial (Figure~\ref{fig:gs11-neg}).
 
-For addition, models without shifting behave best for $D < 20\,000$, however, for more dimensional spaces, $k = 0.2$ should be preferred. This is a weak support of H\ref{hyp:neg} (high-dimensional vectors should be sparse), because unshifted spaces can be seen as shifted with a very small $\alpha$ value.
+For addition, models without shifting behave best for $D < 20\,000$, however, for more dimensional spaces, $k = 0.2$ should be preferred. This is a weak support of H\ref{hyp:neg} (high-dimensional vectors should be sparse) because unshifted spaces can be seen as shifted with a very small $\alpha$ value.
 
 Multiplication also works best with unshifted low-dimensional spaces ($D < 5\,000$) and with $k = 0.7$ for high-dimensional spaces, supporting H\ref{hyp:neg}.
 
-Kronecker prefers shifting. For spaces with dimensionality less then 20\,000 $k = 0.7$ and $k = 1$ otherwise. This is inline with H\ref{hyp:neg}.
+Kronecker prefers shifting. For spaces with dimensionality less than 20\,000 $k = 0.7$ and $k = 1$ otherwise. This is inline with H\ref{hyp:neg}.
 
 \input{figures/gs11-freq}
 
@@ -171,7 +171,7 @@ Multiplication is similar to addition in that it prefers PMI in the low-dimensio
 
 Kronecker with less than 5\,000 dimensions prefers SCPMI and SPMI, which is opposite to addition and multiplication.
 
-This dataset does not give evidence to support H\ref{hyp:comp-pmi-cpmi}---PMI values should be compressed when used in compositional setting---because there is almost no difference betwen *PMI and *CPMI.
+This dataset does not give evidence to support H\ref{hyp:comp-pmi-cpmi}---PMI values should be compressed when used in compositional setting---because there is almost no difference between *PMI and *CPMI.
 
 \subsection{Difference between Max selection and heuristics on GS11}
 
@@ -278,7 +278,7 @@ Over all compositional methods, the difference is 0.049, which is within the 10\
 
 There is little agreement on parameter selection based on heuristics among the three compositional datasets. The only consistent choice is global context probability (\texttt{cds}) and SCPMI discriminativeness for multiplicative models.
 
-There is more pairwise agreement, for example, similarity based on correlation for additive models on KS14 and GS11 and $\log n$ frequency for multiplicative models between GS11 and PhraseRel. The pairwise agreement might be a sign of overfitting, because there is no clear pattern. On the other side, the difference in performance between parameter choices might be negligible, as some parameters consistently show low $R^2$ scores, for example \texttt{discr}. Consequently, there is inconsistency in the supported hypotheses.
+There is more pairwise agreement, for example, similarity based on correlation for additive models on KS14 and GS11 and $\log n$ frequency for multiplicative models between GS11 and PhraseRel. The pairwise agreement might be a sign of overfitting because there is no clear pattern. On the other side, the difference in performance between parameter choices might be negligible, as some parameters consistently show low $R^2$ scores, for example \texttt{discr}. Consequently, there is inconsistency in the supported hypotheses.
 
 \subsection{Model transfer from KS14}
 \label{sec:from-ks14}
@@ -292,7 +292,7 @@ Heuristic-based selection, on average, is closer to the upper bound than Max-bas
 
 \input{figures/gs11-transfer}
 
-Figure~\ref{fig:gs11-transfer} shows that there is little difference between Max and heuristic-based selections. In case of \texttt{head} composition, heuristics lead to higher performance, while for low-dimensional multiplicative models heuristics fall behind the Max selection on the KS14 dataset.
+Figure~\ref{fig:gs11-transfer} shows that there is little difference between Max and heuristic-based selections. In the case of \texttt{head} composition, heuristics lead to higher performance, while for low-dimensional multiplicative models heuristics fall behind the Max selection on the KS14 dataset.
 
 % \todo[noline]{Significance tests}
 When GS11 models are transferred to KS14, the average difference with the upper bound is 0.119 and 0.106 for Max and heuristics respectively. For the transfer to PhraseRel, the differences are 0.133 for Max and 0.188 for heuristics. Again, the heuristic-based selection outperforms the Max based. This supports H\ref{hyp:overfitting} that Max selection overfits, but the results are beyond the 10\% limit of H\ref{hyp:10percent}.
@@ -312,7 +312,7 @@ In general, over all compositional datasets, we see---in contrast to the lexical
 \section{Universal parameter selection for compositional datasets}
 \label{sec:robust-param-comp-selecion}
 
-To find parameters that are good on all three tasks, we combine their scores. As with lexical tasks, we normalise the scores on each dataset and report the average performance.The combined score is calculated the following way:
+To find parameters that are good for all three tasks, we combine their scores. As with lexical tasks, we normalise the scores on each dataset and report the average performance. The combined score is calculated the following way:
 
 {
 \scriptsize
@@ -370,12 +370,12 @@ Kronecker benefits from the \texttt{neg} of 0.7 if $D < 10\,000$ and from 1 for 
 
 The frequency value of choice of all operators is $\log n$ with an exception of multiplication, where the constant frequency is preferred (Figure~\ref{fig:compositional-freq}).
 
-For low-dimensional vector spaces ($D \leq 5\,000$), 1 behaves good giving support of H\ref{hyp:freq} that non-constant frequency is needed only with high-dimensional spaces.
+For low-dimensional vector spaces ($D \leq 5\,000$), 1 behaves well, giving support of H\ref{hyp:freq} that non-constant frequency is needed only with high-dimensional spaces.
 
 \subsubsection{Context distribution smoothing}
 \label{sec:cont-distr-smooth-compositional}
 
-As Figure~\ref{fig:compositional-cds} shows, global context probability is the preferred choice of context probability in all cases, with an exception of Kronecker with $D > 3\,000$, where smoothed local probabilities are better ($\alpha = 0.75$), supporting H\ref{hyp:cds} that context distribution smoothing should be used with high-dimensional spaces.
+As Figure~\ref{fig:compositional-cds} shows, global context probability is the preferred choice of context probability in all cases, with an exception of Kronecker with $D > 3\,000$, where smoothed, local probabilities are better ($\alpha = 0.75$), supporting H\ref{hyp:cds} that context distribution smoothing should be used with high-dimensional spaces.
 
 \subsubsection{Similarity}
 \label{sec:similarity-compositional}
@@ -404,7 +404,7 @@ The average difference with the upper bound is 0.040 and 0.041 for Max and heuri
 
 The numbers are much lower than the transfer of spaces selected on the basis of one dataset (Section~\ref{sec:select-model-transf-comp}). The average normalised difference is within the 10\% limit (H\ref{hyp:10percent}), with an exception of heuristics on GS11. This is evidence that there might be one universal model that fits various tasks (H\ref{hyp:universal}). The fact that the average normalised difference is smaller for Max-based selection is against H\ref{hyp:overfitting} that expects Max selection to overfit. A combination of datasets that covers several phenomena (in our case, similarity, disambiguation and relatedness) might be more effective than manual heuristic-based selection.
 
-The model selection procedures improve from the combination of datasets. One needs to keep in mind that in this case we test model performance on the same dataset as we do parameter selection.
+The model selection procedures improve from the combination of datasets. One needs to keep in mind that in this case, we test model performance on the same dataset as we do parameter selection.
 
 \section{Conclusion}
 \label{sec:conclusion-comp}
@@ -425,16 +425,16 @@ This also suggests that there is a unique parameter choice that is universally a
 \chapter[Universal models]{Universal models for both lexical and compositional tasks}
 \label{sec:universal-param-selection}
 
-\lettrine[lines=5,loversize=0.25]{P}{reviously}, we identified good models for specific datasets or task types: lexical and compositional. We managed to identify models that are good in either lexical tasks or compositional. This chapter investigates how well one model can perform on all tasks in contrast to the task-tailored models of previous chapters.
+\lettrine[lines=5,loversize=0.25]{P}{reviously}, we identified good models for specific datasets or task types: lexical and compositional. We managed to identify models that are good for either lexical tasks or compositional. This chapter investigates how well one model can perform on all tasks in contrast to the task-tailored models of previous chapters.
 
-This is achieved by performing the evaluation on a combined score over the previous two lexical and three phrasal datasets. We not only combine the datasets together, but also look for parameters that are good across all datasets with all compositional operators. Once optimal parameters are identified, they are tested on categorical compositional methods.
+This is achieved by performing the evaluation on a combined score over the previous two lexical and three phrasal datasets. We not only combine the datasets together but also look for parameters that are good across all datasets with all compositional operators. Once optimal parameters are identified, they are tested on categorical compositional methods.
 
 Even though the identified parameters have to compromise over different tasks (lexical and compositional) and compositional methods we achieve the new state-of-the-art results with Kronecker on KS14 and GS11. Moreover, the selected lexical representations improve over the results of the categorical compositional methods reported in the literature.
 
 \section{Operator-dependent universal models}
 \label{sec:model-selection}
 
-First we compute combined performance scores for the following operators: head, addition, multiplication and Kronecker. We normalise the scores of every dataset and weight lexical and compositional datasets equally. Within a dataset category, the datasets are weighted equally. Such a weighting scheme is still simple, it treats the task types equally and does not focus on a particular dataset.
+First, we compute combined performance scores for the following operators: head, addition, multiplication and Kronecker. We normalise the scores of every dataset and weight lexical and compositional datasets equally. Within a dataset category, the datasets are weighted equally. Such a weighting scheme is still simple, it treats the task types equally and does not focus on a particular dataset.
 
 The combined score for a model and an operator is computed as:
 
@@ -519,7 +519,7 @@ The high relative difference on GS11 is due to a poor performance of addition an
 Contrary to H\ref{hyp:overfitting}, Max selection does not overfit, probably due to a broad selection of evaluation datasets.
 
 % \todo[noline]{One of the major findings.}
-When the models that are selected on lexical tasks are applied in a compositional setting, they perform worse than the models selected based on the universal score. This suggests that a model that is good on lexical tasks will not necessarily perform well on a compositional task, rejecting H\ref{hyp:not-lextocomp}.
+When the models that are selected on lexical tasks are applied in a compositional setting, they perform worse than the models selected based on the universal score. This suggests that a model that is good for lexical tasks will not necessarily perform well on a compositional task, rejecting H\ref{hyp:not-lextocomp}.
 
 In addition, the difference between the good lexical models and the upper bound increases as dimensionality increases. This is the case for multiplication, the most notable difference is observed on KS14 (Figure~\ref{fig:universal-results-ks14}).
 
@@ -528,7 +528,7 @@ It worth noting that on compositional tasks dimensionality does not contribute a
 \section{An operator-independent universal model}
 \label{sec:single}
 
-In the previous section we have seen that even though parameter selection varies between operators, there are parameter choices that are shared, for example, correlation is the best similarity measure for addition, multiplication and Kronecker (if $D \le 3\,000$). Given this and the fact that the difference between some of the choices is marginal, we try to look for a truly universal parameter combination. The aggregated score of a model is computed as:
+In the previous section, we have seen that even though parameter selection varies between operators, there are parameter choices that are shared, for example, correlation is the best similarity measure for addition, multiplication and Kronecker (if $D \le 3\,000$). Given this and the fact that the difference between some of the choices is marginal, we try to look for a truly universal parameter combination. The aggregated score of a model is computed as:
 
 {\scriptsize
 \begin{align}
@@ -582,7 +582,7 @@ where $\mathit{add}$ stands for addition and $\mathit{mult}$ stands for multipli
 
 Table~\ref{tab:single-max-selection} shows the combined scores for all datasets abstracting over a compositional operator.
 
-The parameter selection shows a clear pattern. Low-dimensional spaces perform best with 1 as the frequency choice, while high-dimensional models perform better with $\log n$, confirming to H\ref{hyp:freq} that non-linear frequency should be used with high-dimensional models. Cosine is a better suited similarity measure for models with few dimensions and correlation is suited to those with many, which is in line with H\ref{hyp:similarity}. Finally, global context probabilities are the best in a low-dimensional case, while local context probabilities perform best with many dimensions, supporting H\ref{hyp:cds}.
+The parameter selection shows a clear pattern. Low-dimensional spaces perform best with 1 as the frequency choice, while high-dimensional models perform better with $\log n$, confirming to H\ref{hyp:freq} that non-linear frequency should be used with high-dimensional models. Cosine is a better-suited similarity measure for models with few dimensions and correlation is suited to those with many, which is in line with H\ref{hyp:similarity}. Finally, global context probabilities are the best in a low-dimensional case, while local context probabilities perform best with many dimensions, supporting H\ref{hyp:cds}.
 
 \subsection{Heuristics}
 \label{sec:heuristics-single}
@@ -621,11 +621,11 @@ While there is a difference between selection methods, there are no clear outlie
 
 This section discusses the results of the experiments in the context of our preliminary studies and the work of others.
 
-In an earlier study \cite{milajevs-EtAl:2014:EMNLP2014}, we compared a PPMI-weighted space, an LMI-weighted and SVD-reduced space and a space based on the original word2vec vectors obtained from the Google News corpus \cite{mikolov2013distributed}. The same compositional operators were evaluated as in this thesis. The count-based models selected in the earlier study were the ones that were considered to be efficient in the compositional tasks and were used in the studies that introduced the evaluation datasets: KS14 \cite{kartsadrqpl2014} and GS11 \cite{Grefenstette:2011:ESC:2145432.2145580}. Thus, \newcite{milajevs-EtAl:2014:EMNLP2014} can be seen as a replication of the experiments in previous papers. The experiments showed that on small-scale tasks (KS14 and GS11) count-based models are competitive with neural word vectors, however word2vec vectors are superior in dialog act tagging and paraphrase detection.
+In an earlier study \cite{milajevs-EtAl:2014:EMNLP2014}, we compared a PPMI-weighted space, an LMI-weighted and SVD-reduced space and a space based on the original word2vec vectors obtained from the Google News corpus \cite{mikolov2013distributed}. The same compositional operators were evaluated as in this thesis. The count-based models selected in the earlier study were the ones that were considered to be efficient in the compositional tasks and were used in the studies that introduced the evaluation datasets: KS14 \cite{kartsadrqpl2014} and GS11 \cite{Grefenstette:2011:ESC:2145432.2145580}. Thus, \newcite{milajevs-EtAl:2014:EMNLP2014} can be seen as a replication of the experiments in previous papers. The experiments showed that on small-scale tasks (KS14 and GS11) count-based models are competitive with neural word vectors, however, word2vec vectors are superior in dialog act tagging and paraphrase detection.
 
 In that study, additive composition with an SVD-reduced space gave the best result of 0.732 on KS14. The best tensor-based result was 0.655, achieved with word2vec and copy-object. All our models (Table~\ref{tab:frobenius-results}), with the exception of copy-object, improve over our previous best scores. Despite being lower, our copy-object (0.628) is close to the word2vec score reported in \newcite{milajevs-EtAl:2014:EMNLP2014}.
 
-On the GS11 dataset, systematic parameter selection leads to spaces that improve over the corresponding operators in the earlier study on all but two of the compositional methods (the exceptions being copy-object and Frobenius mult). In addition to that, multiplication and Kronecker improve over the overall best reported score of 0.456 in \newcite{milajevs-EtAl:2014:EMNLP2014}. Kronecker yields the highest score of 0.516.
+On the GS11 dataset, systematic parameter selection leads to spaces that improve over the corresponding operators in the earlier study on all but two of the compositional methods (the exceptions being copy-object and Frobenius mult). In addition to that, multiplication and Kronecker improve over the overall best-reported score of 0.456 in \newcite{milajevs-EtAl:2014:EMNLP2014}. Kronecker yields the highest score of 0.516.
 
 \newcite{kim2015neural} adopt the evaluation procedure of \newcite{milajevs-EtAl:2014:EMNLP2014} to test an extended word2vec model that is tuned for multiplicative interaction of the vectors, not additive, as the original word2vec. They improve on most of the composition operators on the KS14 and GS11 datasets.
 
@@ -637,14 +637,13 @@ On G11, their best score is 0.387, which is lower than the results that we get w
 
 In comparison to their SVO results, our are higher: they get 0.480 on GS11 and 0.481 on KS14. These results are lower than our Multiplication and Kronecker on GS11 and all operators on KS14.
 
-The SVOPN model with the score of 0.614 outperforms our best (0.516) on GS11. While they get a higher score on KS14 of 0.744 (though it is obtained with the \newcite{hashimoto-EtAl:2014:EMNLP2014} baseline) it is still lower than all of our results, except copy-subject and copy-object. Interestingly, our result of 0.738 with copy-subject is close to their score, but is still lower.
+The SVOPN model with the score of 0.614 outperforms our best (0.516) on GS11. While they get a higher score on KS14 of 0.744 (though it is obtained with the \newcite{hashimoto-EtAl:2014:EMNLP2014} baseline) it is still lower than all of our results, except copy-subject and copy-object. Interestingly, our result of 0.738 with copy-subject is close to their score but is still lower.
 
 \newcite{hashimoto-tsuruoka:2016:P16-1} jointly learn compositional and non-compositional phrase embeddings by using a compositionality scoring function. They improve on their previous work and get the score of 0.680 on GS11 versus our 0.516.
 
 \newcite{fried-polajnar-clark:2015:ACL-IJCNLP} use low-rank tensors to approximate third-order tensors of verbs. They achieve the scores of 0.47 on GS11 and 0.68 on KS14 with categorical composition and 0.71 on KS14 with addition. While our best result is higher on GS11, categorical operators score lower, the best is copy-subject (0.402). On KS14, our experiments produce higher results (with an exception of copy-object) than their best (additive) model. It is worth noting the study of \newcite{polajnar-rimell-clark:2015:LSDSem} uses discourse features to build vectors, but the experiment results reported there are not compatible with ours because we averaged the human-provided scores before computing correlation, while they treat each human score individually without averaging.
 
-Overall, we improved over the scores by identifying a better set of model
-parameters rather then developing a more sophisticated model.
+Overall, we improved over the scores by identifying a better set of model parameters rather than developing a more sophisticated model.
 
 \section{Conclusion}
 \label{sec:conclusion-universal}
@@ -655,7 +654,7 @@ Despite the expectation in H\ref{hyp:overfitting}, we see that Max selection doe
 
 Our universal models perform within the 10\% margin of H\ref{hyp:10percent} in the majority of the experiments. Moreover, the operator-independent universal space is competitive with spaces that were selected with an operator in mind, supporting the idea that there is a universal vector space for all kind of tasks and H\ref{hyp:universal}.
 
-The selections show that an optimal parameter choice depends on dimensionality (H\ref{hyp:dimen}). As we have seen in Section~\ref{sec:comparison-universal}, a good lexical model might fail in a compositional setting (H\ref{hyp:not-lextocomp}). We have also seen in Section~\ref{sec:max-selection-universal} that good lexical models favour the additive composition, while Kronecker is more optimal for composition and multiplication is a compromise between the two. This, and the fact that there has been found a similarity between lexical and compositional tasks \cite[\textcolor{citecolor}{Section~4}]{kiela-clark:2014:CVSC}, might be an explanation of why addition is considered to be the best compositional operator. In our experiments, multiplication and Kronecker consistently outperform addition.
+The selections show that an optimal parameter choice depends on dimensionality (H\ref{hyp:dimen}). As we have seen in Section~\ref{sec:comparison-universal}, a good lexical model might fail in a compositional setting (H\ref{hyp:not-lextocomp}). We have also seen in Section~\ref{sec:max-selection-universal} that good lexical models favour the additive composition, while Kronecker is more optimal for composition and multiplication is a compromise between the two. This, and the fact that a similarity has been found between lexical and compositional tasks \cite[\textcolor{citecolor}{Section~4}]{kiela-clark:2014:CVSC}, might be an explanation of why addition is considered to be the best compositional operator. In our experiments, multiplication and Kronecker consistently outperform addition.
 
 While parameter selection depends on dimensionality, the performance on compositional task depends on it to a much lower extent.
 
@@ -663,7 +662,7 @@ Our selection methodology has produced significantly better results in the KS14 
 
 While our results on GS11 are close to the current state-of-the-art results \cite{hashimoto-tsuruoka:2016:P16-1}, there is room for improvement, especially for tensor-based compositional operators. The difference in the performance might be explained as the limit of the count-based methods or the unexplored, and therefore untuned, parameters of the verb matrix. For example, we consider all different subject-object occurrences despite their frequency in the corpus. Using only the subject-object pairs that appeared at least 100 times might improve the results.
 
-The gap between the multiplicative and Kronecker composition in our work indicates that the categorical methods can be improved. We see that the word order is important in the task, otherwise Kronecker would not outperform addition and multiplication. Because categorical methods take word order into account, there is a potential for them to improve. However, it is not clear whether the verb matrices are of good quality. The verb matrices obtained by different ways need to be tested on a lexical similarity task, for example \newcite{2016arXiv160800869G}. Also, the similarity judgments of verbs in SimLex-999 and MEN can be used.
+The gap between the multiplicative and Kronecker composition in our work indicates that the categorical methods can be improved. We see that the word order is important in the task, otherwise, Kronecker would not outperform addition and multiplication. Because categorical methods take word order into account, there is a potential for them to improve. However, it is not clear whether the verb matrices are of good quality. The verb matrices obtained by different ways need to be tested on a lexical similarity task, for example \newcite{2016arXiv160800869G}. Also, the similarity judgments of verbs in SimLex-999 and MEN can be used.
 
 
 

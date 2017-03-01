@@ -6,29 +6,35 @@
 
 \lettrine[lines=5,loversize=0.25]{S}{imilarity} is the degree of resemblance between two objects or events \cite{WCS:WCS1282}. It plays a crucial role in psychological theories of knowledge and behaviour, where similarity is used to explain such phenomena as classification and conceptualisation \cite{Tversky1977,1986-13502-00119860101,medin1993respects,Markman1996,hahn1997concepts}.
 
-\textit{Fruit} is a \emph{category} because it is a practical generalisation. Fruits are sweet and generally constitute desserts, so when one is presented with an unseen fruit, one can hypothesise that it is served toward the end of a dinner.
+\textit{Fruit} is a \emph{category} because it is a practical generalisation. Fruits are sweet and generally are desserts, so when one is presented with an unseen fruit, one can hypothesise that it is served toward the end of a dinner.
 
 Generalisations are extremely powerful in describing a language, as well. The verb \textit{runs} requires its subject to be singular. \textit{Verb}, \textit{subject} and \textit{singular} are categories that are used to describe English grammar. When one encounters an unknown word and is told that it is a verb, one will immediately have an idea about how to use it, assuming that it is used similarly to other English verbs.
 
 From a computational perspective, this motivates and guides the development of similarity components that are embedded into automatic systems that deal with natural language.
+% * <sdyck@ualberta.ca> 2017-03-01T02:52:10.359Z:
+% 
+% > his
+% Be specific about what "this" is. 
+% 
+% ^.
 
-The information that the word \textit{carpet} is similar in meaning to the word \textit{mat} might be exploited by a language model in estimating the probability of the sentence \textit{the cat sat on the carpet}, even if it did not occur in the corpus, but \textit{the cat sat on the mat} did \cite{bengio2006}.
+The information that the word \textit{carpet} is similar in meaning to the word \textit{mat} might be exploited by a language model in estimating the probability of the sentence \textit{the cat sat on the carpet}, even if it did not occur in the corpus but \textit{the cat sat on the mat} did \cite{bengio2006}.
 
-In Information Retrieval (IR), queries are expanded with related terms to increase the number of retrieved relevant documents. For example, if a user issues the query \textit{lakes in Sweden}, the system might add related words to the query such as \textit{lake}, \textit{reservoir}, \textit{river} or even \textit{swim} so that the documents that do not contain the word \textit{lakes} are retrieved \cite{Xu:1996:QEU:243199.243202}.
+In Information Retrieval (IR), queries are expanded with related terms to increase the number of retrieved relevant documents. For example, if a user issues the query \textit{lakes in Sweden}, the system might add related words to the query such as \textit{lake}, \textit{reservoir}, \textit{river} or even \textit{swim} so that documents that do not contain the word \textit{lakes} are retrieved \cite{Xu:1996:QEU:243199.243202}.
 % \cite{Salton:1975:VSM:361219.361220}
 
-A dependency parser might benefit from a generalisation about the part of speech tag of a word which did not occur in the training data, based on its occurrence pattern in a large corpus of documents from the web \cite{hermann-blunsom:2013:ACL2013,andreas-klein:2014:P14-2}.
+A dependency parser might benefit from a generalisation about the part-of-speech tag of a word which did not occur in the training data, based on its occurrence pattern in a large corpus of documents from the web \cite{hermann-blunsom:2013:ACL2013,andreas-klein:2014:P14-2}.
 
 A dialogue act tagging system might require classification of an utterance based on its role in a dialogue, such as a question or an acknowledgement \cite{kalchbrenner-blunsom:2013:CVSC}.
 
 The examples show that similarity is a broad term that is task-dependent. An IR system needs to identify semantically similar (\textit{lake}, \textit{river}) and related (\textit{lake}, \textit{swim}) terms. A dependency parser benefits from the similarity of word usage. A language model exploits similarity in word meaning. A dialogue act tagging system relies on the similarity of the roles that the utterances play in discourse.
 
-A computational model that estimates similarity needs not only to take into account the different flavours of the similarity relation, but also to be able to measure similarity between pairs of words, between pairs of phrases or even between whole sentences, utterances or documents.
+A computational model that estimates similarity need not only take into account the different flavours of the similarity relation, but also be able to measure similarity between pairs of words, between pairs of phrases or even between whole sentences, utterances or documents.
 
 \section{Representation for similarity measurement}
 \label{sec:word-meaning}
 
-According to \newcite{WCS:WCS1282}, ``similarity is an essentially psychological notion, based on the way we represent objects, that is, the way they appear to us.'' Since it is not yet known how objects are represented in human mind, the computational way of object representation for similarity estimation has to be agreed upon. However, one needs to be extremely careful when the object representation is decided, as it is unavoidably connected to the \emph{meaning of words in isolation}.
+According to \newcite{WCS:WCS1282}, ``similarity is an essentially psychological notion, based on the way we represent objects, that is, the way they appear to us.'' Since it is not yet known how objects are represented in the human mind, the computational way of object representation for similarity estimation has to be agreed upon. However, one needs to be extremely careful when the object representation is decided, as it is unavoidably connected to the \emph{meaning of words in isolation}.
 
 % The semantic formalisation of similarity is based on two ideas. The occurrence pattern of a word \emph{defines} its meaning \cite{firth1957lingtheory}, while the difference in occurrence between two words \emph{quantifies} the difference in their meaning \cite{harris1954distributional}.
 
@@ -42,9 +48,9 @@ However, according to \emph{the principle of contextuality}, the word meaning in
 Never ask for the meaning of a word in isolation, but only in the context of a sentence.
 \end{displayquote}
 
-It is worth noting here that the measurement of similarity in isolation is also problematic because the number of features an entity has is infinite, and it is easy to show that two entities will always have an infinite amount of common features making the degree of resemblance undefined \cite{goodman1972problems,hahn1997concepts}. For example, the tree next to my house is similar to my house because both of them are less than one kilometre in height. Both of them are less than two kilometre in height. Both of them are less than three kilometre in height and so on.
+It is worth noting here that the measurement of similarity in isolation is also problematic because the number of features an entity has is infinite, and it is easy to show that two entities will always have an infinite number of common features, making the degree of resemblance undefined \cite{goodman1972problems,hahn1997concepts}. For example, the tree next to my house is similar to my house because both of them are less than one kilometre in height; both of them are less than two kilometres in height; both of them are less than three kilometre in height; and so on.
 
-To make similarity measurements possible, it has to be measured \emph{under a given description} \cite{WCS:WCS1282,medin1993respects,Markman1996}. Thus, similarity is always contextualised. In other words, similarity emerges only when the possible properties are weighted. In our example, the tree and the house are similar with respect to the colour: both of them are green. The height properties and other irrelevant properties are assigned zero weight making the number of non-zero feature values finite.
+To make similarity measurements possible, they have to be measured \emph{under a given description} \cite{WCS:WCS1282,medin1993respects,Markman1996}. Thus, similarity is always contextualised. In other words, similarity emerges only when the possible properties are weighted. In our example, the tree and the house are similar with respect to the colour: both of them are green. The height properties and other irrelevant properties are assigned zero weight, making the number of non-zero feature values finite.
 
 Frege's principle of contextuality allows us to define the meaning of a word by identifying its contribution to the meaning of a sentence. Firth's \citeyearpar{firth1957lingtheory} famous quote that ``you shall know a word by the company it keeps,'' suggests that the word meaning can be \emph{modelled} as the combination of the meanings of its occurrences in sentences of a corpus. Note that this does not provide the absolute word meaning, but only its meaning relative to the corpus. This assumption is also supported by the distributional hypothesis of \newcite{harris1954distributional} that the differences of occurrences of two words quantify the difference in their relative meaning, but do not necessarily define the meaning.
 
@@ -55,25 +61,25 @@ We continue with an overview of the main ideas behind the word and phrase repres
 \section{Representation of words}
 \label{sec:distr-hypoth}
 
-In principle, we would like to capture the intuition that while \textit{John} and \textit{Mary} are distinct entities, they are rather similar to each other---because both of them are humans---and are dissimilar to \textit{dog}, \textit{pavement} or \textit{idea}. However, we start with the word meaning representation that captures the fact that entities are distinct, but does not provide the means to measure similarity.
+In principle, we would like to capture the intuition that while \textit{John} and \textit{Mary} are distinct entities, they are rather similar to each other---because both of them are humans---and are dissimilar to \textit{dog}, \textit{pavement} or \textit{idea}. However, we start with the word meaning representation that captures the fact that entities are distinct but does not provide the means to measure similarity.
 
 \subsection{Logical representations for inference}
 \label{sec:classical-approaches}
 
 Formal semantics provides the means to infer some piece of information from another. The main studied relation is the entailment of sentences, for example, \textit{John swims in Åresjön} entails \textit{John swims in a Swedish lake}. To evaluate entailment, the sentences are converted to formulas. The words correspond to symbols in formal logic.
 
-The individual \textit{Åresjön} corresponds to the symbol \textit{Åresjön'}, which is mapped to the actual lake by the interpretation function $\mathcal{I}$.
+The individual word \textit{Åresjön} corresponds to the symbol \textit{Åresjön'}, which is mapped to the actual lake by the interpretation function $\mathcal{I}$.
 
-One-place properties are seen as sets of individuals, so $\mathcal{I}(\mathit{Swedish'})$ is a set that contains $\mathcal{I}(\mathit{Åresjön'})$ and $\mathcal{I}(\mathit{Väsman'})$ among many other Swedish entities.
+One-place properties are seen as sets of individuals, so $\mathcal{I}(\mathit{Swedish'})$ is a set that contains $\mathcal{I}(\mathit{Åresjön'})$ and $\mathcal{I}(\mathit{Väsman'})$, among many other Swedish entities.
 
-\textit{Swim'} is a two-place predicate that is represented as a set that contains the pairs between which the relation holds, so if John actually swims in Åresjön, then $\mathcal{I}(\mathit{swim'})$ will contain the pair $(\mathcal{I}(\mathit{John'}), \mathcal{I}(\mathit{Åresjön'}))$.
+\textit{Swim'} is a two-place predicate that is represented as a set that contains the pairs between which the relation holds; so if John actually swims in Åresjön, then $\mathcal{I}(\mathit{swim'})$ will contain the pair $(\mathcal{I}(\mathit{John'}), \mathcal{I}(\mathit{Åresjön'}))$.
 
 While such formalism is very powerful for entailment detection between sentences, similarity measurement is problematic, because there is no relation between atomic symbols: we only know that \textit{Åresjön} and \textit{Väsman} correspond to different entities in the universe, but know nothing about the resemblance between their properties.
 
 \subsection{Distributional representations for similarity}
 \label{sec:distributional-representations}
 
-Distributional methods provide a way to measure similarity between words. The representations are produced by exploiting Harris' \citeyearpar{harris1954distributional} intuition that similar words occur in similar contexts.
+Distributional methods provide a way to measure the similarity between words. The representations are produced by exploiting Harris' \citeyearpar{harris1954distributional} intuition that similar words occur in similar contexts.
 
 \subsubsection{Distributional semantics: global representations}
 \label{sec:distr-repr}
@@ -129,7 +135,7 @@ In the current example of a na{\"\i}ve vector space, \textit{John} is also close
 \subsubsection{Word embeddings: local representations}
 \label{sec:neural-embedding}
 
-Deep learning\footnotemark{} techniques use the distributional hypothesis differently than the distributional methods described above \cite{Goldberg2016}. Instead of relying on the co-occurrence matrix, the training process of the word2vec framework \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} iterates directly over the target-context pairs. At any given moment during the training process it has access only to local co-occurrence information, the global table of co-occurrences is not used, thus the name of the method. The training is done by maximising an objective function based on the following:
+Deep learning\footnotemark{} techniques use the distributional hypothesis differently than the distributional methods described above \cite{Goldberg2016}. Instead of relying on the co-occurrence matrix, the training process of the word2vec framework \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} iterates directly over the target-context pairs. At any given moment during the training process, it has access only to local co-occurrence information, the global table of co-occurrences is not used, thus the name of the method. The training is done by maximising an objective function based on the following:
 \footnotetext{
   Even though the model of \newcite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} is not a deep neural network, its efficient implementation uses methods developed for deep models. For example, hierarchical softmax and noise contrastive estimation.
 }
@@ -139,13 +145,13 @@ Deep learning\footnotemark{} techniques use the distributional hypothesis differ
   \label{eq:objective-func}
 \end{equation}
 %
-In practice, maximising this function produces vectors which maximise the conditional probability of observing words in a context around the target word $w_t$. $C$ is the size of the training context, and $w_1 w_2, \ldots, w_T$ is a sequence of training words. Empirically, they capture the distributional intuition and express degrees of lexical similarity. The probability of a context word $w_c$ given a target word $w_t$ is defined using softmax:
+In practice, maximising this function produces vectors which maximise the conditional probability of observing words in a context around the target word $w_t$. $C$ is the size of the training context, and $w_1 w_2, \ldots, w_T$ is a sequence of training words. Empirically, they capture the distributional intuition and express degrees of lexical similarity. The probability of a context word $w_c$ given a target word $w_t$ is defined using the softmax function:
 %
 \begin{equation}
   P(w_c|w_{t}) = \frac{e^{\vv{w_c} \cdot \vv{w_t}}}{\sum_{c'}e^{\vv{w_{c'}} \cdot \vv{w_t}}}
 \end{equation}
 %
-The word vectors are dense (their dimensionality is few hundreds). Because the objective in \eqref{eq:objective-func} is expensive to compute, negative sampling is used in practice, however its description is out of the scope of this work.
+The word vectors are dense (their dimensionality is few hundreds). Because the objective in \eqref{eq:objective-func} is expensive to compute, negative sampling is used in practice, however its description is beyond the scope of this work.
 
 The objective function in \eqref{eq:objective-func} is used by the skip-gram model: for every target-context pair, the objective function is based on predicting context words given a target word. The prediction can be reversed, that is, given the context words the target word of a context is predicted. Formally this objective is expressed in \citet{mikolov2013efficient} giving rise to the continuous bag-of-words model (CBOW):
 \begin{equation}
@@ -371,9 +377,9 @@ In the example, the meaning is computed similarly to Kronecker, but a different 
                                     \end{bmatrix}
 \end{align*}
 
-The categorical framework of \newcite{DBLP:journals/corr/abs-1003-4394} requires the meaning of a transitive verb to be a tensor of third order (it has to be a cube), but the Relational method of \newcite{Grefenstette:2011:ESC:2145432.2145580} constructs verb meanings as tensors of second order (they are matrices). To apply the categorical framework, \newcite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} embed the second order verb matrix into a third order space by a map $\sigma: N^2 \to N^3$. This map is one of the maps of the Frobenius algebra over vector space N.
+The categorical framework of \newcite{DBLP:journals/corr/abs-1003-4394} requires the meaning of a transitive verb to be a tensor of third order (it must be a cube), but the relational method of \newcite{Grefenstette:2011:ESC:2145432.2145580} constructs verb meanings as tensors of second order (they are matrices). To apply the categorical framework, \newcite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} embed the second order verb matrix into a third order space by a map $\sigma: N^2 \to N^3$. This map is one of the maps of the Frobenius algebra over vector space N.
 
-The Frobenius operation $\sigma$ turns a matrix into a cube by filling the extra dimension of the cube and gives some options on how the mapping can be implemented. The operators copy-subject and copy-object \cite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} implement this idea. The cube is formed using copy-subject (copy-object), then when one applies cube contraction on it with the object (the subject) and then matrix multiplication with the subject (the object).
+The Frobenius operation $\sigma$ turns a matrix into a cube by filling the extra dimension of the cube and gives some options on how the mapping can be implemented. The operators copy-subject and copy-object \cite{kartsaklis-sadrzadeh-pulman:2012:POSTERS} implement this idea. The cube is formed using copy-subject (copy-object), when one applies cube contraction on it with the object (the subject) and then matrix multiplication with the subject (the object).
 
 Copy-object diagonally places the object dimension into a cube, producing a closed form-formula:
 %
@@ -562,7 +568,7 @@ A vector space with vector components computed with positive PMI and cosine simi
 
 \newcite{kiela-clark:2014:CVSC} performed a systematic study of distributional models on various datasets including WS353 and MEN. They confirmed findings of \newcite{Bullinaria2007} that larger corpora lead to better performance. They suggested using ukWaC (2 billion tokens) over the BNC with a small context window of size less than 5 from each side. Positive PMI was the best performed measure in combination with the \emph{correlation similarity} measure, which is the mean-adjusted cosine similarity. The dimensionality of 50\,000 appeared to be optimal.
 
-\citet{kiela-clark:2014:CVSC} advocated incremental parameter tuning, reasoning that compositional tasks need a vector space model that is good in lexical tasks. Practically, this means that initially a good lexical model is identified and only then it is used to find a well performing compositional operator. \citet{BullinariaLevy2012} followed the same reasoning: first good sparse models are identified, and then dimensionality reduction methods are compared to find the best space with reduced dimensionality.
+\citet{kiela-clark:2014:CVSC} advocated incremental parameter tuning, reasoning that compositional tasks need a vector space model that is good for lexical tasks. Practically, this means that initially a good lexical model is identified and only then it is used to find a well performing compositional operator. \citet{BullinariaLevy2012} followed the same reasoning: first good sparse models are identified, and then dimensionality reduction methods are compared to find the best space with reduced dimensionality.
 
 \citet{lapesa-evert:2013:CMCL} argue against incremental tuning because it does not capture parameter interaction. For example, a compositional operator might benefit from a specific weighting scheme, which is not necessarily the best in predicting word similarity. Their goal was to contrast rank-based prediction of semantic priming with distance-based prediction. Because they were introducing rank-based prediction, they could not reuse recommendations of parameters that are derived from distance-based similarity experiments. In their study, they covered a broad range of parameters of distributional models aiming at identification of parameter configurations that achieve good performance in predicting semantic priming.
 
@@ -598,11 +604,11 @@ The transitive sentence similarity dataset (KS14) described in \newcite{kartsakl
 
 In general, there is no systematic study of parameters of compositional models similar to lexical studies discussed in Section~\ref{sec:parameter-selection-intro}. First of all, composition brings another type of parameters, so not only lexical representations have to be optimised, but also an optimal way of composition has to be found.
 
-Early compositional studies focused on the compositional operators, using lexical representations that are good in lexical tasks. Because parameters were selected iteratively, the fact that one operator outperformed other could be due to the specificity of lexical representations. Nevertheless, experiments based on iterative parameter selection gave positive results, see, for example the papers that introduced the compositional datasets described above \citet{Grefenstette:2011:ETV:2140490.2140497,kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
+Early compositional studies focused on the compositional operators, using lexical representations that are good for lexical tasks. Because parameters were selected iteratively, the fact that one operator outperformed other could be due to the specificity of lexical representations. Nevertheless, experiments based on iterative parameter selection gave positive results, see, for example, the papers that introduced the compositional datasets described above \citet{Grefenstette:2011:ETV:2140490.2140497,kartsaklis-sadrzadeh-pulman:2013:CoNLL-2013}.
 
 \citet{blacoe2012comparison} is---to the best of our knowledge---the first paper that, apart from identifying the best compositional operator, also  explicitly contrasted two kinds of lexical representations: shallow that are based on the co-occurrence of words and embeddings that are learned by a neural language model \cite{bengio2006,Collobert:2008:UAN:1390156.1390177}. They concluded that shallow approaches are as good as their computationally more intensive counterparts based on language models in phrase similarity and paraphrase detection tasks. They also identified the importance of the combination of lexical representation and the compositional method.
 
-\citet{milajevs-EtAl:2014:EMNLP2014}, the work that set the ground for this thesis, also contrasts global and local representations (Section~\ref{sec:distributional-representations}) in compositional setting. However, differently to \citet{blacoe2012comparison} experiments, local representations showed robust performance yielding better results on a number of tasks and were recommended for usage in compositional experiments.
+\citet{milajevs-EtAl:2014:EMNLP2014}, the work that set the ground for this thesis, also contrasts global and local representations (Section~\ref{sec:distributional-representations}) in compositional setting. However, in contrast to \citet{blacoe2012comparison} experiments, local representations showed robust performance yielding better results on a number of tasks and were recommended for usage in compositional experiments.
 
 In the literature, local and global models are also referred as count-based models and prediction-based models respectively, after a paper with a flashy title ``Don’t count, predict!~A systematic comparison of context-counting vs.~context-predicting semantic vectors'' by \citet{baroni-dinu-kruszewski:2014:P14-1}. The work consecutive to \citet{milajevs-EtAl:2014:EMNLP2014} (consequently or coincidentally) focuses on predictive lexical representations.
 
@@ -626,7 +632,7 @@ Similarity is an important notion in psychological theories of knowledge and beh
 
 Similarity measurement of words and multi-word units is theoretically challenging. \newcite{goodman1972problems} argues that the similarity relation does not exist, because everything can be shown to be similar to everything else. \newcite{medin1993respects} and \newcite{Markman1996} response that similarity has to be contextualised to be measured, that is, the features of interest need to be defined before the measurement.
 
-According to \newcite{harris1954distributional}, the word meaning does not need to be obtained to measure similarity, instead, the differences of occurrences of two words quantify the difference in their meaning. In this way the problems with representing meaning in isolation raised by Frege are avoided, because word meaning is not constructed.
+According to \newcite{harris1954distributional}, the word meaning does not need to be obtained to measure similarity, instead, the differences of occurrences of two words quantify the difference in their meaning. In this way, the problems with representing meaning in isolation raised by Frege are avoided, because word meaning is not constructed.
 
 The principle of compositionality, that the representations of compounds are built from their parts, is the hallmark of categorical compositional semantics \cite{DBLP:journals/corr/abs-1003-4394}. It extends the composition mechanism from formal semantics by replacing the symbolic representation of atoms and relations with tensors of various orders.
 
@@ -638,11 +644,11 @@ Word similarity (in the broad psychological sense) has been studied extensively:
 
 Iterative parameter tuning is widely used to find the best model parameters. However, it does not take into account the interaction between the parameters of a similarity model. While some influential interactions are well known (for example, the weighting scheme interacts with the similarity score) and specific parameter choice is recommended (Positive PMI with cosine similarity), studies that introduce new parameters should not rely on existing recommendations, because an effective parameter combination might not be tested.
 
-Phrase similarity has been studied much less than word similarity. Several datasets  are proposed that focus on different aspects of similarity (for example, its application in word sense disambiguation within a context). Several compositional methods are developed. Other studied directions are the interaction of the lexical representations and compositional method and approximation of predicates to reduce the size of their representations.
+Phrase similarity has been studied much less than word similarity. Several datasets are proposed that focus on different aspects of similarity (for example, its application in word sense disambiguation within a context). Several compositional methods are developed. Other studied directions are the interaction of the lexical representations and compositional method and approximation of predicates to reduce the size of their representations.
 
 However, the compositional methods were not evaluated in a systematic way to identify the best parameters (for example, the co-occurrence weighting function among the others) and rely on iterative tuning by taking as a starting point parameters that work best with words. This might lead to biased evaluation.
 
-This thesis addresses the gap between the evaluation methodology of lexical and compositional similarity models. It is a systematic study of both words and phrasal similarity models. It covers a broad selection of parameter combinations that has not been tested before, especially on the phrase similarity tasks. It uses several datasets and employs a model selection methodology that is robust to overfitting.
+This thesis addresses the gap between the evaluation methodology of lexical and compositional similarity models. It is a systematic study of both words and phrasal similarity models. It covers a broad selection of parameter combinations that have not been tested before, especially on the phrase similarity tasks. It uses several datasets and employs a model selection methodology that is robust to overfitting.
 
 %%% Local Variables:
 %%% mode: latex
