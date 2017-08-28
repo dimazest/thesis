@@ -69,18 +69,25 @@ After fitting a model on the full set of parameters,  we fit six ``restricted'' 
 We compute $R^2$ scores of the models that exclude a parameter. The difference of the $R^2$ sore of the full model and the $R^2$ score of a restricted model is the partial $R^2$ score of the excluded parameter. Table~\ref{tab:SimLex999-ablation} shows partial $R^2$ scores for all the parameters. The most influential parameters, in decreasing order, are similarity, \texttt{freq} and \texttt{neg}, the contribution of other parameters to model performance estimation is minimal.
 
 \input{figures/SimLex999-similarity}
-Figure~\ref{fig:SimLex999-similarity} shows the average performance of similarity measures. Correlation outperforms all other measures for all dimensions and peaks at the dimensionality  of 20\,000, as Table~\ref{tab:Simlex999-heuristics-selection} shows. However, for $D \leq 5\,000$, the difference between correlation-based and cosine-based similarity measures is less than for $D > 5\,000$, supporting H\ref{hyp:similarity} that correlation performs well with high-dimensional spaces.
+Figure~\ref{fig:SimLex999-similarity} shows the average performance of similarity measures. Correlation outperforms all other measures for all dimensions and peaks at the dimensionality of 20\,000, as Table~\ref{tab:Simlex999-heuristics-selection} shows. However, for $D \leq 10\,000$, the difference between correlation-based and cosine-based similarity measures is not statistically significant, while it is for $D > 10\,000$. This supports H\ref{hyp:similarity} that correlation performs well with high-dimensional spaces.
 
-The influence of \texttt{freq}, the second parameter, is shown in Figure~\ref{fig:SimLex999-freq}. $\log n$ frequency outperforms other choices for all dimensions. After 20\,000 dimensions, $\log n$'s performance stabilises: variance decreases and the performance stays constant. Taking into account that for $D \leq 5\,000$ there is little difference between $1$ and $\log n$, H\ref{hyp:freq} is supported in this case as well, suggesting that for low-dimensional spaces the frequency component is unnecessary.
+The influence of \texttt{freq}, the second parameter, is shown in Figure~\ref{fig:SimLex999-freq}. $\log n$ frequency outperforms other choices for all dimensions. At 20\,000 and more dimensions, $\log n$ statistically significantly outperforms $1$. Also, $\log n$'s performance stabilises: variance decreases and the performance stays constant. Taking into account that for $D < 20\,000$ the difference between $1$ and $\log n$ is not statistically significant, H\ref{hyp:freq} is supported in this case as well, suggesting that for low-dimensional spaces the frequency component is unnecessary.
 
-The third parameter \texttt{neg}, with a value of 0.7, shows the best performance (Figure~\ref{fig:SimLex999-neg}). However, there is little difference between models with dimensionality greater than 20\,000. The score variance is much lower for high-dimensional spaces than for low-dimensional spaces, so high-dimensional spaces perform well with most choices of \texttt{neg}. This gives support to H\ref{hyp:var} that high-dimensional models are more likely to outperform low-dimensional models.
+The third parameter \texttt{neg}, with a value of 0.7, shows the best performance (Figure~\ref{fig:SimLex999-neg}), but 0.5 and 1 are statistically indistinguishable from it. With more than 3\,000 dimensions, the difference between 0.7 and 1.4 is statistically insignificant. Similarly, 2 is not statistically different with more than 5\,000 dimensions and 5 with more than 20\,000 dimensions.
+
+The performance of \texttt{neg} set to 7 increases as dimensionality increases, but the difference with 0.7 is statistically significant for all dimensions. We expect that with more dimensions, the difference between 0.7 and 7 becomes statistically insignificant.
+
+Models set with \texttt{neg} set to 0.2 become statistically different with more than 30\,000 dimensions.
+ 
+The score variance is much lower for high-dimensional spaces than for low-dimensional spaces, so for high-dimensional more choice of \texttt{neg} are statistically indistinguishable from the best choice of 0.7 This gives support to H\ref{hyp:var} that high-dimensional models are more likely to outperform low-dimensional models.
+
 Also, lower $k$ values, which make vectors denser, lead to higher performance in low-dimensional spaces, supporting H\ref{hyp:neg} that expects low-dimensional models benefit from dense vectors.
 
 \input{figures/SimLex999-cds}
 
-Models that do not perform shifting (abbreviated as N/A in Figure~\ref{fig:SimLex999-neg}), peak at 20\,000 dimensions and decrease afterwards with increasing variance.
+Models that do not perform shifting (abbreviated as N/A in Figure~\ref{fig:SimLex999-neg}), peak at 20\,000 dimensions and decrease afterwards with increasing variance. With more than 10\,000 dimensions they are statistically different from the best result.
 
-There is little difference between SPMI and SCPMI performance with a slight advantage to SCPMI (Figure~\ref{fig:SimLex999-discr}): PMI value compression into the range of $(0; 1)$ is unnecessary for lexical tasks (H\ref{hyp:lex-pmi-cpmi}).
+There is no statistically significant difference between SPMI and SCPMI performance with a slight advantage to SCPMI (Figure~\ref{fig:SimLex999-discr}): PMI value compression into the range of $(0; 1)$ is unnecessary for lexical tasks (H\ref{hyp:lex-pmi-cpmi}).
 
 Finally, models benefit from context distribution smoothing; spaces with less than 10\,000 dimensions produce the best results with $\alpha = 1$. For spaces with higher dimensionality, $\alpha = 0.75$ is the most advantageous (Figure~\ref{fig:SimLex999-cds}). This supports H\ref{hyp:cds} that smoothing is beneficial for high-dimensional spaces and corresponds to the preliminary results that were presented in \newcite{milajevs-sadrzadeh-purver:2016:ACL-SRW}.
 
