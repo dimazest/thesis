@@ -102,7 +102,7 @@ The average relative difference between Max selection and heuristics is 0.039 (3
 
 \input{figures/men-results}
 
-The MEN test collection consists of 3\,000 word pairs judged for similarity \cite{Bruni:2014:MDS:2655713.2655714}. In contrast to SimLex-999, the dataset does not distinguish between similarity and relatedness. As with SimLex-999, the models are evaluated by the Spearman's-$\rho$ correlation.
+The MEN test collection consists of 3\,000 word pairs judged for similarity \cite{Bruni:2014:MDS:2655713.2655714}. In contrast to SimLex-999, the dataset does not distinguish between similarity and relatedness. As with SimLex-999, the models are evaluated by the Spearman's-$\rho$ correlation. The minimum significant difference for MEN $\sigma^{0.9}_{0.05} = 0.013$.
 
 \subsection{Max selection}
 \label{sec:max-selection-men}
@@ -111,7 +111,7 @@ The MEN test collection consists of 3\,000 word pairs judged for similarity \cit
 
 Figure~\ref{fig:men-results} shows the selection results. Again, cross-validation results are identical with Max selection. Table~\ref{tab:men-max-selection} shows the results together with the selected models.
 
-Model performance monotonically increases as dimensionality increases. The highest score of 0.765 is achieved by 3 spaces with $D \geq 30\,000$, \logNSCPMI/, smoothed context distribution ($\alpha = 0.75$), shifted PMI values ($k = 1$) and the similarity measure based on correlation.
+Model performance monotonically increases as dimensionality increases. The highest score of 0.765 is achieved by 3 spaces with $D \geq 30\,000$, \logNSCPMI/, smoothed context distribution ($\alpha = 0.75$), shifted PMI values ($k = 1$) and the similarity measure based on correlation. Models with the same parameter choice, but lower dimensionality (10\,000 and 20\,000) are statistically indistinguishable from the highest scoring models.
 
 In comparison with SimLex-999, models with ``more extreme'' parameters give better results on MEN. For example, $\alpha = 0.75$ is the best for models tested on SimLex-999 with dimensionality starting with 20\,000, while for models tested on MEN, this parameter choice is the best starting with 5\,000. Similar behaviour is observed for \texttt{neg} and similarity. For high-dimensional spaces, the switch from SimLex-999 to MEN changes the best \texttt{neg} choice from 0.7 to 1 and similarity from cosine to correlation. Such a difference in parameter choices might suggest the difference between \textit{relatedness} and \textit{similarity}, but it still supports H\ref{hyp:freq}, H\ref{hyp:cds} and H\ref{hyp:neg} that frequency, context distribution smoothing and sparsity are important for high-dimensional spaces. H\ref{hyp:similarity} is also supported, as correlation is the best similarity measure for high-dimensional spaces.
 
