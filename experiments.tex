@@ -118,30 +118,42 @@ In comparison with SimLex-999, models with ``more extreme'' parameters give bett
 \subsection{Heuristics}
 \label{sec:heuristics-men}
 
+\input{figures/men-heuristics-selection-table}
+
 \input{figures/men-ablation}
 The linear model gives an adjusted $R^2$ of 0.733, which is lower than on SimLex-999, but is still high. Table~\ref{tab:men-ablation} shows partial $R^2$ scores for the explored parameters. The most influential parameter is \texttt{neg}, followed by \texttt{freq} and similarity. This is different from the case of SimLex-999, where the parameter's influence ``order'' is reversed.
 
-\input{figures/men-neg}
-The parameter \texttt{neg}, which controls sparsity, with $k = 2$ is preferable for spaces with dimensionality less than 20\,000. For spaces with more dimensions,
-$k = 5$ is more beneficial (Figure~\ref{fig:men-neg}). This replicates the suggestions of \newcite{TACL570}. We, however, expect that for spaces with more than 50\,000 dimensions even higher values should be preferred. This contrasts with the heuristics derived from SimLex-999, where a single \texttt{neg} value of 0.7 is chosen, but still complies with H\ref{hyp:neg}: sparse high-dimensional spaces outperform their high-dimensional, but dense counterparts.
+\input{figures/men-neg} The parameter \texttt{neg}, which controls sparsity, with $k = 2$ is preferable for spaces with dimensionality less than 20\,000. For spaces with more dimensions, $k = 5$ is more beneficial (Figure~\ref{fig:men-neg}). Models without shifting and with $k$ set to 0.2, 0.5, 0.7 and 7 are statistically significantly different from the best choice for all dimensions. This replicates the suggestions of \newcite{TACL570}. We, however, expect that for spaces with more than 50\,000 dimensions even higher values should be preferred.
 
-Regarding the frequency component, $\log n$ outperforms all other choices (Figure~\ref{fig:men-freq}). It is exactly the same behaviour as for heuristics based on SimLex-999, including the fact that $1$ and $\log n$ behave similarly for $D \leq 50\,000$, so H\ref{hyp:freq}---that frequency is needed for high-dimensional spaces---is once again confirmed.
+The choice of $k = 1$ with $D \ge 3\,000$ is statistically indistinguishable from the best choice, $k = 1.4$ is statistically indistinguishable with $D \ge 20\,000$, $k = 2$ is statistically indistinguishable for $2\,000 \le D \le 40\,000$ and $k = 5$ is statistically indistinguishable when $D \le 10\,000$.
 
-\input{figures/men-heuristics-selection-table}
+The choice of $k$ for MEN contrasts with the heuristics derived from SimLex-999, where the \texttt{neg} values of 0.5, 0.7 and 1 are statistically indistinguishable from each other, but still complies with H\ref{hyp:neg}: sparse high-dimensional spaces outperform their high-dimensional, but dense counterparts. The performance of the models with less than 20\,000 dimensions is statistically different.
+
+Regarding the frequency component, $\log n$ outperforms all other choices (Figure~\ref{fig:men-freq}). With 2\,000 or more dimensions it is statistically significantly different from the constant frequency. It is always statistically significantly different from the linear frequency. H\ref{hyp:freq}---that frequency is needed for high-dimensional spaces---is once again confirmed.
 
 \input{figures/men-similarity}
-Correlation is the preferred similarity measure (Figure~\ref{fig:men-similarity}), which is, again, in line with the choice based on SimLex-999. However, the gap between cosine and correlation similarities stays constant, with an exception of $D = 1\,000$, where the gap is smaller, giving a weak support to H\ref{hyp:similarity}: correlation performs best with high-dimensional spaces.
 
-SPMI is the preferred discriminativeness (Figure~\ref{fig:men-discr}), however, it is closely followed by CPMI and SCPMI. This contrasts with SimLex-999, where SCPMI is preferred. However, in both cases, the difference between the two choices is minimal. This is consistent with H\ref{hyp:lex-pmi-cpmi} that lexical models do not need PMI compression.
+Correlation is the preferred similarity measure (Figure~\ref{fig:men-similarity}) it is statistically significantly different from both cosine and the inner product. This is, again, in line with the choice based on SimLex-999. However, the gap between cosine and correlation similarities stays constant, with an exception of $D = 1\,000$, where the gap is smaller, giving a weak support to H\ref{hyp:similarity}: correlation performs best with high-dimensional spaces.
 
 \input{figures/men-cds}
-Global context probability gives on average higher results for MEN (Figure~\ref{fig:men-cds}). Note, SimLex-999 prefers context distribution smoothing (Figure~\ref{fig:SimLex999-cds}). The difference in performance between local context probabilities and global context probabilities decreases as dimensionality increases, making a weak support of H\ref{hyp:cds} that high-dimensional spaces benefit from context distribution smoothing.
+
+Overall, SPMI is the preferred discriminativeness (Figure~\ref{fig:men-discr}), however, it is closely followed by CPMI (the statistically significance difference for $D \le 2\,000$) and SCPMI (is statistically indistinguishable for $3\,000 \le D \le 10\,000$). This contrasts with SimLex-999, where SCPMI is preferred. However, in both cases, the difference between the two choices is minimal. This is consistent with H\ref{hyp:lex-pmi-cpmi} that lexical models do not need PMI compression.
+
+Global context probability gives on average higher results for MEN (Figure~\ref{fig:men-cds}). For models with 3\,000 or more dimensions, local probabilities are statistically indistinguishable. For models with $2\,000< D < 20,000$, $\alpha = 0.75$ is statistically indistinguishable as well.
+
+Note that SimLex-999 prefers context distribution smoothing (Figure~\ref{fig:SimLex999-cds}). The difference in performance between local context probabilities and global context probabilities decreases as dimensionality increases, making a weak support of H\ref{hyp:cds} that high-dimensional spaces benefit from context distribution smoothing.
 
 \subsection{Difference between Max selection and heuristics on MEN}
 
-The two selection procedures agree on fewer parameters than the ones based on SimLex-999. Both agree on discrimination ($\log n$) and similarity score for spaces with dimensionality greater than 10\,000 (correlation). While SCPMI is chosen by Max selection, SPMI is preferred by the selection based on heuristics, however, the difference between the two is minimal. In contrast to the Max selection, which chooses the models with context distribution smoothing, heuristics prefers models with global context probabilities. Also, heuristics picks models with higher shifting values $\alpha$ (2 and 5), in contrast to Max selection, where 0.7 and 1 are chosen. Table~\ref{tab:men-heuristics-selection} summarises the parameter selection based on heuristics.
+The two selection procedures agree on fewer parameters than the ones based on SimLex-999. Both agree on discrimination ($\log n$) and similarity score for spaces with dimensionality greater than 10\,000 (correlation).
 
-The average difference between Max selection and heuristics is 0.008 (0.8\%), supporting H\ref{hyp:10percent}: the difference between Max selection and heuristics is within the 10\% margin.
+While SCPMI is chosen by Max selection, SPMI is preferred by the selection based on heuristics, however, the difference between the two is minimal, especially for $3\,000 \le D \le 10\,000$, where the difference is statistically in significant.
+
+In contrast to the Max selection, which chooses the models with context distribution smoothing, heuristics prefers models with global context probabilities. However, with $3\,000 < D <20\,000$, there is no statistically significant difference between \texttt{cds} values.
+
+Also, heuristics picks models with higher shifting values $k$ (2 and 5), in contrast to Max selection, where 0.7 and 1 are chosen. Table~\ref{tab:men-heuristics-selection} summarises the parameter selection based on heuristics.
+
+The average difference between Max selection and heuristics is 0.008 (0.8\%), supporting H\ref{hyp:10percent}: the difference between Max selection and heuristics is within the 10\% margin. Moreover, the difference in scores between the two selections is statistically insignificant.
 
 \subsection{Difference between heuristics based on MEN and SimLex-999}
 
