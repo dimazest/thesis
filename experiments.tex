@@ -153,7 +153,7 @@ In contrast to the Max selection, which chooses the models with context distribu
 
 Also, heuristics picks models with higher shifting values $k$ (2 and 5), in contrast to Max selection, where 0.7 and 1 are chosen. Table~\ref{tab:men-heuristics-selection} summarises the parameter selection based on heuristics.
 
-The average difference between Max selection and heuristics is 0.008 (0.8\%), supporting H\ref{hyp:10percent}: the difference between Max selection and heuristics is within the 10\% margin. Moreover, the difference in scores between the two selections is statistically insignificant.
+The average relative difference between Max selection and heuristics is 0.008 (0.8\%), supporting H\ref{hyp:10percent}: the difference between Max selection and heuristics is within the 10\% margin. Moreover, the difference in scores between the two selections is statistically insignificant.
 
 \subsection{Difference between heuristics based on MEN and SimLex-999}
 
@@ -169,24 +169,22 @@ We have identified parameters that lead to high correlation scores with human si
 
 \input{figures/lexical-transfer}
 
-The models selected using heuristics based on the SimLex-999 dataset perform well on MEN: for all dimensions, the selected models are close to the best possible score (Figure~\ref{fig:SimLex999-transfer}). The average difference with the upper bound is 0.006, or 0.6\%.
+The models selected using heuristics based on the SimLex-999 dataset perform well on MEN: for all dimensions, the selected models are statistically indistinguishable from the best possible score (Figure~\ref{fig:SimLex999-transfer}). The average relative difference with the upper bound is 0.006, or 0.6\%.
 
-The Max-based selection comes close to the upper bound for models with dimensionality greater than 5\,000. The average difference with the upper bound is 0.039. The higher difference is due to overfitting of the low-dimensional models ($D < 5\,000$), where the average difference is 0.09.
+The Max-based selection is statistically indistinguishable the upper bound for models with dimensionality greater than 5\,000. The average relative difference with the upper bound is 0.039. The higher difference is due to overfitting of the low-dimensional models ($D < 5\,000$), where the average relative difference is 0.09.
 
 In this case, heuristic-based selection leads to better performance than the Max-based selection, supporting H\ref{hyp:overfitting}: Max selection does overfit.
 
 \subsection{From MEN to SimLex-999}
 
-Heuristics transferred from MEN to SimLex-999 behave less efficiently, they do not always outperform Max selection, though for high-dimensional spaces the difference decreases (Figure~\ref{fig:men-transfer}). The average difference is 0.062, which is ten times more than the transition from SimLex-999 to MEN.
+Heuristics transferred from MEN to SimLex-999 behave less efficiently, they do not always outperform Max selection, though for high-dimensional spaces (5\,0000 dimensions and more) the difference is statistically insignificant (Figure~\ref{fig:men-transfer}). The average relative difference is 0.062, which is ten times more than the transition from SimLex-999 to MEN.
 
-Neither Max selection picks the best possible results when transferred from MEN to SimLex-999, however, the average difference is lower than with heuristics: 0.042 versus 0.062. This is similar to the transition in other direction.
+Neither Max selection picks the best possible results when transferred from MEN to SimLex-999, the difference with the best scores is statistically insignificant with 3\,000 and more dimensions.The average relative difference is lower than with heuristics: 0.042 versus 0.062. This is similar to the transition in other direction.
 
 Max-based selection leads to better performance than the heuristics for MEN, making a case against H\ref{hyp:overfitting}: Max selection does not overfit.
 
 \section{Universal parameter selection for lexical datasets}
 \label{sec:universal-lexical-param-selection}
-
-\input{figures/lexical-results}
 
 This section explores whether there are models that behave well across several datasets. It serves two interests. First of all, both datasets measure similarity, so the underlying method of estimating it ideally should not depend on the dataset. Secondly, by compromising between the two datasets, overfitting should be avoided.
 
@@ -211,30 +209,32 @@ The performance of the selected models on both datasets and the normalised avera
 \subsection{Max selection}
 \label{sec:max-selection}
 
-In general, the more dimensions, the better the results are. The selection yields the best results at $D = 50\,000$ for SimLex-999 and at $D = 30\,000$ for MEN. While for SimLex-999, the Max selection approaches the upper limit after 20\,000 dimensions; for MEN, the performance peaks at 30\,000 dimensions and then slightly deviates from the upper bound as the dimensionality increases.
+In general, the more dimensions, the better the results are. The selection yields the best results at $D = 50\,000$ for SimLex-999 and at $D = 30\,000$ for MEN. While for SimLex-999, the Max selection is statistically indistinguishable from the best score with 5\,000 and more dimensions. For MEN, the performance peaks at 30\,000 dimensions and then slightly deviates from the upper bound as the dimensionality increases, however, it is statistically indistinguishable from the highest score with 10\,000 and more dimensions.
 
 The Max selection based on the combination of the two lexical datasets is closer to the Max selection based on SimLex-999 (Table~\ref{tab:Simlex999-max-selection}) than on MEN (Table~\ref{tab:men-max-selection}).
 
-\input{figures/lexical-heuristics-selection-table}
+\input{figures/lexical-results}
 
 \subsection{Heuristics}
 
+\input{figures/lexical-heuristics-selection-table}
+
 The linear model achieves an adjusted $R^2$ of 0.817, which is less than the $R^2 = 0.867$ of SimLex-999, but is greater than the $R^2 = 0.733$ of MEN. Table~\ref{tab:lexical-ablation} shows partial $R^2$s for each parameter---the most influential are similarity, \texttt{neg} and \texttt{freq}.
 
-\input{figures/lexical-similarity}
-Correlation is the similarity measure of choice (Figure~\ref{fig:lexical-similarity}). However, the difference between cosine and correlation is minimal for $D \leq 5\,000$ supporting H\ref{hyp:similarity} that correlation is beneficial for high-dimensional spaces.
+\input{figures/lexical-similarity} Correlation is the similarity measure of choice (Figure~\ref{fig:lexical-similarity}). However, the difference between cosine and correlation is not statistically significant for $D < 10\,000$ supporting H\ref{hyp:similarity} that correlation is beneficial for high-dimensional spaces.
 
 \input{figures/lexical-ablation}
 
 For the models with dimensionality less than 20\,000, shifting should be used with $k = 1$, otherwise, $k = 2$ is preferred (Figure~\ref{fig:lexical-neg}). This supports H\ref{hyp:neg} that the more dimensions a model has the sparser it should be.
 
-\input{figures/lexical-freq}
-The frequency parameter $\log n$, on average, performs the best as the frequency component (Figure~\ref{fig:lexical-freq}). But for $D \leq 5\,000$, 1 also performs competitively, supporting H\ref{hyp:freq} that the frequency component is most useful for high-dimensional spaces.
+The choices of $k$ set to 0.2, 0.5 and N/A lead to the scores that are statistically significantly different from the best score. Shifting $k = 0.7$ leads to the statistically different results with $D \ge 20,000$; $k = 1$ with $D \ge 30\,000$; $k = 1.4$ with $D = 50\,000$; $k = 2$ with $D \le 2\,000$; $k = 5$ with $D \le 10\,00$; and $k = 7$ with $D \le 20$.
 
-SCPMI is the preferred discrimination component, but SPMI is very close to it (Figure~\ref{fig:lexical-discr}), backing up H\ref{hyp:lex-pmi-cpmi} that PMI value compression is not needed in lexical tasks.
+\input{figures/lexical-freq} The frequency parameter $\log n$, on average, performs the best as the frequency component (Figure~\ref{fig:lexical-freq}). But for $D < 30\,000$, 1 performs statistically indistinguishably, supporting H\ref{hyp:freq} that the frequency component is most useful for high-dimensional spaces.
 
-\input{figures/lexical-cds}
-Global context probabilities, on average, behave the best (Figure~\ref{fig:lexical-cds}). However, global context probabilities and local context probabilities with $\alpha = 1$ yield close results for $D > 10\,000$, giving support to H\ref{hyp:cds} that context distribution smoothing is needed in high-dimensional spaces.
+SCPMI is the preferred discrimination component, but SPMI is statistically
+insignificantly different to it (Figure~\ref{fig:lexical-discr}), backing up H\ref{hyp:lex-pmi-cpmi} that PMI value compression is not needed in lexical tasks.
+
+\input{figures/lexical-cds} Global context probabilities, on average, behave the best (Figure~\ref{fig:lexical-cds}). However, global context probabilities and local context probabilities with $\alpha = 1$ yield statistically insignificantly different results for $D > 2\,000$, giving support to H\ref{hyp:cds} that context distribution smoothing is needed in high-dimensional spaces.
 
 \subsection{Comparison with single dataset based selections}
 
