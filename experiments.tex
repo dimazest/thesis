@@ -190,6 +190,7 @@ This section explores whether there are models that behave well across several d
 
 We score the models based on the average of the normalised scores over SimLex-999 and MEN:
 \begin{equation}
+\label{eq:score-lexical}
 \operatorname{score}_\mathit{lexical}(\mathit{model}) =%
 \frac{1}{2}\times%
 \frac{\operatorname{score}_\mathit{SimLex-999}(\mathit{model})}%
@@ -205,6 +206,10 @@ This is the simplest scoring methods. It treats the datasets equally by giving e
 The performance of the selected models on both datasets and the normalised average is shown in Table~\ref{tab:lexical-max-selection} (Max selection) and Table~\ref{tab:lexical-heuristics-selection} (selection based on heuristics) and in Figure~\ref{fig:lexical-results}.
 
 \input{figures/lexical-max-selection-table}
+
+To calculate the minimal required difference for statistical significance
+(MRDS), the MRDS of the corresponding datasets are put in to formula
+(\ref{eq:score-lexical}). The resulting MRDS value is 0.038.
 
 \subsection{Max selection}
 \label{sec:max-selection}
