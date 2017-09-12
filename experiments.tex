@@ -209,7 +209,7 @@ The performance of the selected models on both datasets and the normalised avera
 
 To calculate the minimal required difference for statistical significance
 (MRDS), the MRDS of the corresponding datasets are put in to formula
-(\ref{eq:score-lexical}). The resulting MRDS value is 0.038.
+(\ref{eq:score-lexical}). The resulting MRDS value is $\sigma^{0.9}_{0.05} = 0.038$.
 
 \subsection{Max selection}
 \label{sec:max-selection}
@@ -270,8 +270,7 @@ As expected, we did not see a significant influence of the ``compression'' of th
 
 We could not find supporting evidence for H\ref{hyp:overfitting}, as Max-selected models performed well on transfer and do not overfit. Both selection methods are within the 10\% difference margin to the highest result (H\ref{hyp:10percent}), suggesting that there indeed might be a universal vector space (H\ref{hyp:universal}).
 
-\input{figures/lexical-comparison}
-On lexical tasks, the best results among the selected models are 0.384 (SimLex-999) and 0.764 (MEN). On the similarity dataset, scores are 0.009 points behind the PPMI model of \newcite{TACL570}, however, on the relatedness dataset, 0.019 points above. Note the difference in dimensionality, source corpora and window size. Table~\ref{tab:lexical-comparison} shows the results of SVD, SGNS and GloVe-based vector spaces are given for comparison.
+\input{figures/lexical-comparison} On lexical tasks, the best results among the selected models are 0.384 (SimLex-999) and 0.764 (MEN). On the similarity dataset, scores are 0.009 points below the PPMI model of \newcite{TACL570}, the difference is not statistically significant. On the relatedness dataset, our score is 0.019 points above \citet{TACL570}, the difference is statistically significant. Note the difference in dimensionality, source corpora and window size. Table~\ref{tab:lexical-comparison} shows the results of SVD, SGNS and GloVe-based vector spaces are given for comparison.
 
 The next step is to test compositional models. Before experiments are presented in Chapter~\ref{sec:sentential}, a new dataset that provides relevance judgements of pairs of sentences is presented in Chapter~\ref{sec:phraserel}.
 
