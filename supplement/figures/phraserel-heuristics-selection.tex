@@ -2,41 +2,44 @@
 \toprule
 operator &  dimensionality &  PhraseRel &  freq &  discr &     cds &  neg &     similarity \\
 \midrule
-    head &            1\,000 &       0.64 &     n &   spmi &    0.75 &  1.4 &    correlation \\
-    head &            2\,000 &       0.75 &     n &   spmi &    0.75 &  1.4 &    correlation \\
-    head &            3\,000 &       0.71 &     n &   spmi &    0.75 &  1.4 &    correlation \\
-    head &            5\,000 &       0.71 &     n &  scpmi &    0.75 &  1.4 &    correlation \\
-    head &           10\,000 &       \textbf{0.75} &     n &  scpmi &  global &  1.4 &            cos \\
-    head &           20\,000 &       \textbf{0.75} &     n &  scpmi &  global &  1.4 &            cos \\
-    head &           30\,000 &       \textbf{0.75} &     n &  scpmi &  global &  1.4 &            cos \\
-    head &           40\,000 &       \textbf{0.75} &     n &  scpmi &  global &  1.4 &            cos \\
-    head &           50\,000 &       \textbf{0.75} &     n &  scpmi &  global &  1.4 &            cos \\ \addlinespace
-     add &            1\,000 &       0.79 &     1 &   spmi &  global &    2 &            cos \\
-     add &            2\,000 &       0.82 &     1 &   spmi &  global &    2 &            cos \\
-     add &            3\,000 &       \textbf{0.86} &     1 &   spmi &  global &    2 &            cos \\
-     add &            5\,000 &       0.82 &     1 &   spmi &  global &    2 &            cos \\
-     add &           10\,000 &       0.82 &     1 &   spmi &  global &    2 &            cos \\
-     add &           20\,000 &       0.82 &     1 &   spmi &  global &    2 &  inner\_product \\
-     add &           30\,000 &       0.82 &     1 &   spmi &  global &    2 &  inner\_product \\
-     add &           40\,000 &       0.79 &     1 &   spmi &  global &    2 &  inner\_product \\
-     add &           50\,000 &       0.75 &     1 &   spmi &  global &    2 &  inner\_product \\ \addlinespace
-    mult &            1\,000 &       0.89 &  logn &  scpmi &  global &  0.5 &    correlation \\
-    mult &            2\,000 &       0.89 &  logn &  scpmi &  global &  0.5 &    correlation \\
-    mult &            3\,000 &       0.89 &  logn &  scpmi &  global &  0.5 &    correlation \\
-    mult &            5\,000 &       0.93 &  logn &  scpmi &  global &  0.5 &    correlation \\
-    mult &           10\,000 &       0.93 &  logn &  scpmi &  global &  0.5 &    correlation \\
-    mult &           20\,000 &       \textbf{0.96} &  logn &  scpmi &  global &  0.5 &    correlation \\
-    mult &           30\,000 &       \textbf{0.96} &  logn &  scpmi &  global &  0.5 &    correlation \\
-    mult &           40\,000 &       0.93 &  logn &  scpmi &  global &  0.5 &    correlation \\
-    mult &           50\,000 &       0.93 &  logn &  scpmi &  global &  0.5 &    correlation \\ \addlinespace
-    kron &            1\,000 &       0.86 &  logn &   spmi &       1 &  0.5 &    correlation \\
-    kron &            2\,000 &       \textbf{0.93} &  logn &   spmi &       1 &  0.5 &    correlation \\
-    kron &            3\,000 &       \textbf{0.93} &  logn &   spmi &       1 &  0.5 &    correlation \\
-    kron &            5\,000 &       0.79 &     1 &   spmi &       1 &    1 &  inner\_product \\
-    kron &           10\,000 &       0.86 &     1 &   spmi &       1 &    1 &  inner\_product \\
-    kron &           20\,000 &       0.82 &     1 &   spmi &       1 &  1.4 &  inner\_product \\
-    kron &           30\,000 &       \textbf{0.93} &     1 &   spmi &       1 &  1.4 &  inner\_product \\
-    kron &           40\,000 &       0.86 &     1 &   spmi &       1 &  1.4 &  inner\_product \\
-    kron &           50\,000 &       0.82 &     1 &   spmi &       1 &  1.4 &  inner\_product \\
+    head &            1\,000 &       \textbf{0.64} &     n &   spmi &    0.75 &  1.4 &    correlation \\
+    head &            2\,000 &       \textbf{0.75} &     n &   spmi &    0.75 &  1.4 &    correlation \\
+    head &            3\,000 &       \textbf{0.71} &     n &   spmi &    0.75 &  1.4 &    correlation \\
+    head &            5\,000 &       \textbf{}0.71 &     n &  scpmi &    0.75 &  1.4 &    correlation \\
+    head &           10\,000 &       \textbe{0.75} &     n &  scpmi &  global &  1.4 &            cos \\
+    head &           20\,000 &       \textbe{0.75} &     n &  scpmi &  global &  1.4 &            cos \\
+    head &           30\,000 &       \textbe{0.75} &     n &  scpmi &  global &  1.4 &            cos \\
+    head &           40\,000 &       \textbe{0.75} &     n &  scpmi &  global &  1.4 &            cos \\
+    head &           50\,000 &       \textbe{0.75} &     n &  scpmi &  global &  1.4 &            cos \\ \addlinespace
+
+     add &            1\,000 &       \textbf{0.79} &     1 &   spmi &  global &    2 &            cos \\
+     add &            2\,000 &       \textbf{0.82} &     1 &   spmi &  global &    2 &            cos \\
+     add &            3\,000 &       \textbe{0.86} &     1 &   spmi &  global &    2 &            cos \\
+     add &            5\,000 &       \textbf{0.82} &     1 &   spmi &  global &    2 &            cos \\
+     add &           10\,000 &       \textbf{0.82} &     1 &   spmi &  global &    2 &            cos \\
+     add &           20\,000 &       \textbf{0.82} &     1 &   spmi &  global &    2 &  inner\_product \\
+     add &           30\,000 &       \textbf{0.82} &     1 &   spmi &  global &    2 &  inner\_product \\
+     add &           40\,000 &       \textbf{0.79} &     1 &   spmi &  global &    2 &  inner\_product \\
+     add &           50\,000 &       \textbf{0.75} &     1 &   spmi &  global &    2 &  inner\_product \\ \addlinespace
+
+    mult &            1\,000 &       \textbf{0.89} &  logn &  scpmi &  global &  0.5 &    correlation \\
+    mult &            2\,000 &       \textbf{0.89} &  logn &  scpmi &  global &  0.5 &    correlation \\
+    mult &            3\,000 &       \textbf{0.89} &  logn &  scpmi &  global &  0.5 &    correlation \\
+    mult &            5\,000 &       \textbf{0.93} &  logn &  scpmi &  global &  0.5 &    correlation \\
+    mult &           10\,000 &       \textbf{0.93} &  logn &  scpmi &  global &  0.5 &    correlation \\
+    mult &           20\,000 &       \textbe{0.96} &  logn &  scpmi &  global &  0.5 &    correlation \\
+    mult &           30\,000 &       \textbe{0.96} &  logn &  scpmi &  global &  0.5 &    correlation \\
+    mult &           40\,000 &       \textbf{0.93} &  logn &  scpmi &  global &  0.5 &    correlation \\
+    mult &           50\,000 &       \textbf{0.93} &  logn &  scpmi &  global &  0.5 &    correlation \\ \addlinespace
+
+    kron &            1\,000 &       \textbf{0.86} &  logn &   spmi &       1 &  0.5 &    correlation \\
+    kron &            2\,000 &       \textbe{0.93} &  logn &   spmi &       1 &  0.5 &    correlation \\
+    kron &            3\,000 &       \textbe{0.93} &  logn &   spmi &       1 &  0.5 &    correlation \\
+    kron &            5\,000 &       \textbf{0.79} &     1 &   spmi &       1 &    1 &  inner\_product \\
+    kron &           10\,000 &       \textbf{0.86} &     1 &   spmi &       1 &    1 &  inner\_product \\
+    kron &           20\,000 &       \textbf{0.82} &     1 &   spmi &       1 &  1.4 &  inner\_product \\
+    kron &           30\,000 &       \textbe{0.93} &     1 &   spmi &       1 &  1.4 &  inner\_product \\
+    kron &           40\,000 &       \textbf{0.86} &     1 &   spmi &       1 &  1.4 &  inner\_product \\
+    kron &           50\,000 &       \textbf{0.82} &     1 &   spmi &       1 &  1.4 &  inner\_product \\
 \bottomrule
 \end{tabular}
