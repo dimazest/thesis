@@ -1,28 +1,34 @@
 \begin{tabular}{lllllllrrrrrr}
 \toprule
-       & {} &      &   &      &     &   &  copy-object &  copy-subject &  frobenius-add &  frobenius-mult &  frobenius-outer &  relational \\
+       & {} &      &   &      &     &   &                                         copy-object &           copy-subject &          frobenius-add &            frobenius-mult &           frobenius-outer &  relational \\
 selection & operator & dimensionality & freq & discr & neg & cds &              &               &                &                 &                  &             \\
 \midrule
-single                 & {}   & 1\,000 & 1     & scpmi & 0.7 & global &         0.60 &          0.70 &           0.71 &            0.69 &             0.73 &        0.73 \\
-single                 & {}   & 2\,000 & 1     & scpmi & 0.7 & global &         0.62 &          0.70 &           0.72 &            0.72 &             0.74 &        0.74 \\
-single                 & {}   & 3\,000 & 1     & scpmi & 0.7 & global &         0.61 &          0.71 &           0.73 &            0.72 &             0.75 &        0.75 \\ \addlinespace
-universal (max)        & add  & 1\,000 & 1     & scpmi & 1.0 & global &         0.60 &          \textbf{0.74} &           0.75 &            0.67 &             0.74 &        0.74 \\
-universal (max)        & add  & 2\,000 & 1     & cpmi  & N/A & 1      &         0.61 &          0.73 &           0.75 &            \textbf{0.75} &             0.76 &        0.76 \\
-universal (max)        & add  & 3\,000 & logn  & cpmi  & N/A & 1      &         0.62 &          0.73 &           0.75 &            0.71 &             0.76 &        0.76 \\ \addlinespace
-universal (max)        & mult & 1\,000 & logn  & spmi  & 0.7 & global &         0.60 &          0.71 &           0.72 &            0.68 &             0.73 &        0.74 \\
-universal (max)        & mult & 2\,000 & logn  & spmi  & 0.2 & 1      &         0.61 &          0.70 &           0.72 &            0.69 &             0.74 &        0.74 \\
-universal (max)        & mult & 3\,000 & logn  & spmi  & 0.7 & global &         0.62 &          0.72 &           0.74 &            0.71 &             0.74 &        0.74 \\ \addlinespace
-universal (max)        & kron & 1\,000 & logn  & spmi  & 1.0 & global &         0.60 &          0.73 &           0.74 &            0.66 &             0.74 &        0.74 \\
-universal (max)        & kron & 2\,000 & logn  & scpmi & 1.0 & global &         0.62 &          \textbf{0.74} &           0.75 &            0.68 &             0.75 &        0.75 \\
-universal (max)        & kron & 3\,000 & 1     & scpmi & 1.0 & global &         \textbf{0.63} &          0.73 &           \textbf{0.76} &            0.69 &             \textbf{0.77} &        \textbf{0.77} \\ \addlinespace
-universal (heuristics) & add  & 1\,000 & 1     & scpmi & 0.7 & global &         0.59 &          0.72 &           0.73 &            0.73 &             0.74 &        0.74 \\
-universal (heuristics) & add  & 2\,000 & 1     & scpmi & 0.7 & global &         0.61 &          0.72 &           0.74 &            0.73 &             0.75 &        0.75 \\
-universal (heuristics) & add  & 3\,000 & 1     & scpmi & 0.7 & global &         0.61 &          0.72 &           0.75 &            0.73 &             0.75 &        0.75 \\ \addlinespace
-universal (heuristics) & mult & 1\,000 & 1     & spmi  & 0.5 & global &         0.59 &          0.71 &           0.72 &            0.72 &             0.73 &        0.73 \\
-universal (heuristics) & mult & 2\,000 & 1     & spmi  & 0.5 & global &         0.60 &          0.72 &           0.73 &            0.73 &             0.74 &        0.74 \\
-universal (heuristics) & mult & 3\,000 & 1     & spmi  & 0.5 & global &         0.61 &          0.71 &           0.74 &            0.73 &             0.74 &        0.74 \\ \addlinespace
-universal (heuristics) & kron & 1\,000 & 1     & spmi  & 0.7 & global &         0.60 &          0.71 &           0.72 &            0.69 &             0.73 &        0.74 \\
-universal (heuristics) & kron & 2\,000 & 1     & spmi  & 0.7 & global &         0.62 &          0.72 &           0.74 &            0.71 &             0.74 &        0.75 \\
-universal (heuristics) & kron & 3\,000 & 1     & spmi  & 0.7 & global &         0.62 &          0.71 &           0.74 &            0.72 &             0.74 &        0.75 \\
+single                 & {}   & 1\,000 & 1     & scpmi & 0.7 & global &                 0.60  &                  0.70  &                   0.71  &                    0.69  &                     0.73  &                0.73  \\
+single                 & {}   & 2\,000 & 1     & scpmi & 0.7 & global &         \textbf{0.62} &                  0.70  &                   0.72  &                    0.72  &                     0.74  &                0.74  \\
+single                 & {}   & 3\,000 & 1     & scpmi & 0.7 & global &         \textbf{0.61} &                  0.71  &                   0.73  &                    0.72  &             \textbf{0.75} &        \textbf{0.75} \\ \addlinespace
+
+universal (max)        & add  & 1\,000 & 1     & scpmi & 1.0 & global &                 0.60  &          \textbe{0.74} &           \textbf{0.75} &                    0.67  &                     0.74  &                0.74  \\
+universal (max)        & add  & 2\,000 & 1     & cpmi  & N/A & 1      &         \textbf{0.61} &          \textbf{0.73} &           \textbf{0.75} &            \textbe{0.75} &             \textbf{0.76} &        \textbf{0.76} \\
+universal (max)        & add  & 3\,000 & logn  & cpmi  & N/A & 1      &         \textbf{0.62} &          \textbf{0.73} &           \textbf{0.75} &                    0.71  &             \textbf{0.76} &        \textbf{0.76} \\ \addlinespace
+  
+universal (max)        & mult & 1\,000 & logn  & spmi  & 0.7 & global &                 0.60  &                  0.71  &                   0.72  &                    0.68  &                     0.73  &                0.74  \\
+universal (max)        & mult & 2\,000 & logn  & spmi  & 0.2 & 1      &         \textbf{0.61} &                  0.70  &                   0.72  &                    0.69  &                     0.74  &                0.74  \\
+universal (max)        & mult & 3\,000 & logn  & spmi  & 0.7 & global &         \textbf{0.62} &          \textbf{0.72} &           \textbf{0.74} &                    0.71  &                     0.74  &                0.74  \\ \addlinespace
+
+universal (max)        & kron & 1\,000 & logn  & spmi  & 1.0 & global &                 0.60  &          \textbf{0.73} &           \textbf{0.74} &                    0.66  &                     0.74  &                0.74  \\
+universal (max)        & kron & 2\,000 & logn  & scpmi & 1.0 & global &         \textbf{0.62} &          \textbe{0.74} &           \textbf{0.75} &                    0.68  &             \textbf{0.75} &        \textbf{0.75} \\
+universal (max)        & kron & 3\,000 & 1     & scpmi & 1.0 & global &         \textbe{0.63} &          \textbf{0.73} &           \textbe{0.76} &                    0.69  &             \textbe{0.77} &        \textbe{0.77} \\ \addlinespace
+
+universal (heuristics) & add  & 1\,000 & 1     & scpmi & 0.7 & global &                 0.59  &          \textbf{0.72} &                   0.73  &            \textbf{0.73} &                     0.74  &                0.74  \\
+universal (heuristics) & add  & 2\,000 & 1     & scpmi & 0.7 & global &         \textbf{0.61} &          \textbf{0.72} &           \textbf{0.74} &            \textbf{0.73} &             \textbf{0.75} &        \textbf{0.75} \\
+universal (heuristics) & add  & 3\,000 & 1     & scpmi & 0.7 & global &         \textbf{0.61} &          \textbf{0.72} &           \textbf{0.75} &            \textbf{0.73} &             \textbf{0.75} &        \textbf{0.75} \\ \addlinespace
+
+universal (heuristics) & mult & 1\,000 & 1     & spmi  & 0.5 & global &                 0.59  &                  0.71  &                   0.72  &                    0.72  &                     0.73  &                0.73  \\
+universal (heuristics) & mult & 2\,000 & 1     & spmi  & 0.5 & global &                 0.60  &          \textbf{0.72} &                   0.73  &            \textbf{0.73} &                     0.74  &                0.74  \\
+universal (heuristics) & mult & 3\,000 & 1     & spmi  & 0.5 & global &         \textbf{0.61} &                  0.71  &           \textbf{0.74} &            \textbf{0.73} &                     0.74  &                0.74  \\ \addlinespace
+ 
+universal (heuristics) & kron & 1\,000 & 1     & spmi  & 0.7 & global &                 0.60  &                  0.71  &                   0.72  &                    0.69  &                     0.73  &                0.74  \\
+universal (heuristics) & kron & 2\,000 & 1     & spmi  & 0.7 & global &         \textbf{0.62} &          \textbf{0.72} &           \textbf{0.74} &                    0.71  &                     0.74  &        \textbf{0.75} \\
+universal (heuristics) & kron & 3\,000 & 1     & spmi  & 0.7 & global &         \textbf{0.62} &                  0.71  &           \textbf{0.74} &                    0.72  &                     0.74  &        \textbf{0.75} \\
 \bottomrule
 \end{tabular}
