@@ -12,15 +12,15 @@ We show that the optimal choice of lexical parameters depends on the method of c
 \section{Experiments on KS14 dataset}
 \label{sec:ks14}
 
-KS14 is a sentence similarity dataset prepared by \citet{kartsadrqpl2014}. It consists of pairs of transitive sentences that are judged by similarity. The goal is to achieve high correlation with human judgements in predicting sentential similarity. We also report behaviour of a baseline operator \texttt{head}, which ignores the subject and the object of a sentence and makes the vector of a sentence equal to the vector of the head word, in our case the verb.
+KS14 is a sentence similarity dataset prepared by \citet{kartsadrqpl2014}. It consists of pairs of transitive sentences that are judged by similarity. The goal is to achieve high correlation with human judgements in predicting sentential similarity. We also report behaviour of a baseline operator \texttt{head}, which ignores the subject and the object of a sentence and makes the vector of a sentence equal to the vector of the head word, in our case the verb. The minimum significant difference for KS14 is $\sigma^{0.9}_{0.05} = 0.07$.
 
 \subsection{Max selection}
 \label{sec:max-selection-ks14}
 
-Figure~\ref{fig:ks14-results} shows the performance of compositional models on the sentence similarity dataset KS14. All operators outperform the non-compositional \texttt{head} operator. Table~\ref{tab:ks14-max-selection} shows the performance of models selected by Max selection together with the selected parameters.
+Figure~\ref{fig:ks14-results} shows the performance of compositional models on the sentence similarity dataset KS14. All operators outperform the non-compositional \texttt{head} operator, addition and Kronecker statistically significantly outperform \texttt{head} operator. Table~\ref{tab:ks14-max-selection} shows the performance of models selected by Max selection together with the selected parameters.
 
 % \todo[noline]{Significance test}
-Kronecker with a few thousand dimensions and correlation as the similarity measure gives the highest scores, supporting H\ref{hyp:order} that word order is important in predicting similarity. As the dimensionality increases, Kronecker performance stays constant. Addition is slightly better than multiplication, but the performance of both peaks at 2\,000 dimensions and decreases as dimensionality increases.
+Kronecker with a few thousand dimensions and correlation as the similarity measure gives the highest scores, supporting H\ref{hyp:order} that word order is important in predicting similarity. As the dimensionality increases, Kronecker performance stays constant. Addition is slightly better than multiplication, but the performance of both peaks at 2\,000 dimensions and decreases as dimensionality increases. There is no statistically significant difference between the highest score of Kronecker and the highest scores of addition and multiplication.
 
 \input{figures/ks14-results}
 
