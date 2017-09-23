@@ -47,9 +47,9 @@ The linear model achieves an $R^2$ of 0.794. The partial $R^2$s are shown in Tab
 
 \subsubsection{Shifting}
 
-For the baseline operator \texttt{head}, the best shifting choice of $k$ is 1 for spaces with dimensionality less than 5\,000 (Figure~\ref{fig:ks14-neg}). For $5\,000 \leq D < 30\,000$, \texttt{head} behaves best with $k = 1.4$. For $D \geq 3\,000$, $k$ should be set to 2.
+For the baseline operator \texttt{head}, the best shifting choice of $k$ is 1 for spaces with dimensionality less than 5\,000 (Figure~\ref{fig:ks14-neg}); $k=0.7$, $k=1,4$ and $k=2$ are statistically indistinguishable from the best score. For $5\,000 \leq D < 30\,000$, \texttt{head} behaves best with $k = 1.4$; $k=0.7, 5\,000 \le D \le 10\,000$ is statistically insignificant from the best score, as well as $k=1$ and $k=2$. For $D \geq 3\,000$, $k$ should be set to 2; but $k=1$ and $k=1.4$ are statistically indistinguishable from it.
 
-For addition, spaces with $D < 20\,000$ should be used with $k = 1.4$, and with $k = 2$ otherwise.
+For addition, spaces with $D < 20\,000$ should be used with $k = 1.4$; $k=0.7, D \le 5\,000$ is statistically indistinguishable from the best score, as well as $k=1$ and $k=2$. For $D \ge 20\,000$, $k = 2$ should be used, however $k=1$, $k=1.4$, $k=5$ and $k=7, D \ge 30\,000$ are statistically indistinguishable from it.
 
 For multiplication, there are three most beneficial choices: for $D < 10\,000$ $k = 0.5$, for $10\,000 \leq D < 30\,000$ $k = 0.7$ and, finally, for $D > 30\,000$ $k = 1$.
 
