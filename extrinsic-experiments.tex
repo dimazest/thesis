@@ -51,45 +51,45 @@ For the baseline operator \texttt{head}, the best shifting choice of $k$ is 1 fo
 
 For addition, spaces with $D < 20\,000$ should be used with $k = 1.4$; $k=0.7, D \le 5\,000$ is statistically indistinguishable from the best score, as well as $k=1$ and $k=2$. For $D \ge 20\,000$, $k = 2$ should be used, however $k=1$, $k=1.4$, $k=5$ and $k=7, D \ge 30\,000$ are statistically indistinguishable from it.
 
-For multiplication, there are three most beneficial choices: for $D < 10\,000$ $k = 0.5$, for $10\,000 \leq D < 30\,000$ $k = 0.7$ and, finally, for $D > 30\,000$ $k = 1$.
+For multiplication, there are three most beneficial choices: for $D < 10\,000$ $k = 0.5$ ($k=0.2$ and $k=0.7$ are statistically indistinguishable), for $10\,000 \leq D < 30\,000$ $k = 0.7$ ($k=0.2$, $k=0.5$ and $k=1$ are statistically indistinguishable) and, finally, for $D > 30\,000$ $k = 1$ ($k=0.5$ and $k=0.7$ are statistically indistinguishable).
 
-Kronecker shows a behaviour  similar to multiplication for $k$ as dimensionality increases, but prefers sparser spaces. For $D < 3\,000$: $k = 0.5$, for $3\,000 \leq D < 20\,000$: $k = 0.7$ and for $20\,000 \leq D$: $k = 1$.
+Kronecker shows a behaviour  similar to multiplication for $k$ as dimensionality increases, but prefers sparser spaces. For $D < 3\,000$: $k = 0.5$ ($k=0.2$ and $k=0.7$ are statistically indistinguishable), for $3\,000 \leq D < 20\,000$: $k = 0.7$ ($k=0.5$ and $k=1$ are statistically indistinguishable) and for $20\,000 \leq D$: $k = 1$ ($k=0.7$ and $k=1.4$ are statistically indistinguishable).
 
 All operators behave in accordance to H\ref{hyp:neg} that low-dimensional spaces benefit from being dense, while high-dimensional spaces benefit from being sparse.
 
 \input{figures/ks14-neg}
 
 \subsubsection{Frequency}
-The best option of frequency for the baseline operator \texttt{head} is $\log n$ (Figure~\ref{fig:ks14-freq}). The constant frequency 1 is very close to $\log n$, but its performance declines for spaces with $D > 20\,000$.
+The best option of frequency for the baseline operator \texttt{head} is $\log n$ (Figure~\ref{fig:ks14-freq}). The constant frequency 1 is statistically indistinguishable from $\log n$, but its performance declines for spaces with $D > 20\,000$. The linear choice $n$ gives statistically different results for $D$ set to 2\,000, 3\,000, and 20\,000.
 
-For addition, frequency should be set to 1 for spaces with $D < 5\,000$ and to $\log n$ otherwise.
+For addition, frequency should be set to 1 for spaces with $D < 5\,000$ and to $\log n$ otherwise. However, there is no statistically significance difference between 1 and $\log n$. There is statistically significant difference for $n$.
 
-There is one choice of frequency for multiplication: 1. However, $\log n$ behaves similarly to it when $D \geq 3\,000$.
+There is one choice of frequency for multiplication: 1. However, there is no statistically significant difference for $\log n$ and 1. There is statistically significant difference for $n$.
 
-Kronecker follows addition with regard to frequency, but the split point is $D = 10\,000$: low-dimensional spaces should be used with constant frequency 1, and high-dimensional spaces with $\log n$.
+Kronecker follows addition with regard to frequency, but the split point is $D = 10\,000$: low-dimensional spaces should be used with constant frequency 1, and high-dimensional spaces with $\log n$, however there is no statistically significance difference. Again, $n$ gives statistically significantly lower results.
 
-Generally, H\ref{hyp:freq}---that non-constant frequency is beneficial for high-dimensional spaces---is supported by all operators in this dataset.
+H\ref{hyp:freq}---that non-constant frequency is beneficial for high-dimensional spaces---is supported by all operators in this dataset looking to the highest score, however the difference is not statistically significant.
 
 \subsubsection{Context distribution smoothing}
 
 \input{figures/ks14-cds}
-The baseline operator \texttt{head} with spaces with dimensionality less than 20\,000 should be used with global probabilities, and more dimensional models should be used with smoothed, local probabilities: $\alpha = 0.75$ (Figure~\ref{fig:ks14-cds}).
+The baseline operator \texttt{head} with spaces with dimensionality less than 20\,000 should be used with global probabilities, and more dimensional models should be used with smoothed, local probabilities: $\alpha = 0.75$ (Figure~\ref{fig:ks14-cds}). However, there is not statistically significant difference between the smoothing choices.
 
-All other operators perform best with global context probability. Even though local context probability with $\alpha = 1$ is close to global, H\ref{hyp:cds} is not supported by this dataset: context distribution smoothing does not affect high-dimensional spaces.
+All other operators perform best with global context probability. Even though local context probability with $\alpha = 1$ is with very few exceptions is statistically indistinguishable, H\ref{hyp:cds} is not supported by this dataset: context distribution smoothing does not affect high-dimensional spaces.
 
 \subsubsection{Similarity}
-The baseline operator \texttt{head} on spaces with $D < 20\,000$ performs best with cosine similarity, while more dimensional models prefer correlation as the similarity measure (Figure~\ref{fig:ks14-similarity}), strictly according to H\ref{hyp:similarity}: the adjustment by the mean value that is performed by correlation is need by high-dimensional models.
+The baseline operator \texttt{head} on spaces with $D < 20\,000$ performs best with cosine similarity, while more dimensional models prefer correlation as the similarity measure (Figure~\ref{fig:ks14-similarity}), however there is no statistically significant difference between the similarity measures.
 
-Other operators work best with correlation. Addition and multiplication also support H\ref{hyp:similarity} that correlation is beneficial in high-dimensional spaces. In the case of multiplication, correlation dominates over cosine, even for small values of $D$. There is little to say about Kronecker, as it is tested only with the inner product for spaces with $D > 3\,000$, due to its computational complexity ($\mathcal{O}(n^2)$ with respect to the number of vector components).
+Other operators work best with correlation, however there is no statistically significant difference between the operators also in this case. In the case of multiplication, correlation dominates over cosine, even for small values of $D$. There is little to say about Kronecker, as it is tested only with the inner product for spaces with $D > 3\,000$, due to its computational complexity ($\mathcal{O}(n^2)$ with respect to the number of vector components).
 
 \subsubsection{Discriminativeness}
 
 \input{figures/ks14-discr}
-The baseline operator \texttt{head} with $D < 20\,000$ prefers SCPMI as the discriminativeness weighting. SPMI is preferred otherwise (Figure~\ref{fig:ks14-discr}).
+The baseline operator \texttt{head} with $D < 20\,000$ prefers SCPMI as the discriminativeness weighting. SPMI is preferred otherwise (Figure~\ref{fig:ks14-discr}). However, there is no statistically significant difference between the SCPMI and SPMI.
 
-For addition, SPMI is the better choice. For multiplication, SCPMI is more beneficial, as expected by H\ref{hyp:comp-pmi-cpmi}: the compression of PMI values improves the performance of compositional models.
+For addition, SPMI is the better choice, but again without a statistically significant difference. For multiplication, SCPMI gives higher score, but the difference with SPMI is not statistically significant, as expected by H\ref{hyp:comp-pmi-cpmi}: the compression of PMI values improves the performance of compositional models.
 
-For Kronecker, the two choices are very close to each other. For spaces with dimensionality less than 20\,000, SPMI is slightly better; for spaces with greater dimensionality---SCPMI.
+For Kronecker, the two choices are also statistically indistinguishable. For spaces with dimensionality less than 20\,000, SPMI is slightly better; for spaces with greater dimensionality---SCPMI.
 
 \subsection{Difference between Max selection and heuristics on KS14}
 
@@ -97,7 +97,7 @@ Table~\ref{tab:ks14-heuristics-selection} shows the selection based on heuristic
 
 Multiplication agrees on the majority of parameters, except \texttt{cds} and \texttt{neg}. Local probabilities ($\alpha = 1$) and $k = 0.2$ give the highest score, while manual selection picked global context probabilities with \texttt{neg} in the range of 0.5 to 1, in accordance with H\ref{hyp:neg} that high-dimensional spaces should be sparser.
 
-The average difference between Max and heuristic-based selections is 0.022. Per operator, the differences are: 0.028 (\texttt{head}), 0.012 (addition), 0.018 (multiplication) and 0.028 (Kronecker). All values are within the 10\% set by H\ref{hyp:10percent}.
+The average relative difference between Max and heuristic-based selections is 0.022. Per operator, the differences are: 0.028 (\texttt{head}), 0.012 (addition), 0.018 (multiplication) and 0.028 (Kronecker). All values are within the 10\% set by H\ref{hyp:10percent}. The differences in the scores are not statistically significant.
 
 \section{Experiments on GS11 dataset}
 \label{sec:gs11}
