@@ -102,7 +102,7 @@ The average relative difference between Max and heuristic-based selections is 0.
 \section{Experiments on GS11 dataset}
 \label{sec:gs11}
 
-GS11 is a dataset of transitive sentences \cite{Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497}. It consists of ambiguous transitive verbs together with their arguments and two landmark verbs that each disambiguate a particulate sense of the ambiguous verb. Human judgements provide pairwise similarity scores between the sentence with the ambiguous verb and the two sentences with the landmark verbs.
+GS11 is a dataset of transitive sentences \cite{Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497}. It consists of ambiguous transitive verbs together with their arguments and two landmark verbs that each disambiguate a particulate sense of the ambiguous verb. Human judgements provide pairwise similarity scores between the sentence with the ambiguous verb and the two sentences with the landmark verbs. The minimum significant difference for KS14 is $\sigma^{0.9}_{0.05} = 0.05$.
 
 \subsection{Max selection}
 \label{sec:max-selection-gs11}
@@ -111,7 +111,7 @@ GS11 is a dataset of transitive sentences \cite{Grefenstette:2011:ESC:2145432.21
 
 Figure~\ref{fig:gs14-results} shows performance of the compositional models on the verb disambiguation task. Table~\ref{tab:gs11-max-selection} shows the selected model performance together with chosen parameters.
 
-Multiplication with 20\,000 dimensions gives the highest result of 0.532. Kronecker gets close with a score of 0.516 with $D = 50\,000$, giving no support to H\ref{hyp:order} that word order is important for similarity measurement. Addition does not outperform the baseline \texttt{head} operator: addition scores 0.338, while \texttt{head}'s best performance is 0.432.
+Multiplication with 20\,000 dimensions gives the highest result of 0.532. Kronecker's score is not statistically significantly different: 0.516 with $D = 50\,000$, giving no support to H\ref{hyp:order} that word order is important for similarity measurement. Addition statistically significantly worse than the baseline \texttt{head} operator: addition scores 0.338, while \texttt{head}'s best performance is 0.432, both of them are statistically significantly different from addition and multiplication.
 
 The behaviour of the baseline operator \texttt{head} is unstable for dimensions less than 20\,000, and its best behaviour might be the case of overfitting similarly with SimLex-999. However, models with dimensions greater than 20\,000 yield similar scores, even though the parameters are different.
 
@@ -129,25 +129,27 @@ The linear model achieves an $R^2$ of 0.753. The partial $R^2$ scores are shown 
 \subsubsection{Frequency}
 
 \input{figures/gs11-ablation}
-On average, $\log n$ behaves best for all operators (Figure~\ref{fig:gs11-freq}). For $D \leq 5\,000$, 1 is also a good frequency choice, supporting H\ref{hyp:freq} that non-constant frequency component is required for high-dimensional spaces.
+On average, $\log n$ behaves best for all operators (Figure~\ref{fig:gs11-freq}). For the baseline operator \texttt{head}, the difference between $n$ and the best score becomes significant for $D \ge 10\,000$. For addition, constant frequency becomes statistically significantly different for $D \ge 20\,000$ and for linear frequency the difference is statistically significant for $D \ge 40\,000$. For multiplication, $n$ is statistically significantly different for all dimensions and with constant frequency the difference is statistically significant for $D \ge 40\,000$. It is similar for Kronecker: linear frequency is statistically significantly different for $D \ge 40\,000$ and for all dimensions with linear frequency.
+
+The fact that 1 becomes significantly different for addition, multiplication and Kronecker supports H\ref{hyp:freq} that non-constant frequency component is required for high-dimensional spaces.
 
 \subsubsection{Shifting}
 
-The baseline operator \texttt{head} on average works best with shifted models. For models with dimensionality less than 3\,000, $k = 0.5$ is best, otherwise $k = 0.7$ is more beneficial (Figure~\ref{fig:gs11-neg}).
+The baseline operator \texttt{head} on average works best with shifted models. For models with dimensionality less than 3\,000, $k = 0.5$ is best (values of $k \le 1$ and unshifted models are not statistically significantly different). Otherwise $k = 0.7$ is more beneficial (Figure~\ref{fig:gs11-neg}). Here, $k=0.5$ and $k=1.0$ are not statistically significantly different for all dimensions; $k=1.4$ is not statistically significantly different for $D \ge 10\,000$, $k=2.0$ is not statistically significantly different for $D \ge 40\,000$.
 
-For addition, models without shifting behave best for $D < 20\,000$, however, for more dimensional spaces, $k = 0.2$ should be preferred. This is a weak support of H\ref{hyp:neg} (high-dimensional vectors should be sparse) because unshifted spaces can be seen as shifted with a very small $\alpha$ value.
+For addition, models without shifting behave best for $D < 20\,000$, for more dimensional spaces, $k = 0.2$ should be preferred. However, there is no statistically significant difference between $k=0.2$, $k=0.5$, $k=0.7$ and unshifted models. This is a weak support of H\ref{hyp:neg} (high-dimensional vectors should be sparse) because unshifted spaces can be seen as shifted with a very small $\alpha$ value.
 
-Multiplication also works best with unshifted low-dimensional spaces ($D < 5\,000$) and with $k = 0.7$ for high-dimensional spaces, supporting H\ref{hyp:neg}.
+Multiplication also works best with unshifted low-dimensional spaces ($D < 5\,000$) and with $k = 0.7$ for high-dimensional spaces. The choices of $k=0.2$ and $k=0.5$ are statistically indistinguishable, there is no statistically significance difference with the highest score and $k=0.7$ and $D \ge 2\,000$, as well as with $k=1$ and $D \ge 20\,000$. This supports H\ref{hyp:neg}.
 
-Kronecker prefers shifting. For spaces with dimensionality less than 20\,000 $k = 0.7$ and $k = 1$ otherwise. This is inline with H\ref{hyp:neg}.
+Kronecker prefers shifting. For spaces with dimensionality less than 20\,000 $k = 0.7$ and $k = 1$ otherwise (however, $k=1$ is statistically indistinguishable). This is inline with H\ref{hyp:neg}. The choice of $k=0.2$ is statistically indistinguishable for $D \le 2\,000$, the choice of $k=0.5$ is statistically indistinguishable for $D \le 10\,000$, the choice of $k=1$ is statistically indistinguishable for $D \ge 5\,000$ and unshifted model with $k \le 3\,000$.
 
 \input{figures/gs11-freq}
 
 \subsubsection{Similarity}
 
-The baseline operator \texttt{head} and multiplication work best with cosine similarity, addition with correlation and Kronecker with inner product (Figure~\ref{fig:gs11-similarity}).
+The baseline operator \texttt{head} and multiplication work best with cosine similarity, addition with correlation and Kronecker with inner product (Figure~\ref{fig:gs11-similarity}). For the baseline operator and Kronecker, there is no statistically significant difference between similarity measures with an exception of the inner product and $D \le 2\,000$. For multiplication, the inner product is statistically significantly different than both cosine and correlation.
 
-Addition strictly supports H\ref{hyp:similarity} that cosine is optimal for high-dimensional spaces, while multiplication supports it by behaving similarly to cosine and correlation.
+Addition strictly supports H\ref{hyp:similarity} that cosine is optimal for high-dimensional spaces: for $D \ge 20\,000$ the difference between correlation and cosine is statistically significant, while multiplication supports it by behaving similarly to cosine and correlation.
 
 \subsubsection{Context distribution smoothing}
 
@@ -165,11 +167,11 @@ There is no support of H\ref{hyp:cds} (context distribution smoothing leads to o
 
 \input{figures/gs11-discr}
 
-The baseline operator \texttt{head} works best with SPMI, but SCPMI is very close (Figure~\ref{fig:gs11-discr}). Addition works best with PMI for $D < 20\,000$ and SCPMI otherwise.
+The baseline operator \texttt{head} works best with SPMI, but SCPMI is very close and there is no statistically significant difference between discriminativeness choices. (Figure~\ref{fig:gs11-discr}). Addition works best with PMI for $D < 20\,000$ and SCPMI otherwise, again all discriminativeness choices are statistically similar.
 
-Multiplication is similar to addition in that it prefers PMI in the low-dimensional case and SCPMI in the high-dimensional case, but the change happens at 5\,000 dimensions rather than 20\,000.
+Multiplication is similar to addition in that it prefers PMI in the low-dimensional case and SCPMI in the high-dimensional case, but the change happens at 5\,000 dimensions rather than 20\,000 however the difference is not statistically significant.
 
-Kronecker with less than 5\,000 dimensions prefers SCPMI and SPMI, which is opposite to addition and multiplication.
+Kronecker with less than 5\,000 dimensions prefers SCPMI and SPMI, which is opposite to addition and multiplication, again the difference is not statistically significant.
 
 This dataset does not give evidence to support H\ref{hyp:comp-pmi-cpmi}---PMI values should be compressed when used in compositional setting---because there is almost no difference between *PMI and *CPMI.
 
