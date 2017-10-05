@@ -153,11 +153,13 @@ Addition strictly supports H\ref{hyp:similarity} that cosine is optimal for high
 
 \subsubsection{Context distribution smoothing}
 
-The baseline operator \texttt{head} with $D < 10\,000$ works best with global context probabilities. For more dimensional spaces, local context probabilities $\alpha = 1$ should be preferred (Figure~\ref{fig:gs11-cds}).
+The baseline operator \texttt{head} with $D < 10\,000$ works best with global context probabilities. For more dimensional spaces, local context probabilities $\alpha = 1$ should be preferred (Figure~\ref{fig:gs11-cds}). However the difference between the smoothing choice is not statistically significant.
 
-Addition works best with local probabilities. In the low-dimensional case, when $D < 20\,000$, unsmoothed estimation ($\alpha = 1$) is preferred and $\alpha = 0.75$ should be chosen otherwise.
+Addition works best with local probabilities. In the low-dimensional case, when $D < 20\,000$, unsmoothed estimation ($\alpha = 1$) is preferred and $\alpha = 0.75$ should be chosen otherwise. Again, the difference is not statistically significant.
 
-Multiplication works best with global context probabilities and Kronecker with smoothed local ($\alpha = 0.75$).
+Multiplication works best with global context probabilities. However, with $D \ge 20\,000$ the choice of $\alpha = 1$ is not statistically significantly different.
+
+Kronecker works best with smoothed local smoothing ($\alpha = 0.75$) and other choices are statistically significantly different.
 
 There is no support of H\ref{hyp:cds} (context distribution smoothing leads to optimal results with high-dimensional models) because global context probabilities outperform other choices for multiplication, addition behaves the same with all options and Kronecker works best with $\alpha = 0.75$.
 
