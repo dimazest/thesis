@@ -123,6 +123,15 @@ A query is \textit{diverse} if it is paired with 4 or more loosely relevant docu
 % \item 1 with 14.
 % \end{compactitem}
 
+\subsection{Evaluation and statistical significance testing}
+\label{sec:phraserel-eval}
+
+Precision at 3 is the evaluation metric suggested for this dataset, it measures for which proportion of queries there is at least one relevant document among the top three ranked query-document pairs.
+
+To evaluate statistical significance between two results a sign test should be used.
+
+The difference between two results sill indicate the minimal number of improvement. Consider a dataset of 10 entries and a result difference of 0.3. This means that there were either 3 positive differences and 0 negative difference, or 4 positive differences and 1 negative difference, 5 positive differences and 3 negative differences and so on up to 6 positive differences and 3 negative differences (the difference between the positive and negative differences must be 3, but the sum less or equal to 10). For the difference of 0.3 to satisfy the minimum difference for statistical significance all 
+the possibilities must be statistically significant, the sign test must return $p$ value less then the threshold. For phraserel, $\sigma_{0.05} = 0.43$.
 \section{Conclusion}
 \label{sec:phraserel-conclusion}
 
