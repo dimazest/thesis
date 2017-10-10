@@ -75,7 +75,7 @@ While such formalism is very powerful for entailment detection between sentences
 
 Distributional methods provide a way to measure the similarity between words. The representations are produced by exploiting Harris' \citeyearpar{harris1954distributional} intuition that similar words occur in similar contexts.
 
-\subsubsection{Distributional semantics: global representations}
+% \subsubsection{Distributional semantics: global representations}
 \label{sec:distr-repr}
 
 \begin{wraptable}[10]{O}{7cm}
@@ -126,33 +126,33 @@ where $\theta$ is the angle between the vectors of \textit{Mary} and \textit{gir
 
 In the current example of a na{\"\i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers.% The importance of choosing good parameters is discussed in details in Section~\ref{sec:parameter-selection-intro}.
 
-\subsubsection{Word embeddings: local representations}
-\label{sec:neural-embedding}
+% \subsubsection{Word embeddings: local representations}
+% \label{sec:neural-embedding}
 
-Deep learning\footnotemark{} techniques use the distributional hypothesis differently than the distributional methods described above \cite{Goldberg2016}. Instead of relying on the co-occurrence matrix, the training process of the word2vec framework \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} iterates directly over the target-context pairs. At any given moment during the training process, it has access only to local co-occurrence information, the global table of co-occurrences is not used, thus the name of the method. The training is done by maximising an objective function based on the following:
-\footnotetext{
-  Even though the model of \newcite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} is not a deep neural network, its efficient implementation uses methods developed for deep models. For example, hierarchical softmax and noise contrastive estimation.
-}
-%
-\begin{equation}
- \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{t+j}|w_t)
-  \label{eq:objective-func}
-\end{equation}
-%
-In practice, maximising this function produces vectors which maximise the conditional probability of observing words in a context around the target word $w_t$. $C$ is the size of the training context, and $w_1 w_2, \ldots, w_T$ is a sequence of training words. Empirically, they capture the distributional intuition and express degrees of lexical similarity. The probability of a context word $w_c$ given a target word $w_t$ is defined using the softmax function:
-%
-\begin{equation}
-  P(w_c|w_{t}) = \frac{e^{\vv{w_c} \cdot \vv{w_t}}}{\sum_{c'}e^{\vv{w_{c'}} \cdot \vv{w_t}}}
-\end{equation}
-%
-The word vectors are dense (their dimensionality is few hundreds). Because the objective in \eqref{eq:objective-func} is expensive to compute, negative sampling is used in practice, however its description is beyond the scope of this work.
+% Deep learning\footnotemark{} techniques use the distributional hypothesis differently than the distributional methods described above \cite{Goldberg2016}. Instead of relying on the co-occurrence matrix, the training process of the word2vec framework \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} iterates directly over the target-context pairs. At any given moment during the training process, it has access only to local co-occurrence information, the global table of co-occurrences is not used, thus the name of the method. The training is done by maximising an objective function based on the following:
+% \footnotetext{
+%   Even though the model of \newcite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} is not a deep neural network, its efficient implementation uses methods developed for deep models. For example, hierarchical softmax and noise contrastive estimation.
+% }
+% %
+% \begin{equation}
+%  \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{t+j}|w_t)
+%   \label{eq:objective-func}
+% \end{equation}
+% %
+% In practice, maximising this function produces vectors which maximise the conditional probability of observing words in a context around the target word $w_t$. $C$ is the size of the training context, and $w_1 w_2, \ldots, w_T$ is a sequence of training words. Empirically, they capture the distributional intuition and express degrees of lexical similarity. The probability of a context word $w_c$ given a target word $w_t$ is defined using the softmax function:
+% %
+% \begin{equation}
+%   P(w_c|w_{t}) = \frac{e^{\vv{w_c} \cdot \vv{w_t}}}{\sum_{c'}e^{\vv{w_{c'}} \cdot \vv{w_t}}}
+% \end{equation}
+% %
+% The word vectors are dense (their dimensionality is few hundreds). Because the objective in \eqref{eq:objective-func} is expensive to compute, negative sampling is used in practice, however its description is beyond the scope of this work.
 
-The objective function in \eqref{eq:objective-func} is used by the skip-gram model: for every target-context pair, the objective function is based on predicting context words given a target word. The prediction can be reversed, that is, given the context words the target word of a context is predicted. Formally this objective is expressed in \citet{mikolov2013efficient} giving rise to the continuous bag-of-words model (CBOW):
-\begin{equation}
- \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{t}|w_{t+j})
-  \label{eq:objective-func-cbow}
-\end{equation}
-Here, the representation of the context is obtained by projecting several vectors of context words into one vector using addition.
+% The objective function in \eqref{eq:objective-func} is used by the skip-gram model: for every target-context pair, the objective function is based on predicting context words given a target word. The prediction can be reversed, that is, given the context words the target word of a context is predicted. Formally this objective is expressed in \citet{mikolov2013efficient} giving rise to the continuous bag-of-words model (CBOW):
+% \begin{equation}
+%  \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{t}|w_{t+j})
+%   \label{eq:objective-func-cbow}
+% \end{equation}
+% Here, the representation of the context is obtained by projecting several vectors of context words into one vector using addition.
 
 \section{Representation of phrases and sentences}
 \label{sec:similarity-compounds}
@@ -262,7 +262,7 @@ Given a suitable pairing between a syntactic grammar, semantic representations a
 
 Methods based on the distributional hypothesis have been recently applied to many tasks, but mostly at the word level, for instance, word sense disambiguation \cite{ZhitomirskyGeffet2009} and lexical substitution \cite{Thater:2010:CSR:1858681.1858778}. They exploit the notion of similarity which correlates with the angle between word vectors \cite{Turney:2010:FMV:1861751.1861756}.
 
-\emph{Compositional} distributional semantics goes beyond word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator associativity, which ignores the argument order, and thus the word order. As a result, \textit{John loves Mary} and \textit{Mary loves John} get identical representations.
+\emph{Compositional} distributional semantics goes beyond word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator commutativity, which ignores the argument order, and thus the word order. As a result, \textit{John loves Mary} and \textit{Mary loves John} get identical representations.
 
 Consider that \textit{John}, \textit{Mary} and \textit{loves} are represented as vectors $\ov{\text{\it john}} = [4, 60, 59]$, $\ov{\text{\it mary}} = [0, 10, 22]$ and $\ov{\text{\it loves}} = [10, 100, 20]$, respectively. Then the vector of the sentence \textit{John loves Mary} using addition is:
 %
@@ -280,23 +280,30 @@ It is similar for multiplication, where element-wise multiplication is used inst
                                   &= [0, 60\,000, 25\,960]
 \end{align*}
 %
-To capture word order and the syntactic structure of a sentence, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} use non-associative linear algebra operators as proposed in the theoretical work of \newcite{DBLP:journals/corr/abs-1003-4394}. There, the functional applications of semantic terms are replaced with tensors \cite{Bourbaki1998commutative}.
+To capture word order and the syntactic structure of a sentence, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} use non-commutative linear algebra operators as proposed in the theoretical work of \newcite{DBLP:journals/corr/abs-1003-4394}. There, the functional applications of semantic terms are replaced with tensors \cite{Bourbaki1998commutative}.
 
-Kronecker \cite{Grefenstette:2011:ETV:2140490.2140497} is a non-associative operator. It represents the verb of a phrase as a matrix and the subject and the object as vectors. The verb matrix is defined as the Kronecker product---which gives the name to the compositional operator---of the vector of a verb with itself:
+Kronecker \cite{Grefenstette:2011:ETV:2140490.2140497} is a non-commutative operator. It represents the verb of a phrase as a matrix and the subject and the object as vectors. The verb matrix is defined as the Kronecker product---which gives the name to the compositional operator---of the vector of a verb with itself:
 %
 \begin{equation}
   \widetilde{\mathit{Verb}} = \ov{\mathit{Verb}} \otimes \ov{\mathit{Verb}}
 \end{equation}
 %
-where $\otimes$ is the Kronecker product. The vector of a subject-verb-object phrase is computed as:
+where $\otimes$ is the Kronecker product defined as:
+\begin{equation}
+  \label{eq:kron-def}
+ \mathbf{A}\otimes\mathbf{B} = \begin{bmatrix} a_{11} \mathbf{B} & \cdots & a_{1n}\mathbf{B} \\ \vdots & \ddots & \vdots \\ a_{m1} \mathbf{B} & \cdots & a_{mn} \mathbf{B} \end{bmatrix} 
+\end{equation}
+where $\mathbf{A}$ is a $m \times n$ matrix and $\mathbf{B}$ is $p \times q$ matrix.
+
+The representation\footnotemark{} of a subject-verb-object phrase is computed as:
 %
 \begin{equation}
-  \ov{\text{\it Sbj Verb Obj}} = \widetilde{\text{\it Verb}} \odot (\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}})
+  \overline{\text{\it Sbj Verb Obj}} = \widetilde{\text{\it Verb}} \odot (\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}})
 \end{equation}
 %
 The derivation of the representation of \textit{John loves Mary} using Kronecker is:
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{Kronecker}} &= \widetilde{\text{\it loves}} \odot (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) \\
+  \overline{\text{\it John loves Mary}}_{\text{Kronecker}} &= \widetilde{\text{\it loves}} \odot (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) \\
                                   &= (\ov{\text{\it loves}} \otimes \ov{\text{\it loves}}) \odot (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) \\
                                   &=([10, 100, 20] \otimes [10, 100, 20]) \odot ([4, 60, 59] \otimes [0, 10, 22]) \\
   \displaybreak[0]
@@ -319,7 +326,9 @@ The derivation of the representation of \textit{John loves Mary} using Kronecker
                                     \end{bmatrix}
 \end{align*}
 
-For other non-associative operators, a transitive verb is represented by the matrix $\overline{\text{\it Verb}}$, which is obtained from a corpus using the formula \cite{Grefenstette:2011:ESC:2145432.2145580}:
+\footnotetext{The operators that include Kronecker product produce matrices, not vectors, however computing similarity between matrices is possible by collapsing the rows of the matrix into one dimension by concatenating them together.}
+
+For other non-commutative operators, a transitive verb is represented by the matrix $\overline{\text{\it Verb}}$, which is obtained from a corpus using the formula \cite{Grefenstette:2011:ESC:2145432.2145580}:
 \begin{equation}
   \overline{\text{\it Verb}} = \sum_i\ov{s_i} \otimes \ov{o_i}
   \label{eq:verb-matrix}
@@ -350,7 +359,7 @@ Informally, it identifies the interaction of the features of the subject and the
 In the example, the meaning is computed similarly to Kronecker, but a different verb matrix is used:
 %
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{relational}} &= \overline{\text{\it loves}} \odot (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) \\
+  \overline{\text{\it John loves Mary}}_{\text{relational}} &= \overline{\text{\it loves}} \odot (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) \\
   \displaybreak[0]
                                   &= \begin{bmatrix}
                                        120 &  1\,390 &    658 \\
@@ -384,7 +393,7 @@ Copy-object diagonally places the object dimension into a cube, producing a clos
 where $\times$ is matrix multiplication. The vector representation of \textit{John loves Mary} using copy-object is:
 %
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{copy-object}} &=\ov{\text{\it john}} \odot (\overline{\text{\it loves}} \times \ov{\text{\it mary}}) \\
+  \overline{\text{\it John loves Mary}}_{\text{copy-object}} &=\ov{\text{\it john}} \odot (\overline{\text{\it loves}} \times \ov{\text{\it mary}}) \\
                                                        &= [4, 60, 59]%
                                                          \odot \left(%
                                                          \begin{bmatrix}
@@ -406,7 +415,7 @@ Similarly, copy-subject diagonally places the subject dimension into a cube, pro
 %
 Again, in the example:
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{copy-subject}} &=\ov{\text{\it mary}} \odot (\overline{\text{\it loves}}^{\mathsf{T}} \times \ov{\text{\it john}}) \\
+  \overline{\text{\it John loves Mary}}_{\text{copy-subject}} &=\ov{\text{\it mary}} \odot (\overline{\text{\it loves}}^{\mathsf{T}} \times \ov{\text{\it john}}) \\
                                                         &= [0, 10, 22]%
                                                           \odot%
                                                           \left(%
@@ -436,7 +445,7 @@ Frobenius addition uses addition to combine the results:
 So the computation of \textit{John loves Mary} is:
 %
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{Frobenius add}} &=  \ov{\text{\it John loves Mary}}_{\text{copy-object}} +  \ov{\text{\it John loves Mary}}_{\text{copy-subject}}\\
+  \overline{\text{\it John loves Mary}}_{\text{Frobenius add}} &=  \overline{\text{\it John loves Mary}}_{\text{copy-object}} +  \overline{\text{\it John loves Mary}}_{\text{copy-subject}}\\
                                                          &= [113\,504, 11\,995\,680,  3\,416\,808] + [0, 10\,576\,300,  4\,949\,692] \\
                                                          &= [113\,504, 22\,571\,980,  8\,366\,500]
 \end{align*}
@@ -450,7 +459,7 @@ Element-wise vector multiplication is used by Frobenius multiplication:% (Frob.~
 Similarly, the computation of \textit{John loves Mary} becomes:
 %
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{Frobenius mult}} &=  \ov{\text{\it John loves Mary}}_{\text{copy-object}} \odot \ov{\text{\it John loves Mary}}_{\text{copy-subject}}\\
+  \overline{\text{\it John loves Mary}}_{\text{Frobenius mult}} &=  \overline{\text{\it John loves Mary}}_{\text{copy-object}} \odot \overline{\text{\it John loves Mary}}_{\text{copy-subject}}\\
                                                          &= [113\,504, 11\,995\,680,  3\,416\,808] \odot [0, 10\,576\,300,  4\,949\,692] \\
                                                          &= [0, 126\,869\,910\,384\,000,  16\,912\,147\,223\,136]
 \end{align*}
@@ -463,7 +472,7 @@ Finally, Kronecker product is used in Frobenius outer:% (Frob.~outer in Table~\r
 %
 Making the computation of \textit{John loves Mary} look like:
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{Frobenius outer}} &=  \ov{\text{\it John loves Mary}}_{\text{copy-object}} \otimes \ov{\text{\it John loves Mary}}_{\text{copy-subject}}\\
+  \overline{\text{\it John loves Mary}}_{\text{Frobenius outer}} &=  \overline{\text{\it John loves Mary}}_{\text{copy-object}} \otimes \overline{\text{\it John loves Mary}}_{\text{copy-subject}}\\
                                                          &= [113\,504, 11\,995\,680,  3\,416\,808] \otimes [0, 10\,576\,300,  4\,949\,692] \\
                                                            &=%
                                                              \begin{bmatrix}
@@ -494,6 +503,7 @@ With verbs, similarity in context can be applied to compare a transitive verb wi
 % TODO: mention \cite{wieting2015paraphrase}
 
 Sentential similarity might be treated as the similarity of the heads in their contexts. That is, the similarity between \textit{sees} and \textit{notices} in \textit{John \textbf{sees} Mary} and \textit{John \textbf{notices} a woman}. This approach abstracts away the grammatical difference between the sentences and concentrates on their semantics.
+
 
 \section{Evaluation}
 \label{sec:intrinsic-evaluation}
