@@ -102,7 +102,7 @@ The average relative difference between Max and heuristic-based selections is 0.
 \section{Experiments on GS11 dataset}
 \label{sec:gs11}
 
-GS11 is a dataset of transitive sentences \cite{Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497}. It consists of ambiguous transitive verbs together with their arguments and two landmark verbs that each disambiguate a particulate sense of the ambiguous verb. Human judgements provide pairwise similarity scores between the sentence with the ambiguous verb and the two sentences with the landmark verbs. The minimum significant difference for KS14 is $\sigma^{0.9}_{0.05} = 0.05$.
+GS11 is a dataset of transitive sentences \cite{Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497}. It consists of ambiguous transitive verbs together with their arguments and two landmark verbs that each disambiguate a particular sense of the ambiguous verb. Human judgements provide pairwise similarity scores between the sentence with the ambiguous verb and the two sentences with the landmark verbs. The minimum significant difference for KS14 is $\sigma^{0.9}_{0.05} = 0.05$.
 
 \subsection{Max selection}
 \label{sec:max-selection-gs11}
@@ -270,7 +270,7 @@ Addition and Kronecker benefit from SPMI, and multiplication from SCPMI, apart f
 \subsection{Difference between Max selection and heuristics on PhraseRel}
 \label{sec:diff-phraserel}
 
-Manual parameter selection is more stable than the one based on maximum values. However, in cases where different parameters are picked, there is little or no difference between these parameter choices. For example, studied similarity measures yield similar average performance for addition, see Figure~\ref{fig:phraserel-freq}.
+Parameter selection based on heuristics is more stable than the one based on maximum values. However, in cases where different parameters are picked, there is little or no difference between these parameter choices. For example, studied similarity measures yield similar average performance for addition, see Figure~\ref{fig:phraserel-freq}.
 
 Manual heuristics do not pick the best result of 1 (Table~\ref{tab:phraserel-max-selection}), but are close with a multiplicative model with 20\,000 and 30\,000 dimensions, yielding a score of 0.96 (Table~\ref{tab:phraserel-heuristics-selection}).
 
@@ -678,7 +678,7 @@ The selections show that an optimal parameter choice depends on dimensionality (
 
 While parameter selection depends on dimensionality, the performance on compositional task depends on it to a much lower extent.
 
-Our selection methodology has produced significantly better results in the KS14 dataset over widely used count-based vectors \cite{milajevs-EtAl:2014:EMNLP2014}, neural vectors in a compositional setting \cite{milajevs-EtAl:2014:EMNLP2014,kim2015neural} and learned verb tensors \cite{fried-polajnar-clark:2015:ACL-IJCNLP,hashimoto-tsuruoka:2016:P16-1,hashimoto-tsuruoka:2015:CVSC}.
+Our selection methodology has produced some statistically significantly better results in the KS14 dataset over widely used count-based vectors \cite{milajevs-EtAl:2014:EMNLP2014}, neural vectors in a compositional setting \cite{milajevs-EtAl:2014:EMNLP2014,kim2015neural} and learned verb tensors \cite{fried-polajnar-clark:2015:ACL-IJCNLP,hashimoto-tsuruoka:2016:P16-1,hashimoto-tsuruoka:2015:CVSC}.
 
 While our results on GS11 are close to the current state-of-the-art results \cite{hashimoto-tsuruoka:2016:P16-1}, there is room for improvement, especially for tensor-based compositional operators. The difference in the performance might be explained as the limit of the count-based methods or the unexplored, and therefore untuned, parameters of the verb matrix. For example, we consider all different subject-object occurrences despite their frequency in the corpus. Using only the subject-object pairs that appeared at least 100 times might improve the results.
 

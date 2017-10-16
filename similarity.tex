@@ -55,12 +55,14 @@ We continue with an overview of the main ideas behind the word and phrase repres
 \section{Representation of words}
 \label{sec:distr-hypoth}
 
-In principle, we would like to capture the intuition that while \textit{John} and \textit{Mary} are distinct entities, they are rather similar to each other---because both of them are humans---and are dissimilar to \textit{dog}, \textit{pavement} or \textit{idea}. However, we start with the word meaning representation that captures the fact that entities are distinct but does not provide the means to measure similarity.
+In principle, we would like to capture the intuition that while \textit{John} and \textit{Mary} are distinct entities, they are rather similar to each other---because both of them are humans---and are dissimilar to \textit{dog}, \textit{pavement} or \textit{idea}. However, we start with the logical word meaning representation that captures the fact that entities are distinct but does not provide the means to measure similarity.
 
 \subsection{Logical representations for inference}
 \label{sec:classical-approaches}
 
-Formal semantics provides the means to infer some piece of information from another. The main studied relation is the entailment of sentences, for example, \textit{John swims in Åresjön} entails \textit{John swims in a Swedish lake}. To evaluate entailment, the sentences are converted to formulas. The words correspond to symbols in formal logic.
+Formal semantics provides the means to infer\footnotemark{} some piece of information from another. The main studied relation is the entailment of sentences, for example, \textit{John swims in Åresjön} entails \textit{John swims in a Swedish lake}. To evaluate entailment, the sentences are converted to formulas. The words correspond to symbols in formal logic.
+
+\footnotetext{Work on natural logic demonstrates that it is not necessary to convert to a logical representations, see, for example, \citet{MacCartney:2007:NLT:1654536.1654575}.}
 
 The individual word \textit{Åresjön} corresponds to the symbol \textit{Åresjön'}, which is mapped to the actual lake by the interpretation function $\mathcal{I}$.
 
@@ -68,7 +70,9 @@ One-place properties are seen as sets of individuals, so $\mathcal{I}(\mathit{Sw
 
 \textit{Swim'} is a two-place predicate that is represented as a set that contains the pairs between which the relation holds; so if John actually swims in Åresjön, then $\mathcal{I}(\mathit{swim'})$ will contain the pair $(\mathcal{I}(\mathit{John'}), \mathcal{I}(\mathit{Åresjön'}))$.
 
-While such formalism is very powerful for entailment detection between sentences, similarity measurement is problematic, because there is no relation between atomic symbols: we only know that \textit{Åresjön} and \textit{Väsman} correspond to different entities in the universe, but know nothing about the resemblance between their properties.
+While such formalism is very powerful for entailment detection between sentences, similarity measurement is problematic,\footnotemark{} because there is no relation between atomic symbols: we only know that \textit{Åresjön} and \textit{Väsman} correspond to different entities in the universe, but know nothing about the resemblance between their properties.
+
+\footnotetext{Such property could be perfectly expressed in formal semantics, but it is not generally seen as part of the job of formal semantics, also acquiring such properties is hard in comparison to the distributional methods.}
 
 \subsection{Distributional representations for similarity}
 \label{sec:distributional-representations}
@@ -262,7 +266,7 @@ Given a suitable pairing between a syntactic grammar, semantic representations a
 
 Methods based on the distributional hypothesis have been recently applied to many tasks, but mostly at the word level, for instance, word sense disambiguation \cite{ZhitomirskyGeffet2009} and lexical substitution \cite{Thater:2010:CSR:1858681.1858778}. They exploit the notion of similarity which correlates with the angle between word vectors \cite{Turney:2010:FMV:1861751.1861756}.
 
-\emph{Compositional} distributional semantics goes beyond word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator commutativity, which ignores the argument order, and thus the word order. As a result, \textit{John loves Mary} and \textit{Mary loves John} get identical representations.
+\emph{Compositional} distributional semantics goes beyond word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator commutativity, which ignores the argument order, and thus the syntactic/semantic function of the words (as a consequence for English, the word order is ignored). As a result, \textit{John loves Mary} and \textit{Mary loves John} get identical representations.
 
 Consider that \textit{John}, \textit{Mary} and \textit{loves} are represented as vectors $\ov{\text{\it john}} = [4, 60, 59]$, $\ov{\text{\it mary}} = [0, 10, 22]$ and $\ov{\text{\it loves}} = [10, 100, 20]$, respectively. Then the vector of the sentence \textit{John loves Mary} using addition is:
 %
@@ -328,7 +332,7 @@ The derivation of the representation of \textit{John loves Mary} using Kronecker
 
 \footnotetext{The operators that include Kronecker product produce matrices, not vectors, however computing similarity between matrices is possible by collapsing the rows of the matrix into one dimension by concatenating them together.}
 
-For other non-commutative operators, a transitive verb is represented by the matrix $\overline{\text{\it Verb}}$, which is obtained from a corpus using the formula \cite{Grefenstette:2011:ESC:2145432.2145580}:
+For other non-commutative operators presented below, a transitive verb is represented by the matrix $\overline{\text{\it Verb}}$, which is obtained from a corpus using the formula \cite{Grefenstette:2011:ESC:2145432.2145580}:
 \begin{equation}
   \overline{\text{\it Verb}} = \sum_i\ov{s_i} \otimes \ov{o_i}
   \label{eq:verb-matrix}
@@ -508,7 +512,7 @@ Sentential similarity might be treated as the similarity of the heads in their c
 \section{Evaluation}
 \label{sec:intrinsic-evaluation}
 
-The difference in occurrence between two words quantifies the difference in their meaning \cite{harris1954distributional} and there is a machinery to measure the difference in the meanings of two sentences \cite{DBLP:journals/corr/abs-1003-4394}. The final necessary part is the evaluation methodology to test this approach.
+The difference in occurrence between two words quantifies the difference in their meaning \cite{harris1954distributional} and there is a procedure to measure the difference in the meanings of two sentences \cite{DBLP:journals/corr/abs-1003-4394}. The final necessary part is the evaluation methodology to test this approach.
 
 Because it is difficult to perform extrinsic evaluation (also called evaluation in use) to measure the performance of a similarity component in a pipeline of a complete natural language processing system (for example, a dialog system), intrinsic datasets that focus on similarity are popular among computational linguists.
 
@@ -535,7 +539,7 @@ Formally, the overlap $M_x$ over condition $x$ between the word context of words
 %
 where $N(A_xB_x)$ is the number of context words shared between $A$ and $B$ under condition $x$. $N(A_x)$ and $N(B_x)$ are the number of context words under condition $x$ for the words $A$ and $B$ respectively.
 
-They found that the more similar words in meaning are the more context they share for both token and type conditions. Moreover, the relationship is strongest for the highly synonymous pairs, namely the pairs with similairty greater than 3.0.
+They found that the more similar words in meaning are the more context they share for both token and type conditions. Moreover, the relationship is strongest for the highly synonymous pairs, namely the pairs with similarity greater than 3.0.
 
 \newcite{1986-13502-00119860101} studied the similarity relation from the psychological perspective. They analysed the similarity judgements between the entries by their geometric structure. The geometric approach represents the entries as points in a multidimensional space so that the distance between them reflects similarity.
 
@@ -578,7 +582,7 @@ A vector space with vector components computed with positive PMI and cosine simi
 
 They used a linear regression model to determine the importance of individual parameters and their combinations. The parameters of a distributional model---such as the weighting scheme, vector space dimensionality and similarity metric---were considered predictors of its performance: the parameters of a distributional model were independent parameters of a linear model and the performance of the distributional model was a dependent variable. Analysis of variance was used to determine the most important parameters and their interactions.
 
-They showed that a statistical association measures---such as t-score or z-score \cite{Evert05}---with the combination of ranked-based prediction yielded better results over cosine similarity. Would they performed only iterative tuning, they would test ranked-based prediction only with the PMI weighting, which underperformed in their experiments.
+They showed that a statistical association measures---such as t-score or z-score \cite{Evert05}---with the combination of ranked-based prediction yielded better results over cosine similarity. Would they have performed only iterative tuning, they would test ranked-based prediction only with the PMI weighting, which underperformed in their experiments.
 
 In a successive study that included word similarity, \citet{lapesa2014large} showed that the combination of the similarity score together with the weighting scheme was the most important parameter combination, supporting the findings of \newcite{Bullinaria2007} and \newcite{kiela-clark:2014:CVSC}, who suggested to use PMI together with cosine similarity.
 
