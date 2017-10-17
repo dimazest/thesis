@@ -616,9 +616,13 @@ Early compositional studies focused on the compositional operators, using lexica
 
 \citet{blacoe2012comparison} is---to the best of our knowledge---the first paper that, apart from identifying the best compositional operator, also  explicitly contrasted two kinds of lexical representations: shallow that are based on the co-occurrence of words and embeddings that are learned by a neural language model \cite{bengio2006,Collobert:2008:UAN:1390156.1390177}. They concluded that shallow approaches are as good as their computationally more intensive counterparts based on language models in phrase similarity and paraphrase detection tasks. They also identified the importance of the combination of lexical representation and the compositional method.
 
-\citet{milajevs-EtAl:2014:EMNLP2014}, the work that set the ground for this thesis, also contrasts global and local representations (Section~\ref{sec:distributional-representations}) in compositional setting. However, in contrast to \citet{blacoe2012comparison} experiments, local representations showed robust performance yielding better results on a number of tasks and were recommended for usage in compositional experiments.
-
-In the literature, local and global models are also referred as count-based models and prediction-based models respectively, after a paper with a flashy title ``Don’t count, predict!~A systematic comparison of context-counting vs.~context-predicting semantic vectors'' by \citet{baroni-dinu-kruszewski:2014:P14-1}. The work consecutive to \citet{milajevs-EtAl:2014:EMNLP2014} (consequently or coincidentally) focuses on predictive lexical representations.
+\citet{milajevs-EtAl:2014:EMNLP2014}, the work that set the ground for this thesis, %also contrasts global and local representations (Section~\ref{sec:distributional-representations})
+also contrasts count and predict \cite{baroni-dinu-kruszewski:2014:P14-1} models
+in compositional setting. However, in contrast to \citet{blacoe2012comparison} experiments, prediction-based models showed robust performance yielding better results on a number of tasks and were recommended for usage in compositional experiments.
+%
+%In the literature, local and global models are also referred as count-based models and prediction-based models respectively, after a paper with a flashy title ``Don’t count, predict!~A systematic comparison of context-counting vs.~context-predicting semantic vectors'' by \citet{baroni-dinu-kruszewski:2014:P14-1}.
+%
+The work consecutive to \citet{milajevs-EtAl:2014:EMNLP2014} (consequently or coincidentally) focuses on predictive lexical representations.
 
 The CBOW model of local lexical representations \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} 
 % (Section~\ref{sec:distributional-representations})
