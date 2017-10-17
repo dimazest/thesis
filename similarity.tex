@@ -620,7 +620,11 @@ Early compositional studies focused on the compositional operators, using lexica
 
 In the literature, local and global models are also referred as count-based models and prediction-based models respectively, after a paper with a flashy title ``Don’t count, predict!~A systematic comparison of context-counting vs.~context-predicting semantic vectors'' by \citet{baroni-dinu-kruszewski:2014:P14-1}. The work consecutive to \citet{milajevs-EtAl:2014:EMNLP2014} (consequently or coincidentally) focuses on predictive lexical representations.
 
-The CBOW model of local lexical representations (Section~\ref{sec:distributional-representations}) implicitly assumes additive interaction between context words to predict the target word. However, categorical compositional operators (Section~\ref{sec:composition}) make use of multiplication as a part of composition. This inconsistency was noticed in \citet{kim2015neural}. They changed the objective function \eqref{eq:objective-func-cbow} to include multiplication:
+The CBOW model of local lexical representations \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} 
+% (Section~\ref{sec:distributional-representations})
+implicitly assumes additive interaction between context words to predict the target word. However, categorical compositional operators (Section~\ref{sec:composition}) make use of multiplication as a part of composition. This inconsistency was noticed in \citet{kim2015neural}. They changed the objective function
+% \eqref{eq:objective-func-cbow}
+to include multiplication:
 %
 \begin{equation}
  \frac{1}{T}\sum^{T}_{t=1}\prod_{-c \leq j \leq c, j\neq0} \log P(w_{t}|w_{t+j})
@@ -632,6 +636,12 @@ This change improved results of categorical compositional methods on the sentenc
 In the categorical framework, the result of composition depends on how the tensors for transitive verbs are constructed. The most straightforward approach is to represent transitive verbs as matrices (saving a dimension) as it is shown in (\ref{eq:verb-matrix}) on page~\pageref{eq:verb-matrix}. However, the number of elements in these matrices is still high and equal to the square of the number of elements in vectors for nouns. To cope with this problem various solutions were tried: linear-regression of the full tensors \cite{grefenstette-et-al:2013:IWCS2013}, the combination of regression with a plausibility space \cite{polajnar-clark:2014:EACL} and low-rank tensor approximation \cite{fried-polajnar-clark:2015:ACL-IJCNLP}. While these methods not necessarily lead to the highest results, they considerably reduce the amount of data associated with lexical entries.
 
 Finally, \citet{hashimoto-tsuruoka:2015:CVSC,hashimoto-EtAl:2014:EMNLP2014} proposed a tensor factorisation method that directly models the interaction between predicates and their arguments. The intuition is that the arguments should be able to disambiguate the meaning of their predicate.
+
+\subsection{Extrinsic evaluation}
+
+It is common to evaluate word meaning representations and compositional models in a pipeline, for example dialogue act tagging \cite{Stolcke:2000:DAM:971869.971872} or paraphrase detection \cite{dolan2005par}. However, these datasets contain grammar which is currently in practice not covered by categorical compositional method of \citet{DBLP:journals/corr/abs-1003-4394}.
+
+Apart from handling a richer set of grammatical structures, the datasets contain a larger vocabulary, meaning that there are, for instance, more verbs for which matrices are needed to be build. Given an exhaustive experiments over a large number of parameter combinations it was not feasible to conclude such a study.
 
 \section{Conclusion}
 \label{sec:conclusion-background}
