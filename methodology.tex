@@ -79,7 +79,7 @@ Most co-occurrence weighting schemes%
 \footnote{We abbreviate this parameter as \texttt{discr} because the weighting scheme discriminates the features.
 % TODO: refer to the ir-dataset paper.
 }
-in distributional semantics are based on \emph{point-wise mutual information} (PMI, Equation~\ref{eq:pmi}, \newcite{J90-1003,Turney:2010:FMV:1861751.1861756,NIPS2014_5477}).
+in distributional semantics are based on \emph{point-wise mutual information} (PMI, Equation~\ref{eq:pmi}, \newcite{Church:1989:WAN:981623.981633,J90-1003,Turney:2010:FMV:1861751.1861756,NIPS2014_5477}).
 %
 \begin{equation}
   \label{eq:pmi}
@@ -95,7 +95,7 @@ An alternative solution is to increment the probability ratio by 1, which also m
   \operatorname{CPMI}(x, y) = \log\left( 1 +  \frac{P(x,y)}{P(x)P(y)} \right)
 \end{equation}
 
-Another issue with PMI is its bias towards rare events. Consider a context $c_r$  with very low probability (it could be a rare context word, a tokenization error or a misspelled word). The probability $P(c_r)$ will be much lower than for other contexts, and at the same time the PMI values for that feature will be higher. It is the same for rare target words. We refer to this issue as PMI's \textit{Achilles heel}.
+Another issue with PMI is its bias towards rare events. Consider a context $c_r$  with very low probability (it could be a rare context word, a tokenization error or a misspelled word). The probability $P(c_r)$ will be much lower than for other contexts, and at the same time the PMI values for that feature will be higher. It is the same for rare target words, which due to the power-law distribution of tokens is pervasive. We refer to this issue as PMI's \textit{Achilles heel}.
 
 \subsubsection{Shifted PMI (neg)}
 \label{sec:shifted-pmi}
@@ -137,6 +137,10 @@ where $n(x, y)$ is the number of times $x$ was seen together with $y$. We refer 
   P_{\alpha}(x) = \frac{n(x)^{\alpha}}{\sum_{f \in F}n(f)^{\alpha}}
 \end{equation}
 where $n(x)$ is the frequency of the term $x$, F is the set of the features in the co-occurrence matrix and $n(f)$ is the frequency of the feature in the corpus. We experiment with $\alpha=1$ (no smoothing) and $\alpha = 0.75$. We call this estimation method \emph{local context probability}.
+
+\citet{recchiaimproving} investigate an optimal choice of $\alpha$. They notice when $\alpha = 1$ then $P_{1}(x)$ highly correlates with the frequency of the term $x$, while when $\alpha = 0$ then $P_0(x) = 1$ and correlates inversely with the frequency of the term $x$. Moreover, smoothed PMI is closely related to another measure $\operatorname{SCI}(x, y) = \frac{P(x,y)}{P(x)\sqrt{P(y)}}$ \cite{washtell-markert:2009:EMNLP}, which performs much more poorly \cite{recchiaimproving}.
+
+They precede with hypothesising that $\alpha = 0.75$ neither positively nor negatively correlates with the with the word frequency. Their experiments show that the value of $\alpha = 0.77$ that minimises the absolute value of the measure's correlation to the word frequency are not far off from the values of $\alpha = 0.765$ that maximises correlations to human judgements. 
 
 We also estimate a \emph{global context probability} based on the size of the corpus $|C|$:
 %
