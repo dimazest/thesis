@@ -11,7 +11,8 @@ The experiments show that while the best parameter selection depends on the data
 \section{Experiments on SimLex-999 dataset}
 \label{sec:simlex-999}
 
-SimLex-999 is a dataset to evaluate lexical semantic models \cite{hill2014simlex}. It tests how well a model captures similarity between word pairs. The dataset implicitly distinguishes similarity and relatedness, so related pairs such that \textit{coffee}, \textit{cup} are not considered to be similar in this dataset. It consists of 666 noun-noun pairs, 222 verb-verb pairs and 111 adjective-adjective pairs. The models are evaluated by computing the Spearman's-$\rho$ (the correlation of ranked model predictions with ranked human judgements). Minimum required difference for significance (MRDS, \citet{rastogi-vandurme-arora:2015:NAACL-HLT}) is used for statistical significance testing. For SimLex-999, $\sigma^{0.9}_{0.05} = 0.023$.\footnotemark{} \footnotetext{The results are available at \url{\BASEURL/results_all.csv}.}
+SimLex-999 is a dataset to evaluate lexical semantic models \cite{hill2014simlex}. It tests how well a model captures similarity between word pairs. The dataset implicitly distinguishes similarity and relatedness, so related pairs such that \textit{coffee}, \textit{cup} are not considered to be similar in this dataset. It consists of 666 noun-noun pairs, 222 verb-verb pairs and 111 adjective-adjective pairs. The models are evaluated by computing the Spearman's-$\rho$ (the correlation of ranked model predictions with ranked human judgements). Minimum required difference for significance (MRDS, \citet{rastogi-vandurme-arora:2015:NAACL-HLT}) is used for statistical significance testing. For SimLex-999, $\sigma^{0.9}_{0.05} = 0.023$.\footnotemark{}
+\footnotetext{The results are available at \url{\BASEURL/results_all.csv}.}
 
 \subsection{Max selection}
 \label{sec:max-selection-simlex}
