@@ -593,7 +593,7 @@ In a successive study that included word similarity, \citet{lapesa2014large} sho
 \subsection{Statistical significance testing}
 \label{sec:stat-sign}
 
-\citet{rastogi-vandurme-arora:2015:NAACL-HLT,W16-2506} proposed a method for significance testing motivated by the fact that the researchers do dot report measures of significance of the difference between the Spearman correlations. Their method is based on finding a minimal required difference for significance (MRDS).
+\citet{rastogi-vandurme-arora:2015:NAACL-HLT} proposed and \citet{W16-2506} expressed the importance of a method for significance testing motivated by the fact that the researchers do not report measures of significance of the difference between the Spearman correlations. Their method is based on finding a minimal required difference for significance (MRDS).
 
 Consider two lists of ratings over the same dataset: $A$ and $B$ produced by two competing models together with a list of gold ratings $T$. Let $r_{AT}$, $r_{BT}$, and $r_{AB}$ be the Spearman correlations between $A{:}T$, $B{:}T$ and $A{:}B$ respectively. Let $\hat{r}_{AT}$, $\hat{r}_{BT}$ and $\hat{r}_{AB}$ be their empirical estimates and assume without loss of generality that $\hat{r}_{BT}>\hat{r}_{AT}$.
 
@@ -617,8 +617,8 @@ In the constraint above, $\mathit{pval}$ is the probability of the test statisti
     PhraseRel & 0.43 \\
     \bottomrule
   \end{tabular}
-  \caption{Minimal required difference for significance (MRDS) numbers for the datasets used in this work. Values for SimLex-999 and MEN are taken from \citet{rastogi-vandurme-arora:2015:NAACL-HLT}. KS14, GS11 and PhraseRel are described later in this work.}
-  \label{tab:mrsd}
+  \caption[MRDS numbers]{Minimal required difference for significance (MRDS) numbers for the datasets used in this work. Values for SimLex-999 and MEN are taken from \citet{rastogi-vandurme-arora:2015:NAACL-HLT}. KS14, GS11 and PhraseRel are described later in this work.}
+  \label{tab:mrds}
 \end{table}
 
 The constraint ensures that the $p$value of the null hypothesis will be greater than $p_0$ given that the correlation between the methods is less than $r$ and the difference between the correlations of the competing models to the gold standard is less then $\sigma^r_{p_0}$.
@@ -639,7 +639,7 @@ Now it is possible to search for $\sigma^r_{p_0}$ by solving:
   \sigma^r_{p_0} = \min\{\sigma | \forall_{0 < r' < 1} \operatorname{stest-p}(r', \min(r'+\sigma, 1), r, p_0, n) \}
 \end{equation}
 
-The $\sigma^{0.9}_{0.05}$ values for the lexical datasets and phrasal datasets (see next section and Chapter~\ref{sec:phraserel}) are listed in Table~\ref{tab:mrsd}.
+The $\sigma^{0.9}_{0.05}$ values for the lexical datasets and phrasal datasets (see next section and Chapter~\ref{sec:phraserel}) are listed in Table~\ref{tab:mrds}.
 
 \subsection{Disambiguation of verbs in context}
 \label{sec:disamb}
