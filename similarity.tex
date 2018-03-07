@@ -235,7 +235,7 @@ categories and semantic types is defined as a function $\mathit{type}$:
 Syntactic backward and forward application corresponds to functional
 application. Figure~\ref{fig:syn} shows the final parse tree.
 
-\begin{figure}[b]
+\begin{figure}
   \centering
   \Tree [
     .$s$~:~$\mathit{loves}'(\mathit{john}',\mathit{mary}')$
@@ -268,6 +268,40 @@ Methods based on the distributional hypothesis have been recently applied to man
 
 \emph{Compositional} distributional semantics goes beyond word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator commutativity, which ignores the argument order, and thus the syntactic/semantic function of the words (as a consequence for English, the word order is ignored). As a result, \textit{John loves Mary} and \textit{Mary loves John} get identical representations.
 
+\subsubsection{Notation}
+
+Before introducing the compositional operators, the used notation is introduced here.
+
+Vectors of words are written as, for example, $\ov{\textit{mary}} = [0, 10, 22]$. The arrow above a word indicates that the representation of it is a vector. The vector values are either raw co-occurrence counts obtained from a corpus, as in the examples below, or their quantified counterparts.
+
+Point-wise addition, written as $+$, and point-wise multiplication, written as $\odot$, are the two basic compositional operators. As the output of these operators is a vector, the vector that represents a sentence is written as the sentence itself with an arrow on top and the operator used in the bottom right: for example, $\ov{\text{\it John loves Mary}}_{\text{addition}}$ and $\ov{\text{\it John loves Mary}}_{\text{multiplication}}$ for addition and multiplication respectively.
+
+Other operators require a verb to be represented as a matrix. The matrix can be obtained in various ways, in this work two types are used.
+
+The Kronecker compositional operator (see below) uses the Kronecker product, written as $\otimes$, which is a generalization of the outer product:
+%
+\begin{equation}
+  \label{eq:kron-def}
+ \mathbf{A}\otimes\mathbf{B} = \begin{bmatrix} a_{11} \mathbf{B} & \cdots & a_{1n}\mathbf{B} \\ \vdots & \ddots & \vdots \\ a_{m1} \mathbf{B} & \cdots & a_{mn} \mathbf{B} \end{bmatrix} 
+\end{equation}
+where $\mathbf{A}$ is a $m \times n$ matrix and $\mathbf{B}$ is $p \times q$ matrix. In this work, vectors are used to produce verb matrices, making the actual computation simpler (for the vectors $\ov{a}$ and $\ov{b}$ of length $n$):
+\begin{equation}
+  \label{eq:outer}
+  \ov{a} \otimes \ov{b} = \begin{bmatrix} a_1b_1 & \cdots & a_1b_n\\ \vdots & \ddots & \vdots \\ a_nb_1 & \cdots & a_nb_n\end{bmatrix}
+\end{equation}
+
+Verb matrices used by the Kronecker compositional operator are written as $\widetilde{\mathit{Verb}} = \ov{Verb} \otimes \ov{Verb}$. The tilde indicates that it is a matrix that, in turn, is the Kronecker product of the verb vector with itself.
+
+As the output of the Kronecker compositional operator is a matrix, the representation of a sentence obtained using it is written with a line instead of an arrow, for instance, $\overline{\text{\it John loves Mary}}_{\text{Kronecker}}$, the operator is identified in the bottom right.
+
+The second kind of verb matrices is written as $\overline{Verb}$ and obtained from a corpus by considering the Kronecker products of the subject-object pairs that occur with the verb, see below.
+
+Finally, $^{\mathsf{T}}$ transposes a matrix. The transpose of the matrix $\mathbf{A}$ is written as $\mathbf{A}^{\mathsf{T}}$ and $\mathbf{A}_{ij} = \mathbf{A}^{\mathsf{T}}_{ji}$.
+
+%\overline{\text{\it loves}}^{\mathsf{T}}
+
+\subsubsection{Compositional operators}
+
 Consider that \textit{John}, \textit{Mary} and \textit{loves} are represented as vectors $\ov{\text{\it john}} = [4, 60, 59]$, $\ov{\text{\it mary}} = [0, 10, 22]$ and $\ov{\text{\it loves}} = [10, 100, 20]$, respectively. Then the vector of the sentence \textit{John loves Mary} using addition is:
 %
 \begin{align*}
@@ -291,13 +325,6 @@ Kronecker \cite{Grefenstette:2011:ETV:2140490.2140497} is a non-commutative oper
 \begin{equation}
   \widetilde{\mathit{Verb}} = \ov{\mathit{Verb}} \otimes \ov{\mathit{Verb}}
 \end{equation}
-%
-where $\otimes$ is the Kronecker product defined as:
-\begin{equation}
-  \label{eq:kron-def}
- \mathbf{A}\otimes\mathbf{B} = \begin{bmatrix} a_{11} \mathbf{B} & \cdots & a_{1n}\mathbf{B} \\ \vdots & \ddots & \vdots \\ a_{m1} \mathbf{B} & \cdots & a_{mn} \mathbf{B} \end{bmatrix} 
-\end{equation}
-where $\mathbf{A}$ is a $m \times n$ matrix and $\mathbf{B}$ is $p \times q$ matrix.
 
 The representation\footnotemark{} of a subject-verb-object phrase is computed as:
 %
