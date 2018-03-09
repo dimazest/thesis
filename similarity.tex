@@ -270,13 +270,13 @@ Methods based on the distributional hypothesis have been recently applied to man
 
 \subsubsection{Notation}
 
-Before introducing the compositional operators, the used notation is introduced here.
+Before introducing the compositional operators, the used notation is explained here.
 
-Vectors of words are written as, for example, $\ov{\textit{mary}} = [0, 10, 22]$. The arrow above a word indicates that the representation of it is a vector. The vector values are either raw co-occurrence counts obtained from a corpus, as in the examples below, or their quantified counterparts.
+Vectors of words are written with an arrow, for example $\ov{\textit{mary}} = [0, 10, 22]$. The arrow above a word indicates that the representation of it is a vector. The vector values are either raw co-occurrence counts obtained from a corpus, as in the examples below, or their quantified counterparts.
 
 Point-wise addition, written as $+$, and point-wise multiplication, written as $\odot$, are the two basic compositional operators. As the output of these operators is a vector, the vector that represents a sentence is written as the sentence itself with an arrow on top and the operator used in the bottom right: for example, $\ov{\text{\it John loves Mary}}_{\text{addition}}$ and $\ov{\text{\it John loves Mary}}_{\text{multiplication}}$ for addition and multiplication respectively.
 
-Other operators require a verb to be represented as a matrix. The matrix can be obtained in various ways, in this work two types are used.
+Other operators require a verb to be represented as a matrix. The matrix can be obtained in various ways, in this work two procedures are used.
 
 The Kronecker compositional operator (see below) uses the Kronecker product, written as $\otimes$, which is a generalization of the outer product:
 %
