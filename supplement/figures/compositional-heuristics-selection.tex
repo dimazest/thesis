@@ -1,42 +1,45 @@
 \begin{tabular}{lrrrrrlllll}
 \toprule
-operator &  dimensionality &   KS14 &   GS11 &  PhraseRel &  compositional &  freq &  discr &     cds &  neg &     similarity \\
+operator &    dimensionality &           KS14 &           GS11 &           PhraseRel &           compositional &  freq &  discr &     cds &  neg &     similarity \\
 \midrule
-    head &            1\,000 &  0.682 &  0.332 &      0.643 &          0.703 &  logn &   spmi &  global &    1 &    correlation \\
-    head &            2\,000 &  0.689 &  0.339 &      0.643 &          0.710 &  logn &   spmi &  global &    1 &    correlation \\
-    head &            3\,000 &  0.684 &  0.330 &      0.607 &          0.691 &  logn &   spmi &  global &    1 &    correlation \\
-    head &            5\,000 &  0.675 &  0.339 &      0.607 &          0.693 &  logn &   spmi &  global &    1 &            cos \\
-    head &           10\,000 &  0.685 &  0.342 &      0.643 &          0.710 &  logn &   spmi &  global &  1.4 &            cos \\
-    head &           20\,000 &  0.669 &  0.358 &      0.679 &          0.726 &  logn &   spmi &  global &  1.4 &            cos \\
-    head &           30\,000 &  0.667 &  0.363 &      0.679 &          0.728 &  logn &   spmi &  global &  1.4 &            cos \\
-    head &           40\,000 &  0.662 &  0.356 &      0.679 &          0.722 &  logn &   spmi &  global &  1.4 &            cos \\
-    head &           50\,000 &  0.661 &  0.368 &      0.679 &          \textbf{0.729} &  logn &   spmi &  global &  1.4 &            cos \\ \addlinespace
-     add &            1\,000 &  0.770 &  0.240 &      0.786 &          0.729 &  logn &   spmi &  global &    1 &    correlation \\
-     add &            2\,000 &  0.789 &  0.215 &      0.821 &          \textbf{0.734} &  logn &   spmi &  global &    1 &    correlation \\
-     add &            3\,000 &  0.789 &  0.202 &      0.821 &          0.725 &  logn &   spmi &  global &    1 &    correlation \\
-     add &            5\,000 &  0.788 &  0.186 &      0.786 &          0.702 &  logn &   spmi &  global &    1 &    correlation \\
-     add &           10\,000 &  0.787 &  0.184 &      0.786 &          0.701 &  logn &   spmi &  global &    1 &    correlation \\
-     add &           20\,000 &  0.784 &  0.182 &      0.786 &          0.699 &  logn &   spmi &  global &    1 &    correlation \\
-     add &           30\,000 &  0.781 &  0.174 &      0.786 &          0.693 &  logn &   spmi &  global &    1 &    correlation \\
-     add &           40\,000 &  0.775 &  0.170 &      0.786 &          0.688 &  logn &   spmi &  global &    1 &    correlation \\
-     add &           50\,000 &  0.771 &  0.164 &      0.786 &          0.682 &  logn &   spmi &  global &    1 &    correlation \\ \addlinespace
-    mult &            1\,000 &  0.747 &  0.452 &      0.893 &          0.889 &     1 &   spmi &  global &  0.5 &    correlation \\
-    mult &            2\,000 &  0.759 &  0.449 &      0.857 &          0.879 &     1 &   spmi &  global &  0.5 &    correlation \\
-    mult &            3\,000 &  0.754 &  0.470 &      0.893 &          0.902 &     1 &   spmi &  global &  0.5 &    correlation \\
-    mult &            5\,000 &  0.760 &  0.461 &      0.893 &          0.899 &     1 &   spmi &  global &  0.5 &    correlation \\
-    mult &           10\,000 &  0.767 &  0.488 &      0.929 &          0.931 &     1 &  scpmi &  global &  0.7 &    correlation \\
-    mult &           20\,000 &  0.767 &  0.532 &      0.964 &          \textbf{0.970} &     1 &  scpmi &  global &  0.7 &    correlation \\
-    mult &           30\,000 &  0.760 &  0.509 &      0.893 &          0.929 &     1 &  scpmi &  global &  0.7 &    correlation \\
-    mult &           40\,000 &  0.762 &  0.506 &      0.893 &          0.928 &     1 &  scpmi &  global &  0.7 &    correlation \\
-    mult &           50\,000 &  0.766 &  0.477 &      0.893 &          0.912 &     1 &  scpmi &  global &  0.7 &    correlation \\ \addlinespace
-    kron &            1\,000 &  0.777 &  0.425 &      0.857 &          0.872 &     1 &  scpmi &  global &  0.7 &    correlation \\
-    kron &            2\,000 &  0.798 &  0.444 &      0.893 &          0.904 &     1 &  scpmi &  global &  0.7 &    correlation \\
-    kron &            3\,000 &  0.795 &  0.466 &      0.893 &          \textbf{0.917} &     1 &  scpmi &  global &  0.7 &    correlation \\
-    kron &            5\,000 &  0.770 &  0.502 &      0.857 &          \textbf{0.917} &  logn &  scpmi &    0.75 &  0.7 &  inner\_product \\
-    kron &           10\,000 &  0.651 &  0.485 &      0.857 &          0.858 &  logn &   spmi &    0.75 &    1 &  inner\_product \\
-    kron &           20\,000 &  0.690 &  0.508 &      0.893 &          0.900 &  logn &   spmi &    0.75 &    1 &  inner\_product \\
-    kron &           30\,000 &  0.705 &  0.512 &      0.893 &          0.909 &  logn &   spmi &    0.75 &    1 &  inner\_product \\
-    kron &           40\,000 &  0.717 &  0.513 &      0.893 &          0.914 &  logn &   spmi &    0.75 &    1 &  inner\_product \\
-    kron &           50\,000 &  0.721 &  0.516 &      0.821 &          0.894 &  logn &   spmi &    0.75 &    1 &  inner\_product \\
+    head &            1\,000 &  \textbf{0.68} &  \textbf{0.33} &       \textbf{0.64} &           \textbf{0.70} &  logn &   spmi &  global &    1 &    correlation \\
+    head &            2\,000 &  \textbe{0.69} &  \textbf{0.34} &       \textbf{0.64} &           \textbf{0.71} &  logn &   spmi &  global &    1 &    correlation \\
+    head &            3\,000 &  \textbf{0.68} &  \textbf{0.33} &       \textbf{0.61} &           \textbf{0.69} &  logn &   spmi &  global &    1 &    correlation \\
+    head &            5\,000 &  \textbf{0.68} &  \textbf{0.34} &       \textbf{0.61} &           \textbf{0.69} &  logn &   spmi &  global &    1 &            cos \\
+    head &           10\,000 &  \textbe{0.69} &  \textbf{0.34} &       \textbf{0.64} &           \textbf{0.71} &  logn &   spmi &  global &  1.4 &            cos \\
+    head &           20\,000 &  \textbf{0.67} &  \textbf{0.36} &       \textbe{0.68} &           \textbe{0.73} &  logn &   spmi &  global &  1.4 &            cos \\
+    head &           30\,000 &  \textbf{0.67} &  \textbf{0.36} &       \textbe{0.68} &           \textbe{0.73} &  logn &   spmi &  global &  1.4 &            cos \\
+    head &           40\,000 &  \textbf{0.66} &  \textbf{0.36} &       \textbe{0.68} &           \textbf{0.72} &  logn &   spmi &  global &  1.4 &            cos \\
+    head &           50\,000 &  \textbf{0.66} &  \textbe{0.37} &       \textbe{0.68} &           \textbe{0.73} &  logn &   spmi &  global &  1.4 &            cos \\ \addlinespace
+
+     add &            1\,000 &  \textbf{0.77} &  \textbe{0.24} &       \textbf{0.79} &           \textbe{0.73} &  logn &   spmi &  global &    1 &    correlation \\
+     add &            2\,000 &  \textbe{0.79} &  \textbf{0.22} &       \textbe{0.82} &           \textbe{0.73} &  logn &   spmi &  global &    1 &    correlation \\
+     add &            3\,000 &  \textbe{0.79} &  \textbf{0.20} &       \textbe{0.82} &           \textbe{0.73} &  logn &   spmi &  global &    1 &    correlation \\
+     add &            5\,000 &  \textbe{0.79} &  \textbf{0.19} &       \textbf{0.79} &           \textbf{0.70} &  logn &   spmi &  global &    1 &    correlation \\
+     add &           10\,000 &  \textbe{0.79} &          0.18  &       \textbf{0.79} &           \textbf{0.70} &  logn &   spmi &  global &    1 &    correlation \\
+     add &           20\,000 &  \textbf{0.78} &          0.18  &       \textbf{0.79} &           \textbf{0.70} &  logn &   spmi &  global &    1 &    correlation \\
+     add &           30\,000 &  \textbf{0.78} &          0.17  &       \textbf{0.79} &           \textbf{0.69} &  logn &   spmi &  global &    1 &    correlation \\
+     add &           40\,000 &  \textbf{0.78} &          0.17  &       \textbf{0.79} &           \textbf{0.69} &  logn &   spmi &  global &    1 &    correlation \\
+     add &           50\,000 &  \textbf{0.77} &          0.16  &       \textbf{0.79} &           \textbf{0.68} &  logn &   spmi &  global &    1 &    correlation \\ \addlinespace
+
+    mult &            1\,000 &  \textbf{0.75} &          0.45  &       \textbf{0.89} &           \textbf{0.89} &     1 &   spmi &  global &  0.5 &    correlation \\
+    mult &            2\,000 &  \textbf{0.76} &          0.45  &       \textbf{0.86} &           \textbf{0.88} &     1 &   spmi &  global &  0.5 &    correlation \\
+    mult &            3\,000 &  \textbf{0.75} &          0.47  &       \textbf{0.89} &           \textbf{0.90} &     1 &   spmi &  global &  0.5 &    correlation \\
+    mult &            5\,000 &  \textbf{0.76} &          0.46  &       \textbf{0.89} &           \textbf{0.90} &     1 &   spmi &  global &  0.5 &    correlation \\
+    mult &           10\,000 &  \textbe{0.77} &  \textbf{0.49} &       \textbf{0.93} &           \textbf{0.93} &     1 &  scpmi &  global &  0.7 &    correlation \\
+    mult &           20\,000 &  \textbe{0.77} &  \textbe{0.53} &       \textbe{0.96} &           \textbe{0.97} &     1 &  scpmi &  global &  0.7 &    correlation \\
+    mult &           30\,000 &  \textbf{0.76} &  \textbf{0.51} &       \textbf{0.89} &           \textbf{0.93} &     1 &  scpmi &  global &  0.7 &    correlation \\
+    mult &           40\,000 &  \textbf{0.76} &  \textbf{0.51} &       \textbf{0.89} &           \textbf{0.93} &     1 &  scpmi &  global &  0.7 &    correlation \\
+    mult &           50\,000 &  \textbe{0.77} &  \textbf{0.48} &       \textbf{0.89} &           \textbf{0.91} &     1 &  scpmi &  global &  0.7 &    correlation \\ \addlinespace
+
+    kron &            1\,000 &  \textbf{0.78} &          0.42  &       \textbf{0.86} &           \textbf{0.87} &     1 &  scpmi &  global &  0.7 &    correlation \\
+    kron &            2\,000 &  \textbe{0.80} &          0.44  &       \textbe{0.89} &           \textbf{0.90} &     1 &  scpmi &  global &  0.7 &    correlation \\
+    kron &            3\,000 &  \textbe{0.80} &  \textbf{0.47} &       \textbe{0.89} &           \textbe{0.92} &     1 &  scpmi &  global &  0.7 &    correlation \\
+    kron &            5\,000 &  \textbf{0.77} &  \textbf{0.50} &       \textbf{0.86} &           \textbe{0.92} &  logn &  scpmi &    0.75 &  0.7 &  inner\_product \\
+    kron &           10\,000 &          0.65  &  \textbf{0.48} &       \textbf{0.86} &           \textbf{0.86} &  logn &   spmi &    0.75 &    1 &  inner\_product \\
+    kron &           20\,000 &          0.69  &  \textbf{0.51} &       \textbe{0.89} &           \textbf{0.90} &  logn &   spmi &    0.75 &    1 &  inner\_product \\
+    kron &           30\,000 &          0.70  &  \textbf{0.51} &       \textbe{0.89} &           \textbf{0.91} &  logn &   spmi &    0.75 &    1 &  inner\_product \\
+    kron &           40\,000 &          0.72  &  \textbf{0.51} &       \textbe{0.89} &           \textbf{0.91} &  logn &   spmi &    0.75 &    1 &  inner\_product \\
+    kron &           50\,000 &          0.72  &  \textbe{0.52} &       \textbf{0.82} &           \textbf{0.89} &  logn &   spmi &    0.75 &    1 &  inner\_product \\
 \bottomrule
 \end{tabular}

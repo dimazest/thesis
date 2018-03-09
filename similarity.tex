@@ -55,12 +55,14 @@ We continue with an overview of the main ideas behind the word and phrase repres
 \section{Representation of words}
 \label{sec:distr-hypoth}
 
-In principle, we would like to capture the intuition that while \textit{John} and \textit{Mary} are distinct entities, they are rather similar to each other---because both of them are humans---and are dissimilar to \textit{dog}, \textit{pavement} or \textit{idea}. However, we start with the word meaning representation that captures the fact that entities are distinct but does not provide the means to measure similarity.
+In principle, we would like to capture the intuition that while \textit{John} and \textit{Mary} are distinct entities, they are rather similar to each other---because both of them are humans---and are dissimilar to \textit{dog}, \textit{pavement} or \textit{idea}. However, we start with the logical word meaning representation that captures the fact that entities are distinct but does not provide the means to measure similarity.
 
 \subsection{Logical representations for inference}
 \label{sec:classical-approaches}
 
-Formal semantics provides the means to infer some piece of information from another. The main studied relation is the entailment of sentences, for example, \textit{John swims in Åresjön} entails \textit{John swims in a Swedish lake}. To evaluate entailment, the sentences are converted to formulas. The words correspond to symbols in formal logic.
+Formal semantics provides the means to infer\footnotemark{} some piece of information from another. The main studied relation is the entailment of sentences, for example, \textit{John swims in Åresjön} entails \textit{John swims in a Swedish lake}. To evaluate entailment, the sentences are converted to formulas. The words correspond to symbols in formal logic.
+
+\footnotetext{Work on natural logic demonstrates that it is not necessary to convert to a logical representations, see, for example, \citet{MacCartney:2007:NLT:1654536.1654575}.}
 
 The individual word \textit{Åresjön} corresponds to the symbol \textit{Åresjön'}, which is mapped to the actual lake by the interpretation function $\mathcal{I}$.
 
@@ -68,14 +70,16 @@ One-place properties are seen as sets of individuals, so $\mathcal{I}(\mathit{Sw
 
 \textit{Swim'} is a two-place predicate that is represented as a set that contains the pairs between which the relation holds; so if John actually swims in Åresjön, then $\mathcal{I}(\mathit{swim'})$ will contain the pair $(\mathcal{I}(\mathit{John'}), \mathcal{I}(\mathit{Åresjön'}))$.
 
-While such formalism is very powerful for entailment detection between sentences, similarity measurement is problematic, because there is no relation between atomic symbols: we only know that \textit{Åresjön} and \textit{Väsman} correspond to different entities in the universe, but know nothing about the resemblance between their properties.
+While such formalism is very powerful for entailment detection between sentences, similarity measurement is problematic,\footnotemark{} because there is no relation between atomic symbols: we only know that \textit{Åresjön} and \textit{Väsman} correspond to different entities in the universe, but know nothing about the resemblance between their properties.
+
+\footnotetext{Such property could be perfectly expressed in formal semantics, but it is not generally seen as part of the job of formal semantics, also acquiring such properties is hard in comparison to the distributional methods.}
 
 \subsection{Distributional representations for similarity}
 \label{sec:distributional-representations}
 
 Distributional methods provide a way to measure the similarity between words. The representations are produced by exploiting Harris' \citeyearpar{harris1954distributional} intuition that similar words occur in similar contexts.
 
-\subsubsection{Distributional semantics: global representations}
+% \subsubsection{Distributional semantics: global representations}
 \label{sec:distr-repr}
 
 \begin{wraptable}[10]{O}{7cm}
@@ -126,33 +130,33 @@ where $\theta$ is the angle between the vectors of \textit{Mary} and \textit{gir
 
 In the current example of a na{\"\i}ve vector space, \textit{John} is also closer to \textit{girl} than to \textit{boy}, which is counter-intuitive. This might be because of the small number of dimensions used, the poor selection of the context words, or the usage of raw co-occurrence numbers.% The importance of choosing good parameters is discussed in details in Section~\ref{sec:parameter-selection-intro}.
 
-\subsubsection{Word embeddings: local representations}
-\label{sec:neural-embedding}
+% \subsubsection{Word embeddings: local representations}
+% \label{sec:neural-embedding}
 
-Deep learning\footnotemark{} techniques use the distributional hypothesis differently than the distributional methods described above \cite{Goldberg2016}. Instead of relying on the co-occurrence matrix, the training process of the word2vec framework \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} iterates directly over the target-context pairs. At any given moment during the training process, it has access only to local co-occurrence information, the global table of co-occurrences is not used, thus the name of the method. The training is done by maximising an objective function based on the following:
-\footnotetext{
-  Even though the model of \newcite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} is not a deep neural network, its efficient implementation uses methods developed for deep models. For example, hierarchical softmax and noise contrastive estimation.
-}
-%
-\begin{equation}
- \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{t+j}|w_t)
-  \label{eq:objective-func}
-\end{equation}
-%
-In practice, maximising this function produces vectors which maximise the conditional probability of observing words in a context around the target word $w_t$. $C$ is the size of the training context, and $w_1 w_2, \ldots, w_T$ is a sequence of training words. Empirically, they capture the distributional intuition and express degrees of lexical similarity. The probability of a context word $w_c$ given a target word $w_t$ is defined using the softmax function:
-%
-\begin{equation}
-  P(w_c|w_{t}) = \frac{e^{\vv{w_c} \cdot \vv{w_t}}}{\sum_{c'}e^{\vv{w_{c'}} \cdot \vv{w_t}}}
-\end{equation}
-%
-The word vectors are dense (their dimensionality is few hundreds). Because the objective in \eqref{eq:objective-func} is expensive to compute, negative sampling is used in practice, however its description is beyond the scope of this work.
+% Deep learning\footnotemark{} techniques use the distributional hypothesis differently than the distributional methods described above \cite{Goldberg2016}. Instead of relying on the co-occurrence matrix, the training process of the word2vec framework \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} iterates directly over the target-context pairs. At any given moment during the training process, it has access only to local co-occurrence information, the global table of co-occurrences is not used, thus the name of the method. The training is done by maximising an objective function based on the following:
+% \footnotetext{
+%   Even though the model of \newcite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} is not a deep neural network, its efficient implementation uses methods developed for deep models. For example, hierarchical softmax and noise contrastive estimation.
+% }
+% %
+% \begin{equation}
+%  \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{t+j}|w_t)
+%   \label{eq:objective-func}
+% \end{equation}
+% %
+% In practice, maximising this function produces vectors which maximise the conditional probability of observing words in a context around the target word $w_t$. $C$ is the size of the training context, and $w_1 w_2, \ldots, w_T$ is a sequence of training words. Empirically, they capture the distributional intuition and express degrees of lexical similarity. The probability of a context word $w_c$ given a target word $w_t$ is defined using the softmax function:
+% %
+% \begin{equation}
+%   P(w_c|w_{t}) = \frac{e^{\vv{w_c} \cdot \vv{w_t}}}{\sum_{c'}e^{\vv{w_{c'}} \cdot \vv{w_t}}}
+% \end{equation}
+% %
+% The word vectors are dense (their dimensionality is few hundreds). Because the objective in \eqref{eq:objective-func} is expensive to compute, negative sampling is used in practice, however its description is beyond the scope of this work.
 
-The objective function in \eqref{eq:objective-func} is used by the skip-gram model: for every target-context pair, the objective function is based on predicting context words given a target word. The prediction can be reversed, that is, given the context words the target word of a context is predicted. Formally this objective is expressed in \citet{mikolov2013efficient} giving rise to the continuous bag-of-words model (CBOW):
-\begin{equation}
- \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{t}|w_{t+j})
-  \label{eq:objective-func-cbow}
-\end{equation}
-Here, the representation of the context is obtained by projecting several vectors of context words into one vector using addition.
+% The objective function in \eqref{eq:objective-func} is used by the skip-gram model: for every target-context pair, the objective function is based on predicting context words given a target word. The prediction can be reversed, that is, given the context words the target word of a context is predicted. Formally this objective is expressed in \citet{mikolov2013efficient} giving rise to the continuous bag-of-words model (CBOW):
+% \begin{equation}
+%  \frac{1}{T}\sum^{T}_{t=1}\sum_{-c \leq j \leq c, j\neq0} \log P(w_{t}|w_{t+j})
+%   \label{eq:objective-func-cbow}
+% \end{equation}
+% Here, the representation of the context is obtained by projecting several vectors of context words into one vector using addition.
 
 \section{Representation of phrases and sentences}
 \label{sec:similarity-compounds}
@@ -231,7 +235,7 @@ categories and semantic types is defined as a function $\mathit{type}$:
 Syntactic backward and forward application corresponds to functional
 application. Figure~\ref{fig:syn} shows the final parse tree.
 
-\begin{figure}[b]
+\begin{figure}
   \centering
   \Tree [
     .$s$~:~$\mathit{loves}'(\mathit{john}',\mathit{mary}')$
@@ -262,7 +266,41 @@ Given a suitable pairing between a syntactic grammar, semantic representations a
 
 Methods based on the distributional hypothesis have been recently applied to many tasks, but mostly at the word level, for instance, word sense disambiguation \cite{ZhitomirskyGeffet2009} and lexical substitution \cite{Thater:2010:CSR:1858681.1858778}. They exploit the notion of similarity which correlates with the angle between word vectors \cite{Turney:2010:FMV:1861751.1861756}.
 
-\emph{Compositional} distributional semantics goes beyond word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator associativity, which ignores the argument order, and thus the word order. As a result, \textit{John loves Mary} and \textit{Mary loves John} get identical representations.
+\emph{Compositional} distributional semantics goes beyond word level and models the meaning of phrases or sentences based on their parts. \newcite{mitchell-lapata:2008:ACLMain} perform composition of word vectors using vector addition and multiplication operations. The limitation of this approach is the operator commutativity, which ignores the argument order, and thus the syntactic/semantic function of the words (as a consequence for English, the word order is ignored). As a result, \textit{John loves Mary} and \textit{Mary loves John} get identical representations.
+
+\subsubsection{Notation}
+
+Before introducing the compositional operators, the used notation is explained here.
+
+Vectors of words are written with an arrow, for example $\ov{\textit{mary}} = [0, 10, 22]$. The arrow above a word indicates that the representation of it is a vector. The vector values are either raw co-occurrence counts obtained from a corpus, as in the examples below, or their quantified counterparts.
+
+Point-wise addition, written as $+$, and point-wise multiplication, written as $\odot$, are the two basic compositional operators. As the output of these operators is a vector, the vector that represents a sentence is written as the sentence itself with an arrow on top and the operator used in the bottom right: for example, $\ov{\text{\it John loves Mary}}_{\text{addition}}$ and $\ov{\text{\it John loves Mary}}_{\text{multiplication}}$ for addition and multiplication respectively.
+
+Other operators require a verb to be represented as a matrix. The matrix can be obtained in various ways, in this work two procedures are used.
+
+The Kronecker compositional operator (see below) uses the Kronecker product, written as $\otimes$, which is a generalization of the outer product:
+%
+\begin{equation}
+  \label{eq:kron-def}
+ \mathbf{A}\otimes\mathbf{B} = \begin{bmatrix} a_{11} \mathbf{B} & \cdots & a_{1n}\mathbf{B} \\ \vdots & \ddots & \vdots \\ a_{m1} \mathbf{B} & \cdots & a_{mn} \mathbf{B} \end{bmatrix} 
+\end{equation}
+where $\mathbf{A}$ is a $m \times n$ matrix and $\mathbf{B}$ is $p \times q$ matrix. In this work, vectors are used to produce verb matrices, making the actual computation simpler (for the vectors $\ov{a}$ and $\ov{b}$ of length $n$):
+\begin{equation}
+  \label{eq:outer}
+  \ov{a} \otimes \ov{b} = \begin{bmatrix} a_1b_1 & \cdots & a_1b_n\\ \vdots & \ddots & \vdots \\ a_nb_1 & \cdots & a_nb_n\end{bmatrix}
+\end{equation}
+
+Verb matrices used by the Kronecker compositional operator are written as $\widetilde{\mathit{Verb}} = \ov{Verb} \otimes \ov{Verb}$. The tilde indicates that it is a matrix that, in turn, is the Kronecker product of the verb vector with itself.
+
+As the output of the Kronecker compositional operator is a matrix, the representation of a sentence obtained using it is written with a line instead of an arrow, for instance, $\overline{\text{\it John loves Mary}}_{\text{Kronecker}}$, the operator is identified in the bottom right.
+
+The second kind of verb matrices is written as $\overline{Verb}$ and obtained from a corpus by considering the Kronecker products of the subject-object pairs that occur with the verb, see below.
+
+Finally, $^{\mathsf{T}}$ transposes a matrix. The transpose of the matrix $\mathbf{A}$ is written as $\mathbf{A}^{\mathsf{T}}$ and $\mathbf{A}_{ij} = \mathbf{A}^{\mathsf{T}}_{ji}$.
+
+%\overline{\text{\it loves}}^{\mathsf{T}}
+
+\subsubsection{Compositional operators}
 
 Consider that \textit{John}, \textit{Mary} and \textit{loves} are represented as vectors $\ov{\text{\it john}} = [4, 60, 59]$, $\ov{\text{\it mary}} = [0, 10, 22]$ and $\ov{\text{\it loves}} = [10, 100, 20]$, respectively. Then the vector of the sentence \textit{John loves Mary} using addition is:
 %
@@ -280,23 +318,23 @@ It is similar for multiplication, where element-wise multiplication is used inst
                                   &= [0, 60\,000, 25\,960]
 \end{align*}
 %
-To capture word order and the syntactic structure of a sentence, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} use non-associative linear algebra operators as proposed in the theoretical work of \newcite{DBLP:journals/corr/abs-1003-4394}. There, the functional applications of semantic terms are replaced with tensors \cite{Bourbaki1998commutative}.
+To capture word order and the syntactic structure of a sentence, various approaches have been proposed. \newcite{Grefenstette:2011:ESC:2145432.2145580} use non-commutative linear algebra operators as proposed in the theoretical work of \newcite{DBLP:journals/corr/abs-1003-4394}. There, the functional applications of semantic terms are replaced with tensors \cite{Bourbaki1998commutative}.
 
-Kronecker \cite{Grefenstette:2011:ETV:2140490.2140497} is a non-associative operator. It represents the verb of a phrase as a matrix and the subject and the object as vectors. The verb matrix is defined as the Kronecker product---which gives the name to the compositional operator---of the vector of a verb with itself:
+Kronecker \cite{Grefenstette:2011:ETV:2140490.2140497} is a non-commutative operator. It represents the verb of a phrase as a matrix and the subject and the object as vectors. The verb matrix is defined as the Kronecker product---which gives the name to the compositional operator---of the vector of a verb with itself:
 %
 \begin{equation}
   \widetilde{\mathit{Verb}} = \ov{\mathit{Verb}} \otimes \ov{\mathit{Verb}}
 \end{equation}
-%
-where $\otimes$ is the Kronecker product. The vector of a subject-verb-object phrase is computed as:
+
+The representation\footnotemark{} of a subject-verb-object phrase is computed as:
 %
 \begin{equation}
-  \ov{\text{\it Sbj Verb Obj}} = \widetilde{\text{\it Verb}} \odot (\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}})
+  \overline{\text{\it Sbj Verb Obj}} = \widetilde{\text{\it Verb}} \odot (\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}})
 \end{equation}
 %
 The derivation of the representation of \textit{John loves Mary} using Kronecker is:
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{Kronecker}} &= \widetilde{\text{\it loves}} \odot (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) \\
+  \overline{\text{\it John loves Mary}}_{\text{Kronecker}} &= \widetilde{\text{\it loves}} \odot (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) \\
                                   &= (\ov{\text{\it loves}} \otimes \ov{\text{\it loves}}) \odot (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) \\
                                   &=([10, 100, 20] \otimes [10, 100, 20]) \odot ([4, 60, 59] \otimes [0, 10, 22]) \\
   \displaybreak[0]
@@ -319,7 +357,9 @@ The derivation of the representation of \textit{John loves Mary} using Kronecker
                                     \end{bmatrix}
 \end{align*}
 
-For other non-associative operators, a transitive verb is represented by the matrix $\overline{\text{\it Verb}}$, which is obtained from a corpus using the formula \cite{Grefenstette:2011:ESC:2145432.2145580}:
+\footnotetext{The operators that include Kronecker product produce matrices, not vectors, however computing similarity between matrices is possible by collapsing the rows of the matrix into one dimension by concatenating them together.}
+
+For other non-commutative operators presented below, a transitive verb is represented by the matrix $\overline{\text{\it Verb}}$, which is obtained from a corpus using the formula \cite{Grefenstette:2011:ESC:2145432.2145580}:
 \begin{equation}
   \overline{\text{\it Verb}} = \sum_i\ov{s_i} \otimes \ov{o_i}
   \label{eq:verb-matrix}
@@ -350,7 +390,7 @@ Informally, it identifies the interaction of the features of the subject and the
 In the example, the meaning is computed similarly to Kronecker, but a different verb matrix is used:
 %
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{relational}} &= \overline{\text{\it loves}} \odot (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) \\
+  \overline{\text{\it John loves Mary}}_{\text{relational}} &= \overline{\text{\it loves}} \odot (\ov{\text{\it john}} \otimes \ov{\text{\it mary}}) \\
   \displaybreak[0]
                                   &= \begin{bmatrix}
                                        120 &  1\,390 &    658 \\
@@ -384,7 +424,7 @@ Copy-object diagonally places the object dimension into a cube, producing a clos
 where $\times$ is matrix multiplication. The vector representation of \textit{John loves Mary} using copy-object is:
 %
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{copy-object}} &=\ov{\text{\it john}} \odot (\overline{\text{\it loves}} \times \ov{\text{\it mary}}) \\
+  \overline{\text{\it John loves Mary}}_{\text{copy-object}} &=\ov{\text{\it john}} \odot (\overline{\text{\it loves}} \times \ov{\text{\it mary}}) \\
                                                        &= [4, 60, 59]%
                                                          \odot \left(%
                                                          \begin{bmatrix}
@@ -406,7 +446,7 @@ Similarly, copy-subject diagonally places the subject dimension into a cube, pro
 %
 Again, in the example:
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{copy-subject}} &=\ov{\text{\it mary}} \odot (\overline{\text{\it loves}}^{\mathsf{T}} \times \ov{\text{\it john}}) \\
+  \overline{\text{\it John loves Mary}}_{\text{copy-subject}} &=\ov{\text{\it mary}} \odot (\overline{\text{\it loves}}^{\mathsf{T}} \times \ov{\text{\it john}}) \\
                                                         &= [0, 10, 22]%
                                                           \odot%
                                                           \left(%
@@ -436,7 +476,7 @@ Frobenius addition uses addition to combine the results:
 So the computation of \textit{John loves Mary} is:
 %
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{Frobenius add}} &=  \ov{\text{\it John loves Mary}}_{\text{copy-object}} +  \ov{\text{\it John loves Mary}}_{\text{copy-subject}}\\
+  \overline{\text{\it John loves Mary}}_{\text{Frobenius add}} &=  \overline{\text{\it John loves Mary}}_{\text{copy-object}} +  \overline{\text{\it John loves Mary}}_{\text{copy-subject}}\\
                                                          &= [113\,504, 11\,995\,680,  3\,416\,808] + [0, 10\,576\,300,  4\,949\,692] \\
                                                          &= [113\,504, 22\,571\,980,  8\,366\,500]
 \end{align*}
@@ -450,7 +490,7 @@ Element-wise vector multiplication is used by Frobenius multiplication:% (Frob.~
 Similarly, the computation of \textit{John loves Mary} becomes:
 %
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{Frobenius mult}} &=  \ov{\text{\it John loves Mary}}_{\text{copy-object}} \odot \ov{\text{\it John loves Mary}}_{\text{copy-subject}}\\
+  \overline{\text{\it John loves Mary}}_{\text{Frobenius mult}} &=  \overline{\text{\it John loves Mary}}_{\text{copy-object}} \odot \overline{\text{\it John loves Mary}}_{\text{copy-subject}}\\
                                                          &= [113\,504, 11\,995\,680,  3\,416\,808] \odot [0, 10\,576\,300,  4\,949\,692] \\
                                                          &= [0, 126\,869\,910\,384\,000,  16\,912\,147\,223\,136]
 \end{align*}
@@ -463,7 +503,7 @@ Finally, Kronecker product is used in Frobenius outer:% (Frob.~outer in Table~\r
 %
 Making the computation of \textit{John loves Mary} look like:
 \begin{align*}
-  \ov{\text{\it John loves Mary}}_{\text{Frobenius outer}} &=  \ov{\text{\it John loves Mary}}_{\text{copy-object}} \otimes \ov{\text{\it John loves Mary}}_{\text{copy-subject}}\\
+  \overline{\text{\it John loves Mary}}_{\text{Frobenius outer}} &=  \overline{\text{\it John loves Mary}}_{\text{copy-object}} \otimes \overline{\text{\it John loves Mary}}_{\text{copy-subject}}\\
                                                          &= [113\,504, 11\,995\,680,  3\,416\,808] \otimes [0, 10\,576\,300,  4\,949\,692] \\
                                                            &=%
                                                              \begin{bmatrix}
@@ -495,10 +535,11 @@ With verbs, similarity in context can be applied to compare a transitive verb wi
 
 Sentential similarity might be treated as the similarity of the heads in their contexts. That is, the similarity between \textit{sees} and \textit{notices} in \textit{John \textbf{sees} Mary} and \textit{John \textbf{notices} a woman}. This approach abstracts away the grammatical difference between the sentences and concentrates on their semantics.
 
+
 \section{Evaluation}
 \label{sec:intrinsic-evaluation}
 
-The difference in occurrence between two words quantifies the difference in their meaning \cite{harris1954distributional} and there is a machinery to measure the difference in the meanings of two sentences \cite{DBLP:journals/corr/abs-1003-4394}. The final necessary part is the evaluation methodology to test this approach.
+The difference in occurrence between two words quantifies the difference in their meaning \cite{harris1954distributional} and there is a procedure to measure the difference in the meanings of two sentences \cite{DBLP:journals/corr/abs-1003-4394}. The final necessary part is the evaluation methodology to test this approach.
 
 Because it is difficult to perform extrinsic evaluation (also called evaluation in use) to measure the performance of a similarity component in a pipeline of a complete natural language processing system (for example, a dialog system), intrinsic datasets that focus on similarity are popular among computational linguists.
 
@@ -525,7 +566,7 @@ Formally, the overlap $M_x$ over condition $x$ between the word context of words
 %
 where $N(A_xB_x)$ is the number of context words shared between $A$ and $B$ under condition $x$. $N(A_x)$ and $N(B_x)$ are the number of context words under condition $x$ for the words $A$ and $B$ respectively.
 
-They found that the more similar words in meaning are the more context they share for both token and type conditions. Moreover, the relationship is strongest for the highly synonymous pairs, namely the pairs with similairty greater than 3.0.
+They found that the more similar words in meaning are the more context they share for both token and type conditions. Moreover, the relationship is strongest for the highly synonymous pairs, namely the pairs with similarity greater than 3.0.
 
 \newcite{1986-13502-00119860101} studied the similarity relation from the psychological perspective. They analysed the similarity judgements between the entries by their geometric structure. The geometric approach represents the entries as points in a multidimensional space so that the distance between them reflects similarity.
 
@@ -568,13 +609,64 @@ A vector space with vector components computed with positive PMI and cosine simi
 
 They used a linear regression model to determine the importance of individual parameters and their combinations. The parameters of a distributional model---such as the weighting scheme, vector space dimensionality and similarity metric---were considered predictors of its performance: the parameters of a distributional model were independent parameters of a linear model and the performance of the distributional model was a dependent variable. Analysis of variance was used to determine the most important parameters and their interactions.
 
-They showed that a statistical association measures---such as t-score or z-score \cite{Evert05}---with the combination of ranked-based prediction yielded better results over cosine similarity. Would they performed only iterative tuning, they would test ranked-based prediction only with the PMI weighting, which underperformed in their experiments.
+They showed that a statistical association measures---such as t-score or z-score \cite{Evert05}---with the combination of ranked-based prediction yielded better results over cosine similarity. Would they have performed only iterative tuning, they would test ranked-based prediction only with the PMI weighting, which underperformed in their experiments.
 
 In a successive study that included word similarity, \citet{lapesa2014large} showed that the combination of the similarity score together with the weighting scheme was the most important parameter combination, supporting the findings of \newcite{Bullinaria2007} and \newcite{kiela-clark:2014:CVSC}, who suggested to use PMI together with cosine similarity.
 
 %With their analysis they were also to perform model selection that is robust to overfitting. In most cases, the result of their robust parameter optimisation was close to the highest score. They considered the highest score they achieved to be overfitted because 537600 models were tested and there was a high chance that the best performance happened by chance.
 
 \newcite{baroni-dinu-kruszewski:2014:P14-1} and \newcite{TACL570} performed systematic parameter studies on distributional and neural models. \newcite{TACL570} evaluated models on all three datasets (WS353, MEN and SimLex-999, see Table~\ref{tab:lexical-dataset-comparison}). Notably, their best distributional model outperformed the distributional models presented in \citet{hill2014simlex}, \citet{kiela-clark:2014:CVSC} and \citet{baroni-dinu-kruszewski:2014:P14-1} and to the best of our knowledge is the state of the art of distributional models.
+
+\subsection{Statistical significance testing}
+\label{sec:stat-sign}
+
+\citet{rastogi-vandurme-arora:2015:NAACL-HLT} proposed and \citet{W16-2506} expressed the importance of a method for significance testing motivated by the fact that the researchers do not report measures of significance of the difference between the Spearman correlations. Their method is based on finding a minimal required difference for significance (MRDS).
+
+Consider two lists of ratings over the same dataset: $A$ and $B$ produced by two competing models together with a list of gold ratings $T$. Let $r_{AT}$, $r_{BT}$, and $r_{AB}$ be the Spearman correlations between $A{:}T$, $B{:}T$ and $A{:}B$ respectively. Let $\hat{r}_{AT}$, $\hat{r}_{BT}$ and $\hat{r}_{AB}$ be their empirical estimates and assume without loss of generality that $\hat{r}_{BT}>\hat{r}_{AT}$.
+
+The MDRS of a dataset $\sigma^{r}_{p_0}$ is defined such that it satisfies the following:
+\begin{equation}
+(r_{AB} < r) \wedge (|\hat{r}_{BT} - \hat{r}_{AT}| < \sigma^r_{p_0} \Rightarrow \mathit{pval} > p_0
+\end{equation}
+
+In the constraint above, $\mathit{pval}$ is the probability of the test statistic under the null hypothesis that $r_{AT} = r_{BT}$ found using Staiger's test \cite{steiger1980tests}.
+
+\begin{table}
+  \centering
+  \begin{tabular}[th]{rl}
+    \toprule
+    Dataset & $\sigma^{0.9}_{0.05}$ \\
+    \midrule
+    SimLex-999 & 0.023\\
+    MEN  & 0.013 \\
+    KS14 &  0.07 \\
+    GS11 &  0.05 \\
+    PhraseRel & 0.43 \\
+    \bottomrule
+  \end{tabular}
+  \caption[MRDS numbers]{Minimal required difference for significance (MRDS) numbers for the datasets used in this work. Values for SimLex-999 and MEN are taken from \citet{rastogi-vandurme-arora:2015:NAACL-HLT}. KS14, GS11 and PhraseRel are described later in this work.}
+  \label{tab:mrds}
+\end{table}
+
+The constraint ensures that the $p$value of the null hypothesis will be greater than $p_0$ given that the correlation between the methods is less than $r$ and the difference between the correlations of the competing models to the gold standard is less then $\sigma^r_{p_0}$.
+
+The value of $r$ specifies the upper bound on the agreement of the ratings produced by the competing models, for example $r = 0.9$.
+
+The second part of the predicate ensures that the null hypothesis is more likely than $p_0$ given that the difference between the correlations of the models to the gold standard is less than $\sigma^r_{p_0}$.
+
+Once a reasonable value of $r$ is chosen (for example 0.9), $\sigma^r_{p_0}$ can be found following this procedure. Let $\operatorname{stest}$ be Staiger's test predicate which satisfies the following ($n$ being the size of the dataset):
+\begin{equation}
+  \label{eq:stest}
+  \operatorname{stest-p}(\hat{r}_{AT}, \hat{r}_{BT}, r_{AB}, p_0, n) \Rightarrow \mathit{pval} < p_0
+\end{equation}
+
+Now it is possible to search for $\sigma^r_{p_0}$ by solving:
+\begin{equation}
+  \label{eq:mrsd-min}
+  \sigma^r_{p_0} = \min\{\sigma | \forall_{0 < r' < 1} \operatorname{stest-p}(r', \min(r'+\sigma, 1), r, p_0, n) \}
+\end{equation}
+
+The $\sigma^{0.9}_{0.05}$ values for the lexical datasets and phrasal datasets (see next section and Chapter~\ref{sec:phraserel}) are listed in Table~\ref{tab:mrds}.
 
 \subsection{Disambiguation of verbs in context}
 \label{sec:disamb}
@@ -602,11 +694,19 @@ Early compositional studies focused on the compositional operators, using lexica
 
 \citet{blacoe2012comparison} is---to the best of our knowledge---the first paper that, apart from identifying the best compositional operator, also  explicitly contrasted two kinds of lexical representations: shallow that are based on the co-occurrence of words and embeddings that are learned by a neural language model \cite{bengio2006,Collobert:2008:UAN:1390156.1390177}. They concluded that shallow approaches are as good as their computationally more intensive counterparts based on language models in phrase similarity and paraphrase detection tasks. They also identified the importance of the combination of lexical representation and the compositional method.
 
-\citet{milajevs-EtAl:2014:EMNLP2014}, the work that set the ground for this thesis, also contrasts global and local representations (Section~\ref{sec:distributional-representations}) in compositional setting. However, in contrast to \citet{blacoe2012comparison} experiments, local representations showed robust performance yielding better results on a number of tasks and were recommended for usage in compositional experiments.
+\citet{milajevs-EtAl:2014:EMNLP2014}, the work that set the ground for this thesis, %also contrasts global and local representations (Section~\ref{sec:distributional-representations})
+also contrasts count and predict \cite{baroni-dinu-kruszewski:2014:P14-1} models
+in compositional setting. However, in contrast to \citet{blacoe2012comparison} experiments, prediction-based models showed robust performance yielding better results on a number of tasks and were recommended for usage in compositional experiments.
+%
+%In the literature, local and global models are also referred as count-based models and prediction-based models respectively, after a paper with a flashy title ``Don’t count, predict!~A systematic comparison of context-counting vs.~context-predicting semantic vectors'' by \citet{baroni-dinu-kruszewski:2014:P14-1}.
+%
+The work consecutive to \citet{milajevs-EtAl:2014:EMNLP2014} (consequently or coincidentally) focuses on predictive lexical representations.
 
-In the literature, local and global models are also referred as count-based models and prediction-based models respectively, after a paper with a flashy title ``Don’t count, predict!~A systematic comparison of context-counting vs.~context-predicting semantic vectors'' by \citet{baroni-dinu-kruszewski:2014:P14-1}. The work consecutive to \citet{milajevs-EtAl:2014:EMNLP2014} (consequently or coincidentally) focuses on predictive lexical representations.
-
-The CBOW model of local lexical representations (Section~\ref{sec:distributional-representations}) implicitly assumes additive interaction between context words to predict the target word. However, categorical compositional operators (Section~\ref{sec:composition}) make use of multiplication as a part of composition. This inconsistency was noticed in \citet{kim2015neural}. They changed the objective function \eqref{eq:objective-func-cbow} to include multiplication:
+The CBOW model of local lexical representations \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient} 
+% (Section~\ref{sec:distributional-representations})
+implicitly assumes additive interaction between context words to predict the target word. However, categorical compositional operators (Section~\ref{sec:composition}) make use of multiplication as a part of composition. This inconsistency was noticed in \citet{kim2015neural}. They changed the objective function
+% \eqref{eq:objective-func-cbow}
+to include multiplication:
 %
 \begin{equation}
  \frac{1}{T}\sum^{T}_{t=1}\prod_{-c \leq j \leq c, j\neq0} \log P(w_{t}|w_{t+j})
@@ -618,6 +718,12 @@ This change improved results of categorical compositional methods on the sentenc
 In the categorical framework, the result of composition depends on how the tensors for transitive verbs are constructed. The most straightforward approach is to represent transitive verbs as matrices (saving a dimension) as it is shown in (\ref{eq:verb-matrix}) on page~\pageref{eq:verb-matrix}. However, the number of elements in these matrices is still high and equal to the square of the number of elements in vectors for nouns. To cope with this problem various solutions were tried: linear-regression of the full tensors \cite{grefenstette-et-al:2013:IWCS2013}, the combination of regression with a plausibility space \cite{polajnar-clark:2014:EACL} and low-rank tensor approximation \cite{fried-polajnar-clark:2015:ACL-IJCNLP}. While these methods not necessarily lead to the highest results, they considerably reduce the amount of data associated with lexical entries.
 
 Finally, \citet{hashimoto-tsuruoka:2015:CVSC,hashimoto-EtAl:2014:EMNLP2014} proposed a tensor factorisation method that directly models the interaction between predicates and their arguments. The intuition is that the arguments should be able to disambiguate the meaning of their predicate.
+
+\subsection{Extrinsic evaluation}
+
+It is common to evaluate word meaning representations and compositional models in a pipeline, for example dialogue act tagging \cite{Stolcke:2000:DAM:971869.971872} or paraphrase detection \cite{dolan2005par}. However, these datasets contain grammar which is currently in practice not covered by categorical compositional method of \citet{DBLP:journals/corr/abs-1003-4394}.
+
+Apart from handling a richer set of grammatical structures, the datasets contain a larger vocabulary, meaning that there are, for instance, more verbs for which matrices are needed to be build. Given an exhaustive experiments over a large number of parameter combinations it was not feasible to conclude such a study.
 
 \section{Conclusion}
 \label{sec:conclusion-background}

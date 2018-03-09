@@ -150,6 +150,7 @@ def plot_interaction(data, hue, dataset_name, ylabels=None):
         col_order=('head', 'add', 'mult', 'kron') if dataset_name in (
             'KS14', 'GS11', 'PhraseRel', 'compositional', 'universal',
         ) else ['head'],
+        ci=None,
     )
 
     if ylabels:

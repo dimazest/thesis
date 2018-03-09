@@ -27,9 +27,13 @@ The first goal of this work is to provide the representative performance measure
 
 This work adopts the strategy of \newcite{lapesa2014large} to avoid overfitting and reduce noise in parameter selection. Following them, we use several evaluation datasets one by one. In this case, we are able to identify situations when a model behaves particularly well on one dataset, but poorly on another, which is an example of overfitting.
 
+In our case, overfitting \cite{Dietterich:1995:OUM:212094.212114} might happen because a large number of models is being compared. The models are instantiated on a large, but limited in size linguistic resource and are evaluated on  a limited number of datasets which are also limited in size. The goal is to capture a general phenomena of similarity of words and phrases, where the resources serve as proxies. Because a corpus is a sample of a language and the similarity datasets are samples of similarities, they might introduce biases that do not exists in language. Some words might be more similar according to the corpus, because it overrepresents a particular topic, also some words might be more similar due to imperfect similarity dataset construction protocol. Finally, random patterns might be introduced that taken into account might lead to higher performance.
+
+While the source corpus and evaluation datasets are fixed, to minimise a chance of picking an overfitted model is to adopt evaluation procedure. The first action is to use several evaluation datasets and test models not only on the same training dataset, but also on one that is distinct from it. If the performance of a model dramatically drops, it is a sign of overfitting.
+
 To be able to identify models that perform well on several datasets, we also test the models on all datasets simultaneously by aggregating model performance scores. We do not aggregate dataset entries by, for example, taking a union of all of the entries in them because the judgements are on different scales and the participants were given different instructions.
 
-The models are tested on two-word similarity datasets: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. These two datasets are chosen because they are larger than other previously used datasets. \citet{W16-2502} argue that the score variance is strongly dependent on the size of the evaluation dataset: the larger the dataset the more reliable experiment results are. SimLex-999 consists of 999 word pairs and MEN consists of 3\,000 word pairs, making them the largest lexical datasets available to us. Other alike datasets are much smaller in size: 353 word pairs \cite{2002:PSC:503104.503110} and 65 word pairs \cite{Rubenstein:1965:CCS:365628.365657} for example.
+The models are tested on two word similarity datasets: SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}. These two datasets are chosen because they are larger than other previously used datasets. \citet{W16-2502} argue that the score variance is strongly dependent on the size of the evaluation dataset: the larger the dataset the more reliable experiment results are. SimLex-999 consists of 999 word pairs and MEN consists of 3\,000 word pairs, making them the largest lexical datasets available to us. Other similar datasets are much smaller in size: 353 word pairs \cite{2002:PSC:503104.503110} and 65 word pairs \cite{Rubenstein:1965:CCS:365628.365657} for example.
 
 The three phrasal  datasets that are employed in this study are KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ESC:2145432.2145580} and PhraseRel (Section~\ref{sec:phraserel}). They consist of phrases with controlled syntax (all of them are subject-verb-object phrases) and cover two relationships between phrases: similarity and relevance.
 
@@ -79,7 +83,7 @@ Most co-occurrence weighting schemes%
 \footnote{We abbreviate this parameter as \texttt{discr} because the weighting scheme discriminates the features.
 % TODO: refer to the ir-dataset paper.
 }
-in distributional semantics are based on \emph{point-wise mutual information} (PMI, Equation~\ref{eq:pmi}, \newcite{J90-1003,Turney:2010:FMV:1861751.1861756,NIPS2014_5477}).
+in distributional semantics are based on \emph{point-wise mutual information} (PMI, Equation~\ref{eq:pmi}, \newcite{Church:1989:WAN:981623.981633,J90-1003,Turney:2010:FMV:1861751.1861756,NIPS2014_5477}).
 %
 \begin{equation}
   \label{eq:pmi}
@@ -95,7 +99,7 @@ An alternative solution is to increment the probability ratio by 1, which also m
   \operatorname{CPMI}(x, y) = \log\left( 1 +  \frac{P(x,y)}{P(x)P(y)} \right)
 \end{equation}
 
-Another issue with PMI is its bias towards rare events. Consider a context $c_r$  with very low probability (it could be a rare context word, a tokenization error or a misspelled word). The probability $P(c_r)$ will be much lower than for other contexts, and at the same time the PMI values for that feature will be higher. It is the same for rare target words. We refer to this issue as PMI's \textit{Achilles heel}.
+Another issue with PMI is its bias towards rare events. Consider a context $c_r$  with very low probability (it could be a rare context word, a tokenization error or a misspelled word). The probability $P(c_r)$ will be much lower than for other contexts, and at the same time the PMI values for that feature will be higher. It is the same for rare target words, which due to the power-law distribution of tokens is pervasive. We refer to this issue as PMI's \textit{Achilles heel}.
 
 \subsubsection{Shifted PMI (neg)}
 \label{sec:shifted-pmi}
@@ -137,6 +141,10 @@ where $n(x, y)$ is the number of times $x$ was seen together with $y$. We refer 
   P_{\alpha}(x) = \frac{n(x)^{\alpha}}{\sum_{f \in F}n(f)^{\alpha}}
 \end{equation}
 where $n(x)$ is the frequency of the term $x$, F is the set of the features in the co-occurrence matrix and $n(f)$ is the frequency of the feature in the corpus. We experiment with $\alpha=1$ (no smoothing) and $\alpha = 0.75$. We call this estimation method \emph{local context probability}.
+
+\citet{recchiaimproving} investigate an optimal choice of $\alpha$. They notice when $\alpha = 1$ then $P_{1}(x)$ highly correlates with the frequency of the term $x$, while when $\alpha = 0$ then $P_0(x) = 1$ and correlates inversely with the frequency of the term $x$. Moreover, smoothed PMI is closely related to another measure $\operatorname{SCI}(x, y) = \frac{P(x,y)}{P(x)\sqrt{P(y)}}$ \cite{washtell-markert:2009:EMNLP}, which performs much more poorly \cite{recchiaimproving}.
+
+They precede with hypothesising that $\alpha = 0.75$ neither positively nor negatively correlates with the with the word frequency. Their experiments show that the value of $\alpha = 0.77$ that minimises the absolute value of the measure's correlation to the word frequency are not far off from the values of $\alpha = 0.765$ that maximises correlations to human judgements. 
 
 We also estimate a \emph{global context probability} based on the size of the corpus $|C|$:
 %
@@ -206,7 +214,7 @@ The cosine of the angle between two vectors is a widely used similarity measure 
 
 However, the inner product $\vec{x} \cdot \vec{y}$ is preferred in information retrieval and current state-of-the-art natural language processing systems \cite{mikolov2013distributed,mikolov2013linguistic,TACL570}. The cosine of the angle is the inner product of the normalised vectors (using Euclidean $L_2$ length).
 
-Normalisation reduces all vectors to unit length leaving their directions to characterise them. Thus, remembering that vector length depends on overall frequency, linguistically we have two measures: the cosine measure that is concerned with similarity, and inner product with no normalisation which in addition to similarity also reflects word frequency and expectation factors.
+Normalisation reduces all vectors to unit length leaving their directions to characterise them. Thus, remembering that vector length depends on overall frequency, linguistically we have two measures: the cosine measure that is concerned with similarity, and inner product with no normalisation which in addition to similarity also reflects word frequency and expectation factors. If the vectors are normalised, then the inner product and the cosine measures are the same.
 
 An advantage of cosine in a lexical similarity task is that it does not depend on the word frequency. Imagine a situation where the similarity of a frequent and a rare word is calculated, it will be lower than the similarity between two frequent words. Then the similarity judgment should not depend on the relative frequency of the words; instead, their tendency of agreement on features should take the dominant role.
 
