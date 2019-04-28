@@ -1,30 +1,15 @@
 \chapter{Introduction}
 \label{ch:introduction}
 
+\lettrine[lines=5,loversize=0.25]{C}{omputers} require specially designed programming languages to be controlled, despite the fact that computers play a crucial role in our lives. Ideally, the interaction with a computer should not be different from the interaction with a human. Computational linguistics is one of the fields that addresses this problem.
 
-Computers require specially designed programming languages to be controlled, despite the fact that they play a crucial role in our lives. Ideally, it would be perfect if the interaction with computers was not different from the interaction between humans. Computational linguistics is one of the fields that addresses this problem.
+Computers need to understand human language in order to be controlled by people in a casual manner. However, different tasks require various levels of language understanding. For instance, even if one does not recognise or know the language of a piece of text in Figure~\ref{fig:lv}, one can tell that there are 39 words and that there is only one sentence. One can even argue that this is a piece of poetry and the first line is its title, basing the argument on the shape of the text.
 
-In order to be controlled by people, or be able to assist people in language-related tasks, computers need to understand it. However, different tasks require various levels of language understanding. For instance, even if one does not recognize or know the language of a piece of text in Figure~\ref{fig:lv}, one can tell how many words there are, and that there is only one sentence. After a while, one can even say that this is probably a piece of poetry.
-% * <sdyck@ualberta.ca> 2016-11-03T00:02:27.725Z:
-%
-% > After a while, 
-%
-% After a while of what? Analyzing it? reading it? 
-%
-% ^.
-% * <sdyck@ualberta.ca> 2016-11-03T00:00:40.843Z:
-%
-% > nd it.
-%
-% I would be a little more specific than just "it". The computers must understand the language used?
-%
-% ^.
-
-The conclusions above require neither the complete understanding of the language nor the meaning of the text. The knowledge that texts---at least in some languages---consist of words separated by a space and how poems are written is enough. Moreover, knowing the letter distribution across all human languages or having a list of words in them, one would conclude that the text is in Latvian. This information can be provided without knowing what the text is about.
+The conclusions above require neither the complete understanding of the language nor the meaning of the text. The knowledge of the format that poems are written in and that texts---at least in some languages---consist of words separated by a space is enough. Moreover, knowing the letter distribution across all human languages, or having a list of words in them, one would conclude that the text is in Latvian. These conclusions can be gathered without knowing what the text is about and are currently successfully implemented by computers.
 
 \input{poem.tex}
 
-On the other hand, a task that asks for a list of  word associations for a text, essay or  painting inspired by it demands a much better understanding of the text that requires a deeper knowledge of the language and greater familiarity with the culture. Luckily, nowadays these kinds of tasks are not expected to be completed by computers in day-to-day life because people enjoy doing these things themselves.
+On the other hand, a task that asks for a list of associations---an essay or a painting inspired by a piece of text---demands a much better understanding of the text that requires a deeper knowledge of the language and greater familiarity with the culture. Luckily, nowadays these kinds of tasks are not expected to be completed by computers in day-to-day life because people generally enjoy doing these things themselves.
 
 However, it is reasonable to ask a computer the following questions regarding the text:
 \begin{inparaenum}[a)]
@@ -37,54 +22,63 @@ However, it is reasonable to ask a computer the following questions regarding th
 \item What poems are similar to this?
 \end{inparaenum}
 
-Text summarisation, machine translation, information extraction and information retrieval are branches of computational linguistics that provide methods for answering these questions. The questions above have a general property: all of them are about the meaning of the text. Natural language semantics is an area that studies meaning and thus, is necessary to solve the tasks.
+Text summarisation, machine translation, information extraction and information retrieval are branches of computational linguistics that provide methods for answering these questions. The questions above have a general property: all of them are about a certain aspect of the meaning of the text. Semantics is an area that studies meaning representation and thus, is necessary to solve these tasks.
 
-The creativity of natural languages---the fact that humans are able to produce and understand sentences they have never come across---complicates meaning modeling. Even if we had a way to map each word to its meaning, it is impractical to apply the same procedure to sentences because as we process a piece of text, most of the sentences in it will be seen for the fist time. Therefore, we need to be able to build the meaning of a sentence from its constituent parts.
-% * <sdyck@ualberta.ca> 2016-11-03T00:24:15.438Z:
-%
-% I would suggest adding here, ", rather than the sentence in its entirety."
-%
-% ^.
+While it is not completely known how meaning is represented in the human mind, it is argued that similarity between two events or objects is based on the way humans represent them \cite{WCS:WCS1282}. Similarity judgements are easy to collect. Many similarity datasets exist that serve as proxies for evaluation of computational models of meaning.
 
-Syntax is the study of the structure of a sentence. Grammar defines the rules that describe what a sentence that belongs to a language should look like. For example, In an English sentence, a subject is written before a verb and an object is after. Having the constituent meaning representations, the meaning of a sentence is built by following the syntactic structure of it.
+The distributional hypothesis of \citet{harris1954distributional}---that semantically similar words tend to appear in similar contexts---stands behind distributional models of meaning. In Figure~\ref{fig:en}, the side-street occurs with the words \textit{slot}, \textit{noise}, \textit{hustle} and \textit{smells}. Such a company of words starkly contrasts with the words used to describe the woman: she is \textit{young}, \textit{attractive} and \textit{active}.
 
-To be able to deal with the meaning of a text in a natural language, one needs to have meaning representation of constituents, the syntactic structure and a compositional procedure that outputs the meaning representation.
+Moreover, the descriptive, neighbouring words of the side-street bring images of other things similar to it that are noisy and smell. At the same time, the descriptive terms of the woman fire in the mind attractive and active associations, making the difference between the side-street and the woman even stronger.
 
-Recently, lexical distributional semantics \cite{BullinariaLevy2012,Bullinaria2007,Turney:2010:FMV:1861751.1861756} has advanced after the success of word2vec \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}. At the same time, developments in compositional distributional semantics \cite{mitchell2010composition,maillard-clark-grefenstette:2014:TTNLS,Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP} showed that Frege's principle of compositionality \cite{Janssen2001} is useful in obtaining representations of phrases and sentences.
-% * <sdyck@ualberta.ca> 2016-11-03T00:28:29.470Z:
-%
-% > word2vec
-%
-% I would briefly explain what this is, otherwise the second point in this paragraph about Frege's principle doesn't have much context. 
-%
-% ^.
+Distributional models of word meaning (also known as lexical models of meaning) are based on the co-occurrence statistics of words in a large collection of texts \cite{Turney:2010:FMV:1861751.1861756,mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}. The main challenge is to use the co-occurrence statistics efficiently. Because, even though the word \textit{and} appears in the neighbourhood of the word \textit{side-street} in the poem, it is much less descriptive of the properties of the street than the word \textit{slot}. Nowadays, lexical models are well-studied, and their estimates of the similarity between word pairs are very close to human judgements  for the same task \cite{TACL570,baroni-dinu-kruszewski:2014:P14-1,Halawi:2012:LLW:2339530.2339751}.
 
-Even though the new generation of meaning representation models is shown to be superior in compositional tasks \cite{milajevs-EtAl:2014:EMNLP2014}, it has been criticised---most notably by \newcite{TACL570}. However, it is not yet known whether the critique of word2vec also applies to the compositional setting.
-% * <sdyck@ualberta.ca> 2016-11-03T00:31:07.929Z:
-%
-% > compositional 
-%
-% should this be lexical?
-%
-% ^.
+The estimation of the similarity of multi-word expressions is currently an active research topic. In comparison to the lexical models, where data are plentiful, the main challenge is data sparsity. There are infinitely many multi-word expressions, and most of them appear only once in a corpus. Even if we take all the books on Earth and write down all the utterances that were said, most of the sentences encountered would appear only once.
 
-This work adopts the recommendations of \newcite{TACL570} for model parameter tuning and performs a large-scale model selection study on lexical and compositional tasks.
-% * <sdyck@ualberta.ca> 2016-11-03T00:37:45.835Z:
-%
-% > This work adopts the recommendations of \newcite{TACL570} for model parameter tuning and performs a large-scale model selection study on lexical and compositional tasks.
-%
-% ^.
+The dominant solution to the data sparsity problem is to build a compositional representation of a multi-word expression; that is, the same way in which Lego pieces are assembled into vehicles, buildings and many other types of objects. One advantage of such an approach is that the methods for obtaining word representations can be reused. The bricks are there, the question is how to assemble them together.
 
-This work shows that after a careful selection of  vector space model parameters, the selected models are competitive with the current state-of-the-art results and on some datasets, outperform it.
-% * <sdyck@ualberta.ca> 2016-11-03T00:32:14.807Z:
-%
-% > The experiments show that after a careful selection of  vector space model parameters, the selected models are competitive with the current state-of-the-art results and on some datasets outperform it.
-%
-% This sentence could use a bit of clarification. What kind of results are you talking about? Maybe use the word model(s) rather than results.
-%
-% ^.
+The compositional models come in many flavours. \citet{mitchell2010composition} propose a method that ignores the word order and any grammatical structure of an expression. \citet{DBLP:journals/corr/abs-1003-4394,baroni2014frege} investigate how the grammatical structure can be taken into account. Several implementations of \citet{DBLP:journals/corr/abs-1003-4394}'s theoretical proposal exist---see the work of \citet{Grefenstette:2011:ESC:2145432.2145580,Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP}. Chapter~\ref{cha:background} gives an overview of lexical representations, the methods of composition and evaluation.
+
+Until now, the main focus of the evaluation of compositional similarity models was the compositional operators. The word representations are usually taken such that they are good in lexical tasks. The fact that there might be a dependency between the word representations and the compositional methods is mostly overlooked. It is assumed that the findings based on the lexical experiments also apply to the compositional models.
+
+The goal of this thesis is to study the link between the lexical representations and the methods of composition for similarity estimation. Once the optimal lexical parameters are identified for all compositional operators, the operators can be compared in the most accurate way.
+
+The goal is expressed in two research questions:
+\begin{itemize}
+\item What is the performance limit of distributional models of meaning?
+\item How do compositional operators and lexical representations affect one another?
+\end{itemize}
+
+To answer these questions, we perform a large-scale study of similarity models over several parameters. The parameters are split into three kinds: the similarity measure, the weighting scheme and the amount of information associated with every item.\footnotemark{}
+
+\footnotetext{Only a small class of distributional models is being studied, specifically count models \cite{baroni-dinu-kruszewski:2014:P14-1} with no dimensionality reduction. The count models are shown to be related to more sophisticated methods such as word2vec \cite{mikolov2013linguistic,mikolov2013efficient,mikolov2013distributed,TACL570}, making them more fruitful for initial research. Models based on dimensionality reduction and word2vec bring not only more parameters increasing the total space of parameter combinations to explore, but also require much more time and computational resources to be instantiated.}
+
+The similarity measure defines how similarity is computed given two representations. The weighting scheme serves two roles. First, it distinguishes informative co-occurrence information from uninformative. Second, the weighting scheme minimises the effect of noise in the co-occurrence data. The amount of information for distributional modes is how many distinct words are considered to be valid, neighbouring words. This usually varies from a few thousand most frequent words to the whole vocabulary.  The description of model parameters is given in Chapter~\ref{sec:methodology}.
+
+Regarding the first research question, our systematic study of parameters reveals that the performances of count-based distributional models are competitive with the current state-of-the-art lexical similarity estimation methods and even outperform some of them in the compositional setting. Notably, we show an improvement over the predictive methods \cite{mikolov2013linguistic,mikolov2013distributed,mikolov2013efficient}.
+
+To answer the second research question, we extensively test compositional models to identify the best lexical representations for composition (Chapters~\ref{sec:sentential} and \ref{sec:universal-param-selection}). We find that, indeed, there is a link between compositional operators and lexical representations.
+
+By taking into account the dependency between compositional operators and lexical representations,  we achieve state-of-the-art results with additive and multiplicative composition. By reusing the best lexical representations with categorical compositional operators \cite{DBLP:journals/corr/abs-1003-4394}, we improve their performance. Moreover, we show that the optimal parameters to measure the similarity between words (Chapter~\ref{sec:lexical}) are different from the optimal parameters to measure similarity between phrases.
+
+\section{Structure of this thesis}
+\label{sec:structure}
+
+\textbf{Chapter~\ref{cha:background}} A review of logical and distributional models of meaning, description of the current similarity datasets and an overview of the current state-of-the-art models.
+
+\textbf{Chapter~\ref{sec:methodology}} The methodology for robust selection of similarity models, description of used model parameters and list of hypotheses.
+
+\textbf{Chapter~\ref{sec:lexical}} Experiments on the lexical datasets: SimLex-999 and MEN.
+
+\textbf{Chapter~\ref{sec:phraserel}} Description of PhraseRel, a new phrase relevance dataset.
+
+\textbf{Chapter~\ref{sec:sentential}} Experiments on three phrasal datasets: GS11, KS14 and PhraseRel.
+
+\textbf{Chapter~\ref{sec:universal-param-selection}} Selection of the models based on all datasets and experiments with tensor-based compositional methods.
+
+\textbf{Chapter~\ref{cha:conclusion}} Conclusion of the thesis.
 
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "thesis"
+%%% TeX-engine: xetex
 %%% End:

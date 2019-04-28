@@ -1,42 +1,45 @@
 \begin{tabular}{lrrlllll}
 \toprule
-operator &  dimensionality &   GS11 &  freq &  discr &     cds &  neg &     similarity \\
+operator &  dimensionality &  GS11 &  freq &  discr &     cds &  neg &     similarity \\
 \midrule
-    head &            1000 &  0.328 &  logn &   spmi &  global &  0.5 &            cos \\
-    head &            2000 &  0.326 &  logn &   spmi &  global &  0.5 &            cos \\
-    head &            3000 &  0.354 &  logn &   spmi &  global &  0.7 &            cos \\
-    head &            5000 &  0.359 &  logn &   spmi &  global &  0.7 &            cos \\
-    head &           10000 &  0.344 &  logn &   spmi &       1 &  0.7 &            cos \\
-    head &           20000 &  0.358 &  logn &   spmi &       1 &  0.7 &            cos \\
-    head &           30000 &  0.363 &  logn &   spmi &       1 &  0.7 &            cos \\
-    head &           40000 &  0.366 &  logn &   spmi &       1 &  0.7 &            cos \\
-    head &           50000 &  0.365 &  logn &   spmi &       1 &  0.7 &            cos \\
-     add &            1000 &  0.288 &  logn &    pmi &       1 &  N/A &    correlation \\
-     add &            2000 &  0.282 &  logn &    pmi &       1 &  N/A &    correlation \\
-     add &            3000 &  0.279 &  logn &    pmi &       1 &  N/A &    correlation \\
-     add &            5000 &  0.277 &  logn &    pmi &       1 &  N/A &    correlation \\
-     add &           10000 &  0.265 &  logn &    pmi &       1 &  N/A &    correlation \\
-     add &           20000 &  0.284 &  logn &  scpmi &    0.75 &  0.2 &    correlation \\
-     add &           30000 &  0.266 &  logn &  scpmi &    0.75 &  0.2 &    correlation \\
-     add &           40000 &  0.250 &  logn &  scpmi &    0.75 &  0.2 &    correlation \\
-     add &           50000 &  0.237 &  logn &  scpmi &    0.75 &  0.2 &    correlation \\
-    mult &            1000 &  0.438 &  logn &    pmi &  global &  N/A &            cos \\
-    mult &            2000 &  0.413 &  logn &    pmi &  global &  N/A &            cos \\
-    mult &            3000 &  0.437 &  logn &    pmi &  global &  N/A &            cos \\
-    mult &            5000 &  0.488 &  logn &  scpmi &  global &  0.7 &            cos \\
-    mult &           10000 &  0.496 &  logn &  scpmi &  global &  0.7 &            cos \\
-    mult &           20000 &  0.505 &  logn &  scpmi &  global &  0.7 &            cos \\
-    mult &           30000 &  0.500 &  logn &  scpmi &  global &  0.7 &            cos \\
-    mult &           40000 &  0.506 &  logn &  scpmi &  global &  0.7 &            cos \\
-    mult &           50000 &  0.497 &  logn &  scpmi &  global &  0.7 &            cos \\
-    kron &            1000 &  0.413 &  logn &  scpmi &    0.75 &  0.7 &  inner\_product \\
-    kron &            2000 &  0.492 &  logn &  scpmi &    0.75 &  0.7 &  inner\_product \\
-    kron &            3000 &  0.499 &  logn &  scpmi &    0.75 &  0.7 &  inner\_product \\
-    kron &            5000 &  0.509 &  logn &   spmi &    0.75 &  0.7 &  inner\_product \\
-    kron &           10000 &  0.514 &  logn &   spmi &    0.75 &  0.7 &  inner\_product \\
-    kron &           20000 &  0.508 &  logn &   spmi &    0.75 &    1 &  inner\_product \\
-    kron &           30000 &  0.512 &  logn &   spmi &    0.75 &    1 &  inner\_product \\
-    kron &           40000 &  0.513 &  logn &   spmi &    0.75 &    1 &  inner\_product \\
-    kron &           50000 &  0.516 &  logn &   spmi &    0.75 &    1 &  inner\_product \\
+    head &            1\,000 &  \textbf{0.33} &  logn &   spmi &  global &  0.5 &            cos \\
+    head &            2\,000 &  \textbf{0.33} &  logn &   spmi &  global &  0.5 &            cos \\
+    head &            3\,000 &  \textbf{0.35} &  logn &   spmi &  global &  0.7 &            cos \\
+    head &            5\,000 &  \textbf{0.36} &  logn &   spmi &  global &  0.7 &            cos \\
+    head &           10\,000 &  \textbf{0.34} &  logn &   spmi &       1 &  0.7 &            cos \\
+    head &           20\,000 &  \textbf{0.36} &  logn &   spmi &       1 &  0.7 &            cos \\
+    head &           30\,000 &  \textbf{0.36} &  logn &   spmi &       1 &  0.7 &            cos \\
+    head &           40\,000 &  \textbe{0.37} &  logn &   spmi &       1 &  0.7 &            cos \\
+    head &           50\,000 &  \textbf{0.36} &  logn &   spmi &       1 &  0.7 &            cos \\ \addlinespace
+
+     add &            1\,000 &  \textbe{0.29} &  logn &    pmi &       1 &  N/A &    correlation \\
+     add &            2\,000 &  \textbf{0.28} &  logn &    pmi &       1 &  N/A &    correlation \\
+     add &            3\,000 &  \textbf{0.28} &  logn &    pmi &       1 &  N/A &    correlation \\
+     add &            5\,000 &  \textbf{0.28} &  logn &    pmi &       1 &  N/A &    correlation \\
+     add &           10\,000 &  \textbf{0.26} &  logn &    pmi &       1 &  N/A &    correlation \\
+     add &           20\,000 &  \textbf{0.28} &  logn &  scpmi &    0.75 &  0.2 &    correlation \\
+     add &           30\,000 &  \textbf{0.27} &  logn &  scpmi &    0.75 &  0.2 &    correlation \\
+     add &           40\,000 &  \textbf{0.25} &  logn &  scpmi &    0.75 &  0.2 &    correlation \\
+     add &           50\,000 &  \textbf{0.24} &  logn &  scpmi &    0.75 &  0.2 &    correlation \\ \addlinespace
+  
+    mult &            1\,000 &  0.44          &  logn &    pmi &  global &  N/A &            cos \\
+    mult &            2\,000 &  0.41          &  logn &    pmi &  global &  N/A &            cos \\
+    mult &            3\,000 &  0.44          &  logn &    pmi &  global &  N/A &            cos \\
+    mult &            5\,000 &  \textbf{0.49} &  logn &  scpmi &  global &  0.7 &            cos \\
+    mult &           10\,000 &  \textbf{0.50} &  logn &  scpmi &  global &  0.7 &            cos \\
+    mult &           20\,000 &  \textbf{0.50} &  logn &  scpmi &  global &  0.7 &            cos \\
+    mult &           30\,000 &  \textbf{0.50} &  logn &  scpmi &  global &  0.7 &            cos \\
+    mult &           40\,000 &  \textbe{0.51} &  logn &  scpmi &  global &  0.7 &            cos \\
+    mult &           50\,000 &  \textbf{0.50} &  logn &  scpmi &  global &  0.7 &            cos \\ \addlinespace
+  
+    kron &            1\,000 &  0.41 &  logn &  scpmi &    0.75 &  0.7 &  inner\_product \\
+    kron &            2\,000 &  \textbf{0.49} &  logn &  scpmi &    0.75 &  0.7 &  inner\_product \\
+    kron &            3\,000 &  \textbf{0.50} &  logn &  scpmi &    0.75 &  0.7 &  inner\_product \\
+    kron &            5\,000 &  \textbf{0.51} &  logn &   spmi &    0.75 &  0.7 &  inner\_product \\
+    kron &           10\,000 &  \textbf{0.51} &  logn &   spmi &    0.75 &  0.7 &  inner\_product \\
+    kron &           20\,000 &  \textbf{0.51} &  logn &   spmi &    0.75 &    1 &  inner\_product \\
+    kron &           30\,000 &  \textbf{0.51} &  logn &   spmi &    0.75 &    1 &  inner\_product \\
+    kron &           40\,000 &  \textbf{0.51} &  logn &   spmi &    0.75 &    1 &  inner\_product \\
+    kron &           50\,000 &  \textbe{0.52} &  logn &   spmi &    0.75 &    1 &  inner\_product \\
 \bottomrule
 \end{tabular}

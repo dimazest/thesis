@@ -1,13 +1,45 @@
 \documentclass[11pt,a4paper,english,oneside]{book}
-% * <sdyck@ualberta.ca> 2016-11-02T01:22:15.568Z:
-%
-% ^.
 \usepackage{url}
 \usepackage{latexsym}
+\usepackage{metalogo}
+
+\usepackage{babel}
 
 \usepackage[onehalfspacing]{setspace}
 \usepackage{pdflscape}
 \usepackage[top=1in,bottom=1in,left=1.5in,right=1in]{geometry}
+
+\usepackage[toc,page]{appendix}
+\usepackage{fancyhdr}
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\rightmark}
+%\lfoot{\today}
+\lfoot{}
+\rfoot{\thepage}
+\makeatletter
+\renewcommand{\chaptermark}[1]{%
+   \markboth{\headingfont \ #1}{\headingfont \@chapapp\ \thechapter}
+ }
+ \renewcommand{\sectionmark}[1]{%
+   \markboth{\headingfont \ #1}{\headingfont\ Section \thesection}
+ }
+
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \rfoot{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+\fancypagestyle{bibliography}{%
+  \fancyhf{}
+  \fancyhead[R]{\headingfont Bibliography}
+  \rfoot{\thepage}
+  %\renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
 
 \usepackage{fontspec}
 \defaultfontfeatures{Ligatures=TeX}
@@ -15,10 +47,25 @@
 \allsectionsfont{\normalfont\sffamily}
 % \paragraphfont{\bfseries}
 \setmainfont[
-BoldFont=texgyrepagella-bold.otf,
-ItalicFont=texgyrepagella-italic.otf,
-BoldItalicFont=texgyrepagella-bolditalic.otf]
-{texgyrepagella-regular.otf}
+BoldFont=GenBasB.ttf,
+ItalicFont=GentiumPlus-I.ttf,
+BoldItalicFont=GenBasBI.ttf,
+]
+{GentiumPlus-R.ttf}
+\newfontfamily\textbe{GenBkBasB.ttf}
+% \setmonofont[Scale=MatchLowercase]{FiraCode-Regular.otf}
+\setmonofont[Scale=MatchLowercase]{FiraMono-Regular.otf}
+\usepackage{lettrine}
+
+\usepackage{esvect}
+%\usepackage{mathtools}
+%\usepackage[libertine]{newtxmath}
+
+\usepackage{titlesec}
+\usepackage{titling}
+% http://www.cbrd.co.uk/fonts/
+\newfontfamily\headingfont[]{Transport-Heavy.ttf}
+\renewcommand{\maketitlehooka}{\headingfont}
 
 \setsansfont{Transport-Heavy.ttf}
 
@@ -73,7 +120,10 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 % \title{Robust methodology for measuring word and sentence similarity and relevance with distributional semantic models}
 % \title{Robust methodology for measuring word and sentence similarity with distributional semantic models}
 % \title{Methodology for Robust Selection of Distributional Models of Word and Sentence  Similarity}
-\title{Methodology for Selection of Distributional Models to Measure Relationships between Words and Sentences}
+%\title{Methodology for Selection of Distributional Models to Measure Relationships between Words and Sentences}
+%\title{Selection of Distributional Models to Measure Similarity between Words and Sentences}
+% \title{Selection of Distributional Models to Measure Similarity between Sentences}
+\title{A study of model parameters for scaling up word to sentence similarity tasks in distributional semantics}
 \author{Dmitrijs Milajevs}
 % \affil{Queen Mary University of London}
 
@@ -95,7 +145,7 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 \clubpenalty=500
 
 \DeclareMathOperator{\my-c}{count}
-\newcommand{\ov}{\overrightarrow}
+\newcommand{\ov}{\vv}
 
 \newcommand\newcite\citet
 \renewcommand\cite\citep
@@ -115,6 +165,8 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 \def\logNCPMI/{$\operatorname{lognCPMI}$}
 \def\logNSCPMI/{$\operatorname{lognSCPMI}$}
 
+\usepackage{mathabx}
+
 \newcommand{\BASEURL}{http://www.eecs.qmul.ac.uk/~dm303/thesis}
 % \newcommand{\BASEURL}{http://localhost:8000/thesis}
 \newcommand{\dataurl}[1]{\href{\BASEURL/#1}{\nolinkurl{#1}}}
@@ -128,7 +180,35 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 {}
 
 \begin{document}
-\maketitle
+
+\begin{titlepage}
+  \headingfont
+    \vspace*{1cm}
+
+    \begin{hyphenrules}{nohyphenation}
+      {\Large \thetitle}
+    \end{hyphenrules}
+
+    \vspace{1.5cm}
+
+    {\large \theauthor}
+
+    \vfill
+
+
+    \vspace{0.8cm}
+
+    \begin{center}
+     Submitted in partial fulfillment of the requirements of the Degree of Doctor of Philosophy
+
+     \vspace{0.8cm}
+
+     \includegraphics[width=0.4\textwidth]{qmlogo}
+
+      \vspace{0.8cm}
+      \today
+    \end{center}
+\end{titlepage}
 \addtocounter{page}{1}
 
 \input{statement_of_originality}
@@ -136,31 +216,25 @@ BoldItalicFont=texgyrepagella-bolditalic.otf]
 
 \vspace*{\fill}
 \begin{center}
-% \begin{minipage}{\textwidth}
-This work was supported by the EPSRC grant EP/J002607/1.
-% \end{minipage}
+  This work was supported by the EPSRC grant EP/J002607/1.
 \end{center}
 \vfill
-
+\thispagestyle{plain}
+\cleardoublepage
 
 \input{abstract}
+\thispagestyle{plain}
 \cleardoublepage
 
-% \setcounter{tocdepth}{3}
-\tableofcontents
-
-\cleardoublepage
-% \phantomsection
-% \addcontentsline{toc}{chapter}{List of Figures}
-\listoffigures
-
-\cleardoublepage
-% \phantomsection
-% \addcontentsline{toc}{chapter}{List of Tables}
-\listoftables
-
-% \cleardoublepage
-% \listoftodos
+{
+  \pagestyle{plain}
+  \tableofcontents
+  \cleardoublepage
+  \listoffigures
+  \cleardoublepage
+  \listoftables
+  \thispagestyle{plain}
+}
 
 \input{introduction}
 \input{similarity}
@@ -170,32 +244,63 @@ This work was supported by the EPSRC grant EP/J002607/1.
 \input{extrinsic-experiments}
 
 \chapter{Conclusion}
+\label{cha:conclusion}
 
-This work is a systematic study of vector space models of meaning, based on the distributional hypothesis \cite{harris1954distributional} and Frege's principle of compositionality \cite{Janssen2001,DBLP:journals/corr/abs-1003-4394}. The goal of this work is to provide the performance numbers of count-based distributional models that are robust to overfitting and are representative of this kind of method in comparison to other meaning models, for example, predictive models \cite{mikolov2013efficient}. The other goal of the current study is to compare the parameters within the count-based models and identify their combinations that lead to high performance of the corresponding models.
+\lettrine[lines=5,loversize=0.25]{T}{his} work is a systematic study of vector space models for similarity estimation, based on the distributional hypothesis \cite{harris1954distributional} and Frege's principle of compositionality \cite{Janssen2001,DBLP:journals/corr/abs-1003-4394}. The goal of this work is to provide performance numbers of distributional models that are robust to overfitting and are representative of this kind of method.
+
+Another goal of the current study is to compare the parameters within the distributional approach and identify parameter combinations that lead to high performance of the corresponding models.
 
 The experiments in the study are performed on two lexical tasks---SimLex-999 \cite{hill2014simlex} and MEN \cite{Bruni:2014:MDS:2655713.2655714}---and three phrasal tasks---KS14 \cite{kartsadrqpl2014}, GS11 \cite{Grefenstette:2011:ETV:2140490.2140497} and PhraseRel (Section~\ref{sec:phraserel}). In addition to individual dataset evaluation, the models' performance scores are combined to identify models that perform well on the collections of tasks, namely lexical (Section~\ref{sec:universal-lexical-param-selection}), compositional (Section~\ref{sec:robust-param-comp-selecion}) and universal (Chapter~\ref{sec:universal-param-selection}).
 
-The vector component values are based on the PMI quantification of the co-occurrence counts. The PMI score itself is modified by weighting, shifting, compressing and others---see Section~\ref{sec:quantification} for more details. We identify an optimal parameter choice based on dimensionality of the underlying vector space. In compositional tasks, we experiment with point-wise operators (addition and multiplication) and with categorical operators (Section~\ref{sec:frob-comp-oper}, \newcite{DBLP:journals/corr/abs-1003-4394}).
+The vector component values are based on the PMI quantification of the co-occurrence counts. To minimise the effect of noise in the co-occurrence data, the PMI score itself is modified by weighting, shifting, compression and others---see Section~\ref{sec:quantification} for more details. We identify an optimal parameter choice based on dimensionality of the underlying vector space. In compositional tasks, we experiment with point-wise operators (addition and multiplication) and with categorical operators (Section~\ref{sec:frob-comp-oper}, \newcite{DBLP:journals/corr/abs-1003-4394}).
 
-The experiments (Chapters~\ref{sec:lexical}, \ref{sec:sentential} and \ref{sec:universal-param-selection}) show that the optimal parameter choice depends on dimensionality. While there are more optimal choices for particular datasets, we suggest using SCPMI with $\log n$ frequency, global context probabilities, shifted $k=0.7$ values and correlation as the similarity measure with at least 20000 dimensional space. For categorical tasks, we suggest 3000 dimensions and cosine as the similarity measure, keeping other parameters the same. This paper shows that indeed there might be a single model that is good in a variety of tasks \cite{doi:10.1080/02643294.2016.1176907}.
-% * <sdyck@ualberta.ca> 2016-11-05T01:26:50.867Z:
-%
-% > niversal-param-selection}) show that the optimal parameter choice depends on dimensionality. While there are more optimal choices for particular datasets, we suggest using SCPMI with $\log n$ frequency, global context probabilities, shifted $k=0.7$ values and correlation as the similarity measure with at least 20000 dimensional space. For categorical tasks, we suggest 3000 dimensions and cosine as the similarity measure, keeping other parameters the same. This paper shows that indeed there might be a single model that is good in a variety of tasks \cite{doi:10.1080/02643294.2016.1176907}.
-% > Two model selection procedures were tested. One selects the parameters that lead to the highest performance, while the other performs selection based on the average performance of the parameter values. We see that if a single dataset is used for model selection, that the best model is overfitted and suggest using a more elaborated method. However, when the selection is based on a combination of the datasets, then the max-based selection picks models that do not overfit.
-%
-% Watch present versus past tense.. Are you wanting to talk about your experiments as they already happened or happening? (past tense is probably better). 
-%
-% ^.
+\paragraph{Representative performance of count-based distributional methods}
 
-Two model selection procedures were tested. One selects the parameters that lead to the highest performance, while the other performs selection based on the average performance of the parameter values. We see that if a single dataset is used for model selection, that the best model is overfit and suggest using a more elaborated method. However, when the selection is based on a combination of the datasets, then the Max-based selection picks models that do not overfit.
+As a result of a systematic study, we identified parameters of distributional models that replicate results obtained in lexical experiments (Table~\ref{tab:lexical-comparison}) and achieve the new state-of-the-art result on the sentence similarity task (KS14, Table~\ref{tab:frobenius-results}) with Kronecker-based composition. In addition to that, the performance of categorical compositional methods was improved.
 
-There are several directions for future work. First of all, we explored unreduced spaces (for example, we did not apply SVD \newcite{BullinariaLevy2012}). Apart from a particular dimensionality reduction method being superior, it might interact with other parameters \cite{lapesa2014large} and change the optimal values, in contrast to the reasoning of \newcite{kiela-clark:2014:CVSC} that ``\ldots dimensionality reduction relies on some original non-reduced model, and directly depends on its quality.''
+The model parameters we have identified are competitive with other meaning models, for example, predictive models \cite{mikolov2013efficient}.
 
-Another direction is the experimentation on a a larger number of datasets. While more datasets are being proposed, for example \newcite{2016arXiv160800869G}, and the current datasets are being criticised \cite{RepEval:2016}, it is important to have datasets that share the same goal (for example, provide similarity judgements), but are constructed by different groups and employ different methods during the dataset construction.
+\paragraph{Optimal parameter choice}
 
-While categorical compositional methods are built on solid theoretical grounds \cite{DBLP:journals/corr/abs-1003-4394} and have been shown previously \cite{Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP,kim2015neural,hashimoto-tsuruoka:2016:P16-1} and in this work to be competitive with other methods, more parameter exploration work has to be done, especially for the way how the verb (or other relational) tensors are built. On the theoretical side, the categorical methods need to be of lower computation complexity, as the current way of building verb matrices is not feasible for vectors over 3000 components.
+The experiments (Chapters~\ref{sec:lexical}, \ref{sec:sentential} and \ref{sec:universal-param-selection}) show that the optimal parameter choice depends on dimensionality. While there are more optimal choices for particular datasets, we suggest using SCPMI with $\log n$ frequency, global context probabilities, shifted $k=0.7$ values and correlation as the similarity measure with at least 20\,000 dimensional space. For compositional tasks, we suggest 3\,000 dimensions and cosine as the similarity measure, keeping other parameters the same.
+
+High-dimensional models contain more noise signal because by design they include co-occurrence counts of lower frequencies. The $\log n$ frequency component, context distribution smoothing and PMI value shifting minimise the influence of noise that presents in the co-occurrence data. In contrast to high-dimensional models, low-dimensional models are based on less noisy data, making noise handling unnecessary.
+
+The fact that we were able to identify parameters that perform on a variety of tasks suggests that there might be a single model that is good in a variety of tasks \cite{doi:10.1080/02643294.2016.1176907}.
+
+\paragraph{Lexical representations in compositional setting}
+
+In Section~\ref{sec:model-selection} we observed a direct link between model performance and the combination of lexical parameters with a compositional operator. Kronecker-optimised lexical parameters perform best on compositional tasks and underperform on lexical tasks. Addition-based lexical parameters perform best on lexical tasks and match parameters that are based on word similarity tasks. Multiplication-based optimal parameters is a good compromise as they achieve a balance in performance on lexical and compositional tasks.
+
+The fact that addition-based optional parameters follow the parameters that are the best for word similarity estimation biases against other compositional operators especially when iterative parameter tuning is used.
+
+\paragraph{Parameter selection procedure}
+
+Two model selection procedures were tested to avoid overfitting. One selects the parameters that lead to the highest performance, while the other performs selection based on the average performance of the parameter values. We see that if a single dataset is used for model selection, that the best model is overfit and suggest using a more elaborated parameter selection technique. However, when the selection is based on a combination of datasets, then the Max-based selection picks models that are less likely to overfit.
+
+\paragraph{Future work}
+
+There are several directions for future work. First of all, we explored unreduced spaces, for example, we did not apply SVD \cite{BullinariaLevy2012}. Apart from a particular dimensionality reduction method being superior, it might interact with other parameters \cite{lapesa2014large} and change the optimal values, in contrast to the reasoning of \newcite{kiela-clark:2014:CVSC} that ``\ldots dimensionality reduction relies on some original non-reduced model, and directly depends on its quality.''
+
+Another direction is the experimentation on a a larger number of datasets. While more datasets are being proposed, for example \newcite{2016arXiv160800869G}, and the current datasets are being criticised,\footnotemark{} it is important to have datasets that share the same goal (for example, provide similarity judgements), but are constructed by different groups and employ different methods during the dataset construction.
+
+\footnotetext{Refer to The 1st Workshop on Evaluating Vector-Space Representations for NLP at \url{https://www.aclweb.org/portal/content/1st-workshop-evaluating-vector-space-representations-nlp}.}
+
+While categorical compositional methods are built on solid theoretical grounds \cite{DBLP:journals/corr/abs-1003-4394} and have been shown previously \cite{Grefenstette:2011:ETV:2140490.2140497,kartsadrqpl2014,fried-polajnar-clark:2015:ACL-IJCNLP,kim2015neural,hashimoto-tsuruoka:2016:P16-1} and in this work to be competitive with other methods, more parameter exploration work has to be done, especially for the way how the verb (or other relational) tensors are built. On the theoretical side, the categorical methods need to be of lower computation complexity, as the current way of building verb matrices is not feasible for vectors over 3\,000 components.
+
+Significance testing should become a routine in the field of distributional semantics. The current datasets are not designed with such a requirement in mind, making many of the reported improvements in the literature and in this thesis statistically insignificant. To overcome this, new datasets should be designed that make sure that the evaluation procedure and the dataset size lead to a small minimum statistical difference \cite{W16-2506,rastogi-vandurme-arora:2015:NAACL-HLT}.
 
 % Come back to the research questions.
+
+\cleardoublepage
+{
+  \pagestyle{bibliography}
+  \addcontentsline{toc}{chapter}{Bibliography}
+  \phantomsection
+  \bibliographystyle{plainnat}
+  \bibliography{references,dmilajevs_publications}
+  \thispagestyle{bibliography}
+}
 
 \cleardoublepage
 \appendix
@@ -213,6 +318,8 @@ While categorical compositional methods are built on solid theoretical grounds \
 
 \input{figures/compositional-max-selection-table}
 \input{figures/compositional-heuristics-selection-table}
+
+\input{figures/compositional-results}
 
 \input{figures/universal-max-selection-table}
 \input{figures/universal-heuristics-selection-table}
@@ -233,10 +340,26 @@ While categorical compositional methods are built on solid theoretical grounds \
 
 \input{figures/frobenius-plot}
 
-\cleardoublepage
-\addcontentsline{toc}{chapter}{Bibliography}
-\phantomsection
-\bibliographystyle{plainnat}
-\bibliography{references,dmilajevs_publications}
+\chapter*{Colophon}
+
+\lettrine[lines=5,loversize=0.25]{T}{his} thesis was typeset with {\rm \XeLaTeX}, a \TeX{} typesetting engine that uses Unicode and supports modern font technologies.
+%
+The main font is Gentium Basic, which is a serif typeface. It supports a wide range of Latin- and Cyrillic-based alphabets.
+%
+The font is distributed under the \href{http://scripts.sil.org/ofl}{SIL Open Font License} and available at \url{http://software.sil.org/gentium/}.
+
+To ease the navigation, the headings are in sans serif typeface {\sffamily \scriptsize Transport Heavy}, a font designed for British road signs. Transport Heavy is subject to Crown Copyright, and this font contains public sector information licensed under the \href{http://www.nationalarchives.gov.uk/doc/open-government-licence/version/1/}{Open Government Licence v1.0}. It was downloaded from \url{http://www.cbrd.co.uk/fonts/}.
+
+The monospace font is \texttt{Fira Mono}, a typeface designed by \href{https://www.mozilla.org/}{Mozilla}. It is available under the \href{http://scripts.sil.org/OFL}{SIL Open Font License, Version 1.1}. The typeface is available at  \url{http://mozilla.github.io/Fira/}.
+
+The plots are produced with \href{http://seaborn.pydata.org/}{seaborn}, a \href{https://www.python.org/}{Python} visualization library based on \href{http://matplotlib.org/}{matplotlib}. It provides a high-level interface for drawing attractive statistical graphics.
 
 \end{document}
+
+%%% Local Variables:
+%%% coding: utf-8
+%%% mode: latex visual-line
+%%% TeX-master: t
+%%% TeX-command-extra-options: "-shell-escape"
+%%% TeX-engine: xetex
+%%% End:

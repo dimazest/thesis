@@ -118,7 +118,7 @@ def plot_selection(results, dataset, selector_function, plot=True):
         return selection
 
 
-def plot_interaction(data, hue, dataset_name):
+def plot_interaction(data, hue, dataset_name, ylabels=None):
     g = sns.factorplot(
         data=data.reset_index(),
         y=dataset_name,
@@ -150,14 +150,21 @@ def plot_interaction(data, hue, dataset_name):
         col_order=('head', 'add', 'mult', 'kron') if dataset_name in (
             'KS14', 'GS11', 'PhraseRel', 'compositional', 'universal',
         ) else ['head'],
+        ci=None,
     )
 
+    if ylabels:
+        for ax, ylabel in zip(g.fig.axes, ylabels):
+            ax.set(ylabel=ylabel)
+    
     g.fig.savefig('figures/{}-interaction-{}.pdf'.format(dataset_name, hue))
+    
+    return g
 
 
 def plot_parameter_selection_comparison(
     results, original_dataset, other_dataset=None, ax=None, operator=None, col=None,
-    extra_hue=None,
+    extra_hue=None, ylabel=None, xlabel=None,
 ):
     other_given = other_dataset is not None
     other_dataset = other_dataset or original_dataset
@@ -192,6 +199,15 @@ def plot_parameter_selection_comparison(
         **kwargs,
     )
 
+    if not ax:
+        ax = g.fig.axes[0]
+
+    if ylabel is not None:
+        ax.set(ylabel=ylabel)
+
+    if xlabel is not None:
+        ax.set(xlabel=xlabel)        
+        
     if col:
         return g
     # g.fig.savefig('figures/{}-parameter_selection_comparison.pdf'.format(dataset))

@@ -1,4 +1,4 @@
-\begin{table}[b]
+\begin{table}
   \begin{center}
     \footnotesize
     \begin{tabular}{lll}
@@ -10,51 +10,51 @@
       \midrule
       Addition &
       % $w_1 w_2 \cdots w_n$ &
-      $\overrightarrow{\text{Sbj}} + \overrightarrow{\text{Verb}} + \overrightarrow{\text{Obj}}$ &
+      $\ov{\text{\it Sbj}} + \ov{\text{\it Verb}} + \ov{\text{\it Obj}}$ &
       \newcite{mitchell-lapata:2008:ACLMain}
       \\
       Multiplication &
       % % $w_1 w_2 \cdots w_n$ &
-      $\overrightarrow{\text{Sbj}} \odot \overrightarrow{\text{Verb}} \odot \overrightarrow{\text{Obj}}$ &
+      $\ov{\text{\it Sbj}} \odot \ov{\text{\it Verb}} \odot \ov{\text{\it Obj}}$ &
       \newcite{mitchell-lapata:2008:ACLMain}
       \\
       Kronecker &
       % $\mbox{Sbj Verb Obj}$ &
-      $\widetilde{\text{Verb}} \odot (\overrightarrow{\text{Sbj}} \otimes \overrightarrow{\text{Obj}})$ &
+      $\widetilde{\text{\it Verb}} \odot (\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}})$ &
       \newcite{Grefenstette:2011:ETV:2140490.2140497}
       \\
-      \addlinespace
+      %\addlinespace
       Relational &
       % $\mbox{Sbj Verb Obj}$ &
-      $\overline{\text{Verb}} \odot (\overrightarrow{\text{Sbj}} \otimes \overrightarrow{\text{Obj}})$ &
+      $\overline{\text{\it Verb}} \odot (\ov{\text{\it Sbj}} \otimes \ov{\text{\it Obj}})$ &
       \newcite{Grefenstette:2011:ESC:2145432.2145580}
       \\
       Copy-object&
       % $\mbox{Sbj Verb Obj}$ &
-      $\overrightarrow{\text{Sbj}} \odot (\overline{\text{Verb}} \times \overrightarrow{\text{Obj}})$ &
+      $\ov{\text{\it Sbj}} \odot (\overline{\text{\it Verb}} \times \ov{\text{\it Obj}})$ &
       \newcite{kartsaklis-sadrzadeh-pulman:2012:POSTERS}
       \\
       Copy-subject&
       % $\mbox{Sbj Verb Obj}$&
-      $\overrightarrow{\text{Obj}} \odot (\overline{\text{Verb}}^{\mathsf{T}} \times \overrightarrow{\text{Sbj}})$ &
+      $\ov{\text{\it Obj}} \odot (\overline{\text{\it Verb}}^{\mathsf{T}} \times \ov{\text{\it Sbj}})$ &
       \newcite{kartsaklis-sadrzadeh-pulman:2012:POSTERS}
       \\
       Frob. add.&
       % $\mbox{Sbj Verb Obj}$ &
-      $(\overrightarrow{\text{Sbj}} \odot (\overline{\text{Verb}} \times \overrightarrow{\text{Obj}})) +
-      (\overrightarrow{\text{Obj}} \odot (\overline{\text{Verb}}^{\mathsf{T}} \times \overrightarrow{\text{Sbj}}))$ &
+      $\big(\ov{\text{\it Sbj}} \odot (\overline{\text{\it Verb}} \times \ov{\text{\it Obj}})\big) +
+      \big(\ov{\text{\it Obj}} \odot (\overline{\text{\it Verb}}^{\mathsf{T}} \times \ov{\text{Sbj}})\big)$ &
       \newcite{kartsadrqpl2014}
       \\
       Frob. mult.&
       % $\mbox{Sbj Verb Obj}$ &
-      $(\overrightarrow{\text{Sbj}} \odot (\overline{\text{Verb}} \times \overrightarrow{\text{Obj}})) \odot
-      (\overrightarrow{\text{Obj}} \odot (\overline{\text{Verb}}^{\mathsf{T}} \times \overrightarrow{\text{Sbj}}))$ &
+      $\big(\ov{\text{\it Sbj}} \odot (\overline{\text{\it Verb}} \times \ov{\text{\it Obj}})\big) \odot
+      \big(\ov{\text{\it Obj}} \odot (\overline{\text{\it Verb}}^{\mathsf{T}} \times \ov{\text{\it Sbj}})\big)$ &
       \newcite{kartsadrqpl2014}
       \\
       Frob. outer&
       % $\mbox{Sbj Verb Obj}$ &
-      $(\overrightarrow{\text{Sbj}} \odot (\overline{\text{Verb}} \times \overrightarrow{\text{Obj}})) \otimes
-      (\overrightarrow{\text{Obj}} \odot (\overline{\text{Verb}}^{\mathsf{T}} \times \overrightarrow{\text{Sbj}}))$ &
+      $\big(\ov{\text{\it Sbj}} \odot (\overline{\text{\it Verb}} \times \ov{\text{\it Obj}})\big) \otimes
+      \big(\ov{\text{\it Obj}} \odot (\overline{\text{\it Verb}}^{\mathsf{T}} \times \ov{\text{\it Sbj}})\big)$ &
       \newcite{kartsadrqpl2014}
       \\
       \bottomrule

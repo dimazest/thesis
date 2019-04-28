@@ -1,8 +1,8 @@
-\chapter*{Statement of Originality}
+\chapter*{Statement of originality}
 
 I, Dmitrijs Milajevs, confirm that the research included within this thesis is my own work or that where it has been carried out in collaboration with or supported by others, that this is duly acknowledged below and my contribution indicated. Previously published material is also acknowledged below.
 
-I attest that I have exercised reasonable care to ensure that the work is original, and does not to the best of my knowledge break any UK law, infringe any third party’s copyright or other Intellectual Property Right, or contain any confidential material.
+I attest that I have exercised reasonable care to ensure that the work is original and does not to the best of my knowledge break any UK law, infringe any third party’s copyright or other Intellectual Property Right, or contain any confidential material.
 
 I accept that the College has the right to use plagiarism detection software to check the electronic version of this thesis.
 
@@ -10,18 +10,34 @@ I confirm that this thesis has not been previously submitted for the award of a 
 
 The copyright of this thesis rests with the author and no quotation from it or information derived from it may be published without the prior written consent of the author.
 
-Signature:
+% Signature: \includegraphics{signature.png}
 
-Date: \today
+\today
 
-Details of collaboration and publications:
+\chapter*{Details of collaboration and publications}
+
+Content from the following publications appears in this thesis, which has been written with the guidance of my supervisors Mehrnoosh Sadrzadeh and Matthew Purver. Some of the publications were written in collaboration with Dimitri Kartsaklis, Thomas Roelleke and Sascha Griffiths. This thesis was proof read for the purposes of spelling and grammar by Sara Dyck.
+
 \begin{enumerate}
-\item \citet*{milajevs-purver:2014:CVSC}
-\item \citet*{milajevs-EtAl:2014:EMNLP2014}
-\item \citet*{Milajevs:2015:IMN:2808194.2809448}
-\item \citet*{milajevs-sadrzadeh-purver:2016:ACL-SRW}
-\item \citet*{milajevs-griffiths:2016:repeval}
+\item \citet*{milajevs-purver:2014:CVSC}. Main author. Investigating the
+  Contribution of Distributional Semantic Information for Dialogue Act
+  Classification. In \textit{Proceedings of the 2nd Workshop on Continuous Vector Space Models and their Compositionality (CVSC)}.
+\item \citet*{milajevs-EtAl:2014:EMNLP2014}. Main author. Evaluating Neural Word
+  Representations in Tensor-Based Compositional Settings. \textit{In Proceedings of the 2014 Conference on Empirical Methods in Natural Language Processing (EMNLP)}.
+\item \citet*{Milajevs:2015:IMN:2808194.2809448}. Main author. IR Meets NLP: On
+  the Semantic Similarity Between Subject-Verb-Object Phrases. \textit{In Proceedings of the 2015 International Conference on Theory of Information Retrieval}.
+\item \citet*{milajevs-sadrzadeh-purver:2016:ACL-SRW}. Main author. Robust Co-occurrence Quantification for Lexical Distributional Semantics. \textit{In Proceedings of the ACL 2016 Student Research Workshop}.
+\item \citet*{milajevs-griffiths:2016:repeval}. Main author. A Proposal for Linguistic Similarity Datasets Based on Commonality Lists. \textit{In Proceedings of the 1st Workshop on Evaluating Vector-Space Representations for NLP}.
 \end{enumerate}
+
+\chapter*{Software}
+
+The following software was developed as a part of this thesis.
+\begin{itemize}
+\item \href{http://fowlercorpora.readthedocs.io/en/latest/}{Fowler.corpora} is an implementation of distributional lexical and sentential similarity models.
+\item \href{https://pypi.python.org/pypi/google-ngram-downloader}{Google-ngram-downloader} is an on-the-fly reader of the \href{http://storage.googleapis.com/books/ngrams/books/datasetsv2.html}{Google Books ngram dataset}.
+\item \href{http://www.nltk.org/}{NLTK} was extended in several ways. The \href{https://github.com/nltk/nltk/blob/develop/nltk/corpus/reader/bnc.py}{BNC reader} was extended to support the full BNC edition. \href{https://github.com/nltk/nltk/blob/develop/nltk/wsd.py}{Lesk's word sense disambiguation algorithm} was extended to support part of speech tags. The \href{https://github.com/nltk/nltk/blob/develop/nltk/parse/dependencygraph.py}{Dependency Graph} datastructure was refactored to support custom dependency graph construction. An \href{https://github.com/nltk/nltk/pull/1249}{interface} to the \href{http://stanfordnlp.github.io/CoreNLP/}{Stanford CoreNLP} web API was added to the NLTK.
+\end{itemize}
 
 %%% Local Variables:
 %%% mode: latex

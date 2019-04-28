@@ -31,6 +31,8 @@
 *.xdy
 *.tdo
 
+auto/
+
 thesis.pdf
 
 supplement.zip
